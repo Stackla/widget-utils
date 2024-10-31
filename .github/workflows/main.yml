@@ -31,7 +31,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 20
-      - uses: Stackla/stackla-github-actions/npm-cache@master
       - name: Build
         run: npm run build
       - name: Lint

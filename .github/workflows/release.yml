@@ -29,7 +29,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{secrets.STACKLA_BOT_GITHUB_TOKEN}}
-      - uses: Stackla/stackla-github-actions/npm@master
       - run: npm run build
       - run: npx changeset version
       - run: |
