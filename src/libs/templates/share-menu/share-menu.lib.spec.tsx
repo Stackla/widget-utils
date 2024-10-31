@@ -1,4 +1,4 @@
-import tiles from "../../../../tests/fixtures/tiles"
+import tiles from "../../../tests/fixtures/tiles"
 import { ShareMenu } from "./share-menu.lib"
 import { createElement } from "jsx-html"
 

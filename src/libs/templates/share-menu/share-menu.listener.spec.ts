@@ -7,6 +7,12 @@ describe("share menu listener", () => {
         value: jest.fn()
       })
     }
+
+    if (!global.navigator.clipboard) {
+      Object.defineProperty(global.navigator, "clipboard", {
+        value: { writeText: jest.fn() }
+      })
+    }
   })
   afterEach(() => {
     jest.resetAllMocks()

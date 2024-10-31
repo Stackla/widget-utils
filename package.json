@@ -11,7 +11,7 @@
   "scripts": {
     "eslint": "eslint .",
     "typecheck": "npx tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build:types": "tsc --declaration --declarationMap --emitDeclarationOnly --outDir dist",
     "prebuild": "npm run build:types",
     "build": "esbuild src/index.ts --bundle --format=esm --outfile=dist/index.js",
@@ -29,12 +29,17 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
     "@stackla/public-types": "^1.0.10",
     "@types/jest": "^29.5.14",
+    "dotenv": "^16.4.5",
     "esbuild": "^0.24.0",
     "eslint": "^9.13.0",
+    "happy-dom": "^15.7.4",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "stylelint": "^16.10.0",
+    "ts-jest": "^29.2.5",
     "typescript": "^5.6.3"
   },
   "files": [
