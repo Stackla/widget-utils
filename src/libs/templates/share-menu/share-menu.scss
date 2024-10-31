@@ -12,7 +12,7 @@
     flex-direction: column;
     width: 351px;
     border-radius: 5px;
-    background: #ffffff;
+    background: #fff;
     position: relative;
 
     .share-modal-exit {
@@ -37,7 +37,7 @@
     font-weight: 400;
     line-height: 50%;
     border-bottom: solid #d6d4d5 1px;
-    padding: 20px 0 12px 0;
+    padding: 20px 0 12px;
   }
 
   .url-copy {
@@ -49,13 +49,13 @@
       align-items: flex-start;
       border-radius: 3px;
       border: 1px solid #d6d4d5;
-      background: #ffffff;
+      background: #fff;
     }
 
     .share-url {
       border: none;
       outline: none;
-      background: #ffffff;
+      background: #fff;
       margin: 0;
       box-shadow: none;
       padding: 8px 12px;
@@ -69,7 +69,7 @@
       border: none;
       border-left: 1px solid #d6d4d5;
       outline: none;
-      background: #ffffff;
+      background: #fff;
       box-shadow: none;
       cursor: pointer;
       height: 100%;
@@ -97,7 +97,7 @@
   all: initial;
   cursor: pointer;
   position: absolute;
-  right: 0px;
+  right: 0;
   top: 0;
 }
 
@@ -108,7 +108,7 @@
   }
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (width <= 700px) {
   .share-socials-popup-wrapper {
     right: 20%;
   }

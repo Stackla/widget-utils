@@ -9,7 +9,7 @@
     "registry": "https://npm.pkg.github.com/@stackla"
   },
   "scripts": {
-    "eslint": "eslint .",
+    "eslint": "eslint",
     "typecheck": "npx tsc",
     "test": "jest",
     "build:types": "tsc --declaration --declarationMap --emitDeclarationOnly --outDir dist",
@@ -33,11 +33,15 @@
     "@types/jest": "^29.5.14",
     "dotenv": "^16.4.5",
     "esbuild": "^0.24.0",
-    "eslint": "^9.13.0",
+    "eslint": "^8.56.0",
     "happy-dom": "^15.7.4",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "stylelint": "^16.10.0",
+    "stylelint-config-standard": "^36.0.1",
+    "stylelint-config-standard-scss": "^13.1.0",
+    "stylelint-prettier": "^5.0.2",
+    "stylelint-scss": "^6.8.1",
     "ts-jest": "^29.2.5",
     "typescript": "^5.6.3"
   },

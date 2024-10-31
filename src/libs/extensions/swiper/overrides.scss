@@ -1,6 +1,20 @@
 @use "@styles/mixins";
 @use "dimens";
 
+%loading {
+  border-radius: 50% !important; /* Safari */
+  animation: spin 2s linear infinite;
+  position: absolute;
+  z-index: 10;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-bottom: 5px solid #3498db;
+  width: dimens.$loading-width !important;
+  height: dimens.$loading-width !important;
+  top: calc(50% - dimens.$loading-width);
+  left: calc(50% - dimens.$loading-width);
+}
+
 .swiper {
   display: flex;
   height: 100%;
@@ -10,17 +24,17 @@
     position: relative;
     display: flex;
     justify-content: center;
-    //change to a variable
     border-radius: dimens.$border-radius;
     overflow: hidden;
     width: auto;
 
     > .tile > .tile-loading {
-      @extend .loading;
+      @extend %loading;
     }
 
     .tile-image {
       height: 100%;
+
       > img {
         width: 100%;
         height: 100%;
@@ -46,24 +60,14 @@
 }
 
 .loading {
-  border-radius: 50% !important;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-  position: absolute;
-  z-index: 10;
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #3498db;
-  border-bottom: 5px solid #3498db;
-  width: dimens.$loading_width !important;
-  height: dimens.$loading_width !important;
-  top: calc(50% - dimens.$loading_width);
-  left: calc(50% - dimens.$loading_width);
+  @extend %loading;
 }
 
 @keyframes spin {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -74,6 +78,7 @@
 .swiper-expanded-button-next::after,
 .swiper-expanded-button-prev::after {
   content: unset;
+
   --swiper-navigation-size: 20px;
 }
 

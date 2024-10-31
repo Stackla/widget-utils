@@ -1,12 +1,12 @@
 {
     "extends": [
-      "stylelint-config-standard",
+      "stylelint-config-standard-scss",
       "stylelint-prettier/recommended"
     ],
     "plugins": ["stylelint-scss"],
     "rules": {
       "prettier/prettier": true,
-      "declaration-no-important": true,
+      "declaration-no-important": null,
       "no-empty-source": null,
       "selector-class-pattern": null,
       "import-notation": null,
