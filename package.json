@@ -1,7 +1,7 @@
 {
-  "name": "@stackla/public-widget-utils",
+  "name": "@stackla/ugc-widget-utils",
   "version": "1.0.1",
-  "description": "Public utils for UGC widgets",
+  "description": "Utils for UGC widgets",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/Stackla/public-widget-utils",
