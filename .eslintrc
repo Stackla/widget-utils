@@ -1,0 +1,48 @@
+{
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "extends": [
+      "@stackla/eslint-config",
+      "eslint:recommended",
+      "plugin:promise/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:eslint-plugin-css/recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    },
+    "plugins": [
+      "promise"
+    ],
+    "rules": {
+      "promise/prefer-await-to-then": "error",
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/consistent-type-assertions": ["warn", { "assertionStyle": "never" }],
+      "no-console": "warn",
+      "@typescript-eslint/no-unused-vars": ["error", { "varsIgnorePattern": "create(Element|Fragment)" }]
+    },
+    "ignorePatterns": [
+      "node_modules/", 
+      "dist/", 
+      "*.d.ts",
+      "jest.config.js",
+      "cypress.config.js",
+      "esbuild.js",
+      "serverless.ts",
+      "src/libs/express.ts"
+    ],
+    "overrides": [
+      {
+        "files": ["./widgets/**/*.ts", "./widgets/**/*.tsx"],
+        "rules": {
+          "@typescript-eslint/no-floating-promises": "error"
+        },
+        "parserOptions": {
+          "project": true
+        }
+      }
+    ]
+  }

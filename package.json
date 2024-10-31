@@ -1,0 +1,46 @@
+{
+  "name": "@stackla/public-widget-utils",
+  "version": "1.0.1",
+  "description": "Public utils for UGC widgets",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/Stackla/public-widget-utils",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@stackla"
+  },
+  "scripts": {
+    "eslint": "eslint .",
+    "typecheck": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:types": "tsc --declaration --declarationMap --emitDeclarationOnly --outDir dist",
+    "prebuild": "npm run build:types",
+    "build": "esbuild src/index.ts --bundle --format=esm --outfile=dist/index.js",
+    "prepare": "npm run build",
+    "prettier": "prettier '**/*.{js,ts}' --write",
+    "stylelint": "stylelint **/*.scss",
+    "lint": "npm run eslint && npm run stylelint",
+    "lint:fix": "npm run eslint -- --fix && npm run stylelint -- --fix"
+  },
+  "exports": {
+    "./libs": "./src/libs",
+    "./hooks": "./src/hooks",
+    "./events": "./src/events"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@stackla/public-types": "^1.0.10",
+    "@types/jest": "^29.5.14",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.13.0",
+    "jest": "^29.7.0",
+    "stylelint": "^16.10.0",
+    "typescript": "^5.6.3"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "swiper": "^11.1.14"
+  }
+}
