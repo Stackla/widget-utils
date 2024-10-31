@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "repository": "https://github.com/Stackla/public-widget-utils",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@stackla"
+    "access": "public"
   },
   "scripts": {
     "eslint": "eslint",
