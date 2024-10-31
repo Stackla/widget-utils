@@ -1,0 +1,23 @@
+name: CI
+
+permissions:
+  contents: write
+  packages: read
+  actions: write
+  id-token: write
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+  push:
+    branches:
+      - master
+
+jobs:
+  ci:
+    uses: Stackla/stackla-github-actions/.github/workflows/main.yml@master
+    secrets: inherit
