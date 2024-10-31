@@ -1,4 +1,4 @@
-import type { ISdk } from "@stackla/public-types"
+import type { ISdk } from "@ugc-types"
 
 declare const sdk: ISdk
 

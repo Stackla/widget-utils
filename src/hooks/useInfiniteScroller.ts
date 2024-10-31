@@ -1,4 +1,4 @@
-import { ISdk } from "@stackla/public-types"
+import { ISdk } from "@ugc-types"
 import { EVENT_LOAD_MORE } from "../events/constants"
 
 function exceedsBoundaries(sdk: ISdk, windowInstance: Window) {

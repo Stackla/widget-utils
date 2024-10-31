@@ -1,4 +1,4 @@
-import type { ISdk } from "@stackla/public-types"
+import type { ISdk } from "@ugc-types"
 import { handleTileClick } from "./tile.lib"
 
 declare const sdk: ISdk

@@ -1,5 +1,5 @@
-import type { ISdk } from "@stackla/public-types"
-import { Tile } from "@stackla/public-types"
+import type { ISdk } from "@ugc-types"
+import { Tile } from "@ugc-types"
 import { getTimephrase } from "@libs/tile.lib"
 import { createElement, createFragment } from "jsx-html"
 import { Tags } from "@libs/templates/tags/tags.lib"

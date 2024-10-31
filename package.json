@@ -1,6 +1,6 @@
 {
   "name": "@stackla/ugc-widget-utils",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Utils for UGC widgets",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,7 +30,6 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/preset-env": "^7.26.0",
-    "@stackla/public-types": "^1.0.10",
     "@types/jest": "^29.5.14",
     "dotenv": "^16.4.5",
     "esbuild": "^0.24.0",

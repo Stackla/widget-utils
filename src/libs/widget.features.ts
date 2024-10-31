@@ -1,4 +1,4 @@
-import type { ISdk, Tile } from "@stackla/public-types"
+import type { ISdk, Tile } from "@ugc-types"
 import { loadExpandSettingComponents } from "./widget.components"
 import {
   registerExpandedTileRenderedListener,

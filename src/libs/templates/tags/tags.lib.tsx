@@ -1,4 +1,4 @@
-import { Tile } from "@stackla/public-types"
+import { Tile } from "@ugc-types"
 import { createElement, createFragment } from "jsx-html"
 
 type TagsProps = {

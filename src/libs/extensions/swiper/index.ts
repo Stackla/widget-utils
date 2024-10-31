@@ -1,4 +1,4 @@
-import { ISdk } from "@stackla/public-types"
+import { ISdk } from "@ugc-types"
 import swiperFont from "./font.scss"
 import swiperCommon from "./overrides.scss"
 import swiperBundleCss from "swiper/swiper-bundle.css"

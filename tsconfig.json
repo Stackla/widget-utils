@@ -28,7 +28,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@libs/*": ["src/libs/*"],
-      "jsx-html": ["src/libs/jsx-html"]
+      "jsx-html": ["src/libs/jsx-html"],
+      "@ugc-types": ["src/types/index.ts"],
     },
     "jsx": "react",
     "jsxFactory": "createElement",

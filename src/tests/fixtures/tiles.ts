@@ -1,4 +1,4 @@
-import { Tile } from "@stackla/public-types"
+import { Tile } from "@ugc-types"
 
 export default [
   {
