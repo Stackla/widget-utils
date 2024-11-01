@@ -1,4 +1,4 @@
-import { initializeSwiper } from "@libs/extensions/swiper/swiper.extension"
+import { initializeSwiper } from "../../extensions/swiper/swiper.extension"
 
 export function onExpandedTileCrossSellersRendered(tileId: string, target: HTMLElement) {
   if (target && target.shadowRoot) {

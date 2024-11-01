@@ -1,4 +1,4 @@
-import { createElement } from "jsx-html"
+import { createElement } from "../../"
 
 export function LoadMoreTemplate() {
   return (

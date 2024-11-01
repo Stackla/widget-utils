@@ -1,4 +1,4 @@
-import { ISdk } from "@ugc-types"
+import { ISdk } from "../../../"
 import swiperFont from "./font.scss"
 import swiperCommon from "./overrides.scss"
 import swiperBundleCss from "swiper/swiper-bundle.css"

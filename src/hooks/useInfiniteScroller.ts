@@ -1,4 +1,4 @@
-import { ISdk } from "@ugc-types"
+import { ISdk } from "../"
 import { EVENT_LOAD_MORE } from "../events/constants"
 
 function exceedsBoundaries(sdk: ISdk, windowInstance: Window) {

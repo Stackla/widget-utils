@@ -1,4 +1,4 @@
-import type { ISdk, Tile } from "@ugc-types"
+import type { ISdk, Tile } from "../"
 
 declare const sdk: ISdk
 

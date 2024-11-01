@@ -1,4 +1,4 @@
-import type { ISdk, Tile } from "@ugc-types"
+import type { ISdk, Tile } from "../"
 import { loadExpandSettingComponents } from "./widget.components"
 import {
   registerExpandedTileRenderedListener,

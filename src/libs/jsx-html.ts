@@ -1,4 +1,4 @@
-import { MaybeArray } from "@/types/Maybe"
+import { MaybeArray } from "../types"
 
 // remaps entries in GlobalEventHandlersEventMap to their respective React style event handlers
 type GlobalEventHandlersMapping = {

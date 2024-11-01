@@ -1,4 +1,4 @@
-import { useClipboard } from "@libs/clipboard-polyfills"
+import { useClipboard } from "../../clipboard-polyfills"
 
 export async function copyToClipboard(inputElement: HTMLInputElement) {
   try {

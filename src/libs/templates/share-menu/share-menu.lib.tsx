@@ -1,5 +1,5 @@
-import { Tile } from "@ugc-types"
-import { createElement } from "jsx-html"
+import { Tile } from "../../../"
+import { createElement } from "../../"
 
 export function ShareMenu({ tile }: { tile: Tile }) {
   return (

@@ -1,4 +1,4 @@
-import type { ISdk } from "@ugc-types"
+import type { ISdk } from "../"
 
 declare const sdk: ISdk
 export function addCSSVariablesToPlacement(cssVariables: string) {

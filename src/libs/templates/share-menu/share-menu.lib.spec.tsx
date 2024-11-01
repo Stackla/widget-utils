@@ -1,6 +1,6 @@
 import tiles from "../../../tests/fixtures/tiles"
 import { ShareMenu } from "./share-menu.lib"
-import { createElement } from "jsx-html"
+import { createElement } from "../../"
 
 describe("Share menu rendering", () => {
   it("should render share menu for the provided tile", () => {

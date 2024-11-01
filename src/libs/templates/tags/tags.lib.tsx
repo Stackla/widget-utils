@@ -1,5 +1,5 @@
-import { Tile } from "@ugc-types"
-import { createElement, createFragment } from "jsx-html"
+import { Tile } from "../../../"
+import { createElement, createFragment } from "../.."
 
 type TagsProps = {
   tile: Tile

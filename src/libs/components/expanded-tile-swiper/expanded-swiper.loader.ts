@@ -1,7 +1,7 @@
-import { disableSwiper, getSwiperIndexforTile, initializeSwiper } from "@libs/extensions/swiper/swiper.extension"
-import { waitForElm } from "@libs/widget.features"
-import { registerExpandedTileShareMenuListeners } from "@libs/templates/share-menu/share-menu.listener"
-import { SdkSwiper } from "@/types/SdkSwiper"
+import { disableSwiper, getSwiperIndexforTile, initializeSwiper } from "../../extensions/swiper/swiper.extension"
+import { waitForElm } from "../../widget.features"
+import { registerExpandedTileShareMenuListeners } from "../../templates/share-menu/share-menu.listener"
+import { SdkSwiper } from "../../../types/SdkSwiper"
 import Swiper from "swiper"
 
 declare const sdk: SdkSwiper

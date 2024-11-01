@@ -1,4 +1,4 @@
-import { Tile } from "@ugc-types"
+import { Tile } from "../../"
 
 export default [
   {

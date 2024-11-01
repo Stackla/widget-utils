@@ -1,4 +1,4 @@
-import { ISdk } from "@ugc-types"
+import { ISdk } from "../../../"
 
 declare const sdk: ISdk
 

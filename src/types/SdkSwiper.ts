@@ -1,4 +1,4 @@
-import type { ISdk } from "@ugc-types"
+import type { ISdk } from "../"
 import Swiper from "swiper"
 import { SwiperOptions } from "swiper/types"
 

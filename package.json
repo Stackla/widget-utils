@@ -1,20 +1,21 @@
 {
   "name": "@stackla/widget-utils",
-  "version": "1.0.3",
+  "version": "1.0.22",
   "description": "Utils for UGC widgets",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/Stackla/public-widget-utils",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com/"
   },
   "scripts": {
     "eslint": "eslint",
     "typecheck": "npx tsc",
     "test": "jest",
-    "build:types": "tsc --declaration --declarationMap --emitDeclarationOnly --outDir dist",
-    "prebuild": "npm run build:types",
-    "build": "esbuild src/index.ts --bundle --format=esm --outfile=dist/index.js",
+    "build:types": "tsc --declaration --declarationMap --outDir dist",
+    "postbuild": "npm run build:types",
+    "build": "node esbuild.js",
     "prepare": "npm run build",
     "prettier": "prettier '**/*.{js,ts}' --write",
     "stylelint": "stylelint **/*.scss",
@@ -29,6 +30,7 @@
     "dotenv": "^16.4.5",
     "esbuild": "^0.24.0",
     "eslint": "^8.56.0",
+    "fs-extra": "^11.2.0",
     "happy-dom": "^15.7.4",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",

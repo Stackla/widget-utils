@@ -1,9 +1,9 @@
-import type { ISdk } from "@ugc-types"
-import { Tile } from "@ugc-types"
-import { getTimephrase } from "@libs/tile.lib"
-import { createElement, createFragment } from "jsx-html"
-import { Tags } from "@libs/templates/tags/tags.lib"
-import { ShareMenu } from "@libs/templates/share-menu/share-menu.lib"
+import type { ISdk } from "../../../"
+import { Tile } from "../../../"
+import { getTimephrase } from "../../tile.lib"
+import { createElement, createFragment } from "../../"
+import { Tags } from "../../templates/tags/tags.lib"
+import { ShareMenu } from "../../templates/share-menu/share-menu.lib"
 
 export type ExpandedTileProps = {
   sdk: ISdk

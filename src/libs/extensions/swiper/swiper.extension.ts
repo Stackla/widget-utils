@@ -1,4 +1,4 @@
-import { SdkSwiper, SwiperData, SwiperProps } from "@/types/SdkSwiper"
+import { SdkSwiper, SwiperData, SwiperProps } from "../../../types/SdkSwiper"
 import Swiper from "swiper"
 import { Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
 

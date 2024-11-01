@@ -1,6 +1,6 @@
-import type { ISdk } from "@ugc-types"
+import type { ISdk } from "../../../"
 import { ExpandedTile } from "./tile.template"
-import { createElement } from "jsx-html"
+import { createElement } from "../../"
 
 export function ExpandedTiles(sdk: ISdk) {
   const tiles = sdk.tiles.tiles
