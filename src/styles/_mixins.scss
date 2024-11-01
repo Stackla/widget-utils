@@ -6,15 +6,15 @@ $breakpoints: (
 
 @mixin media-query-target($point) {
   @if $point == mobile {
-    @media (max-width: map-get($breakpoints, tablet)) {
+    @media (max-width: map.get($breakpoints, tablet)) {
       @content;
     }
   } @else if $point == tablet {
-    @media (max-width: map-get($breakpoints, desktop)) {
+    @media (max-width: map.get($breakpoints, desktop)) {
       @content;
     }
   } @else if $point == desktop {
-    @media (min-width: map-get($breakpoints, desktop)) {
+    @media (min-width: map.get($breakpoints, desktop)) {
       @content;
     }
   }
@@ -23,15 +23,15 @@ $breakpoints: (
 // Can be utilised by using : @include breakpoint(mobile) { ... }
 @mixin breakpoint($point) {
   @if $point == mobile {
-    @media (max-width: map-get($breakpoints, mobile)) {
+    @media (max-width: map.get($breakpoints, mobile)) {
       @content;
     }
   } @else if $point == tablet {
-    @media (min-width: map-get($breakpoints, tablet)) and (max-width: map-get($breakpoints, desktop)) {
+    @media (min-width: map.get($breakpoints, tablet)) and (max-width: map.get($breakpoints, desktop)) {
       @content;
     }
   } @else if $point == desktop {
-    @media (min-width: map-get($breakpoints, desktop)) {
+    @media (min-width: map.get($breakpoints, desktop)) {
       @content;
     }
   }

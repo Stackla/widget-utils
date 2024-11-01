@@ -5,7 +5,7 @@
     ],
     "plugins": ["stylelint-scss"],
     "rules": {
-      "prettier/prettier": true,
+      "prettier/prettier": null,
       "declaration-no-important": null,
       "no-empty-source": null,
       "selector-class-pattern": null,

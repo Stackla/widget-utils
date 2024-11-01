@@ -3,6 +3,11 @@ $icon-placement-bottom: 8px;
 $icon-placement-left: 8.67px;
 $icon-placement-right: 8.67px;
 
+.tile-tags {
+  margin: 0;
+  flex-grow: 1;
+}
+
 .icon-section {
   display: flex;
   position: absolute;
@@ -18,21 +23,27 @@ $icon-placement-right: 8.67px;
     width: 100%;
     align-items: center;
   }
+
   .top-section {
     top: $icon-placement-top;
+    
     .content-icon {
       margin-left: $icon-placement-left;
     }
+    
     .shopping-icon {
       margin-left: auto;
       margin-right: $icon-placement-right;
     }
   }
+  
   .bottom-section {
     bottom: $icon-placement-bottom;
+    
     .tile-tags {
       margin-left: $icon-placement-left;
     }
+
     .network-icon {
       margin-left: auto;
       margin-right: $icon-placement-right;
@@ -56,9 +67,4 @@ $icon-placement-right: 8.67px;
   font-size: 14px;
   font-weight: 400;
   display: var(--tile-timephrase-display);
-}
-
-.tile-tags {
-  margin: 0;
-  flex-grow: 1;
 }
