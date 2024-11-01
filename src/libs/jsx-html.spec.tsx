@@ -1,4 +1,4 @@
-import { createElement, createFragment } from "jsx-html"
+import { createElement, createFragment } from "../"
 
 function Wrapper({ id, children }: { id: string; children?: unknown }) {
   return <div id={id}>{children}</div>

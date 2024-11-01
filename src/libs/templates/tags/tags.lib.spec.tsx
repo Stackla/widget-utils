@@ -1,6 +1,6 @@
 import tiles from "../../../tests/fixtures/tiles"
 import { Tags } from "./tags.lib"
-import { createElement } from "jsx-html"
+import { createElement } from "../../"
 
 describe("widgets/nightfall/components/expanded-tile/base.template.ts", () => {
   it("should return empty string if tile does not have extended tags", () => {
