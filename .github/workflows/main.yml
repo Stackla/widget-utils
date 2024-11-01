@@ -1,0 +1,43 @@
+name: CI
+
+permissions:
+  contents: write
+  packages: read
+  actions: write
+  id-token: write
+
+env:
+  GH_TOKEN: ${{ github.token }}
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build and Test
+    env:
+      NODE_AUTH_TOKEN: ${{secrets.STACKLA_BOT_GITHUB_TOKEN}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 20
+      - name: Install
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Lint
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Test
+        run: npm test

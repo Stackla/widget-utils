@@ -1,0 +1,51 @@
+{
+  "name": "@stackla/widget-utils",
+  "version": "1.0.22",
+  "description": "Utils for UGC widgets",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/Stackla/public-widget-utils",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "scripts": {
+    "eslint": "eslint",
+    "typecheck": "npx tsc",
+    "test": "jest",
+    "build:types": "tsc --declaration --declarationMap --outDir dist",
+    "postbuild": "npm run build:types",
+    "build": "node esbuild.js",
+    "prepare": "npm run build",
+    "prettier": "prettier '**/*.{js,ts}' --write",
+    "stylelint": "stylelint **/*.scss",
+    "lint": "npm run eslint && npm run stylelint",
+    "lint:fix": "npm run eslint -- --fix && npm run stylelint -- --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "@types/jest": "^29.5.14",
+    "dotenv": "^16.4.5",
+    "esbuild": "^0.24.0",
+    "eslint": "^8.56.0",
+    "fs-extra": "^11.2.0",
+    "happy-dom": "^15.7.4",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "stylelint": "^16.10.0",
+    "stylelint-config-standard": "^36.0.1",
+    "stylelint-config-standard-scss": "^13.1.0",
+    "stylelint-prettier": "^5.0.2",
+    "stylelint-scss": "^6.8.1",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.6.3"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "swiper": "^11.1.14"
+  }
+}

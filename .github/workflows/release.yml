@@ -1,0 +1,42 @@
+name: Release
+
+run-name: Release to ${{ inputs.environment || 'staging' }} by @${{ github.actor }}
+
+permissions:
+  contents: write
+  packages: write
+  issues: read
+  pull-requests: write
+  id-token: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run deployment in'
+        type: environment
+        required: true
+        default: staging
+
+env:
+  NODE_AUTH_TOKEN: ${{secrets.STACKLA_BOT_GITHUB_TOKEN}}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.STACKLA_BOT_GITHUB_TOKEN}}
+      - run: npm run build
+      - run: npx changeset version
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: release [skip ci]" || true
+          git push origin master
+      - run: npm publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

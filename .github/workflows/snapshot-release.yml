@@ -1,0 +1,20 @@
+name: Release Snapshot/Testing NPM Packages
+on:
+  workflow_dispatch:
+
+env:
+  NODE_AUTH_TOKEN: ${{secrets.STACKLA_BOT_GITHUB_TOKEN}}
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - run: npm run build
+      - run: npx changeset version --snapshot
+      - run: npm publish --no-git-checks
