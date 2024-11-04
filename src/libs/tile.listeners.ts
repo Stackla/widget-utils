@@ -3,9 +3,10 @@ import { handleTileClick } from "./tile.lib"
 
 declare const sdk: ISdk
 
-type Callback = (args: unknown) => void
+export type Callback = (args: unknown) => void
+export type EventCallback = (event: Event) => void
 
-export function registerTileClickEventListeners() {
+export function registerDefaultClickEvents() {
   const { click_through_url } = sdk.getStyleConfig()
   const urlPattern = /^https?:\/\/.+/
 
@@ -62,4 +63,16 @@ export function registerExpandedTileCrossSellersRendered(fn: (tileId: string, ta
     const element = customEvent.detail.target as HTMLElement
     fn(tileId, element)
   })
+}
+
+export function registerTileBgImgRenderComplete(fn: Callback) {
+  sdk.addEventListener("tileBgImgRenderComplete", fn)
+}
+
+export function registerTileBgImageError(fn: EventCallback) {
+  sdk.addEventListener("tileBgImageError", fn)
+}
+
+export function registerResizeListener(fn: Callback) {
+  sdk.addEventListener("resize", fn)
 }

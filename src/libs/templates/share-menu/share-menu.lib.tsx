@@ -34,7 +34,9 @@ export function ShareMenu({ tile }: { tile: Tile }) {
 function MenuLink({ tile, icon }: { tile: Tile; icon: string }) {
   const url = new URL(`https://www.addtoany.com/add_to/${icon}`)
   url.searchParams.append("linkurl", tile.original_url)
-  tile.name && url.searchParams.append("linkname", tile.name)
+  if (tile.name) {
+    url.searchParams.append("linkname", tile.name)
+  }
   const href = url.href
   const alt = `${icon} logo`
 

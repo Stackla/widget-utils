@@ -32,8 +32,8 @@ const baseConfig = ({ tsConfig = {}, allowInternals = true }) => ({
 
 module.exports = {
   ...baseConfig({ tsConfig }),
-  globalSetup: "./src/tests/setup.ts",
   testEnvironment: "jsdom",
+  globalSetup: "./src/tests/setup.ts",
   collectCoverageFrom: [
     "src/**/*.{ts,js}",
     "!src/**/*.d.ts",
@@ -58,7 +58,9 @@ module.exports = {
   coverageReporters: ["json", "lcov", "text", "clover", "html"],
   transform: {
     "^.+\\.js$": "babel-jest",
-    "^.+\\.(ts|tsx)$": "ts-jest"
+    "^.+\\.(ts|tsx)$": "ts-jest",
+    '^.+\\.mjs$': 'babel-jest'
   },
-  transformIgnorePatterns: ["/node_modules/(?!(@stackla)/)"]
-}
+  transformIgnorePatterns: [
+    '/node_modules/(?!swiper)', // Transpile the swiper module
+  ],}

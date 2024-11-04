@@ -1,13 +1,15 @@
 import type { ISdk, Tile } from "../"
 import { loadExpandSettingComponents } from "./widget.components"
 import {
+  registerDefaultClickEvents,
   registerExpandedTileRenderedListener,
-  registerTileClickEventListeners,
   registerTileClosedListener,
   registerTileExpandListener
 } from "./tile.listeners"
 import { isEnabled } from "./widget.layout"
 import { useInfiniteScroller } from "../hooks"
+
+import { onTileClosed, onTileExpand, onTileRendered } from "./components/expanded-tile-swiper/expanded-swiper.loader"
 
 declare const sdk: ISdk
 
@@ -101,11 +103,7 @@ export function loadWidgetIsEnabled() {
   throw new Error("Widget is not enabled")
 }
 
-export function loadExpandedTileFeature(
-  onTileExpand: (tileId: string) => void = () => {},
-  onTileClosed: () => void = () => {},
-  onTileRendered: () => void = () => {}
-) {
+export function loadExpandedTileFeature() {
   const widgetContainer = sdk.getStyleConfig()
   const { click_through_url } = widgetContainer
 
@@ -115,7 +113,7 @@ export function loadExpandedTileFeature(
     registerTileClosedListener(onTileClosed)
     registerExpandedTileRenderedListener(onTileRendered)
   } else if (click_through_url === "[ORIGINAL_URL]" || /^https?:\/\/.+/.test(click_through_url ?? "")) {
-    registerTileClickEventListeners()
+    registerDefaultClickEvents()
   }
 }
 

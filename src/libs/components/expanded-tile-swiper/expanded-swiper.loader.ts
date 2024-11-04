@@ -32,7 +32,7 @@ function initializeSwiperForExpandedTiles(initialTileId: string) {
         onlyInViewport: false
       },
       on: {
-        beforeInit: (swiper : Swiper) => {
+        beforeInit: (swiper: Swiper) => {
           const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId) : 0
           swiper.slideToLoop(tileIndex, 0, false)
         }

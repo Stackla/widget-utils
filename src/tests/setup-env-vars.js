@@ -1,6 +1,8 @@
-const { config } = require('dotenv');
-const path = require('path');
+import { config } from "dotenv"
+import { resolve } from "path"
+
+const __dirname = resolve()
 
 config({
-  path: path.resolve(process.cwd(), '.env.test'),
-});
+  path: resolve(__dirname, ".env.test")
+})

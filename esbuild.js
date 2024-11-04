@@ -1,7 +1,7 @@
 const esbuild = require('esbuild');
 const path = require('path');
-
 const fs = require('fs-extra');
+const { sassPlugin } = require('esbuild-sass-plugin');
 fs.removeSync('./dist');
 
 esbuild.build({
@@ -10,6 +10,12 @@ esbuild.build({
   format: 'esm',
   jsx: 'automatic',
   outfile: path.resolve(__dirname, 'dist/index.js'),
+  plugins: [
+    sassPlugin({
+        type: "css-text",
+        minify: true
+      }),
+  ]
 }).catch(() => process.exit(1));
 
 const sourceDir = './src'; 
