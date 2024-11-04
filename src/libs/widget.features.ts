@@ -9,11 +9,7 @@ import {
 import { isEnabled } from "./widget.layout"
 import { useInfiniteScroller } from "../hooks"
 
-import {
-  onTileClosed,
-  onTileExpand,
-  onTileRendered
-} from "./components/expanded-tile-swiper/expanded-swiper.loader"
+import { onTileClosed, onTileExpand, onTileRendered } from "./components/expanded-tile-swiper/expanded-swiper.loader"
 
 declare const sdk: ISdk
 
@@ -107,8 +103,7 @@ export function loadWidgetIsEnabled() {
   throw new Error("Widget is not enabled")
 }
 
-export function loadExpandedTileFeature(
-) {
+export function loadExpandedTileFeature() {
   const widgetContainer = sdk.getStyleConfig()
   const { click_through_url } = widgetContainer
 
