@@ -10,7 +10,7 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "scripts": {
-    "eslint": "eslint .",
+    "eslint": "eslint src/.",
     "typecheck": "npx tsc",
     "test": "jest",
     "build:types": "tsc --declaration --declarationMap --outDir dist",
