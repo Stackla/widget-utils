@@ -7,7 +7,7 @@ import shareMenuStyle from "../../../styles/templates/share-menu/share-menu.scss
 import addToCartStyleOverrides from "./add-to-cart.scss"
 import productStyleOverrides from "./products.scss"
 import { loadSwiperStyles } from "../../extensions/swiper"
-import icons from "../../../styles/uikit/icon.scss";
+import icons from "../../../styles/uikit/icon.scss"
 
 declare const sdk: ISdk
 

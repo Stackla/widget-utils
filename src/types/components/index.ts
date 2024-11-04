@@ -1,1 +1,1 @@
-export * from './ugc.component';
+export * from "./ugc.component"

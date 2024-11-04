@@ -1,4 +1,4 @@
-import { Tile } from "../../core/tile";
+import { Tile } from "../../core/tile"
 
 export interface ProductTag {
   id: string
