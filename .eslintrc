@@ -4,11 +4,11 @@
       "es2021": true
     },
     "extends": [
-      "@stackla/eslint-config",
       "eslint:recommended",
       "plugin:promise/recommended",
       "plugin:@typescript-eslint/recommended",
-      "plugin:eslint-plugin-css/recommended"
+      "plugin:eslint-plugin-css/recommended",
+      "plugin:prettier/recommended"
     ],
     "parserOptions": {
       "ecmaVersion": 12,

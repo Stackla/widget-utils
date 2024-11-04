@@ -6,7 +6,8 @@ export type MaybeArray<T> = T | T[]
 type HTMLResult = string | HTMLElement
 export type Template = (sdk: ISdk) => HTMLResult
 
-// TODO fix any type usage
+// @TODO fix any type usage
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RenderHTML = (sdk: ISdk, component?: any) => MaybePromise<HTMLResult>
 
 export type AnalyticsOptions = {
