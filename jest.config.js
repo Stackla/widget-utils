@@ -17,7 +17,7 @@ const baseConfig = ({ tsConfig = {}, allowInternals = true }) => ({
     '^.+\\.tsx?$': 'ts-jest',
   },
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
-  setupFilesAfterEnv: [path.resolve(__dirname, 'src', 'tests', 'setup-env-vars.js')],
+  setupFilesAfterEnv: [path.resolve(__dirname, 'tests', 'setup-env-vars.js')],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   ...(tsConfig.compilerOptions &&
     tsConfig.compilerOptions.paths && {
@@ -32,8 +32,8 @@ const baseConfig = ({ tsConfig = {}, allowInternals = true }) => ({
 
 module.exports = {
   ...baseConfig({ tsConfig }),
-  globalSetup: "./src/tests/setup.ts",
-  testEnvironment: "jsdom",
+  testEnvironment: "@happy-dom/jest-environment",
+  globalSetup: "./tests/setup.ts",
   collectCoverageFrom: [
     "src/**/*.{ts,js}",
     "!src/**/*.d.ts",
@@ -58,7 +58,9 @@ module.exports = {
   coverageReporters: ["json", "lcov", "text", "clover", "html"],
   transform: {
     "^.+\\.js$": "babel-jest",
-    "^.+\\.(ts|tsx)$": "ts-jest"
+    "^.+\\.(ts|tsx)$": "ts-jest",
+    '^.+\\.mjs$': 'babel-jest'
   },
-  transformIgnorePatterns: ["/node_modules/(?!(@stackla)/)"]
-}
+  transformIgnorePatterns: [
+    '/node_modules/(?!swiper)', // Transpile the swiper module
+  ],}
