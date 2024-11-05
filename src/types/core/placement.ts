@@ -2,7 +2,7 @@ import { ITransformedWidgetRequest } from "./widget-request"
 import { IUgcComponent } from "../components/ugc.component"
 import { ITilesService } from "../services/tiles.service"
 import { IEventService } from "../services/event.service"
-import { Template } from "../types"
+import { Template } from "../"
 import { Config, ExpandedTileOptions, Style, WidgetOptions, WidgetResponse } from "../widgets"
 
 export interface IPlacement {
