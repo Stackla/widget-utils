@@ -36,7 +36,8 @@ export default function getCSSVariables(): string {
     text_tile_user_name_font_size,
     text_tile_user_handle_font_size,
     shopspot_icon,
-    expanded_tile_border_radius
+    expanded_tile_border_radius,
+    tile_tag_background
   } = styles
 
   const { show_timestamp, show_caption } = inlineTileSettings
@@ -65,7 +66,8 @@ export default function getCSSVariables(): string {
     "--cta-button-font-color": `#ffffff`,
     "--cta-button-font-size": `18px`,
     "--expanded-tile-border-radius": `${expanded_tile_border_radius}px`,
-    "--tile-size": getTileSizeByWidget()
+    "--tile-size": getTileSizeByWidget(),
+    "--tile-tag-background": `#${tile_tag_background}`
   }
 
   return Object.entries(cssVariables)
