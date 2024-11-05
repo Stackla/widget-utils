@@ -21,13 +21,14 @@ import {
 } from "./libs"
 import { onExpandedTileCrossSellersRendered } from "./libs/components/expanded-tile-swiper/product-recs-swiper.loader"
 import getCSSVariables from "./libs/css-variables"
-import { ISdk } from "./types"
+import { ISdk, Template } from "./types"
 import {
   handleTileImageError,
   handleAllTileImageRendered,
   renderMasonryLayout
 } from "./libs/extensions/masonry.extension"
 import { loadAllUnloadedTiles } from "./libs/extensions/swiper/loader.extension"
+import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 
 declare const sdk: ISdk
 
@@ -39,6 +40,7 @@ interface Features {
   handleLoadMore: boolean
   limitTilesPerPage: boolean
   hideBrokenImages: boolean
+  loadExpandedTileSlider: boolean
 }
 
 interface Extensions {
@@ -59,16 +61,30 @@ interface Callbacks {
   tileBgImageError: EventCallback[]
 }
 
+interface TemplateStyle {
+  css: string
+  global: boolean
+}
+
+interface CustomTemplate {
+  style: TemplateStyle
+  template: Template
+}
+
+type Templates = Record<string, Partial<CustomTemplate>>
+
 export interface MyWidgetSettings {
   features: Partial<Features>
   callbacks: Partial<Callbacks>
   extensions: Partial<Extensions>
+  templates: Partial<Templates>
 }
 
 export interface EnforcedWidgetSettings {
   features: Features
   callbacks: Callbacks
   extensions: Extensions
+  templates: Partial<Templates>
 }
 
 export function loadListeners(settings: EnforcedWidgetSettings) {
@@ -166,6 +182,7 @@ function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSe
       handleLoadMore: true,
       limitTilesPerPage: true,
       hideBrokenImages: true,
+      loadExpandedTileSlider: true,
       ...settings.features
     },
     callbacks: {
@@ -185,7 +202,8 @@ function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSe
       swiper: false,
       masonry: false,
       ...settings.extensions
-    }
+    },
+    templates: settings.templates
   }
 }
 
@@ -254,9 +272,41 @@ export function initialiseFeatures(settings: MyWidgetSettings) {
   return settings
 }
 
+export function loadTemplates(settings: EnforcedWidgetSettings) {
+  if (settings.features.loadExpandedTileSlider) {
+    loadExpandedTileTemplates()
+  }
+
+  if (settings.templates && Object.keys(settings.templates).length) {
+    Object.entries(settings.templates).forEach(([key, customTemplate]) => {
+      if (!customTemplate) {
+        return
+      }
+
+      const { style, template } = customTemplate
+
+      if (style) {
+        const { css, global } = style
+
+        if (global) {
+          const randomKey = Math.random().toString(36).substring(7)
+          sdk.addSharedCssCustomStyles(randomKey, css, [sdk.placement.getWidgetId(), key])
+        } else {
+          sdk.addCSSToComponent(css, key)
+        }
+      }
+
+      if (template) {
+        sdk.addTemplateToComponent(template, key)
+      }
+    })
+  }
+}
+
 export function loadWidget(settings: MyWidgetSettings) {
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
   addCSSVariablesToPlacement(getCSSVariables())
+  loadTemplates(settingsWithDefaults)
   loadFeatures(settingsWithDefaults)
   loadExtensions(settingsWithDefaults)
   loadListeners(settingsWithDefaults)

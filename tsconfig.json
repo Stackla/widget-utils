@@ -30,5 +30,5 @@
     "jsxFragmentFactory": "createFragment"
   },
   "exclude": ["node_modules"],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/tests/setup.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "src/tests/setup.ts"]
 }

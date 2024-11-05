@@ -21,12 +21,13 @@ const baseConfig = ({ tsConfig = {}, allowInternals = true }) => ({
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   ...(tsConfig.compilerOptions &&
     tsConfig.compilerOptions.paths && {
-      moduleNameMapper: pathsToModuleNameMapper(
+      moduleNameMapper: {
+        ...pathsToModuleNameMapper(
         getPaths(tsConfig.compilerOptions.paths, allowInternals),
         {
           prefix: '<rootDir>/',
-        }
-      ),
+        },
+      )},
     }),
 });
 
@@ -60,6 +61,9 @@ module.exports = {
     "^.+\\.js$": "babel-jest",
     "^.+\\.(ts|tsx)$": "ts-jest",
     '^.+\\.mjs$': 'babel-jest'
+  },
+  moduleNameMapper: {
+    "\\.(css|scss|less)$": "identity-obj-proxy"
   },
   transformIgnorePatterns: [
     '/node_modules/(?!swiper)', // Transpile the swiper module
