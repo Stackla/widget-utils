@@ -47,7 +47,8 @@ describe("Widget Functions", () => {
         text_tile_user_name_font_size: 16,
         text_tile_user_handle_font_size: null,
         shopspot_icon: null,
-        expanded_tile_border_radius: 5
+        expanded_tile_border_radius: 5,
+        tile_tag_background: "D6D4D5"
       })
 
       sdk.getInlineTileConfig.mockReturnValue({
