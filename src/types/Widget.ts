@@ -91,6 +91,8 @@ export interface InlineTileOptions {
   show_caption: boolean
   show_products: boolean
   show_add_to_cart: boolean
+  show_inline_tiles: boolean
+  show_carousel: boolean  
 }
 
 export interface ClaimConfig {
@@ -160,6 +162,13 @@ export interface Style {
   inline_tile_size: string
   inline_tile_border_radius: string
   expanded_tile_border_radius: string
+  map_content_feed_filter_id: string
+  displayMode: string
+  isScrollZoomDisabled: boolean
+  providerApiKey: string
+  providerLayer: string
+  connectedContentWidgetId: string
+  defaultBounds: string
 }
 
 export interface DynamicFilterFallback {
