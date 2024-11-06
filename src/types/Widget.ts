@@ -163,6 +163,7 @@ export interface Style {
   inline_tile_border_radius: string
   expanded_tile_border_radius: string
   map_content_feed_filter_id: string
+  // legacy Map widget properties
   displayMode: string
   isScrollZoomDisabled: boolean
   providerApiKey: string
