@@ -160,6 +160,7 @@ export interface Style {
   inline_tile_size: string
   inline_tile_border_radius: string
   expanded_tile_border_radius: string
+  tile_tag_background: string
 }
 
 export interface DynamicFilterFallback {
