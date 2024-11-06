@@ -4,7 +4,6 @@ export type Maybe<T> = NonNullable<T> | undefined
 export type MaybeArray<T> = T | T[]
 
 type HTMLResult = string | HTMLElement
-export type Template = (sdk: ISdk) => HTMLResult
 
 // @TODO fix any type usage
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

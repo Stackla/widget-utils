@@ -5,7 +5,7 @@ import { IEventService } from "../services/event.service"
 import { EventMapping, EventName } from "../../events/constants"
 import { ClaimConfig, ExpandedTileOptions, InlineTileOptions, Style, WidgetOptions, WidgetResponse } from "../widgets"
 
-type Template = (sdk: ISdk) => string | HTMLElement
+export type Template = (sdk: ISdk) => string | HTMLElement
 
 export interface ISdk {
   widget: IWidgetService
