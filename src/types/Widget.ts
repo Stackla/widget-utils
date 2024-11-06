@@ -92,7 +92,7 @@ export interface InlineTileOptions {
   show_products: boolean
   show_add_to_cart: boolean
   show_inline_tiles: boolean
-  show_carousel: boolean  
+  show_carousel: boolean
 }
 
 export interface ClaimConfig {
