@@ -26,7 +26,6 @@
     justify-content: center;
     border-radius: dimens.$border-radius;
     overflow: hidden;
-    width: auto;
 
     > .tile > .tile-loading {
       @extend %loading;
