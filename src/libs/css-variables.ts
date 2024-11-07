@@ -1,4 +1,4 @@
-import type { ISdk } from "../"
+import type { ISdk, Style } from "../"
 
 declare const sdk: ISdk
 
@@ -17,6 +17,13 @@ export function getTileSizeByWidget(): string {
   }
 
   return tileSizes[inline_tile_size]
+}
+
+export function trimHashValuesFromObject(obj: Style): { [key: string]: string } {
+  return Object.entries(obj).reduce((acc: Record<string, string>, [key, value]) => {
+    acc[key] = value.replace("#", "")
+    return acc
+  }, {})
 }
 
 export default function getCSSVariables(): string {
@@ -38,7 +45,7 @@ export default function getCSSVariables(): string {
     shopspot_icon,
     expanded_tile_border_radius,
     tile_tag_background
-  } = styles
+  } = trimHashValuesFromObject(styles)
 
   const { show_timestamp, show_caption } = inlineTileSettings
 
