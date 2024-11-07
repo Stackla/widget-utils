@@ -21,11 +21,7 @@ export function getTileSizeByWidget(): string {
 
 export function trimHashValuesFromObject(obj: Style): { [key: string]: string } {
   return Object.entries(obj).reduce((acc: Record<string, string>, [key, value]) => {
-    acc[key] = value
-
-    if (typeof value === "string") {
-      acc[key] = value.replace("#", "")
-    }
+    acc[key] = typeof value === "string" && value.startsWith("#") ? value.replace("#", "") : value
     return acc
   }, {})
 }
