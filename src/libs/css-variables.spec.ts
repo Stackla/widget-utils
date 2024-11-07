@@ -1,4 +1,4 @@
-import getCSSVariables, { getTileSizeByWidget, trimHashValuesFromObject } from "./css-variables" // Replace with the correct module path
+import getCSSVariables, { getTileSizeByWidget, trimHashValuesFromObject } from "./css-variables"
 
 // Mock sdk object globally
 const sdk = {
