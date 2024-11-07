@@ -1,2 +1,2 @@
-export * from "./masonry.extension"
+export * from "./masonry/masonry.extension"
 export * from "./swiper/index"

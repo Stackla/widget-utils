@@ -1,6 +1,6 @@
 {
   "name": "@stackla/widget-utils",
-  "version": "0.0.25",
+  "version": "0.0.0-20241107205544",
   "description": "Utils for UGC widgets",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,7 +14,7 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./types": "./dist/types/types.d.ts",
+    "./types": "./dist/types/index.d.ts",
     "./libs": {
       "import": "./dist/libs/index.js",
       "types": "./dist/libs/index.d.ts"
@@ -26,6 +26,14 @@
     "./extensions": {
       "import": "./dist/libs/extensions/index.js",
       "types": "./dist/libs/extensions/index.d.ts"
+    },
+    "./extensions/swiper": {
+      "import": "./dist/libs/extensions/swiper/index.js",
+      "types": "./dist/libs/extensions/swiper/index.d.ts"
+    },
+    "./extensions/masonry": {
+      "import": "./dist/libs/extensions/masonry/index.js",
+      "types": "./dist/libs/extensions/masonry/index.d.ts"
     },
     "./templates": {
       "import": "./dist/libs/templates/index.js",

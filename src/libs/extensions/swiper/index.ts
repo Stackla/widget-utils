@@ -19,3 +19,6 @@ export function loadSwiperStyles() {
   ])
   sdk.addSharedCssCustomStyles("swiper-overrides", swiperCommon, [sdk.placement.getWidgetId(), "expanded-tiles"])
 }
+
+export * from "./loader.extension"
+export * from "./swiper.extension"

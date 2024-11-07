@@ -26,7 +26,7 @@ import {
   handleTileImageError,
   handleAllTileImageRendered,
   renderMasonryLayout
-} from "./libs/extensions/masonry.extension"
+} from "./libs/extensions/masonry/masonry.extension"
 import { loadAllUnloadedTiles } from "./libs/extensions/swiper/loader.extension"
 import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 
