@@ -4,10 +4,45 @@
   "description": "Utils for UGC widgets",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "https://github.com/Stackla/public-widget-utils",
+  "repository": "https://github.com/Stackla/widget-utils",
   "publishConfig": {
     "access": "public",
     "registry": "https://npm.pkg.github.com/"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./types": "./dist/types/index.d.ts",
+    "./libs": {
+      "import": "./dist/libs/index.js",
+      "types": "./dist/libs/index.d.ts"
+    },
+    "./components": {
+      "import": "./dist/libs/components/index.js",
+      "types": "./dist/libs/components/index.d.ts"
+    },
+    "./extensions": {
+      "import": "./dist/libs/extensions/index.js",
+      "types": "./dist/libs/extensions/index.d.ts"
+    },
+    "./extensions/swiper": {
+      "import": "./dist/libs/extensions/swiper/index.js",
+      "types": "./dist/libs/extensions/swiper/index.d.ts"
+    },
+    "./extensions/masonry": {
+      "import": "./dist/libs/extensions/masonry/index.js",
+      "types": "./dist/libs/extensions/masonry/index.d.ts"
+    },
+    "./templates": {
+      "import": "./dist/libs/templates/index.js",
+      "types": "./dist/libs/templates/index.d.ts"
+    },
+    "./hooks": {
+      "import": "./dist/hooks/index.js",
+      "types": "./dist/hooks/index.d.ts"
+    }
   },
   "scripts": {
     "eslint": "eslint src/.",
