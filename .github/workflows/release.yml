@@ -22,11 +22,6 @@ env:
   NODE_AUTH_TOKEN: ${{secrets.STACKLA_BOT_GITHUB_TOKEN}}
 
 jobs:
-  deploy:
-    uses: Stackla/stackla-github-actions/.github/workflows/serverless.yml@master
-    secrets: inherit
-    with:
-      environment: ${{ inputs.environment }}
   release:
     runs-on: ubuntu-latest
     steps:
