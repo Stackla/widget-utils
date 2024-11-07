@@ -19,7 +19,7 @@ export function getTileSizeByWidget(): string {
   return tileSizes[inline_tile_size]
 }
 
-export function trimHashValuesFromObject(obj: Style): { [key: string]: string } {
+export function trimHashValuesFromObject(obj: Style): Record<string, string> {
   return Object.entries(obj).reduce((acc: Record<string, string>, [key, value]) => {
     acc[key] = typeof value === "string" && value.startsWith("#") ? value.replace("#", "") : value
     return acc
