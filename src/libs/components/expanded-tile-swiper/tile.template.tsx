@@ -1,6 +1,5 @@
 import type { ISdk } from "../../../"
 import { Tile } from "../../../"
-import { getTimephrase } from "../../tile.lib"
 import { createElement, createFragment } from "../../"
 import { Tags } from "../../templates/tags/tags.lib"
 import { ShareMenu } from "../../templates/share-menu/share-menu.lib"
@@ -17,15 +16,12 @@ type ShopspotProps = {
 }
 
 export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
-  const { show_shopspots, show_products, show_tags, show_sharing, show_timestamp, show_caption } =
-    sdk.getExpandedTileConfig()
+  const { show_shopspots, show_products, show_tags, show_sharing } = sdk.getExpandedTileConfig()
 
   const shopspotEnabled = sdk.isComponentLoaded("shopspots") && show_shopspots && !!tile.hotspots?.length
   const productsEnabled = sdk.isComponentLoaded("products") && show_products && !!tile.tags_extended?.length
   const tagsEnabled = show_tags
   const sharingToolsEnabled = show_sharing
-  const timestampEnabled = show_timestamp
-  const captionsEnabled = show_caption
 
   const parent = sdk.getNodeId()
 
@@ -62,25 +58,13 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
                 <button class="share-button">
                   <span class="widget-icon icon-share" alt="Share button"></span>
                 </button>
-                <div class="user-info-wrapper">
-                  <UserInfoTemplate tile={tile} />
-                </div>
-                <div class="description">
-                  {captionsEnabled && (
-                    <div class="caption">
-                      <p class="caption-paragraph">{tile.message}</p>
-                    </div>
-                  )}
-                  {timestampEnabled && (
-                    <div class="tile-timestamp">{tile.source_created_at && getTimephrase(tile.source_created_at)}</div>
-                  )}
-                  {tagsEnabled && <Tags tile={tile} />}
-                  {productsEnabled && (
-                    <>
-                      <ugc-products parent={parent} tile-id={tile.id} />
-                    </>
-                  )}
-                </div>
+                <user-content tileId={tile.id} />
+                {tagsEnabled && <Tags tile={tile} />}
+                {productsEnabled && (
+                  <>
+                    <ugc-products parent={parent} tile-id={tile.id} />
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -109,36 +93,6 @@ function RenderIconSection({ tile, productsEnabled }: { tile: Tile; productsEnab
     <div class="icon-section">
       <div class="top-section">{...topSectionIconContent}</div>
       <div class="bottom-section">{...bottomSectionIconContent}</div>
-    </div>
-  )
-}
-
-function UserInfoTemplate({ tile }: { tile: Tile }) {
-  const tileAvatar = tile.avatar ? (
-    <span class="avatar-wrapper">
-      <a class="avatar-link" href={tile.original_url} target="_blank">
-        <img
-          loading="lazy"
-          src={tile.avatar}
-          onerror={`this.src = "https://web-assets.stackla.com/app.stackla.com/media/images/default-avatars/default-avatar.png";`}
-        />
-      </a>
-    </span>
-  ) : (
-    <></>
-  )
-  const tileUser = tile.user ? (
-    <a class="user-link" href={tile.original_url} target="_blank">
-      <span class="user-name">{tile.user}</span>
-      <span class="user-handle">@{tile.user}</span>
-    </a>
-  ) : (
-    <></>
-  )
-  return (
-    <div class="user-info">
-      {tileAvatar}
-      {tileUser}
     </div>
   )
 }
