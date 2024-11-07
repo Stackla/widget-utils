@@ -1,6 +1,6 @@
 {
   "name": "@stackla/widget-utils",
-  "version": "0.0.0-20241107205544",
+  "version": "0.0.25",
   "description": "Utils for UGC widgets",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
