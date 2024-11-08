@@ -1,4 +1,4 @@
-import type { ISdk, Style } from "../"
+import type { ISdk, Style, StyleVariables } from "../"
 
 declare const sdk: ISdk
 
@@ -26,9 +26,10 @@ export function trimHashValuesFromObject(obj: Style): Record<string, string> {
   }, {})
 }
 
-export default function getCSSVariables(): string {
+export default function getCSSVariables(defaults: StyleVariables, overrides: StyleVariables): string {
   const styles = sdk.getStyleConfig()
   const inlineTileSettings = sdk.getInlineTileConfig()
+
   const {
     widget_background,
     text_tile_background,
@@ -50,19 +51,19 @@ export default function getCSSVariables(): string {
   const { show_timestamp, show_caption } = inlineTileSettings
 
   const cssVariables: { [key: string]: string } = {
-    "--widget-background": `#${widget_background}`,
-    "--text-tile-background": `#${text_tile_background}`,
-    "--text-tile-font-color": `#${text_tile_font_color}`,
-    "--text-tile-link-color": `#${text_tile_link_color}`,
-    "--text-tile-user-name-font-color": `#${text_tile_user_name_font_color}`,
-    "--text-tile-user-handle-font-color": `#${text_tile_user_handle_font_color}`,
-    "--text-tile-tag-font-color": `#${text_tile_font_color}`,
-    "--shopspot-btn-background": `#${shopspot_btn_background}`,
-    "--shopspot-btn-font-color": `#${shopspot_btn_font_color}`,
-    "--margin": `${margin ? margin : 0}px`,
-    "--text-tile-font-size": `${text_tile_font_size}px`,
-    "--text-tile-user-name-font-size": `${text_tile_user_name_font_size}px`,
-    "--text-tile-user-handle-font-size": `${text_tile_user_handle_font_size ? text_tile_user_handle_font_size : 12}px`,
+    "--widget-background": `#${overrides.widget_background ?? widget_background ?? defaults.widget_background}`,
+    "--text-tile-background": `#${overrides.text_tile_background ?? text_tile_background ?? defaults.text_tile_background}`,
+    "--text-tile-font-color": `#${overrides.text_tile_font_color ?? text_tile_font_color ?? defaults.text_tile_font_color}`,
+    "--text-tile-link-color": `#${overrides.text_tile_link_color ?? text_tile_link_color ?? defaults.text_tile_link_color}`,
+    "--text-tile-user-name-font-color": `#${overrides.text_tile_user_name_font_color ?? text_tile_user_name_font_color ?? defaults.text_tile_user_name_font_color}`,
+    "--text-tile-user-handle-font-color": `#${overrides.text_tile_user_handle_font_color ?? text_tile_user_handle_font_color ?? defaults.text_tile_user_handle_font_color}`,
+    "--text-tile-tag-font-color": `#${overrides.text_tile_font_color ?? text_tile_font_color ?? defaults.text_tile_font_color}`,
+    "--shopspot-btn-background": `#${overrides.shopspot_btn_background ?? shopspot_btn_background ?? defaults.shopspot_btn_background}`,
+    "--shopspot-btn-font-color": `#${overrides.shopspot_btn_font_color ?? shopspot_btn_font_color ?? defaults.shopspot_btn_font_color}`,
+    "--margin": `${overrides.margin ?? margin ?? 0}px`,
+    "--text-tile-font-size": `${overrides.text_tile_font_size ?? text_tile_font_size ?? defaults.text_tile_font_size}px`,
+    "--text-tile-user-name-font-size": `${overrides.text_tile_user_name_font_size ?? text_tile_user_name_font_size ?? defaults.text_tile_user_name_font_size}px`,
+    "--text-tile-user-handle-font-size": `${overrides.text_tile_user_handle_font_size ?? text_tile_user_handle_font_size ?? defaults.text_tile_user_handle_font_size}px`,
     "--show-caption": `${show_caption ? "block" : "none"}`,
     "--tile-timephrase-display": `${show_timestamp ? "inline-block" : "none"}`,
     "--shopspot-icon": shopspot_icon
@@ -72,9 +73,9 @@ export default function getCSSVariables(): string {
     "--cta-button-background-color": `#000000`,
     "--cta-button-font-color": `#ffffff`,
     "--cta-button-font-size": `18px`,
-    "--expanded-tile-border-radius": `${expanded_tile_border_radius}px`,
+    "--expanded-tile-border-radius": `${overrides.expanded_tile_border_radius ?? expanded_tile_border_radius ?? defaults.expanded_tile_border_radius}px`,
     "--tile-size": getTileSizeByWidget(),
-    "--tile-tag-background": `#${tile_tag_background}`
+    "--tile-tag-background": `#${overrides.tile_tag_background ?? tile_tag_background ?? defaults.tile_tag_background}`
   }
 
   return Object.entries(cssVariables)

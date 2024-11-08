@@ -12,36 +12,44 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
     },
     "./types": "./dist/types/index.d.ts",
     "./libs": {
       "import": "./dist/libs/index.js",
-      "types": "./dist/libs/index.d.ts"
+      "types": "./dist/libs/index.d.ts",
+      "require": "./dist/libs/index.js"
     },
     "./components": {
       "import": "./dist/libs/components/index.js",
-      "types": "./dist/libs/components/index.d.ts"
+      "types": "./dist/libs/components/index.d.ts",
+      "require": "./dist/libs/components/index.js"
     },
     "./extensions": {
       "import": "./dist/libs/extensions/index.js",
-      "types": "./dist/libs/extensions/index.d.ts"
+      "types": "./dist/libs/extensions/index.d.ts",
+      "require": "./dist/libs/extensions/index.js"
     },
     "./extensions/swiper": {
       "import": "./dist/libs/extensions/swiper/index.js",
-      "types": "./dist/libs/extensions/swiper/index.d.ts"
+      "types": "./dist/libs/extensions/swiper/index.d.ts",
+      "require": "./dist/libs/extensions/swiper/index.js"
     },
     "./extensions/masonry": {
       "import": "./dist/libs/extensions/masonry/index.js",
-      "types": "./dist/libs/extensions/masonry/index.d.ts"
+      "types": "./dist/libs/extensions/masonry/index.d.ts",
+      "require": "./dist/libs/extensions/masonry/index.js"
     },
     "./templates": {
       "import": "./dist/libs/templates/index.js",
-      "types": "./dist/libs/templates/index.d.ts"
+      "types": "./dist/libs/templates/index.d.ts",
+      "require": "./dist/libs/templates/index.js"
     },
     "./hooks": {
       "import": "./dist/hooks/index.js",
-      "types": "./dist/hooks/index.d.ts"
+      "types": "./dist/hooks/index.d.ts",
+      "require": "./dist/hooks/index.js"
     }
   },
   "scripts": {

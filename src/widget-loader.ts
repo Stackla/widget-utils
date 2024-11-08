@@ -21,7 +21,7 @@ import {
 } from "./libs"
 import { onExpandedTileCrossSellersRendered } from "./libs/components/expanded-tile-swiper/product-recs-swiper.loader"
 import getCSSVariables from "./libs/css-variables"
-import { ISdk, Template } from "./types"
+import { ISdk, Style, Template } from "./types"
 import {
   handleTileImageError,
   handleAllTileImageRendered,
@@ -73,11 +73,19 @@ interface CustomTemplate {
 
 type Templates = Record<string, Partial<CustomTemplate>>
 
+export type StyleVariables = Record<keyof Style, string | number>
+
 export interface MyWidgetSettings {
   features: Partial<Features>
   callbacks: Partial<Callbacks>
   extensions: Partial<Extensions>
   templates: Partial<Templates>
+  styles: {
+    variables?: {
+      defaults?: Partial<StyleVariables>
+      overrides?: Partial<StyleVariables>
+    }
+  }
 }
 
 export interface EnforcedWidgetSettings {
