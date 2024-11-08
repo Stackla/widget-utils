@@ -1,5 +1,5 @@
 import { IBaseService } from "./base.service"
-import { EventMapping, EventName } from "../../events/constants"
+import { EventMapping, EventName } from "../../events"
 
 export interface IEventService extends IBaseService {
   listenOrFindEvent<T extends EventName>(eventType: T, callback: (event: EventMapping[T]) => void): void

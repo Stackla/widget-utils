@@ -2,7 +2,7 @@ import { IWidgetService } from "../services/widget.service"
 import { IPlacement } from "./placement"
 import { ITilesService } from "../services/tiles.service"
 import { IEventService } from "../services/event.service"
-import { EventMapping, EventName } from "../../events/constants"
+import { EventMapping, EventName } from "../../events"
 import { ClaimConfig, ExpandedTileOptions, InlineTileOptions, Style, WidgetOptions, WidgetResponse } from "../widgets"
 
 export type Template = (sdk: ISdk) => string | HTMLElement
