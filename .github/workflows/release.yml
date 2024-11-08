@@ -1,5 +1,4 @@
 name: Release
-
 run-name: Release to ${{ inputs.environment || 'staging' }} by @${{ github.actor }}
 
 permissions:
