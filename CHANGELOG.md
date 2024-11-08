@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.0.26
+
+### Patch Changes
+
+- 24ea0f0: Introduce exports
+
 ## 0.0.0-20241107205540
 
 ### Patch Changes
