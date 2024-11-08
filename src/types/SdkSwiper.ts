@@ -2,7 +2,7 @@ import type { ISdk } from "../"
 import Swiper from "swiper"
 import { SwiperOptions } from "swiper/types"
 
-export type SwiperMode = "inline" | "expanded" | "cross-sell" | "expanded-product-recs"
+export type SwiperMode = "inline" | "expanded" | "cross-sell" | "expanded-product-recs" | "tags"
 
 export type SwiperProps = {
   id: string
