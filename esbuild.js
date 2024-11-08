@@ -19,23 +19,3 @@ build({
     })
   ]
 }).catch(() => process.exit(1))
-
-const sourceDir = "./src"
-const destDir = "./dist"
-
-async function copyScssFiles() {
-  try {
-    await fs.copy(sourceDir, destDir, {
-      filter: src => {
-        const isScss = src.endsWith(".scss")
-        const isDirectory = fs.statSync(src).isDirectory()
-        return isScss || isDirectory
-      }
-    })
-    console.log("Copied .scss files and folders to dist!")
-  } catch (err) {
-    console.error(err)
-  }
-}
-
-copyScssFiles()
