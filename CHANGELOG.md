@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.0
+
+### Minor Changes
+
+- fb5af71: Introduce swiper for tags
+
 ## 0.0.26
 
 ### Patch Changes
