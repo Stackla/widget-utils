@@ -19,7 +19,7 @@ on:
         default: staging
 
 env:
-  NODE_AUTH_TOKEN: ${{secrets.STACKLA_BOT_GITHUB_TOKEN}}
+  NODE_AUTH_TOKEN: ${{ secrets.STACKLA_BOT_GITHUB_TOKEN }}
 
 jobs:
   release:
@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: 20
       - name: Install & Build
-      - run: |
+        run: |
           npm install
           npm run build
           npx changeset version
