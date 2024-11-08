@@ -1,12 +1,12 @@
-import { resolve } from "path"
-import { globSync } from "glob"
-import { removeSync } from "fs-extra/esm"
-import { sassPlugin } from "esbuild-sass-plugin"
-import { build } from "esbuild"
-removeSync("./dist")
+const path = require("path")
+const { globSync } = require("glob")
+const fs = require("fs-extra")
+const { sassPlugin } = require("esbuild-sass-plugin")
+const { build } = require("esbuild")
+fs.removeSync("./dist")
 
 build({
-  entryPoints: [resolve(import.meta.dirname, "src/index.ts"), ...globSync("src/libs/**/index.ts")],
+  entryPoints: [path.resolve(__dirname, "src/index.ts"), ...globSync("src/libs/**/index.ts")],
   bundle: true,
   format: "esm",
   jsx: "automatic",

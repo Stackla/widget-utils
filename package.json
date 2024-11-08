@@ -4,7 +4,6 @@
   "description": "Utils for UGC widgets",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "repository": "https://github.com/Stackla/widget-utils",
   "publishConfig": {
     "access": "public",
