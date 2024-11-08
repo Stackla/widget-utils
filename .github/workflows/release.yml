@@ -25,23 +25,20 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{secrets.STACKLA_BOT_GITHUB_TOKEN}}
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 20
       - name: Install & Build
-      - run: npm install
-      - run: npm run build
-      - run: npx changeset version
       - run: |
+          npm install
+          npm run build
+          npx changeset version
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "chore: release [skip ci]" || true
           git push origin master
-      - run: npm publish
+          npm publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
