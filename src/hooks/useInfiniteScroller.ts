@@ -1,5 +1,5 @@
 import { ISdk } from "../"
-import { EVENT_LOAD_MORE } from "../events/constants"
+import { EVENT_LOAD_MORE } from "../events"
 
 function exceedsBoundaries(sdk: ISdk, windowInstance: Window) {
   const tiles = sdk.querySelectorAll(".ugc-tile")

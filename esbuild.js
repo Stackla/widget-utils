@@ -1,39 +1,21 @@
-const esbuild = require('esbuild');
-const path = require('path');
-const fs = require('fs-extra');
-const { sassPlugin } = require('esbuild-sass-plugin');
-fs.removeSync('./dist');
+const path = require("path")
+const { globSync } = require("glob")
+const fs = require("fs-extra")
+const { sassPlugin } = require("esbuild-sass-plugin")
+const { build } = require("esbuild")
+fs.removeSync("./dist")
 
-esbuild.build({
-  entryPoints: [path.resolve(__dirname, 'src/index.ts')],
+build({
+  entryPoints: [path.resolve(__dirname, "src/index.ts"), ...globSync("src/libs/**/index.ts")],
   bundle: true,
-  format: 'esm',
-  jsx: 'automatic',
-  outfile: path.resolve(__dirname, 'dist/index.js'),
+  format: "esm",
+  jsx: "automatic",
+  //outfile: path.resolve(__dirname, "dist/index.js"),
+  outdir: "dist",
   plugins: [
     sassPlugin({
-        type: "css-text",
-        minify: true
-      }),
+      type: "css-text",
+      minify: true
+    })
   ]
-}).catch(() => process.exit(1));
-
-const sourceDir = './src'; 
-const destDir = './dist';
-
-async function copyScssFiles() {
-    try {
-        await fs.copy(sourceDir, destDir, {
-            filter: (src) => {
-                const isScss = src.endsWith('.scss');
-                const isDirectory = fs.statSync(src).isDirectory();
-                return isScss || isDirectory;
-            }
-        });
-        console.log('Copied .scss files and folders to dist!');
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-copyScssFiles();
+}).catch(() => process.exit(1))
