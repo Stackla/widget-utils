@@ -1,9 +1,9 @@
 {
   "name": "@stackla/widget-utils",
-  "version": "0.1.1",
+  "version": "0.0.0-20241110221250",
   "description": "Utils for UGC widgets",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "repository": "https://github.com/Stackla/widget-utils",
   "publishConfig": {
     "access": "public",
@@ -11,45 +11,60 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/esm/index.js",
+      "types": "./dist/esm/index.d.ts",
+      "require": "./dist/cjs/index.js"
     },
-    "./types": "./dist/types/index.d.ts",
+    "./types": "./dist/esm/types/index.d.ts",
     "./libs": {
-      "import": "./dist/libs/index.js",
-      "types": "./dist/libs/index.d.ts"
+      "import": "./dist/esm/libs/index.js",
+      "types": "./dist/esm/libs/index.d.ts",
+      "require": "./dist/cjs/libs/index.js"
     },
     "./components": {
-      "import": "./dist/libs/components/index.js",
-      "types": "./dist/libs/components/index.d.ts"
+      "import": "./dist/esm/libs/components/index.js",
+      "types": "./dist/esm/libs/components/index.d.ts",
+      "require": "./dist/cjs/libs/components/index.js"
     },
     "./extensions": {
-      "import": "./dist/libs/extensions/index.js",
-      "types": "./dist/libs/extensions/index.d.ts"
+      "import": "./dist/esm/libs/extensions/index.js",
+      "types": "./dist/esm/libs/extensions/index.d.ts",
+      "require": "./dist/cjs/libs/extensions/index.js"
     },
     "./extensions/swiper": {
-      "import": "./dist/libs/extensions/swiper/index.js",
-      "types": "./dist/libs/extensions/swiper/index.d.ts"
+      "import": "./dist/esm/libs/extensions/swiper/index.js",
+      "types": "./dist/esm/libs/extensions/swiper/index.d.ts",
+      "require": "./dist/cjs/libs/extensions/swiper/index.js"
     },
     "./extensions/masonry": {
-      "import": "./dist/libs/extensions/masonry/index.js",
-      "types": "./dist/libs/extensions/masonry/index.d.ts"
+      "import": "./dist/esm/libs/extensions/masonry/index.js",
+      "types": "./dist/esm/libs/extensions/masonry/index.d.ts",
+      "require": "./dist/cjs/libs/extensions/masonry/index.js"
     },
     "./templates": {
-      "import": "./dist/libs/templates/index.js",
-      "types": "./dist/libs/templates/index.d.ts"
+      "import": "./dist/esm/libs/templates/index.js",
+      "types": "./dist/esm/libs/templates/index.d.ts",
+      "require": "./dist/cjs/libs/templates/index.js"
     },
     "./hooks": {
-      "import": "./dist/hooks/index.js",
-      "types": "./dist/hooks/index.d.ts"
+      "import": "./dist/esm/hooks/index.js",
+      "types": "./dist/esm/hooks/index.d.ts",
+      "require": "./dist/cjs/hooks/index.js"
+    },
+    "./events": {
+      "import": "./dist/esm/events/index.js",
+      "types": "./dist/esm/events/index.d.ts",
+      "require": "./dist/cjs/events/index.js"
     }
   },
   "scripts": {
     "eslint": "eslint src/.",
     "typecheck": "npx tsc",
     "test": "jest",
-    "build:types": "tsc --declaration --declarationMap --emitDeclarationOnly --outDir dist",
-    "postbuild": "npm run build:types",
+    "build:types": "npm run build:types:cjs && npm run build:types:esm",
+    "build:types:cjs": "tsc --project tsconfig.json",
+    "build:types:esm": "tsc --project tsconfig.esm.json",
+    "prebuild": "npm run build:types",
     "build": "node esbuild.js",
     "prepare": "npm run build",
     "stylelint": "stylelint **/*.scss",
@@ -59,6 +74,7 @@
     "presnapshot": "npm run new-change",
     "snapshot": "npx changeset version --snapshot",
     "postsnapshot": "npm publish --no-git-checks"
+
   },
   "author": "",
   "license": "ISC",

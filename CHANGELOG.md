@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.0.0-20241110221245
+
+### Patch Changes
+
+- Introduce events
+
 ## 0.1.1
 
 ### Patch Changes
