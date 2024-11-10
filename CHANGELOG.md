@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.1
+
+### Patch Changes
+
+- e855cf7: Address build config issues that causes widgets repo to crash
+
 ## 0.1.0
 
 ### Minor Changes
