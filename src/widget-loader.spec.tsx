@@ -26,7 +26,8 @@ const settings = {
     handleLoadMore: true,
     limitTilesPerPage: true,
     hideBrokenImages: true,
-    loadExpandedTileSlider: true
+    loadExpandedTileSlider: true,
+    loadTileContent: true
   },
   callbacks: {
     onLoad: [],

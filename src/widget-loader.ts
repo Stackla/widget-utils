@@ -41,6 +41,7 @@ interface Features {
   limitTilesPerPage: boolean
   hideBrokenImages: boolean
   loadExpandedTileSlider: boolean
+  loadTileContent: boolean
 }
 
 interface Extensions {
@@ -183,6 +184,7 @@ function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSe
       limitTilesPerPage: true,
       hideBrokenImages: true,
       loadExpandedTileSlider: true,
+      loadTileContent: true,
       ...settings.features
     },
     callbacks: {
@@ -215,11 +217,16 @@ async function loadFeatures(settings: EnforcedWidgetSettings) {
     addNewTilesAutomatically,
     handleLoadMore,
     limitTilesPerPage,
-    hideBrokenImages
+    hideBrokenImages,
+    loadTileContent
   } = settings.features
 
   sdk.tiles.preloadImages = preloadImages
   sdk.tiles.hideBrokenTiles = hideBrokenImages
+
+  if (loadTileContent) {
+    sdk.addLoadedComponents(["tile-content"])
+  }
 
   if (disableWidgetIfNotEnabled) {
     loadWidgetIsEnabled()

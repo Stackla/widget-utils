@@ -58,7 +58,7 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
                 <button class="share-button">
                   <span class="widget-icon icon-share" alt="Share button"></span>
                 </button>
-                <user-content tileId={tile.id} />
+                <tile-content tileId={tile.id} />
                 {tagsEnabled && <Tags tile={tile} />}
                 {productsEnabled && (
                   <>
