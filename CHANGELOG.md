@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.0.0
+
+### Patch Changes
+
+- d4fa293: Fixup issues around widget utils not installing correctly
+
 ## 0.0.0-20241110221245
 
 ### Patch Changes

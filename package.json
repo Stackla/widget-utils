@@ -1,6 +1,6 @@
 {
   "name": "@stackla/widget-utils",
-  "version": "0.0.0-20241110221250",
+  "version": "0.0.0",
   "description": "Utils for UGC widgets",
   "main": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -74,7 +74,6 @@
     "presnapshot": "npm run new-change",
     "snapshot": "npx changeset version --snapshot",
     "postsnapshot": "npm publish --no-git-checks"
-
   },
   "author": "",
   "license": "ISC",
