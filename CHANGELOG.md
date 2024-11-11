@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.2
+
+### Patch Changes
+
+- c8dac84: Fixup issues around widget utils & allow tile-content to be loaded
+
 ## 0.1.1
 
 ### Patch Changes
