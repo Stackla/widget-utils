@@ -53,27 +53,13 @@ function loadDefaultIcons() {
   sdk.addSharedCssCustomStyles("icons", icons, [sdk.placement.getWidgetId(), "expanded-tiles"])
 }
 
-function loadSettingsWithDefaults(settings: Partial<ExpandedTileSettings>): ExpandedTileSettings {
-  return {
-    useDefaultExpandedTileStyles: settings.useDefaultExpandedTileStyles ?? true,
-    useDefaultProductStyles: settings.useDefaultProductStyles ?? true,
-    useDefaultAddToCartStyles: settings.useDefaultAddToCartStyles ?? true,
-    useDefaultExpandedTileTemplates: settings.useDefaultExpandedTileTemplates ?? true,
-    defaultFont:
-      settings.defaultFont ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
-    useDefaultSwiperStyles: settings.useDefaultSwiperStyles ?? true
-  }
-}
-
 export function loadExpandedTileTemplates(settings: ExpandedTileSettings) {
-  const settingsWithDefaults = loadSettingsWithDefaults(settings)
-
-  loadDefaultExpandedTileStyles(settingsWithDefaults)
-  loadDefaultExpandedTileTemplates(settingsWithDefaults.useDefaultExpandedTileTemplates)
-  loadWidgetFonts(settingsWithDefaults.defaultFont)
+  loadDefaultExpandedTileStyles(settings)
+  loadDefaultExpandedTileTemplates(settings.useDefaultExpandedTileTemplates)
+  loadWidgetFonts(settings.defaultFont)
   loadDefaultIcons()
 
-  if (settingsWithDefaults.useDefaultSwiperStyles) {
+  if (settings.useDefaultSwiperStyles) {
     loadSwiperStyles()
   }
 }
