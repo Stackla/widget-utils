@@ -11,7 +11,7 @@ import icons from "../../../styles/uikit/icon.scss"
 
 declare const sdk: ISdk
 
-interface ExpandedTileSettings {
+export interface ExpandedTileSettings {
   useDefaultExpandedTileStyles: boolean
   useDefaultProductStyles: boolean
   useDefaultAddToCartStyles: boolean

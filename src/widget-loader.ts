@@ -28,7 +28,7 @@ import {
   renderMasonryLayout
 } from "./libs/extensions/masonry/masonry.extension"
 import { loadAllUnloadedTiles } from "./libs/extensions/swiper/loader.extension"
-import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
+import { ExpandedTileSettings, loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 
 declare const sdk: ISdk
 
@@ -42,7 +42,7 @@ interface Features {
   hideBrokenImages: boolean
   loadExpandedTileSlider: boolean
   loadTileContent: boolean
-  useDefaultExpandedTileSwiperStyles: boolean
+  expandedTileSettings: ExpandedTileSettings
 }
 
 interface Extensions {
@@ -69,17 +69,18 @@ interface TemplateStyle {
 }
 
 interface CustomTemplate {
-  styles: TemplateStyle[]
-  template: Template
+  styles?: TemplateStyle[]
+  template?: Template
 }
 
-type Templates = Record<string, Partial<CustomTemplate>>
+type Templates = Record<string, CustomTemplate>
 
 export interface MyWidgetSettings {
   features: Partial<Features>
   callbacks: Partial<Callbacks>
   extensions: Partial<Extensions>
   templates: Partial<Templates>
+  font?: string
 }
 
 export interface EnforcedWidgetSettings {
@@ -87,7 +88,6 @@ export interface EnforcedWidgetSettings {
   callbacks: Callbacks
   extensions: Extensions
   templates: Partial<Templates>
-  font?: string
 }
 
 export function loadListeners(settings: EnforcedWidgetSettings) {
@@ -187,7 +187,14 @@ function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSe
       hideBrokenImages: true,
       loadExpandedTileSlider: true,
       loadTileContent: true,
-      useDefaultExpandedTileSwiperStyles: true,
+      expandedTileSettings: {
+        useDefaultExpandedTileStyles: true,
+        useDefaultProductStyles: true,
+        useDefaultAddToCartStyles: true,
+        useDefaultExpandedTileTemplates: true,
+        useDefaultSwiperStyles: true,
+        defaultFont: settings.font ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+      },
       ...settings.features
     },
     callbacks: {
@@ -282,23 +289,25 @@ export function initialiseFeatures(settings: MyWidgetSettings) {
   return settings
 }
 
-export function customersSettingsHasComponentStyles(component: string, settings: MyWidgetSettings) {
-  return settings.templates[component]?.styles?.length
-}
-
-export function customersSettingsHasComponentTemplate(component: string, settings: MyWidgetSettings) {
-  return settings.templates[component]?.template
-}
-
 export function loadTemplates(settings: EnforcedWidgetSettings) {
+  const { expandedTileSettings } = settings.features
+  const {
+    useDefaultExpandedTileStyles,
+    useDefaultProductStyles,
+    useDefaultAddToCartStyles,
+    useDefaultExpandedTileTemplates,
+    defaultFont,
+    useDefaultSwiperStyles
+  } = expandedTileSettings
+
   if (settings.features.loadExpandedTileSlider) {
     loadExpandedTileTemplates({
-      useDefaultExpandedTileStyles: !customersSettingsHasComponentStyles("expanded-tiles", settings),
-      useDefaultProductStyles: !customersSettingsHasComponentStyles("ugc-products", settings),
-      useDefaultAddToCartStyles: !customersSettingsHasComponentStyles("add-to-cart", settings),
-      useDefaultExpandedTileTemplates: !customersSettingsHasComponentTemplate("expanded-tiles", settings),
-      defaultFont: settings.font ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
-      useDefaultSwiperStyles: settings.features.useDefaultExpandedTileSwiperStyles
+      useDefaultExpandedTileStyles: useDefaultExpandedTileStyles,
+      useDefaultProductStyles: useDefaultProductStyles,
+      useDefaultAddToCartStyles: useDefaultAddToCartStyles,
+      useDefaultExpandedTileTemplates: useDefaultExpandedTileTemplates,
+      defaultFont: defaultFont ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
+      useDefaultSwiperStyles: useDefaultSwiperStyles
     })
   }
 
