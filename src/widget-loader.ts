@@ -28,7 +28,7 @@ import {
   renderMasonryLayout
 } from "./libs/extensions/masonry/masonry.extension"
 import { loadAllUnloadedTiles } from "./libs/extensions/swiper/loader.extension"
-import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
+import { ExpandedTileSettings, loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 
 declare const sdk: ISdk
 
@@ -42,6 +42,7 @@ interface Features {
   hideBrokenImages: boolean
   loadExpandedTileSlider: boolean
   loadTileContent: boolean
+  expandedTileSettings: ExpandedTileSettings
 }
 
 interface Extensions {
@@ -68,17 +69,18 @@ interface TemplateStyle {
 }
 
 interface CustomTemplate {
-  style: TemplateStyle
-  template: Template
+  styles?: TemplateStyle[]
+  template?: Template
 }
 
-type Templates = Record<string, Partial<CustomTemplate>>
+type Templates = Record<string, CustomTemplate>
 
 export interface MyWidgetSettings {
   features: Partial<Features>
   callbacks: Partial<Callbacks>
   extensions: Partial<Extensions>
   templates: Partial<Templates>
+  font?: string
 }
 
 export interface EnforcedWidgetSettings {
@@ -185,6 +187,14 @@ function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSe
       hideBrokenImages: true,
       loadExpandedTileSlider: true,
       loadTileContent: true,
+      expandedTileSettings: {
+        useDefaultExpandedTileStyles: true,
+        useDefaultProductStyles: true,
+        useDefaultAddToCartStyles: true,
+        useDefaultExpandedTileTemplates: true,
+        useDefaultSwiperStyles: true,
+        defaultFont: settings.font ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+      },
       ...settings.features
     },
     callbacks: {
@@ -280,8 +290,25 @@ export function initialiseFeatures(settings: MyWidgetSettings) {
 }
 
 export function loadTemplates(settings: EnforcedWidgetSettings) {
+  const { expandedTileSettings } = settings.features
+  const {
+    useDefaultExpandedTileStyles,
+    useDefaultProductStyles,
+    useDefaultAddToCartStyles,
+    useDefaultExpandedTileTemplates,
+    defaultFont,
+    useDefaultSwiperStyles
+  } = expandedTileSettings
+
   if (settings.features.loadExpandedTileSlider) {
-    loadExpandedTileTemplates()
+    loadExpandedTileTemplates({
+      useDefaultExpandedTileStyles: useDefaultExpandedTileStyles,
+      useDefaultProductStyles: useDefaultProductStyles,
+      useDefaultAddToCartStyles: useDefaultAddToCartStyles,
+      useDefaultExpandedTileTemplates: useDefaultExpandedTileTemplates,
+      defaultFont: defaultFont,
+      useDefaultSwiperStyles: useDefaultSwiperStyles
+    })
   }
 
   if (settings.templates && Object.keys(settings.templates).length) {
@@ -290,17 +317,19 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
         return
       }
 
-      const { style, template } = customTemplate
+      const { styles, template } = customTemplate
 
-      if (style) {
-        const { css, global } = style
+      if (styles) {
+        styles.forEach(style => {
+          const { css, global } = style
 
-        if (global) {
-          const randomKey = Math.random().toString(36).substring(7)
-          sdk.addSharedCssCustomStyles(randomKey, css, [sdk.placement.getWidgetId(), key])
-        } else {
-          sdk.addCSSToComponent(css, key)
-        }
+          if (global) {
+            const randomKey = Math.random().toString(36).substring(7)
+            sdk.addSharedCssCustomStyles(randomKey, css, [sdk.placement.getWidgetId(), key])
+          } else {
+            sdk.addCSSToComponent(css, key)
+          }
+        })
       }
 
       if (template) {

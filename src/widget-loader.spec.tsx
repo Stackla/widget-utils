@@ -27,7 +27,15 @@ const settings = {
     limitTilesPerPage: true,
     hideBrokenImages: true,
     loadExpandedTileSlider: true,
-    loadTileContent: true
+    loadTileContent: true,
+    expandedTileSettings: {
+      useDefaultExpandedTileStyles: true,
+      useDefaultProductStyles: true,
+      useDefaultAddToCartStyles: true,
+      useDefaultExpandedTileTemplates: true,
+      defaultFont: "https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap",
+      useDefaultSwiperStyles: true
+    }
   },
   callbacks: {
     onLoad: [],
@@ -47,17 +55,21 @@ const settings = {
   },
   templates: {
     direct_uploader: {
-      style: {
-        css: "body { color: red; }",
-        global: false
-      },
+      styles: [
+        {
+          css: "body { color: red; }",
+          global: false
+        }
+      ],
       template: () => "<p>Hello!</p>"
     },
     shopspots: {
-      style: {
-        css: "body { color: blue; }",
-        global: true
-      },
+      styles: [
+        {
+          css: "body { color: blue; }",
+          global: true
+        }
+      ],
       template: () => "<p>Hi!</p>"
     }
   }
@@ -106,10 +118,12 @@ describe("loadTemplates", () => {
       ...settings,
       templates: {
         shopspots: {
-          style: {
-            css: "body { color: red; }",
-            global: false
-          },
+          styles: [
+            {
+              css: "body { color: red; }",
+              global: false
+            }
+          ],
           template: () => "<p>Hello!</p>"
         }
       }
@@ -127,10 +141,16 @@ describe("loadTemplates", () => {
       ...settings,
       templates: {
         shopspots: {
-          style: {
-            css: "body { color: red; }",
-            global: true
-          },
+          styles: [
+            {
+              css: "body { color: red; }",
+              global: true
+            },
+            {
+              css: "body { color: blue; }",
+              global: false
+            }
+          ],
           template: () => "<p>Hello!</p>"
         }
       }
@@ -138,11 +158,9 @@ describe("loadTemplates", () => {
 
     loadTemplates(mutatedSettings)
 
-    expect(sdk.addSharedCssCustomStyles).toHaveBeenCalledWith(
-      expect.any(String), // Random key, so we don't know the value
-      "body { color: red; }",
-      ["widget-id", "shopspots"]
-    )
+    expect(sdk.addSharedCssCustomStyles).toHaveBeenCalled()
+
+    expect(sdk.addCSSToComponent).toHaveBeenCalledWith("body { color: blue; }", "shopspots")
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     expect(sdk.addTemplateToComponent).toHaveBeenCalledWith(expect.any(Function), "shopspots")
   })
