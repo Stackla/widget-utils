@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.3
+
+### Patch Changes
+
+- cfc7f04: Add support for multiple css styles
+
 ## 0.1.2
 
 ### Patch Changes
