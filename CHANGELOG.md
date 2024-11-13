@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.6
+
+### Patch Changes
+
+- e076003: Add documentation & all callbacks
+
 ## 0.1.5
 
 ### Patch Changes
