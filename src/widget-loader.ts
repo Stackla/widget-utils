@@ -68,7 +68,7 @@ interface TemplateStyle {
 }
 
 interface CustomTemplate {
-  style: TemplateStyle
+  styles: TemplateStyle[]
   template: Template
 }
 
@@ -290,17 +290,19 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
         return
       }
 
-      const { style, template } = customTemplate
+      const { styles, template } = customTemplate
 
-      if (style) {
-        const { css, global } = style
+      if (styles) {
+        styles.forEach(style => {
+          const { css, global } = style
 
-        if (global) {
-          const randomKey = Math.random().toString(36).substring(7)
-          sdk.addSharedCssCustomStyles(randomKey, css, [sdk.placement.getWidgetId(), key])
-        } else {
-          sdk.addCSSToComponent(css, key)
-        }
+          if (global) {
+            const randomKey = Math.random().toString(36).substring(7)
+            sdk.addSharedCssCustomStyles(randomKey, css, [sdk.placement.getWidgetId(), key])
+          } else {
+            sdk.addCSSToComponent(css, key)
+          }
+        })
       }
 
       if (template) {
