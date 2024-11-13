@@ -22,13 +22,16 @@ env:
 
 jobs:
   release:
+    concurrency:
+      group: releases
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 20
-      - name: Install & Build
+      - name: Build & Release
         run: |
           npm install
           npm run build
