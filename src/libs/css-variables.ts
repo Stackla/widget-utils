@@ -2,7 +2,7 @@ import type { ISdk, Style } from "../"
 
 declare const sdk: ISdk
 
-export function getTileSizeByWidget(): string {
+function getTileSize() {
   const style = sdk.getStyleConfig()
   const { inline_tile_size } = style
 
@@ -19,7 +19,13 @@ export function getTileSizeByWidget(): string {
   return tileSizes[inline_tile_size]
 }
 
-export function trimHashValuesFromObject(obj: Style): Record<string, string> {
+export function getTileSizeByWidget() {
+  const sizeWithUnit = getTileSize()
+  const sizeUnitless = sizeWithUnit.replace("px", "")
+  return { "--tile-size": sizeWithUnit, "--tile-size-unitless": sizeUnitless }
+}
+
+export function trimHashValuesFromObject(obj: Style) {
   return Object.entries(obj).reduce((acc: Record<string, string>, [key, value]) => {
     acc[key] = typeof value === "string" && value.startsWith("#") ? value.replace("#", "") : value
     return acc
@@ -73,7 +79,7 @@ export default function getCSSVariables(): string {
     "--cta-button-font-color": `#ffffff`,
     "--cta-button-font-size": `18px`,
     "--expanded-tile-border-radius": `${expanded_tile_border_radius}px`,
-    "--tile-size": getTileSizeByWidget(),
+    ...getTileSizeByWidget(),
     "--tile-tag-background": `#${tile_tag_background}`
   }
 

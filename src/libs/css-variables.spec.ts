@@ -16,18 +16,18 @@ describe("Widget Functions", () => {
       sdk.getStyleConfig.mockReturnValue({})
 
       const result = getTileSizeByWidget()
-      expect(result).toBe("265.5px")
+      expect(result).toEqual({ "--tile-size": "265.5px", "--tile-size-unitless": "265.5" })
     })
 
     it("should return correct tile size based on inline_tile_size", () => {
       sdk.getStyleConfig.mockReturnValue({ inline_tile_size: "small" })
-      expect(getTileSizeByWidget()).toBe("173px")
+      expect(getTileSizeByWidget()).toEqual({ "--tile-size": "173px", "--tile-size-unitless": "173" })
 
       sdk.getStyleConfig.mockReturnValue({ inline_tile_size: "medium" })
-      expect(getTileSizeByWidget()).toBe("265.5px")
+      expect(getTileSizeByWidget()).toEqual({ "--tile-size": "265.5px", "--tile-size-unitless": "265.5" })
 
       sdk.getStyleConfig.mockReturnValue({ inline_tile_size: "large" })
-      expect(getTileSizeByWidget()).toBe("400px")
+      expect(getTileSizeByWidget()).toEqual({ "--tile-size": "400px", "--tile-size-unitless": "400" })
     })
   })
   // Tests for getCSSVariables

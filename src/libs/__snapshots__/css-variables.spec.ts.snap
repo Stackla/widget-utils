@@ -23,5 +23,6 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --cta-button-font-size: 18px;
 --expanded-tile-border-radius: 5px;
 --tile-size: 265.5px;
+--tile-size-unitless: 265.5;
 --tile-tag-background: #D6D4D5;"
 `;
