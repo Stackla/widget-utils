@@ -35,10 +35,29 @@ function initializeSwiperForExpandedTiles(initialTileId: string) {
         beforeInit: (swiper: Swiper) => {
           const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId) : 0
           swiper.slideToLoop(tileIndex, 0, false)
+        },
+        navigationNext: (swiper: Swiper) => {
+          controlVideoPlayback(swiper)
+        },
+        navigationPrev: (swiper: Swiper) => {
+          controlVideoPlayback(swiper)
         }
       }
     }
   })
+}
+
+function controlVideoPlayback(swiper: Swiper) {
+  const activeElement = getSwiperVideoElement(swiper, swiper.realIndex)
+  const previousElement = getSwiperVideoElement(swiper, swiper.previousIndex)
+
+  activeElement?.play()
+  previousElement?.pause()
+}
+
+function getSwiperVideoElement(swiper: Swiper, index: number) {
+  const element = swiper.slides[index]
+  return element.querySelector<HTMLVideoElement>(".panel .panel-left .video-content-wrapper video")
 }
 
 export function onTileExpand(tileId: string) {
