@@ -42,6 +42,7 @@ interface Features {
   hideBrokenImages: boolean
   loadExpandedTileSlider: boolean
   loadTileContent: boolean
+  useDefaultExpandedTileSwiperStyles: boolean
 }
 
 interface Extensions {
@@ -86,6 +87,7 @@ export interface EnforcedWidgetSettings {
   callbacks: Callbacks
   extensions: Extensions
   templates: Partial<Templates>
+  font?: string
 }
 
 export function loadListeners(settings: EnforcedWidgetSettings) {
@@ -185,6 +187,7 @@ function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSe
       hideBrokenImages: true,
       loadExpandedTileSlider: true,
       loadTileContent: true,
+      useDefaultExpandedTileSwiperStyles: true,
       ...settings.features
     },
     callbacks: {
@@ -279,9 +282,24 @@ export function initialiseFeatures(settings: MyWidgetSettings) {
   return settings
 }
 
+export function customersSettingsHasComponentStyles(component: string, settings: MyWidgetSettings) {
+  return settings.templates[component]?.styles?.length
+}
+
+export function customersSettingsHasComponentTemplate(component: string, settings: MyWidgetSettings) {
+  return settings.templates[component]?.template
+}
+
 export function loadTemplates(settings: EnforcedWidgetSettings) {
   if (settings.features.loadExpandedTileSlider) {
-    loadExpandedTileTemplates()
+    loadExpandedTileTemplates({
+      useDefaultExpandedTileStyles: !customersSettingsHasComponentStyles("expanded-tiles", settings),
+      useDefaultProductStyles: !customersSettingsHasComponentStyles("ugc-products", settings),
+      useDefaultAddToCartStyles: !customersSettingsHasComponentStyles("add-to-cart", settings),
+      useDefaultExpandedTileTemplates: !customersSettingsHasComponentTemplate("expanded-tiles", settings),
+      defaultFont: settings.font ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
+      useDefaultSwiperStyles: settings.features.useDefaultExpandedTileSwiperStyles
+    })
   }
 
   if (settings.templates && Object.keys(settings.templates).length) {
