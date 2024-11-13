@@ -24,7 +24,7 @@ jobs:
   release:
     concurrency:
       group: releases
-      cancel-in-progress: false
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
