@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.5
+
+### Patch Changes
+
+- e8152c4: Ensure videos do not autoplay
+
 ## 0.1.4
 
 ### Patch Changes
