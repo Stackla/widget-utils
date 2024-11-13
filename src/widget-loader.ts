@@ -3,23 +3,10 @@ import {
   addCSSVariablesToPlacement,
   addLoadMoreButtonFeature,
   addTilesPerPageFeature,
-  Callback,
-  EventCallback,
   loadExpandedTileFeature,
   loadTitle,
-  loadWidgetIsEnabled,
-  registerExpandedTileCrossSellersRendered,
-  registerExpandedTileRenderedListener,
-  registerLoadListener,
-  registerResizeListener,
-  registerTileBgImageError,
-  registerTileBgImgRenderComplete,
-  registerTileClosedListener,
-  registerTileExpandListener,
-  registerTilesUpdated,
-  registerWidgetInitComplete
+  loadWidgetIsEnabled
 } from "./libs"
-import { onExpandedTileCrossSellersRendered } from "./libs/components/expanded-tile-swiper/product-recs-swiper.loader"
 import getCSSVariables from "./libs/css-variables"
 import { ISdk, Template } from "./types"
 import {
@@ -29,6 +16,7 @@ import {
 } from "./libs/extensions/masonry/masonry.extension"
 import { loadAllUnloadedTiles } from "./libs/extensions/swiper/loader.extension"
 import { ExpandedTileSettings, loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
+import { callbackDefaults, Callbacks, loadListeners } from "./events"
 
 declare const sdk: ISdk
 
@@ -48,19 +36,6 @@ interface Features {
 interface Extensions {
   swiper: boolean
   masonry: boolean
-}
-
-interface Callbacks {
-  resize: Callback[]
-  onLoad: Callback[]
-  onExpandTile: Callback[]
-  onTileClose: Callback[]
-  onTileRendered: Callback[]
-  onTilesUpdated: Callback[]
-  onCrossSellersRendered: Callback[]
-  widgetInitComplete: Callback[]
-  tileBgImgRenderComplete: Callback[]
-  tileBgImageError: EventCallback[]
 }
 
 interface TemplateStyle {
@@ -90,65 +65,8 @@ export interface EnforcedWidgetSettings {
   templates: Partial<Templates>
 }
 
-export function loadListeners(settings: EnforcedWidgetSettings) {
-  const {
-    onLoad,
-    onExpandTile,
-    onTileClose,
-    onTileRendered,
-    onCrossSellersRendered,
-    onTilesUpdated,
-    widgetInitComplete,
-    tileBgImgRenderComplete,
-    tileBgImageError,
-    resize
-  } = settings.callbacks
-
-  if (onLoad && onLoad.length) {
-    onLoad.forEach(event => registerLoadListener(event))
-  }
-
-  if (onExpandTile && onExpandTile.length) {
-    onExpandTile.forEach(event => registerExpandedTileRenderedListener(event))
-  }
-
-  if (onTileClose && onTileClose.length) {
-    onTileClose.forEach(event => registerTileClosedListener(event))
-  }
-
-  if (onTileRendered && onTileRendered.length) {
-    onTileRendered.forEach(event => registerTileExpandListener(event))
-  }
-
-  if (onCrossSellersRendered && onCrossSellersRendered.length) {
-    onCrossSellersRendered.forEach(event => registerExpandedTileCrossSellersRendered(event))
-  }
-
-  if (widgetInitComplete && widgetInitComplete.length) {
-    widgetInitComplete.forEach(event => registerWidgetInitComplete(event))
-  }
-
-  if (tileBgImgRenderComplete && tileBgImgRenderComplete.length) {
-    tileBgImgRenderComplete.forEach(event => registerTileBgImgRenderComplete(event))
-  }
-
-  if (tileBgImageError && tileBgImageError.length) {
-    tileBgImageError.forEach(event => registerTileBgImageError(event))
-  }
-
-  if (resize && resize.length) {
-    resize.forEach(event => registerResizeListener(event))
-  }
-
-  if (onTilesUpdated && onTilesUpdated.length) {
-    onTilesUpdated.forEach(event => registerTilesUpdated(event))
-  }
-
-  registerExpandedTileCrossSellersRendered(onExpandedTileCrossSellersRendered)
-}
-
 function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
-  settings.callbacks.widgetInitComplete.push(() => {
+  settings.callbacks.onWidgetInitComplete.push(() => {
     loadAllUnloadedTiles()
     setTimeout(() => renderMasonryLayout(), 1000)
   })
@@ -157,18 +75,18 @@ function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
     renderMasonryLayout()
   })
 
-  settings.callbacks.tileBgImgRenderComplete.push(() => {
+  settings.callbacks.onTileBgImgRenderComplete.push(() => {
     handleAllTileImageRendered()
     setTimeout(handleAllTileImageRendered, 1000)
   })
 
-  settings.callbacks.tileBgImageError.push((event: Event) => {
+  settings.callbacks.onTileBgImageError.push((event: Event) => {
     const customEvent = event as CustomEvent
     const tileWithError = customEvent.detail.data.target as HTMLElement
     handleTileImageError(tileWithError)
   })
 
-  settings.callbacks.resize!.push(() => {
+  settings.callbacks.onResize!.push(() => {
     renderMasonryLayout(false, true)
   })
 
@@ -198,16 +116,7 @@ function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSe
       ...settings.features
     },
     callbacks: {
-      onLoad: [],
-      onExpandTile: [],
-      onTileClose: [],
-      onTileRendered: [],
-      onCrossSellersRendered: [],
-      onTilesUpdated: [],
-      widgetInitComplete: [],
-      tileBgImgRenderComplete: [],
-      tileBgImageError: [],
-      resize: [],
+      ...callbackDefaults,
       ...settings.callbacks
     },
     extensions: {

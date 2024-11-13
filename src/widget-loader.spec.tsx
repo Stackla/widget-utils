@@ -1,3 +1,4 @@
+import { callbackDefaults } from "./events"
 import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 import { loadTemplates } from "./widget-loader"
 
@@ -38,16 +39,7 @@ const settings = {
     }
   },
   callbacks: {
-    onLoad: [],
-    onExpandTile: [],
-    onTileClose: [],
-    onTileRendered: [],
-    onCrossSellersRendered: [],
-    onTilesUpdated: [],
-    widgetInitComplete: [],
-    tileBgImgRenderComplete: [],
-    tileBgImageError: [],
-    resize: []
+    ...callbackDefaults
   },
   extensions: {
     swiper: false,
