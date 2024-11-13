@@ -246,7 +246,7 @@ function RenderFacebookFallbackTemplate({ tile }: { tile: Tile }) {
 
 function RenderYoutubeTemplate({ tile }: { tile: Tile }) {
   const youtubeId = tile.youtube_id as string
-  const src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1`
+  const src = `https://www.youtube.com/embed/${youtubeId}?mute=1`
   const title = tile.title as string
 
   return (
