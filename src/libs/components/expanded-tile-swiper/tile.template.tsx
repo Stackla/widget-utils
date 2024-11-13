@@ -182,7 +182,6 @@ function RenderVideoTemplate({ tile }: { tile: Tile }) {
       tileid={tile.id}
       class="video-content"
       controls
-      autoplay
       preload="none"
       playsinline="playsinline"
       oncanplay="this.muted=true">
@@ -199,8 +198,7 @@ function RenderTwitterTemplate({ tile }: { tile: Tile }) {
       tileid={tile.id}
       class="video-content"
       controls
-      autoplay
-      preload="auto"
+      preload="none"
       playsinline="playsinline"
       oncanplay="this.muted=true">
       <source src={standard_resolution.url} />
@@ -258,7 +256,7 @@ function RenderYoutubeTemplate({ tile }: { tile: Tile }) {
       src={src}
       title={title}
       frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       referrerpolicy="strict-origin-when-cross-origin"
       allowfullscreen></iframe>
   )
