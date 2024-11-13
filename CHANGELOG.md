@@ -1,5 +1,12 @@
 # @stackla/widget-utils
 
+## 0.1.4
+
+### Patch Changes
+
+- 970ab6e: adding new css variable for unitless tile-size
+- def889e: Autoplay should be switched off by default, videos should only play when a tile is reached (needs future commit)
+
 ## 0.1.3
 
 ### Patch Changes
