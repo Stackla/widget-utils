@@ -306,7 +306,7 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
       useDefaultProductStyles: useDefaultProductStyles,
       useDefaultAddToCartStyles: useDefaultAddToCartStyles,
       useDefaultExpandedTileTemplates: useDefaultExpandedTileTemplates,
-      defaultFont: defaultFont ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
+      defaultFont: defaultFont,
       useDefaultSwiperStyles: useDefaultSwiperStyles
     })
   }
