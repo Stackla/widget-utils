@@ -3,23 +3,10 @@ import {
   addCSSVariablesToPlacement,
   addLoadMoreButtonFeature,
   addTilesPerPageFeature,
-  Callback,
-  EventCallback,
   loadExpandedTileFeature,
   loadTitle,
-  loadWidgetIsEnabled,
-  registerExpandedTileCrossSellersRendered,
-  registerExpandedTileRenderedListener,
-  registerLoadListener,
-  registerResizeListener,
-  registerTileBgImageError,
-  registerTileBgImgRenderComplete,
-  registerTileClosedListener,
-  registerTileExpandListener,
-  registerTilesUpdated,
-  registerWidgetInitComplete
+  loadWidgetIsEnabled
 } from "./libs"
-import { onExpandedTileCrossSellersRendered } from "./libs/components/expanded-tile-swiper/product-recs-swiper.loader"
 import getCSSVariables from "./libs/css-variables"
 import { ISdk, Template } from "./types"
 import {
@@ -29,38 +16,73 @@ import {
 } from "./libs/extensions/masonry/masonry.extension"
 import { loadAllUnloadedTiles } from "./libs/extensions/swiper/loader.extension"
 import { ExpandedTileSettings, loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
+import { callbackDefaults, Callbacks, loadListeners } from "./events"
 
 declare const sdk: ISdk
 
 interface Features {
+  /**
+   * Show the title of the widget
+   * @default true
+   */
   showTitle: boolean
+  /**
+   * Allow UGC to handle image preloading
+   * @default true
+   */
   preloadImages: boolean
+  /**
+   * Disable the widget if it is not enabled
+   * @default true
+   */
   disableWidgetIfNotEnabled: boolean
+  /**
+   * Automatically add new tiles to the widget
+   * @default true
+   */
   addNewTilesAutomatically: boolean
+  /**
+   * Handle the load more button
+   * @default true
+   */
   handleLoadMore: boolean
+  /**
+   * Limit the number of tiles per page
+   * @default true
+   */
   limitTilesPerPage: boolean
+  /**
+   * Hide broken images
+   * @default true
+   */
   hideBrokenImages: boolean
+  /**
+   * Load the expanded tile slider
+   * @default true
+   */
   loadExpandedTileSlider: boolean
+  /**
+   * Load the tile content web component
+   * @default true
+   */
   loadTileContent: boolean
+  /**
+   * Expanded tile settings
+   */
   expandedTileSettings: ExpandedTileSettings
 }
 
 interface Extensions {
+  /**
+   * Load the Swiper extension for inline tiles
+   * @default false
+   * */
   swiper: boolean
+  /**
+   * Load the Masonry extension for inline tiles
+   * @default false
+   * */
   masonry: boolean
-}
-
-interface Callbacks {
-  resize: Callback[]
-  onLoad: Callback[]
-  onExpandTile: Callback[]
-  onTileClose: Callback[]
-  onTileRendered: Callback[]
-  onTilesUpdated: Callback[]
-  onCrossSellersRendered: Callback[]
-  widgetInitComplete: Callback[]
-  tileBgImgRenderComplete: Callback[]
-  tileBgImageError: EventCallback[]
 }
 
 interface TemplateStyle {
@@ -80,6 +102,10 @@ export interface MyWidgetSettings {
   callbacks: Partial<Callbacks>
   extensions: Partial<Extensions>
   templates: Partial<Templates>
+  /**
+   * Default font - can be a google font link or an external font link
+   * @default "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+   */
   font?: string
 }
 
@@ -90,65 +116,8 @@ export interface EnforcedWidgetSettings {
   templates: Partial<Templates>
 }
 
-export function loadListeners(settings: EnforcedWidgetSettings) {
-  const {
-    onLoad,
-    onExpandTile,
-    onTileClose,
-    onTileRendered,
-    onCrossSellersRendered,
-    onTilesUpdated,
-    widgetInitComplete,
-    tileBgImgRenderComplete,
-    tileBgImageError,
-    resize
-  } = settings.callbacks
-
-  if (onLoad && onLoad.length) {
-    onLoad.forEach(event => registerLoadListener(event))
-  }
-
-  if (onExpandTile && onExpandTile.length) {
-    onExpandTile.forEach(event => registerExpandedTileRenderedListener(event))
-  }
-
-  if (onTileClose && onTileClose.length) {
-    onTileClose.forEach(event => registerTileClosedListener(event))
-  }
-
-  if (onTileRendered && onTileRendered.length) {
-    onTileRendered.forEach(event => registerTileExpandListener(event))
-  }
-
-  if (onCrossSellersRendered && onCrossSellersRendered.length) {
-    onCrossSellersRendered.forEach(event => registerExpandedTileCrossSellersRendered(event))
-  }
-
-  if (widgetInitComplete && widgetInitComplete.length) {
-    widgetInitComplete.forEach(event => registerWidgetInitComplete(event))
-  }
-
-  if (tileBgImgRenderComplete && tileBgImgRenderComplete.length) {
-    tileBgImgRenderComplete.forEach(event => registerTileBgImgRenderComplete(event))
-  }
-
-  if (tileBgImageError && tileBgImageError.length) {
-    tileBgImageError.forEach(event => registerTileBgImageError(event))
-  }
-
-  if (resize && resize.length) {
-    resize.forEach(event => registerResizeListener(event))
-  }
-
-  if (onTilesUpdated && onTilesUpdated.length) {
-    onTilesUpdated.forEach(event => registerTilesUpdated(event))
-  }
-
-  registerExpandedTileCrossSellersRendered(onExpandedTileCrossSellersRendered)
-}
-
 function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
-  settings.callbacks.widgetInitComplete.push(() => {
+  settings.callbacks.onWidgetInitComplete.push(() => {
     loadAllUnloadedTiles()
     setTimeout(() => renderMasonryLayout(), 1000)
   })
@@ -157,18 +126,18 @@ function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
     renderMasonryLayout()
   })
 
-  settings.callbacks.tileBgImgRenderComplete.push(() => {
+  settings.callbacks.onTileBgImgRenderComplete.push(() => {
     handleAllTileImageRendered()
     setTimeout(handleAllTileImageRendered, 1000)
   })
 
-  settings.callbacks.tileBgImageError.push((event: Event) => {
+  settings.callbacks.onTileBgImageError.push((event: Event) => {
     const customEvent = event as CustomEvent
     const tileWithError = customEvent.detail.data.target as HTMLElement
     handleTileImageError(tileWithError)
   })
 
-  settings.callbacks.resize!.push(() => {
+  settings.callbacks.onResize!.push(() => {
     renderMasonryLayout(false, true)
   })
 
@@ -198,16 +167,7 @@ function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSe
       ...settings.features
     },
     callbacks: {
-      onLoad: [],
-      onExpandTile: [],
-      onTileClose: [],
-      onTileRendered: [],
-      onCrossSellersRendered: [],
-      onTilesUpdated: [],
-      widgetInitComplete: [],
-      tileBgImgRenderComplete: [],
-      tileBgImageError: [],
-      resize: [],
+      ...callbackDefaults,
       ...settings.callbacks
     },
     extensions: {

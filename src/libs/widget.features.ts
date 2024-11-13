@@ -1,11 +1,11 @@
-import type { ISdk, Tile } from "../"
-import { loadExpandSettingComponents } from "./widget.components"
 import {
   registerDefaultClickEvents,
-  registerExpandedTileRenderedListener,
-  registerTileClosedListener,
-  registerTileExpandListener
-} from "./tile.listeners"
+  registerGenericEventListener,
+  registerTileExpandListener,
+  type ISdk,
+  type Tile
+} from "../"
+import { loadExpandSettingComponents } from "./widget.components"
 import { isEnabled } from "./widget.layout"
 import { useInfiniteScroller } from "../hooks"
 
@@ -110,8 +110,8 @@ export function loadExpandedTileFeature() {
   if (click_through_url === "[EXPAND]") {
     loadExpandSettingComponents()
     registerTileExpandListener(onTileExpand)
-    registerTileClosedListener(onTileClosed)
-    registerExpandedTileRenderedListener(onTileRendered)
+    registerGenericEventListener("tileClose", onTileClosed)
+    registerGenericEventListener("tileRendered", onTileRendered)
   } else if (click_through_url === "[ORIGINAL_URL]" || /^https?:\/\/.+/.test(click_through_url ?? "")) {
     registerDefaultClickEvents()
   }
