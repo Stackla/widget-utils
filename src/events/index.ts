@@ -157,56 +157,250 @@ export const callbackDefaults = {
   onTileExpandCrossSellersRendered: []
 }
 
+/**
+ * Interface representing various callback events.
+ */
 export interface Callbacks {
+  /**
+   * Called when the window is resized.
+   */
   onResize: Callback[]
+
+  /**
+   * Called when the widget is loaded.
+   */
   onLoad: Callback[]
+
+  /**
+   * Called when a tile is expanded.
+   */
   onExpandTile: Callback[]
+
+  /**
+   * Called when a tile is closed.
+   */
   onTileClose: Callback[]
+
+  /**
+   * Called when a tile is rendered.
+   */
   onTileRendered: Callback[]
+
+  /**
+   * Called when tiles are updated.
+   */
   onTilesUpdated: Callback[]
+
+  /**
+   * Called when cross-sellers are rendered.
+   */
   onCrossSellersRendered: Callback[]
+
+  /**
+   * Called when the widget initialization is complete.
+   */
   onWidgetInitComplete: Callback[]
+
+  /**
+   * Called when the background image of a tile is rendered.
+   */
   onTileBgImgRenderComplete: Callback[]
+
+  /**
+   * Called when there is an error rendering the background image of a tile.
+   */
   onTileBgImageError: EventCallback[]
+
+  /**
+   * Called when a product action is clicked.
+   */
   onProductActionClick: Callback[]
+
+  /**
+   * Called when an expanded tile image is loaded.
+   */
   onExpandedTileImageLoad: Callback[]
+
+  /**
+   * Called when an expanded tile is opened.
+   */
   onExpandedTileOpen: Callback[]
+
+  /**
+   * Called when an expanded tile is closed.
+   */
   onExpandedTileClose: Callback[]
+
+  /**
+   * Called before an expanded tile image is resized.
+   */
   onBeforeExpandedTileImageResize: Callback[]
+
+  /**
+   * Called before an expanded tile is closed.
+   */
   onBeforeExpandedTileClose: Callback[]
+
+  /**
+   * Called before an expanded tile is opened.
+   */
   onBeforeExpandedTileOpen: Callback[]
+
+  /**
+   * Called when a shopspot flyout is expanded.
+   */
   onShopspotFlyoutExpand: Callback[]
+
+  /**
+   * Called when a shopspot is toggled.
+   */
   onShopspotToggle: Callback[]
+
+  /**
+   * Called when a shopspot is opened.
+   */
   onShopspotOpen: Callback[]
+
+  /**
+   * Called when a shopspot action is clicked.
+   */
   onShopspotActionClick: Callback[]
+
+  /**
+   * Called when a user clicks.
+   */
   onUserClick: Callback[]
+
+  /**
+   * Called when a share button is clicked.
+   */
   onShareClick: Callback[]
+
+  /**
+   * Called when an impression is made.
+   */
   onImpression: Callback[]
+
+  /**
+   * Called when the load more button is clicked.
+   */
   onLoadMore: Callback[]
+
+  /**
+   * Called when a like button is clicked.
+   */
   onLike: Callback[]
+
+  /**
+   * Called when a dislike button is clicked.
+   */
   onDislike: Callback[]
+
+  /**
+   * Called when an element is hovered over.
+   */
   onHover: Callback[]
+
+  /**
+   * Called when a product is clicked.
+   */
   onProductClick: Callback[]
+
+  /**
+   * Called when a product pin is clicked.
+   */
   onProductPinClick: Callback[]
+
+  /**
+   * Called when a product user is clicked.
+   */
   onProductUserClick: Callback[]
+
+  /**
+   * Called when a shopspot flyout is triggered.
+   */
   onShopspotFlyout: Callback[]
+
+  /**
+   * Called when tile metadata is loaded.
+   */
   onTileMetadataLoaded: Callback[]
+
+  /**
+   * Called when tile data is set.
+   */
   onTileDataSet: Callback[]
+
+  /**
+   * Called when server side rendered HTML is appended to the page.
+   */
   onHtmlRendered: Callback[]
+
+  /**
+   * Called when user's JavaScript is rendered.
+   */
   onJsRendered: Callback[]
+
+  /**
+   * Called when global variables are loaded.
+   */
   onGlobalsLoaded: Callback[]
+
+  /**
+   * Called when a product page is loaded.
+   */
   onProductPageLoaded: Callback[]
+
+  /**
+   * Called when products are updated.
+   */
   onProductsUpdated: Callback[]
+
+  /**
+   * Called when adding to cart fails.
+   */
   onAddToCartFailed: Callback[]
+
+  /**
+   * Called when an email tile is loaded.
+   */
   onEmailTileLoad: Callback[]
+
+  /**
+   * Called when an email tile is clicked.
+   */
   onEmailTileClick: Callback[]
+
+  /**
+   * Called when a like button is clicked.
+   */
   onLikeClick: Callback[]
+
+  /**
+   * Called when a dislike button is clicked.
+   */
   onDislikeClick: Callback[]
+
+  /**
+   * Called when an expanded tile is rendered.
+   */
   onTileExpandRendered: Callback[]
+
+  /**
+   * Called when product recommendations are rendered on an expanded tile.
+   */
   onTileExpandProductRecsRendered: Callback[]
+
+  /**
+   * Called when cross-sellers are rendered on an expanded tile.
+   */
   onTileExpandCrossSellersRendered: Callback[]
 }
 
+/**
+ * Registers event listeners for the widget.
+ * @param settings
+ */
 export function loadListeners(settings: EnforcedWidgetSettings) {
   const {
     onLoad,

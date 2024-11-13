@@ -21,20 +21,67 @@ import { callbackDefaults, Callbacks, loadListeners } from "./events"
 declare const sdk: ISdk
 
 interface Features {
+  /**
+   * Show the title of the widget
+   * @default true
+   */
   showTitle: boolean
+  /**
+   * Allow UGC to handle image preloading
+   * @default true
+   */
   preloadImages: boolean
+  /**
+   * Disable the widget if it is not enabled
+   * @default true
+   */
   disableWidgetIfNotEnabled: boolean
+  /**
+   * Automatically add new tiles to the widget
+   * @default true
+   */
   addNewTilesAutomatically: boolean
+  /**
+   * Handle the load more button
+   * @default true
+   */
   handleLoadMore: boolean
+  /**
+   * Limit the number of tiles per page
+   * @default true
+   */
   limitTilesPerPage: boolean
+  /**
+   * Hide broken images
+   * @default true
+   */
   hideBrokenImages: boolean
+  /**
+   * Load the expanded tile slider
+   * @default true
+   */
   loadExpandedTileSlider: boolean
+  /**
+   * Load the tile content web component
+   * @default true
+   */
   loadTileContent: boolean
+  /**
+   * Expanded tile settings
+   */
   expandedTileSettings: ExpandedTileSettings
 }
 
 interface Extensions {
+  /**
+   * Load the Swiper extension for inline tiles
+   * @default false
+   * */
   swiper: boolean
+  /**
+   * Load the Masonry extension for inline tiles
+   * @default false
+   * */
   masonry: boolean
 }
 
@@ -55,6 +102,10 @@ export interface MyWidgetSettings {
   callbacks: Partial<Callbacks>
   extensions: Partial<Extensions>
   templates: Partial<Templates>
+  /**
+   * Default font - can be a google font link or an external font link
+   * @default "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+   */
   font?: string
 }
 
