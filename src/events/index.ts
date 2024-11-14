@@ -48,7 +48,7 @@ export const EMAIL_TILE_LOAD = "emailTileLoad"
 export const EMAIL_TILE_CLICK = "emailTileClick"
 export const LIKE_CLICK = "likeClick"
 export const DISLIKE_CLICK = "dislikeClick"
-export const EVENT_TILE_EXPAND_RENDERED = "tileExpandRendered"
+export const EVENT_TILE_EXPAND_RENDERED = "expandedTileRendered"
 export const EVENT_TILE_EXPAND_PROD_RECS_RENDERED = "tileExpandProductRecsRendered"
 export const EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED = "tileExpandCrossSellersRendered"
 export const EVENT_TILE_BG_IMG_ERROR = "tileBgImageError"
@@ -152,7 +152,6 @@ export const callbackDefaults = {
   onEmailTileClick: [],
   onLikeClick: [],
   onDislikeClick: [],
-  onTileExpandRendered: [],
   onTileExpandProductRecsRendered: [],
   onTileExpandCrossSellersRendered: []
 }
@@ -382,11 +381,6 @@ export interface Callbacks {
   onDislikeClick: Callback[]
 
   /**
-   * Called when an expanded tile is rendered.
-   */
-  onTileExpandRendered: Callback[]
-
-  /**
    * Called when product recommendations are rendered on an expanded tile.
    */
   onTileExpandProductRecsRendered: Callback[]
@@ -447,14 +441,13 @@ export function loadListeners(settings: EnforcedWidgetSettings) {
     onEmailTileClick,
     onLikeClick,
     onDislikeClick,
-    onTileExpandRendered,
     onTileExpandProductRecsRendered,
     onTileExpandCrossSellersRendered
   } = settings.callbacks
 
-  if (onLoad && onLoad.length) onLoad.forEach(event => registerGenericEventListener("load", event))
+  if (onLoad && onLoad.length) onLoad.forEach(event => registerGenericEventListener(EVENT_LOAD, event))
   if (onExpandTile && onExpandTile.length)
-    onExpandTile.forEach(event => registerGenericEventListener("expandedTileRendered", event))
+    onExpandTile.forEach(event => registerGenericEventListener(EVENT_TILE_EXPAND_RENDERED, event))
   if (onTileClose && onTileClose.length)
     onTileClose.forEach(event => registerGenericEventListener("onTileClose", event))
   if (onTileRendered && onTileRendered.length) onTileRendered.forEach(event => registerTileExpandListener(event))
@@ -463,85 +456,83 @@ export function loadListeners(settings: EnforcedWidgetSettings) {
   if (onWidgetInitComplete && onWidgetInitComplete.length)
     onWidgetInitComplete.forEach(event => registerGenericEventListener("widgetInit", event))
   if (onTileBgImgRenderComplete && onTileBgImgRenderComplete.length)
-    onTileBgImgRenderComplete.forEach(event => registerGenericEventListener("tileBgImgRenderComplete", event))
+    onTileBgImgRenderComplete.forEach(event => registerGenericEventListener(EVENT_TILE_BG_IMG_RENDER_COMPLETE, event))
   if (onTileBgImageError && onTileBgImageError.length)
-    onTileBgImageError.forEach(event => registerGenericEventListener("tileBgImageError", event))
+    onTileBgImageError.forEach(event => registerGenericEventListener(EVENT_TILE_BG_IMG_ERROR, event))
   if (onResize && onResize.length) onResize.forEach(event => registerGenericEventListener("resize", event))
   if (onTilesUpdated && onTilesUpdated.length)
-    onTilesUpdated.forEach(event => registerGenericEventListener("tilesUpdated", event))
+    onTilesUpdated.forEach(event => registerGenericEventListener(EVENT_TILES_UPDATED, event))
   if (onLoadMore && onLoadMore.length) onLoadMore.forEach(event => registerGenericEventListener("loadMore", event))
   if (onProductActionClick && onProductActionClick.length)
-    onProductActionClick.forEach(event => registerGenericEventListener("productActionClick", event))
+    onProductActionClick.forEach(event => registerGenericEventListener(PRODUCT_ACTION_CLICK, event))
   if (onExpandedTileImageLoad && onExpandedTileImageLoad.length)
-    onExpandedTileImageLoad.forEach(event => registerGenericEventListener("expandedTileImageLoad", event))
+    onExpandedTileImageLoad.forEach(event => registerGenericEventListener(EXPANDED_TILE_IMAGE_LOAD, event))
   if (onExpandedTileOpen && onExpandedTileOpen.length)
-    onExpandedTileOpen.forEach(event => registerGenericEventListener("expandedTileOpen", event))
+    onExpandedTileOpen.forEach(event => registerGenericEventListener(EXPANDED_TILE_OPEN, event))
   if (onExpandedTileClose && onExpandedTileClose.length)
-    onExpandedTileClose.forEach(event => registerGenericEventListener("expandedTileClose", event))
+    onExpandedTileClose.forEach(event => registerGenericEventListener(EXPANDED_TILE_CLOSE, event))
   if (onBeforeExpandedTileImageResize && onBeforeExpandedTileImageResize.length)
     onBeforeExpandedTileImageResize.forEach(event =>
-      registerGenericEventListener("beforeExpandedTileImageResize", event)
+      registerGenericEventListener(BEFORE_EXPANDED_TILE_IMAGE_RESIZE, event)
     )
   if (onBeforeExpandedTileClose && onBeforeExpandedTileClose.length)
-    onBeforeExpandedTileClose.forEach(event => registerGenericEventListener("beforeExpandedTileClose", event))
+    onBeforeExpandedTileClose.forEach(event => registerGenericEventListener(BEFORE_EXPANDED_TILE_CLOSE, event))
   if (onBeforeExpandedTileOpen && onBeforeExpandedTileOpen.length)
-    onBeforeExpandedTileOpen.forEach(event => registerGenericEventListener("beforeExpandedTileOpen", event))
+    onBeforeExpandedTileOpen.forEach(event => registerGenericEventListener(BEFORE_EXPANDED_TILE_OPEN, event))
   if (onShopspotFlyoutExpand && onShopspotFlyoutExpand.length)
-    onShopspotFlyoutExpand.forEach(event => registerGenericEventListener("shopspotFlyoutExpand", event))
+    onShopspotFlyoutExpand.forEach(event => registerGenericEventListener(SHOPSPOT_FLYOUT_EXPAND, event))
   if (onShopspotToggle && onShopspotToggle.length)
-    onShopspotToggle.forEach(event => registerGenericEventListener("shopspotToggle", event))
+    onShopspotToggle.forEach(event => registerGenericEventListener(SHOPSPOT_TOGGLE, event))
   if (onShopspotOpen && onShopspotOpen.length)
-    onShopspotOpen.forEach(event => registerGenericEventListener("shopspotOpen", event))
+    onShopspotOpen.forEach(event => registerGenericEventListener(SHOPSPOT_OPEN, event))
   if (onShopspotActionClick && onShopspotActionClick.length)
-    onShopspotActionClick.forEach(event => registerGenericEventListener("shopspotActionClick", event))
-  if (onUserClick && onUserClick.length) onUserClick.forEach(event => registerGenericEventListener("userClick", event))
+    onShopspotActionClick.forEach(event => registerGenericEventListener(SHOPSPOT_ACTION_CLICK, event))
+  if (onUserClick && onUserClick.length) onUserClick.forEach(event => registerGenericEventListener(USER_CLICK, event))
   if (onShareClick && onShareClick.length)
-    onShareClick.forEach(event => registerGenericEventListener("shareClick", event))
+    onShareClick.forEach(event => registerGenericEventListener(SHARE_CLICK, event))
   if (onImpression && onImpression.length)
-    onImpression.forEach(event => registerGenericEventListener("impression", event))
-  if (onLike && onLike.length) onLike.forEach(event => registerGenericEventListener("like", event))
-  if (onDislike && onDislike.length) onDislike.forEach(event => registerGenericEventListener("dislike", event))
-  if (onHover && onHover.length) onHover.forEach(event => registerGenericEventListener("tileHover", event))
+    onImpression.forEach(event => registerGenericEventListener(EVENT_IMPRESSION, event))
+  if (onLike && onLike.length) onLike.forEach(event => registerGenericEventListener(EVENT_LIKE, event))
+  if (onDislike && onDislike.length) onDislike.forEach(event => registerGenericEventListener(EVENT_DISLIKE, event))
+  if (onHover && onHover.length) onHover.forEach(event => registerGenericEventListener(EVENT_HOVER, event))
   if (onProductClick && onProductClick.length)
-    onProductClick.forEach(event => registerGenericEventListener("productClick", event))
+    onProductClick.forEach(event => registerGenericEventListener(EVENT_PRODUCT_CLICK, event))
   if (onProductPinClick && onProductPinClick.length)
-    onProductPinClick.forEach(event => registerGenericEventListener("pinClick", event))
+    onProductPinClick.forEach(event => registerGenericEventListener(EVENT_PRODUCT_PINCLICK, event))
   if (onProductUserClick && onProductUserClick.length)
-    onProductUserClick.forEach(event => registerGenericEventListener("userClick", event))
+    onProductUserClick.forEach(event => registerGenericEventListener(EVENT_PRODUCT_USER_CLICK, event))
   if (onShopspotFlyout && onShopspotFlyout.length)
-    onShopspotFlyout.forEach(event => registerGenericEventListener("shopspotFlyout", event))
+    onShopspotFlyout.forEach(event => registerGenericEventListener(EVENT_SHOPSPOT_FLYOUT, event))
   if (onTileMetadataLoaded && onTileMetadataLoaded.length)
-    onTileMetadataLoaded.forEach(event => registerGenericEventListener("tileMetadataLoaded", event))
+    onTileMetadataLoaded.forEach(event => registerGenericEventListener(EVENT_TILE_METADATA_LOADED, event))
   if (onTileDataSet && onTileDataSet.length)
-    onTileDataSet.forEach(event => registerGenericEventListener("tileDataSet", event))
+    onTileDataSet.forEach(event => registerGenericEventListener(EVENT_TILE_DATA_SET, event))
   if (onHtmlRendered && onHtmlRendered.length)
-    onHtmlRendered.forEach(event => registerGenericEventListener("htmlRendered", event))
+    onHtmlRendered.forEach(event => registerGenericEventListener(EVENT_HTML_RENDERED, event))
   if (onJsRendered && onJsRendered.length)
-    onJsRendered.forEach(event => registerGenericEventListener("jsRendered", event))
+    onJsRendered.forEach(event => registerGenericEventListener(EVENT_JS_RENDERED, event))
   if (onGlobalsLoaded && onGlobalsLoaded.length)
-    onGlobalsLoaded.forEach(event => registerGenericEventListener("globalsLoaded", event))
+    onGlobalsLoaded.forEach(event => registerGenericEventListener(EVENT_GLOBALS_LOADED, event))
   if (onProductPageLoaded && onProductPageLoaded.length)
-    onProductPageLoaded.forEach(event => registerGenericEventListener("productPageLoaded", event))
+    onProductPageLoaded.forEach(event => registerGenericEventListener(EVENT_PRODUCT_PAGE_LOADED, event))
   if (onProductsUpdated && onProductsUpdated.length)
-    onProductsUpdated.forEach(event => registerGenericEventListener("productsUpdated", event))
+    onProductsUpdated.forEach(event => registerGenericEventListener(EVENT_PRODUCTS_UPDATED, event))
   if (onAddToCartFailed && onAddToCartFailed.length)
-    onAddToCartFailed.forEach(event => registerGenericEventListener("addToCartFailed", event))
+    onAddToCartFailed.forEach(event => registerGenericEventListener(EVENT_ADD_TO_CART_FAILED, event))
   if (onEmailTileLoad && onEmailTileLoad.length)
-    onEmailTileLoad.forEach(event => registerGenericEventListener("emailTileLoad", event))
+    onEmailTileLoad.forEach(event => registerGenericEventListener(EMAIL_TILE_LOAD, event))
   if (onEmailTileClick && onEmailTileClick.length)
-    onEmailTileClick.forEach(event => registerGenericEventListener("emailTileClick", event))
-  if (onLikeClick && onLikeClick.length) onLikeClick.forEach(event => registerGenericEventListener("likeClick", event))
+    onEmailTileClick.forEach(event => registerGenericEventListener(EMAIL_TILE_CLICK, event))
+  if (onLikeClick && onLikeClick.length) onLikeClick.forEach(event => registerGenericEventListener(LIKE_CLICK, event))
   if (onDislikeClick && onDislikeClick.length)
-    onDislikeClick.forEach(event => registerGenericEventListener("dislikeClick", event))
-  if (onTileExpandRendered && onTileExpandRendered.length)
-    onTileExpandRendered.forEach(event => registerGenericEventListener("tileExpandRendered", event))
+    onDislikeClick.forEach(event => registerGenericEventListener(DISLIKE_CLICK, event))
   if (onTileExpandProductRecsRendered && onTileExpandProductRecsRendered.length)
     onTileExpandProductRecsRendered.forEach(event =>
-      registerGenericEventListener("tileExpandProductRecsRendered", event)
+      registerGenericEventListener(EVENT_TILE_EXPAND_PROD_RECS_RENDERED, event)
     )
   if (onTileExpandCrossSellersRendered && onTileExpandCrossSellersRendered.length)
     onTileExpandCrossSellersRendered.forEach(event =>
-      registerGenericEventListener("tileExpandCrossSellersRendered", event)
+      registerGenericEventListener(EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED, event)
     )
 }
 
@@ -568,7 +559,7 @@ export function registerDefaultClickEvents() {
 }
 
 export function registerTileExpandListener(fn: (tileId: string) => void = () => {}) {
-  sdk.addEventListener("tileExpand", (event: Event) => {
+  sdk.addEventListener(EVENT_TILE_EXPAND, (event: Event) => {
     const customEvent = event as CustomEvent
     const tileId = customEvent.detail.data.tileId as string
     fn(tileId)

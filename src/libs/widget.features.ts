@@ -1,4 +1,9 @@
 import {
+  EVENT_LOAD_MORE,
+  EVENT_TILE_EXPAND,
+  EVENT_TILE_EXPAND_RENDERED,
+  EVENT_TILES_UPDATED,
+  EXPANDED_TILE_CLOSE,
   registerDefaultClickEvents,
   registerGenericEventListener,
   registerTileExpandListener,
@@ -73,8 +78,8 @@ export const arrowClickListener = (e: Event) => {
     filterId: sdk.placement.getWidgetContainer().widgetOptions?.filter_id
   }
 
-  sdk.triggerEvent("expandedTileClose")
-  sdk.triggerEvent("tileExpand", tileData)
+  sdk.triggerEvent(EXPANDED_TILE_CLOSE)
+  sdk.triggerEvent(EVENT_TILE_EXPAND, tileData)
 }
 
 export function addAutoAddTileFeature() {
@@ -110,8 +115,8 @@ export function loadExpandedTileFeature() {
   if (click_through_url === "[EXPAND]") {
     loadExpandSettingComponents()
     registerTileExpandListener(onTileExpand)
-    registerGenericEventListener("tileClose", onTileClosed)
-    registerGenericEventListener("tileRendered", onTileRendered)
+    registerGenericEventListener(EXPANDED_TILE_CLOSE, onTileClosed)
+    registerGenericEventListener(EVENT_TILE_EXPAND_RENDERED, onTileRendered)
   } else if (click_through_url === "[ORIGINAL_URL]" || /^https?:\/\/.+/.test(click_through_url ?? "")) {
     registerDefaultClickEvents()
   }
@@ -124,7 +129,6 @@ function loadMore() {
 
   window.__isLoading = true
 
-  const EVENT_LOAD_MORE = "moreLoad"
   const loadMoreButton = getLoadMoreButton()
 
   sdk.triggerEvent(EVENT_LOAD_MORE)
@@ -180,7 +184,7 @@ export function addLoadMoreButtonFeature() {
     case "button":
       attachLoadMoreButtonListener()
 
-      sdk.addEventListener("tilesUpdated", () => {
+      sdk.addEventListener(EVENT_TILES_UPDATED, () => {
         const loadMoreLoader = getLoadMoreLoader()
         const loadMoreButton = getLoadMoreButton()
         loadMoreLoader.classList.add("hidden")
@@ -191,7 +195,7 @@ export function addLoadMoreButtonFeature() {
     case "scroll":
       disableLoadMoreButtonIfExists()
 
-      sdk.addEventListener("tilesUpdated", () => {
+      sdk.addEventListener(EVENT_TILES_UPDATED, () => {
         const loadMoreLoader = getLoadMoreLoader()
         loadMoreLoader.classList.add("hidden")
       })

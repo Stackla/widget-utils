@@ -27,10 +27,10 @@ export function initializeSwiper({
   if (swiperInstance) {
     if (!swiperInstance.params?.enabled) {
       enableSwiper(id)
-    } else {
-      // re-initialize
-      swiperInstance.destroy(true)
+      return
     }
+    // re-initialize
+    swiperInstance.destroy(true)
   } else {
     sdk[id] = { pageIndex: 1 }
   }
@@ -80,7 +80,10 @@ export function enableSwiper(id: string) {
 }
 
 export function destroySwiper(id: string) {
-  sdk[id]?.instance?.destroy(true, true)
+  if (sdk[id]?.instance) {
+    sdk[id].instance.destroy(true, true)
+    delete sdk[id]
+  }
 }
 
 export function getClickedIndex(id: string) {
@@ -92,4 +95,12 @@ export function getClickedIndex(id: string) {
       : sdk[id].instance.clickedIndex
   }
   return 0
+}
+
+export function getInstance(id: string) {
+  return sdk[id]?.instance
+}
+
+export function getActiveSlide(id: string) {
+  return sdk[id]?.instance?.realIndex
 }

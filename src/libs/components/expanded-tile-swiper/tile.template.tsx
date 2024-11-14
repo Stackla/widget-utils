@@ -3,6 +3,7 @@ import { Tile } from "../../../"
 import { createElement, createFragment } from "../../"
 import { Tags } from "../../templates/tags/tags.lib"
 import { ShareMenu } from "../../templates/share-menu/share-menu.lib"
+import { EmbedYoutube } from "./embed-youtube.template"
 
 export type ExpandedTileProps = {
   sdk: ISdk
@@ -151,8 +152,8 @@ function SourceVideoContent({ tile, parent }: { tile: Tile; parent?: string }) {
     return <RenderTikTokTemplate tile={tile} />
   }
 
-  if (tile.source === "youtube") {
-    return <RenderYoutubeTemplate tile={tile} />
+  if (tile.source === "youtube" && tile.youtube_id) {
+    return <EmbedYoutube tileId={tile.id} videoId={tile.youtube_id} />
   }
 
   if (tile.source === "facebook") {
@@ -241,24 +242,6 @@ function RenderFacebookFallbackTemplate({ tile }: { tile: Tile }) {
   )
   return (
     <iframe loading="lazy" class="video-content" frameborder="0" allowfullscreen srcdoc={embedBlock.innerHTML}></iframe>
-  )
-}
-
-function RenderYoutubeTemplate({ tile }: { tile: Tile }) {
-  const youtubeId = tile.youtube_id as string
-  const src = `https://www.youtube.com/embed/${youtubeId}?mute=1`
-  const title = tile.title as string
-
-  return (
-    <iframe
-      loading="lazy"
-      class="video-content"
-      src={src}
-      title={title}
-      frameborder="0"
-      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen></iframe>
   )
 }
 

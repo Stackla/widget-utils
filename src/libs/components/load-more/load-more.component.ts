@@ -4,7 +4,6 @@ import loadMoreStyles from "./load-more.scss"
 export default class LoadMoreComponent extends HTMLElement {
   constructor() {
     super()
-    this.attachShadow({ mode: "open" })
   }
 
   connectedCallback() {
