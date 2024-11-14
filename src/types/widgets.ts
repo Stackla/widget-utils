@@ -221,7 +221,7 @@ type GATrackingEventProperties = {
   likeClick: boolean
   dislikeClick: boolean
   voteClick: boolean
-};
+}
 export interface GATrackingInstance {
   propertyId: string | null
   events: GATrackingEventProperties
