@@ -36,12 +36,8 @@ function initializeSwiperForExpandedTiles(initialTileId: string) {
           const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId) : 0
           swiper.slideToLoop(tileIndex, 0, false)
         },
-        navigationNext: (swiper: Swiper) => {
-          controlVideoPlayback(swiper)
-        },
-        navigationPrev: (swiper: Swiper) => {
-          controlVideoPlayback(swiper)
-        }
+        navigationNext: controlVideoPlayback,
+        navigationPrev: controlVideoPlayback
       }
     }
   })
@@ -53,6 +49,7 @@ function controlVideoPlayback(swiper: Swiper) {
 
   activeElement?.play()
   previousElement?.pause()
+  previousElement && (previousElement.currentTime = 0)
 }
 
 function getSwiperVideoElement(swiper: Swiper, index: number) {
