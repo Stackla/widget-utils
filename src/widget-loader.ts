@@ -1,8 +1,6 @@
 import {
-  addAutoAddTileFeature,
   addCSSVariablesToPlacement,
   addLoadMoreButtonFeature,
-  addTilesPerPageFeature,
   loadExpandedTileFeature,
   loadTitle,
   loadWidgetIsEnabled
@@ -16,7 +14,8 @@ import {
 } from "./libs/extensions/masonry/masonry.extension"
 import { loadAllUnloadedTiles } from "./libs/extensions/swiper/loader.extension"
 import { ExpandedTileSettings, loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
-import { callbackDefaults, Callbacks, loadListeners } from "./events"
+import { callbackDefaults, Callbacks, EVENT_HTML_RENDERED, loadListeners } from "./events"
+import { loadConfig } from "./libs/widget.config"
 
 declare const sdk: ISdk
 
@@ -117,7 +116,7 @@ export interface EnforcedWidgetSettings {
 }
 
 function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
-  settings.callbacks.onWidgetInitComplete.push(() => {
+  settings.callbacks.onLoad.push(() => {
     loadAllUnloadedTiles()
     setTimeout(() => renderMasonryLayout(), 1000)
   })
@@ -180,19 +179,7 @@ function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSe
 }
 
 async function loadFeatures(settings: EnforcedWidgetSettings) {
-  const {
-    showTitle,
-    preloadImages,
-    disableWidgetIfNotEnabled,
-    addNewTilesAutomatically,
-    handleLoadMore,
-    limitTilesPerPage,
-    hideBrokenImages,
-    loadTileContent
-  } = settings.features
-
-  sdk.tiles.preloadImages = preloadImages
-  sdk.tiles.hideBrokenTiles = hideBrokenImages
+  const { showTitle, disableWidgetIfNotEnabled, handleLoadMore, loadTileContent } = settings.features
 
   if (loadTileContent) {
     sdk.addLoadedComponents(["tile-content"])
@@ -208,17 +195,9 @@ async function loadFeatures(settings: EnforcedWidgetSettings) {
 
   loadExpandedTileFeature()
 
-  if (addNewTilesAutomatically) {
-    addAutoAddTileFeature()
-  }
-
   if (handleLoadMore) {
     await import("./libs/components/load-more")
     addLoadMoreButtonFeature()
-  }
-
-  if (limitTilesPerPage) {
-    addTilesPerPageFeature()
   }
 
   return settings
@@ -301,9 +280,13 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
 
 export function loadWidget(settings: MyWidgetSettings) {
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
-  addCSSVariablesToPlacement(getCSSVariables())
-  loadTemplates(settingsWithDefaults)
-  loadFeatures(settingsWithDefaults)
-  loadExtensions(settingsWithDefaults)
-  loadListeners(settingsWithDefaults)
+  loadConfig(settingsWithDefaults)
+
+  sdk.addEventListener(EVENT_HTML_RENDERED, async () => {
+    addCSSVariablesToPlacement(getCSSVariables())
+    loadTemplates(settingsWithDefaults)
+    loadFeatures(settingsWithDefaults)
+    loadExtensions(settingsWithDefaults)
+    loadListeners(settingsWithDefaults)
+  })
 }

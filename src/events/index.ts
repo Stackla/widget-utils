@@ -53,8 +53,10 @@ export const EVENT_TILE_EXPAND_PROD_RECS_RENDERED = "tileExpandProductRecsRender
 export const EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED = "tileExpandCrossSellersRendered"
 export const EVENT_TILE_BG_IMG_ERROR = "tileBgImageError"
 export const EVENT_TILE_BG_IMG_RENDER_COMPLETE = "tileBgImgRenderComplete"
+export const EVENT_USER_CONFIG_REGISTERED = "userConfigRegistered"
 
 export const allEvents = [
+  EVENT_USER_CONFIG_REGISTERED,
   PRODUCT_ACTION_CLICK,
   EXPANDED_TILE_IMAGE_LOAD,
   EXPANDED_TILE_OPEN,
