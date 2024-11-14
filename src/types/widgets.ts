@@ -76,6 +76,7 @@ export interface ExpandedTileOptions {
   show_votes: boolean
   show_cross_sellers: boolean
   show_add_to_cart: boolean
+  auto_play_video: boolean
 }
 
 export interface InlineTileOptions {
@@ -91,6 +92,7 @@ export interface InlineTileOptions {
   show_caption: boolean
   show_products: boolean
   show_add_to_cart: boolean
+  auto_play_video: boolean
 }
 
 export interface ClaimConfig {
