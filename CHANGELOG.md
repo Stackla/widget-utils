@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.7
+
+### Patch Changes
+
+- fd71548: add auto_play_video type
+
 ## 0.1.6
 
 ### Patch Changes
