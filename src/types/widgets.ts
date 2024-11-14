@@ -205,6 +205,42 @@ export type WidgetResponse = {
   title: string
 } & SharedWidgetOptions
 
+type GATrackingEventProperties = {
+  load: boolean
+  tileExpand: boolean
+  pinClick: boolean
+  userClick: boolean
+  shareClick: boolean
+  moreLoad: boolean
+  shopspotFlyoutExpand: boolean
+  productActionClick: boolean
+  impression: boolean
+  tileHover: boolean
+  emailTileLoad: boolean
+  emailTileClick: boolean
+  likeClick: boolean
+  dislikeClick: boolean
+  voteClick: boolean
+};
+export interface GATrackingInstance {
+  propertyId: string | null
+  events: GATrackingEventProperties
+  nonInteractionEvents: GATrackingEventProperties
+  categoryName: string | null
+  enabledCustomCategoryName: boolean
+  eventLabel: string | "default"
+  trackingId: string | null
+  isOverridden: boolean
+  isDisabled: boolean
+  isActive: boolean
+  widgetName: string | null
+  widgetId: number | null
+  accountId: string | null
+  dataStreamId: string | null
+  domainName: string | null
+  trackingStatus: boolean
+}
+
 export type ExpandedTileProperty = keyof ExpandedTileOptions
 export type TileOptionsProperty = keyof InlineTileOptions
 export type OptionsProperty = keyof WidgetOptions
