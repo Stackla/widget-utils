@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.8
+
+### Patch Changes
+
+- ec11ba4: add Google Analytics tracking interface
+
 ## 0.1.7
 
 ### Patch Changes
