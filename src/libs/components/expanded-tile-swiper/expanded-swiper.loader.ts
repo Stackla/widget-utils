@@ -48,8 +48,11 @@ function controlVideoPlayback(swiper: Swiper) {
   const previousElement = getSwiperVideoElement(swiper, swiper.previousIndex)
 
   activeElement?.play()
-  previousElement?.pause()
-  previousElement && (previousElement.currentTime = 0)
+
+  if (previousElement) {
+    previousElement?.pause()
+    previousElement.currentTime = 0
+  }
 }
 
 function getSwiperVideoElement(swiper: Swiper, index: number) {
