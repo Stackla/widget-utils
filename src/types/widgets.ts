@@ -246,3 +246,4 @@ export type TileOptionsProperty = keyof InlineTileOptions
 export type OptionsProperty = keyof WidgetOptions
 export type StyleOptionsProperty = keyof Style
 export type DynamicFilterFallbackProperty = keyof DynamicFilterFallback
+export type GATrackingInstanceProperty = keyof GATrackingInstance
