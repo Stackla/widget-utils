@@ -48,7 +48,7 @@ export const EMAIL_TILE_LOAD = "emailTileLoad"
 export const EMAIL_TILE_CLICK = "emailTileClick"
 export const LIKE_CLICK = "likeClick"
 export const DISLIKE_CLICK = "dislikeClick"
-export const EVENT_TILE_EXPAND_RENDERED = "tileExpandRendered"
+export const EVENT_TILE_EXPAND_RENDERED = "expandedTileRendered"
 export const EVENT_TILE_EXPAND_PROD_RECS_RENDERED = "tileExpandProductRecsRendered"
 export const EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED = "tileExpandCrossSellersRendered"
 export const EVENT_TILE_BG_IMG_ERROR = "tileBgImageError"
@@ -152,7 +152,6 @@ export const callbackDefaults = {
   onEmailTileClick: [],
   onLikeClick: [],
   onDislikeClick: [],
-  onTileExpandRendered: [],
   onTileExpandProductRecsRendered: [],
   onTileExpandCrossSellersRendered: []
 }
@@ -382,11 +381,6 @@ export interface Callbacks {
   onDislikeClick: Callback[]
 
   /**
-   * Called when an expanded tile is rendered.
-   */
-  onTileExpandRendered: Callback[]
-
-  /**
    * Called when product recommendations are rendered on an expanded tile.
    */
   onTileExpandProductRecsRendered: Callback[]
@@ -447,102 +441,62 @@ export function loadListeners(settings: EnforcedWidgetSettings) {
     onEmailTileClick,
     onLikeClick,
     onDislikeClick,
-    onTileExpandRendered,
     onTileExpandProductRecsRendered,
     onTileExpandCrossSellersRendered
   } = settings.callbacks
 
-  if (onLoad && onLoad.length) onLoad.forEach(event => registerGenericEventListener("load", event))
-  if (onExpandTile && onExpandTile.length)
-    onExpandTile.forEach(event => registerGenericEventListener("expandedTileRendered", event))
-  if (onTileClose && onTileClose.length)
-    onTileClose.forEach(event => registerGenericEventListener("onTileClose", event))
-  if (onTileRendered && onTileRendered.length) onTileRendered.forEach(event => registerTileExpandListener(event))
-  if (onCrossSellersRendered && onCrossSellersRendered.length)
-    onCrossSellersRendered.forEach(event => registerGenericEventListener("crossSellersRendered", event))
-  if (onWidgetInitComplete && onWidgetInitComplete.length)
-    onWidgetInitComplete.forEach(event => registerGenericEventListener("widgetInit", event))
-  if (onTileBgImgRenderComplete && onTileBgImgRenderComplete.length)
-    onTileBgImgRenderComplete.forEach(event => registerGenericEventListener("tileBgImgRenderComplete", event))
-  if (onTileBgImageError && onTileBgImageError.length)
-    onTileBgImageError.forEach(event => registerGenericEventListener("tileBgImageError", event))
-  if (onResize && onResize.length) onResize.forEach(event => registerGenericEventListener("resize", event))
-  if (onTilesUpdated && onTilesUpdated.length)
-    onTilesUpdated.forEach(event => registerGenericEventListener("tilesUpdated", event))
-  if (onLoadMore && onLoadMore.length) onLoadMore.forEach(event => registerGenericEventListener("loadMore", event))
-  if (onProductActionClick && onProductActionClick.length)
-    onProductActionClick.forEach(event => registerGenericEventListener("productActionClick", event))
-  if (onExpandedTileImageLoad && onExpandedTileImageLoad.length)
-    onExpandedTileImageLoad.forEach(event => registerGenericEventListener("expandedTileImageLoad", event))
-  if (onExpandedTileOpen && onExpandedTileOpen.length)
-    onExpandedTileOpen.forEach(event => registerGenericEventListener("expandedTileOpen", event))
-  if (onExpandedTileClose && onExpandedTileClose.length)
-    onExpandedTileClose.forEach(event => registerGenericEventListener("expandedTileClose", event))
-  if (onBeforeExpandedTileImageResize && onBeforeExpandedTileImageResize.length)
-    onBeforeExpandedTileImageResize.forEach(event =>
-      registerGenericEventListener("beforeExpandedTileImageResize", event)
-    )
-  if (onBeforeExpandedTileClose && onBeforeExpandedTileClose.length)
-    onBeforeExpandedTileClose.forEach(event => registerGenericEventListener("beforeExpandedTileClose", event))
-  if (onBeforeExpandedTileOpen && onBeforeExpandedTileOpen.length)
-    onBeforeExpandedTileOpen.forEach(event => registerGenericEventListener("beforeExpandedTileOpen", event))
-  if (onShopspotFlyoutExpand && onShopspotFlyoutExpand.length)
-    onShopspotFlyoutExpand.forEach(event => registerGenericEventListener("shopspotFlyoutExpand", event))
-  if (onShopspotToggle && onShopspotToggle.length)
-    onShopspotToggle.forEach(event => registerGenericEventListener("shopspotToggle", event))
-  if (onShopspotOpen && onShopspotOpen.length)
-    onShopspotOpen.forEach(event => registerGenericEventListener("shopspotOpen", event))
-  if (onShopspotActionClick && onShopspotActionClick.length)
-    onShopspotActionClick.forEach(event => registerGenericEventListener("shopspotActionClick", event))
-  if (onUserClick && onUserClick.length) onUserClick.forEach(event => registerGenericEventListener("userClick", event))
-  if (onShareClick && onShareClick.length)
-    onShareClick.forEach(event => registerGenericEventListener("shareClick", event))
-  if (onImpression && onImpression.length)
-    onImpression.forEach(event => registerGenericEventListener("impression", event))
-  if (onLike && onLike.length) onLike.forEach(event => registerGenericEventListener("like", event))
-  if (onDislike && onDislike.length) onDislike.forEach(event => registerGenericEventListener("dislike", event))
-  if (onHover && onHover.length) onHover.forEach(event => registerGenericEventListener("tileHover", event))
-  if (onProductClick && onProductClick.length)
-    onProductClick.forEach(event => registerGenericEventListener("productClick", event))
-  if (onProductPinClick && onProductPinClick.length)
-    onProductPinClick.forEach(event => registerGenericEventListener("pinClick", event))
-  if (onProductUserClick && onProductUserClick.length)
-    onProductUserClick.forEach(event => registerGenericEventListener("userClick", event))
-  if (onShopspotFlyout && onShopspotFlyout.length)
-    onShopspotFlyout.forEach(event => registerGenericEventListener("shopspotFlyout", event))
-  if (onTileMetadataLoaded && onTileMetadataLoaded.length)
-    onTileMetadataLoaded.forEach(event => registerGenericEventListener("tileMetadataLoaded", event))
-  if (onTileDataSet && onTileDataSet.length)
-    onTileDataSet.forEach(event => registerGenericEventListener("tileDataSet", event))
-  if (onHtmlRendered && onHtmlRendered.length)
-    onHtmlRendered.forEach(event => registerGenericEventListener("htmlRendered", event))
-  if (onJsRendered && onJsRendered.length)
-    onJsRendered.forEach(event => registerGenericEventListener("jsRendered", event))
-  if (onGlobalsLoaded && onGlobalsLoaded.length)
-    onGlobalsLoaded.forEach(event => registerGenericEventListener("globalsLoaded", event))
-  if (onProductPageLoaded && onProductPageLoaded.length)
-    onProductPageLoaded.forEach(event => registerGenericEventListener("productPageLoaded", event))
-  if (onProductsUpdated && onProductsUpdated.length)
-    onProductsUpdated.forEach(event => registerGenericEventListener("productsUpdated", event))
-  if (onAddToCartFailed && onAddToCartFailed.length)
-    onAddToCartFailed.forEach(event => registerGenericEventListener("addToCartFailed", event))
-  if (onEmailTileLoad && onEmailTileLoad.length)
-    onEmailTileLoad.forEach(event => registerGenericEventListener("emailTileLoad", event))
-  if (onEmailTileClick && onEmailTileClick.length)
-    onEmailTileClick.forEach(event => registerGenericEventListener("emailTileClick", event))
-  if (onLikeClick && onLikeClick.length) onLikeClick.forEach(event => registerGenericEventListener("likeClick", event))
-  if (onDislikeClick && onDislikeClick.length)
-    onDislikeClick.forEach(event => registerGenericEventListener("dislikeClick", event))
-  if (onTileExpandRendered && onTileExpandRendered.length)
-    onTileExpandRendered.forEach(event => registerGenericEventListener("tileExpandRendered", event))
-  if (onTileExpandProductRecsRendered && onTileExpandProductRecsRendered.length)
-    onTileExpandProductRecsRendered.forEach(event =>
-      registerGenericEventListener("tileExpandProductRecsRendered", event)
-    )
-  if (onTileExpandCrossSellersRendered && onTileExpandCrossSellersRendered.length)
-    onTileExpandCrossSellersRendered.forEach(event =>
-      registerGenericEventListener("tileExpandCrossSellersRendered", event)
-    )
+  onLoad?.forEach(event => registerGenericEventListener(EVENT_LOAD, event))
+  onExpandTile?.forEach(event => registerGenericEventListener(EVENT_TILE_EXPAND_RENDERED, event))
+  onTileClose?.forEach(event => registerGenericEventListener("onTileClose", event))
+  onTileRendered?.forEach(event => registerTileExpandListener(event))
+  onCrossSellersRendered?.forEach(event => registerGenericEventListener("crossSellersRendered", event))
+  onWidgetInitComplete?.forEach(event => registerGenericEventListener("widgetInit", event))
+  onTileBgImgRenderComplete?.forEach(event => registerGenericEventListener(EVENT_TILE_BG_IMG_RENDER_COMPLETE, event))
+  onTileBgImageError?.forEach(event => registerGenericEventListener(EVENT_TILE_BG_IMG_ERROR, event))
+  onResize?.forEach(event => registerGenericEventListener("resize", event))
+  onTilesUpdated?.forEach(event => registerGenericEventListener(EVENT_TILES_UPDATED, event))
+  onLoadMore?.forEach(event => registerGenericEventListener("loadMore", event))
+  onProductActionClick?.forEach(event => registerGenericEventListener(PRODUCT_ACTION_CLICK, event))
+  onExpandedTileImageLoad?.forEach(event => registerGenericEventListener(EXPANDED_TILE_IMAGE_LOAD, event))
+  onExpandedTileOpen?.forEach(event => registerGenericEventListener(EXPANDED_TILE_OPEN, event))
+  onExpandedTileClose?.forEach(event => registerGenericEventListener(EXPANDED_TILE_CLOSE, event))
+  onBeforeExpandedTileImageResize?.forEach(event =>
+    registerGenericEventListener(BEFORE_EXPANDED_TILE_IMAGE_RESIZE, event)
+  )
+  onBeforeExpandedTileClose?.forEach(event => registerGenericEventListener(BEFORE_EXPANDED_TILE_CLOSE, event))
+  onBeforeExpandedTileOpen?.forEach(event => registerGenericEventListener(BEFORE_EXPANDED_TILE_OPEN, event))
+  onShopspotFlyoutExpand?.forEach(event => registerGenericEventListener(SHOPSPOT_FLYOUT_EXPAND, event))
+  onShopspotToggle?.forEach(event => registerGenericEventListener(SHOPSPOT_TOGGLE, event))
+  onShopspotOpen?.forEach(event => registerGenericEventListener(SHOPSPOT_OPEN, event))
+  onShopspotActionClick?.forEach(event => registerGenericEventListener(SHOPSPOT_ACTION_CLICK, event))
+  onUserClick?.forEach(event => registerGenericEventListener(USER_CLICK, event))
+  onShareClick?.forEach(event => registerGenericEventListener(SHARE_CLICK, event))
+  onImpression?.forEach(event => registerGenericEventListener(EVENT_IMPRESSION, event))
+  onLike?.forEach(event => registerGenericEventListener(EVENT_LIKE, event))
+  onDislike?.forEach(event => registerGenericEventListener(EVENT_DISLIKE, event))
+  onHover?.forEach(event => registerGenericEventListener(EVENT_HOVER, event))
+  onProductClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_CLICK, event))
+  onProductPinClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_PINCLICK, event))
+  onProductUserClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_USER_CLICK, event))
+  onShopspotFlyout?.forEach(event => registerGenericEventListener(EVENT_SHOPSPOT_FLYOUT, event))
+  onTileMetadataLoaded?.forEach(event => registerGenericEventListener(EVENT_TILE_METADATA_LOADED, event))
+  onTileDataSet?.forEach(event => registerGenericEventListener(EVENT_TILE_DATA_SET, event))
+  onHtmlRendered?.forEach(event => registerGenericEventListener(EVENT_HTML_RENDERED, event))
+  onJsRendered?.forEach(event => registerGenericEventListener(EVENT_JS_RENDERED, event))
+  onGlobalsLoaded?.forEach(event => registerGenericEventListener(EVENT_GLOBALS_LOADED, event))
+  onProductPageLoaded?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_PAGE_LOADED, event))
+  onProductsUpdated?.forEach(event => registerGenericEventListener(EVENT_PRODUCTS_UPDATED, event))
+  onAddToCartFailed?.forEach(event => registerGenericEventListener(EVENT_ADD_TO_CART_FAILED, event))
+  onEmailTileLoad?.forEach(event => registerGenericEventListener(EMAIL_TILE_LOAD, event))
+  onEmailTileClick?.forEach(event => registerGenericEventListener(EMAIL_TILE_CLICK, event))
+  onLikeClick?.forEach(event => registerGenericEventListener(LIKE_CLICK, event))
+  onDislikeClick?.forEach(event => registerGenericEventListener(DISLIKE_CLICK, event))
+  onTileExpandProductRecsRendered?.forEach(event =>
+    registerGenericEventListener(EVENT_TILE_EXPAND_PROD_RECS_RENDERED, event)
+  )
+  onTileExpandCrossSellersRendered?.forEach(event =>
+    registerGenericEventListener(EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED, event)
+  )
 }
 
 export function registerDefaultClickEvents() {
@@ -568,7 +522,7 @@ export function registerDefaultClickEvents() {
 }
 
 export function registerTileExpandListener(fn: (tileId: string) => void = () => {}) {
-  sdk.addEventListener("tileExpand", (event: Event) => {
+  sdk.addEventListener(EVENT_TILE_EXPAND, (event: Event) => {
     const customEvent = event as CustomEvent
     const tileId = customEvent.detail.data.tileId as string
     fn(tileId)
