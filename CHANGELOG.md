@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.9
+
+### Patch Changes
+
+- 69d87e6: handle youtube playback on slide navigation and playback on slide load
+
 ## 0.1.8
 
 ### Patch Changes
