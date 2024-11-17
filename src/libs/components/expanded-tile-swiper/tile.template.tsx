@@ -57,7 +57,7 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
             <div class="content-wrapper">
               <div class="content-inner-wrapper">
                 <button class="share-button">
-                  <span class="widget-icon icon-share" alt="Share button">Test!</span>
+                  <span class="widget-icon icon-share" alt="Share button"></span>
                 </button>
                 <tile-content tileId={tile.id} />
                 {tagsEnabled && <Tags tile={tile} />}
