@@ -240,6 +240,17 @@ export interface GATrackingInstance {
   domainName: string | null
   trackingStatus: boolean
 }
+export interface GoogleAdsConfig {
+  isEnabled: boolean
+  isOverridden: boolean
+  ad_unit_id: string
+  ad_zone: string
+  ad_tag_id: string
+  ad_default_slug: string
+  ad_unit_width: string
+  ad_unit_height: string
+  position: string
+}
 
 export type ExpandedTileProperty = keyof ExpandedTileOptions
 export type TileOptionsProperty = keyof InlineTileOptions
@@ -247,3 +258,4 @@ export type OptionsProperty = keyof WidgetOptions
 export type StyleOptionsProperty = keyof Style
 export type DynamicFilterFallbackProperty = keyof DynamicFilterFallback
 export type GATrackingInstanceProperty = keyof GATrackingInstance
+export type GoogleAdsConfigProperty = keyof GoogleAdsConfig
