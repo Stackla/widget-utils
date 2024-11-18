@@ -9,7 +9,7 @@ export function loadExpandSettingComponents() {
     sdk.addLoadedComponents(["shopspots"])
   }
 
-  sdk.addLoadedComponents(["expanded-tile"])
+  sdk.addLoadedComponents(["expanded-tile", "cross-sellers"])
 
   if (show_products) {
     sdk.addLoadedComponents(["products"])
