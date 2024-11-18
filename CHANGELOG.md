@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.11
+
+### Patch Changes
+
+- 81908e7: Add Google Ads config interface
+
 ## 0.1.10
 
 ### Patch Changes
