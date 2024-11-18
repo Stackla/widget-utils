@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.10
+
+### Patch Changes
+
+- 3870256: Fixup load more component shadow registration
+
 ## 0.1.9
 
 ### Patch Changes
