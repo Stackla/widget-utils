@@ -242,8 +242,8 @@ export interface GATrackingInstance {
   trackingStatus: boolean
 }
 export interface GoogleAdsConfig {
-  isEnabled: string
-  isOverridden: string
+  isEnabled: boolean
+  isOverridden: boolean
   ad_unit_id: string
   ad_zone: string
   ad_tag_id: string
