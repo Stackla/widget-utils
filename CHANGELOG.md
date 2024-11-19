@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.13
+
+### Patch Changes
+
+- b88abc9: update data type for Google Ads
+
 ## 0.1.12
 
 ### Patch Changes
