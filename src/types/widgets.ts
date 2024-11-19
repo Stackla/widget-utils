@@ -52,6 +52,7 @@ export type WidgetOptions = {
   enable_old_widget_styling?: boolean
   style: Style
   config: Config
+  google_ads: GoogleAdsConfig
 }
 
 export interface ExpandedTileOptions {
@@ -241,8 +242,8 @@ export interface GATrackingInstance {
   trackingStatus: boolean
 }
 export interface GoogleAdsConfig {
-  isEnabled: boolean
-  isOverridden: boolean
+  isEnabled: string
+  isOverridden: string
   ad_unit_id: string
   ad_zone: string
   ad_tag_id: string
