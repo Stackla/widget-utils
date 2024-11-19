@@ -22,10 +22,10 @@ type YoutubeIframeElement = HTMLIFrameElement & {
 
 function initializeSwiperForExpandedTiles(initialTileId: string) {
   const expandedTile = sdk.querySelector("expanded-tiles")
-  if (!expandedTile?.shadowRoot) {
+  if (!expandedTile) {
     throw new Error("The expanded tile element not found")
   }
-  const widgetSelector = expandedTile.shadowRoot.querySelector<HTMLElement>(".swiper-expanded")
+  const widgetSelector = expandedTile.querySelector<HTMLElement>(".swiper-expanded")
 
   if (!widgetSelector) {
     throw new Error("Failed to find widget UI element. Failed to initialise Glide")
@@ -98,13 +98,13 @@ function getSwiperVideoElement(swiper: Swiper, index: number) {
 export function onTileExpand(tileId: string) {
   const expandedTile = sdk.querySelector("expanded-tiles")
 
-  if (!expandedTile?.shadowRoot) {
+  if (!expandedTile) {
     throw new Error("The expanded tile element not found")
   }
 
   expandedTile.parentElement!.classList.add("expanded-tile-overlay")
 
-  waitForElm(expandedTile.shadowRoot, [".swiper-expanded"], () => initializeSwiperForExpandedTiles(tileId))
+  waitForElm(expandedTile, [".swiper-expanded"], () => initializeSwiperForExpandedTiles(tileId))
 }
 
 export function onTileRendered() {
@@ -155,7 +155,7 @@ export function onTileRendered() {
 export function onTileClosed() {
   const expandedTile = sdk.querySelector("expanded-tiles")
 
-  if (!expandedTile?.shadowRoot) {
+  if (!expandedTile) {
     throw new Error("The expanded tile element not found")
   }
 
