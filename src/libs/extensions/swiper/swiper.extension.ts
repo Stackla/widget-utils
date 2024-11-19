@@ -115,7 +115,7 @@ export function getInstance(id: string) {
 }
 
 export function getActiveSlide(id: string) {
-  return sdk[id]?.instance?.realIndex
+  return sdk[id]?.instance?.realIndex || 0
 }
 
 export function getActiveSlideElement(id: string) {

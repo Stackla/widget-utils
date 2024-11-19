@@ -1,7 +1,6 @@
 import {
   destroySwiper,
   getActiveSlide,
-  getActiveSlideElement,
   getInstance,
   getSwiperIndexforTile,
   initializeSwiper,
@@ -11,10 +10,11 @@ import { waitForElm } from "../../widget.features"
 import { registerExpandedTileShareMenuListeners } from "../../templates/share-menu/share-menu.listener"
 import { SdkSwiper } from "../../../types/SdkSwiper"
 import Swiper from "swiper"
+import { pauseTiktokVideo, playTiktokVideo } from "./tiktok-message"
 
 declare const sdk: SdkSwiper
 
-type YoutubeContentWindow = {
+type YoutubeContentWindow = Window & {
   play: () => void
   pause: () => void
   reset: () => void
@@ -33,7 +33,7 @@ type SwiperVideoElementData = {
   source: VideoSource
 }
 
-type TiktokMessageType = "play" | "pause" | "mute" | "unMute" | "seekTo"
+let tiktokDefaultPlayed = false
 
 function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: LookupAttr) {
   const expandedTile = sdk.querySelector("expanded-tiles")
@@ -96,19 +96,21 @@ function triggerPlay(elementData?: SwiperVideoElementData) {
   }
 
   switch (elementData.source) {
-    case "video":
+    case "video": {
       const videoElement = elementData.element as HTMLVideoElement
       videoElement.play()
       break
-    case "youtube":
+    }
+    case "youtube": {
       const YoutubeContentWindow = elementData.element as YoutubeContentWindow
       YoutubeContentWindow.play()
       break
-    case "tiktok":
+    }
+    case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
-      //postTiktokMessage(tiktokFrameWindow, "unMute")
-      postTiktokMessage(tiktokFrameWindow, "play")
+      playTiktokVideo(tiktokFrameWindow)
       break
+    }
     default:
       throw new Error(`unsupported video source ${elementData.source}`)
   }
@@ -120,29 +122,26 @@ function triggerPause(elementData?: SwiperVideoElementData) {
   }
 
   switch (elementData.source) {
-    case "video":
+    case "video": {
       const videoElement = elementData.element as HTMLVideoElement
       videoElement.pause()
       videoElement.currentTime = 0
       break
-    case "youtube":
+    }
+    case "youtube": {
       const YoutubeContentWindow = elementData.element as YoutubeContentWindow
       YoutubeContentWindow.pause()
       YoutubeContentWindow.reset()
       break
-    case "tiktok":
+    }
+    case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
-      //postTiktokMessage(tiktokFrameWindow, "mute")
-      postTiktokMessage(tiktokFrameWindow, "pause")
-      postTiktokMessage(tiktokFrameWindow, "seekTo", 0)
+      pauseTiktokVideo(tiktokFrameWindow)
       break
+    }
     default:
       throw new Error(`unsupported video source ${elementData.source}`)
   }
-}
-
-function postTiktokMessage(frameWindow: Window, type: TiktokMessageType, value?: number) {
-  frameWindow.postMessage({ type, value, "x-tiktok-player": true }, "https://www.tiktok.com")
 }
 
 function getSwiperVideoElement(swiper: Swiper, index: number): SwiperVideoElementData | undefined {
@@ -211,6 +210,10 @@ export function onTileRendered() {
 
   const widgetSelector = expandedTilesElement.shadowRoot.querySelector<HTMLElement>(".swiper-expanded")
 
+  if (!widgetSelector) {
+    throw new Error("Widget selector for expanded tile (swiper-expanded) is not found")
+  }
+
   setupTikTokPlayerReadyEvent()
 
   tiles?.forEach(tile => {
@@ -221,8 +224,8 @@ export function onTileRendered() {
     }
     registerExpandedTileShareMenuListeners(expandedTilesElement, shareButton, tile)
 
-    setupVideoEvents(tile, widgetSelector!)
-    setupYoutubeEvents(tile, widgetSelector!)
+    setupVideoEvents(tile, widgetSelector)
+    setupYoutubeEvents(tile, widgetSelector)
   })
 }
 
@@ -243,7 +246,7 @@ function setupYoutubeEvents(tile: Element, widgetSelector: HTMLElement) {
   const tileId = tile.getAttribute("data-id")
   const youtubeId = tile.getAttribute("data-yt-id")
 
-  if (youtubeId) {
+  if (youtubeId && tileId) {
     const youtubeFrame = tile.querySelector<HTMLIFrameElement>(`iframe#yt-frame-${tileId}-${youtubeId}`)
     youtubeFrame?.addEventListener("load", () => {
       triggerControlOnLoadPlayback(tile, widgetSelector, { name: "data-yt-id", value: youtubeId })
@@ -255,7 +258,8 @@ function setupYoutubeEvents(tile: Element, widgetSelector: HTMLElement) {
   }
 }
 
-function setupTikTokPlayerReadyEvent() {
+export function setupTikTokPlayerReadyEvent() {
+  tiktokDefaultPlayed = false
   window.onmessage = (
     event: MessageEvent<{
       type: string
@@ -263,23 +267,28 @@ function setupTikTokPlayerReadyEvent() {
       "x-tiktok-player": boolean
     }>
   ) => {
-    if (event.data.type === "onPlayerReady" && event.data["x-tiktok-player"] === true) {
-      const tileElement = getActiveSlideElement("expanded")
-      const tiktokId = tileElement?.getAttribute("data-tiktok-id")
-      if (tiktokId) {
-        setTimeout(() => controlOnLoadPlayback(), 1000)
-        window.onmessage = null
+    if (event.data["x-tiktok-player"] && event.data.type === "onPlayerReady") {
+      const frameWindow = event.source as Window
+      pauseTiktokVideo(frameWindow)
+
+      if (!tiktokDefaultPlayed) {
+        tiktokDefaultPlayed = true
+        setTimeout(() => controlOnLoadPlayback(), 300)
       }
     }
   }
 }
 
 function triggerControlOnLoadPlayback(tile: Element, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
-  const tileId = tile.getAttribute("data-id")
-  const tileIndex = tileId ? getSwiperIndexforTile(widgetSelector, tileId, lookupAttr) : 0
-  if (getActiveSlide("expanded") === tileIndex) {
+  if (isActiveTile(tile, widgetSelector, lookupAttr)) {
     controlOnLoadPlayback()
   }
+}
+
+function isActiveTile(tile: Element, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
+  const tileId = tile.getAttribute("data-id")
+  const tileIndex = tileId ? getSwiperIndexforTile(widgetSelector, tileId, lookupAttr) : 0
+  return getActiveSlide("expanded") === tileIndex
 }
 
 export function onTileClosed() {
