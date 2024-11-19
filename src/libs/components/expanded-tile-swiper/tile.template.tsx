@@ -208,15 +208,18 @@ function RenderTwitterTemplate({ tile }: { tile: Tile }) {
 }
 
 function RenderTikTokTemplate({ tile }: { tile: Tile }) {
-  const tiktokId = tile.original_url.split("/")[5]
+  // extracts
+  const tiktokId = tile.tiktok_id
 
   return (
     <iframe
+      id={`tiktok-frame-${tile.id}-${tiktokId}`}
       loading="lazy"
       class="video-content"
       frameborder="0"
       allowfullscreen
-      src={`https://www.tiktok.com/player/v1/${tiktokId}`}
+      allow="autoplay" // refer https://developer.chrome.com/blog/autoplay/
+      src={`https://www.tiktok.com/player/v1/${tiktokId}?rel=0`}
     />
   )
 }
