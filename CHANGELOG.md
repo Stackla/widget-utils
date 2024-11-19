@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.12
+
+### Patch Changes
+
+- 99dbc2d: Google Ads updated type
+
 ## 0.1.11
 
 ### Patch Changes
