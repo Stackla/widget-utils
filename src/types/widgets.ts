@@ -173,6 +173,8 @@ export interface Style {
   providerLayer: string
   connectedContentWidgetId: string
   defaultBounds: string
+  pinColor: string
+  pinTextColor: string
 }
 
 export interface DynamicFilterFallback {

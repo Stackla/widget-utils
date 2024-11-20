@@ -110,7 +110,9 @@ describe("Widget Functions", () => {
         providerApiKey: "",
         providerLayer: "OpenStreetMap.BlackAndWhite",
         connectedContentWidgetId: "",
-        defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102"
+        defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102",
+        pinColor: "f7584c",
+        pinTextColor: "ffffff"
       })
 
       expect(value).toEqual({
@@ -161,7 +163,9 @@ describe("Widget Functions", () => {
         providerApiKey: "",
         providerLayer: "OpenStreetMap.BlackAndWhite",
         connectedContentWidgetId: "",
-        defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102"
+        defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102",
+        pinColor: "f7584c",
+        pinTextColor: "ffffff"
       })
     })
   })
