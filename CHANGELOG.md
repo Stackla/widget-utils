@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.15
+
+### Patch Changes
+
+- 5a1adde: fix toktok player
+
 ## 0.1.14
 
 ### Patch Changes
