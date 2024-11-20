@@ -1,8 +1,8 @@
 import { initializeSwiper } from "../../extensions/swiper/swiper.extension"
 
 export function onExpandedTileCrossSellersRendered(tileId: string, target: HTMLElement) {
-  if (target && target.shadowRoot) {
-    const swiperCrossSell = target.shadowRoot.querySelector<HTMLElement>(".swiper-expanded-product-recs")
+  if (target) {
+    const swiperCrossSell = target.querySelector<HTMLElement>(".swiper-expanded-product-recs")
 
     if (swiperCrossSell) {
       initializeSwiper({

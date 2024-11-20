@@ -110,13 +110,13 @@ export function onTileExpand(tileId: string) {
 export function onTileRendered() {
   const expandedTilesElement = sdk.querySelector("expanded-tiles")
 
-  if (!expandedTilesElement || !expandedTilesElement.shadowRoot) {
+  if (!expandedTilesElement) {
     throw new Error("Expanded tiles element not found")
   }
 
-  const tiles = expandedTilesElement.shadowRoot.querySelectorAll(".swiper-slide")
+  const tiles = expandedTilesElement.querySelectorAll(".swiper-slide")
 
-  const widgetSelector = expandedTilesElement.shadowRoot.querySelector<HTMLElement>(".swiper-expanded")
+  const widgetSelector = expandedTilesElement.querySelector<HTMLElement>(".swiper-expanded")
 
   tiles?.forEach(tile => {
     const tileId = tile.getAttribute("data-id")
