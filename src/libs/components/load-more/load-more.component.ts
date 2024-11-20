@@ -21,6 +21,7 @@ export default class LoadMoreComponent extends HTMLElement {
 
 try {
   customElements.define("load-more", LoadMoreComponent)
-} catch (_err) {
+  // eslint-disable-next-line
+} catch (err) {
   // Allow load-more to be redefined without an error
 }
