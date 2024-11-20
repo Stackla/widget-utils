@@ -35,6 +35,14 @@ type SwiperVideoElementData = {
 
 let tiktokDefaultPlayed = false
 
+/**
+ * Initialize/re-initialize swiper for loading expanded tiles
+ *
+ * @param { string } initialTileId  - id of the tile that should be displayed after loading swiper
+ * @param { LookupAttr } lookupAttr - additional attribute lookup options for finding the first slide to load
+ * @param { LookupAttr.name } lookupAttr.name - name of the attribute for e.g. data-yt-id or data-tiktok-id
+ * @param { LookupAttr.value } lookupAttr.value - required value of the attribute
+ */
 function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: LookupAttr) {
   const expandedTile = sdk.querySelector("expanded-tiles")
   if (!expandedTile?.shadowRoot) {
@@ -72,7 +80,10 @@ function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: Lo
   })
 }
 
-function controlOnLoadPlayback() {
+/**
+ * Play the video/audio attached to the slide on load where the element is a media element (video/youtube/tiktok)
+ */
+function playMediaOnLoad() {
   const swiper = getInstance("expanded")
   if (swiper) {
     const activeElementData = getSwiperVideoElement(swiper, swiper.realIndex)
@@ -80,16 +91,25 @@ function controlOnLoadPlayback() {
   }
 }
 
+/**
+ * Play/Pause the video/audio attached to the slide on navigation where the element is a media element (video/youtube/tiktok)
+ * @param { Swiper } swiper - the swiper element
+ */
 function controlVideoPlayback(swiper: Swiper) {
   const activeElement = getSwiperVideoElement(swiper, swiper.realIndex)
   const previousElement = getSwiperVideoElement(swiper, swiper.previousIndex)
 
-  // play video control
   triggerPlay(activeElement)
-  // pause video control
   triggerPause(previousElement)
 }
 
+/**
+ * Trigger media play for different media element sources ("video", "youtube", "tiktok")
+ *
+ * @param elementData - the media container element and the source
+ * @param elementData.element - the container element of the media (video tag or iframe.contentWindow)
+ * @param elementData.source - the media source (video for custom video source, youtube/tiktok)
+ */
 function triggerPlay(elementData?: SwiperVideoElementData) {
   if (!elementData) {
     return
@@ -116,6 +136,13 @@ function triggerPlay(elementData?: SwiperVideoElementData) {
   }
 }
 
+/**
+ * Trigger media pause for different element sources ("video", "youtube", "tiktok")
+ *
+ * @param elementData - the media container element and the source
+ * @param elementData.element - the container element of the media (video tag or iframe.contentWindow)
+ * @param elementData.source - the media source (video for custom video source, youtube/tiktok)
+ */
 function triggerPause(elementData?: SwiperVideoElementData) {
   if (!elementData) {
     return
@@ -144,6 +171,13 @@ function triggerPause(elementData?: SwiperVideoElementData) {
   }
 }
 
+/**
+ * Get swiper video/audio element at the provided index.
+ *
+ * @param { Swiper } swiper - the swiper element
+ * @param { number } index - index of the slide to be returned
+ * @returns the video/iframe element or undefined if the element at index is not a video/audio
+ */
 function getSwiperVideoElement(swiper: Swiper, index: number): SwiperVideoElementData | undefined {
   const element = swiper.slides[index]
   const tileId = element.getAttribute("data-id")
@@ -174,6 +208,12 @@ function getSwiperVideoElement(swiper: Swiper, index: number): SwiperVideoElemen
   return undefined
 }
 
+/**
+ * Triggered when an inline tile is clicked
+ * Adds background overlay for expanded tile and initializes swiper for expanded tile
+ *
+ * @param { string } tileId - the id of clicked inline tile and the tile that will be displayed on expanded tile load
+ */
 export function onTileExpand(tileId: string) {
   const expandedTile = sdk.querySelector("expanded-tiles")
 
@@ -199,6 +239,10 @@ export function onTileExpand(tileId: string) {
   })
 }
 
+/**
+ * Triggered after all slides in expanded tiles are loaded
+ * Setup onload and onerror events for media sources (video/youtube/tiktok)
+ */
 export function onTileRendered() {
   const expandedTilesElement = sdk.querySelector("expanded-tiles")
 
@@ -229,11 +273,17 @@ export function onTileRendered() {
   })
 }
 
+/**
+ * Setup onload and onerror events for custom video source
+ *
+ * @param { Element } tile - the tile element
+ * @param { HTMLElement } widgetSelector - the container of swiper element
+ */
 function setupVideoEvents(tile: Element, widgetSelector: HTMLElement) {
   const videoSourceElement = tile.querySelector<HTMLVideoElement>("video.video-content > source")
   if (videoSourceElement) {
     videoSourceElement.addEventListener("load", () => {
-      triggerControlOnLoadPlayback(tile, widgetSelector)
+      playActiveMediaTileOnLoad(tile, widgetSelector)
     })
     videoSourceElement.addEventListener("error", () => {
       videoSourceElement.closest(".video-content-wrapper")?.classList.add("hidden")
@@ -242,6 +292,12 @@ function setupVideoEvents(tile: Element, widgetSelector: HTMLElement) {
   }
 }
 
+/**
+ * Setup onload and onerror (yt-video-error) events for youtube media
+ *
+ * @param { Element } tile - the tile element
+ * @param { HTMLElement } widgetSelector - the container of swiper element
+ */
 function setupYoutubeEvents(tile: Element, widgetSelector: HTMLElement) {
   const tileId = tile.getAttribute("data-id")
   const youtubeId = tile.getAttribute("data-yt-id")
@@ -249,7 +305,7 @@ function setupYoutubeEvents(tile: Element, widgetSelector: HTMLElement) {
   if (youtubeId && tileId) {
     const youtubeFrame = tile.querySelector<HTMLIFrameElement>(`iframe#yt-frame-${tileId}-${youtubeId}`)
     youtubeFrame?.addEventListener("load", () => {
-      triggerControlOnLoadPlayback(tile, widgetSelector, { name: "data-yt-id", value: youtubeId })
+      playActiveMediaTileOnLoad(tile, widgetSelector, { name: "data-yt-id", value: youtubeId })
     })
     youtubeFrame?.addEventListener("yt-video-error", () => {
       youtubeFrame.closest(".video-content-wrapper")?.classList.add("hidden")
@@ -258,6 +314,10 @@ function setupYoutubeEvents(tile: Element, widgetSelector: HTMLElement) {
   }
 }
 
+/**
+ * Setup tiktok player events using window.postMessage api
+ * All media are paused by defult and only the media in the active slide is played
+ */
 export function setupTikTokPlayerReadyEvent() {
   tiktokDefaultPlayed = false
   window.onmessage = (
@@ -273,24 +333,47 @@ export function setupTikTokPlayerReadyEvent() {
 
       if (!tiktokDefaultPlayed) {
         tiktokDefaultPlayed = true
-        setTimeout(() => controlOnLoadPlayback(), 300)
+        setTimeout(() => playMediaOnLoad(), 300)
       }
     }
   }
 }
 
-function triggerControlOnLoadPlayback(tile: Element, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
+/**
+ * Play media associated with currently active tile
+ *
+ * @param { Element } tile - tile element to check
+ * @param { HTMLElement } widgetSelector - the container of the swiper element
+ * @param { LookupAttr } lookupAttr - additional attribute lookup options for finding the first slide to load
+ * @param { LookupAttr.name } lookupAttr.name - name of the attribute for e.g. data-yt-id or data-tiktok-id
+ * @param { LookupAttr.value } lookupAttr.value - required value of the attribute
+ */
+function playActiveMediaTileOnLoad(tile: Element, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
   if (isActiveTile(tile, widgetSelector, lookupAttr)) {
-    controlOnLoadPlayback()
+    playMediaOnLoad()
   }
 }
 
+/**
+ * Checks if the supplied tile element is currently active in the slide
+ *
+ * @param { Element } tile - tile element to check
+ * @param { HTMLElement } widgetSelector - the container of the swiper element
+ * @param { LookupAttr } lookupAttr - additional attribute lookup options for finding the first slide to load
+ * @param { LookupAttr.name } lookupAttr.name - name of the attribute for e.g. data-yt-id or data-tiktok-id
+ * @param { LookupAttr.value } lookupAttr.value - required value of the attribute
+ * @returns true if the supplied tile element is the currently displayed element. false, otherwise.
+ */
 function isActiveTile(tile: Element, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
   const tileId = tile.getAttribute("data-id")
   const tileIndex = tileId ? getSwiperIndexforTile(widgetSelector, tileId, lookupAttr) : 0
   return getActiveSlide("expanded") === tileIndex
 }
 
+/**
+ * Triggered when expanded tile is closed
+ * Destroys swiper instance for expanded tile and removes background overlay
+ */
 export function onTileClosed() {
   const expandedTile = sdk.querySelector("expanded-tiles")
 
