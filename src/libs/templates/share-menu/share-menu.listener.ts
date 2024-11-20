@@ -18,10 +18,8 @@ export async function copyToClipboard(inputElement: HTMLInputElement) {
 }
 
 function reduceBackgroundControlsVisibility(expandedTilesElement: HTMLElement) {
-  const navigationPrevButton =
-    expandedTilesElement.querySelector<HTMLElement>(".swiper-expanded-button-prev")
-  const navigationNextButton =
-    expandedTilesElement.querySelector<HTMLElement>(".swiper-expanded-button-next")
+  const navigationPrevButton = expandedTilesElement.querySelector<HTMLElement>(".swiper-expanded-button-prev")
+  const navigationNextButton = expandedTilesElement.querySelector<HTMLElement>(".swiper-expanded-button-next")
   const exitTileButton = expandedTilesElement.querySelector<HTMLElement>(".exit")
 
   navigationNextButton?.classList.add("swiper-button-disabled")
@@ -33,10 +31,8 @@ function reduceBackgroundControlsVisibility(expandedTilesElement: HTMLElement) {
 }
 
 function resetBackgroundControlsVisibility(expandedTilesElement: HTMLElement) {
-  const navigationPrevButton =
-    expandedTilesElement.querySelector<HTMLElement>(".swiper-expanded-button-prev")
-  const navigationNextButton =
-    expandedTilesElement.querySelector<HTMLElement>(".swiper-expanded-button-next")
+  const navigationPrevButton = expandedTilesElement.querySelector<HTMLElement>(".swiper-expanded-button-prev")
+  const navigationNextButton = expandedTilesElement.querySelector<HTMLElement>(".swiper-expanded-button-next")
   const exitTileButton = expandedTilesElement.querySelector<HTMLElement>(".exit")
 
   navigationNextButton?.classList.remove("swiper-button-disabled")
