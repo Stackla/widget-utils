@@ -59,6 +59,7 @@ export default {
     text_tile_background: "ffffff",
     text_tile_font_color: "000000",
     text_tile_font_size: 12,
+    text_caption_paragraph_font_size: 12,
     text_tile_user_handle_font_color: "636062",
     text_tile_user_handle_font_size: 10,
     text_tile_user_name_font_color: "000000",
