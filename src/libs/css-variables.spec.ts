@@ -102,7 +102,15 @@ describe("Widget Functions", () => {
         },
         inline_tile_size: "",
         inline_tile_border_radius: "",
-        expanded_tile_border_radius: ""
+        expanded_tile_border_radius: "",
+        map_content_feed_filter_id: "31915",
+        map_content_feed_filter_name: "Map Feed",
+        displayMode: "map_only",
+        isScrollZoomDisabled: false,
+        providerApiKey: "",
+        providerLayer: "OpenStreetMap.BlackAndWhite",
+        connectedContentWidgetId: "",
+        defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102"
       })
 
       expect(value).toEqual({
@@ -145,7 +153,15 @@ describe("Widget Functions", () => {
         },
         inline_tile_size: "",
         inline_tile_border_radius: "",
-        expanded_tile_border_radius: ""
+        expanded_tile_border_radius: "",
+        map_content_feed_filter_id: "31915",
+        map_content_feed_filter_name: "Map Feed",
+        displayMode: "map_only",
+        isScrollZoomDisabled: false,
+        providerApiKey: "",
+        providerLayer: "OpenStreetMap.BlackAndWhite",
+        connectedContentWidgetId: "",
+        defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102"
       })
     })
   })
