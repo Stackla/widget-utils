@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.0.0-20241120180413
+
+### Patch Changes
+
+- Add new --text-caption-paragraph-font-size variable to control caption paragraph size
+
 ## 0.1.16
 
 ### Patch Changes
