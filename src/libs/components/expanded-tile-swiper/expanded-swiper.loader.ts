@@ -45,10 +45,10 @@ let tiktokDefaultPlayed = false
  */
 function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: LookupAttr) {
   const expandedTile = sdk.querySelector("expanded-tiles")
-  if (!expandedTile?.shadowRoot) {
+  if (!expandedTile) {
     throw new Error("The expanded tile element not found")
   }
-  const widgetSelector = expandedTile.shadowRoot.querySelector<HTMLElement>(".swiper-expanded")
+  const widgetSelector = expandedTile.querySelector<HTMLElement>(".swiper-expanded")
 
   if (!widgetSelector) {
     throw new Error("Failed to find widget UI element. Failed to initialise Glide")
@@ -217,13 +217,13 @@ function getSwiperVideoElement(swiper: Swiper, index: number): SwiperVideoElemen
 export function onTileExpand(tileId: string) {
   const expandedTile = sdk.querySelector("expanded-tiles")
 
-  if (!expandedTile?.shadowRoot) {
+  if (!expandedTile) {
     throw new Error("The expanded tile element not found")
   }
 
   expandedTile.parentElement!.classList.add("expanded-tile-overlay")
 
-  waitForElm(expandedTile.shadowRoot, [".swiper-expanded"], () => {
+  waitForElm(expandedTile, [".swiper-expanded"], () => {
     const tileElement = expandedTile.shadowRoot?.querySelector(`.swiper-slide[data-id="${tileId}"]`)
     const youtubeId = tileElement?.getAttribute("data-yt-id")
     const tiktokId = tileElement?.getAttribute("data-tiktok-id")
@@ -246,13 +246,13 @@ export function onTileExpand(tileId: string) {
 export function onTileRendered() {
   const expandedTilesElement = sdk.querySelector("expanded-tiles")
 
-  if (!expandedTilesElement || !expandedTilesElement.shadowRoot) {
+  if (!expandedTilesElement) {
     throw new Error("Expanded tiles element not found")
   }
 
-  const tiles = expandedTilesElement.shadowRoot.querySelectorAll(".swiper-slide")
+  const tiles = expandedTilesElement.querySelectorAll(".swiper-slide")
 
-  const widgetSelector = expandedTilesElement.shadowRoot.querySelector<HTMLElement>(".swiper-expanded")
+  const widgetSelector = expandedTilesElement.querySelector<HTMLElement>(".swiper-expanded")
 
   if (!widgetSelector) {
     throw new Error("Widget selector for expanded tile (swiper-expanded) is not found")
@@ -377,7 +377,7 @@ function isActiveTile(tile: Element, widgetSelector: HTMLElement, lookupAttr?: L
 export function onTileClosed() {
   const expandedTile = sdk.querySelector("expanded-tiles")
 
-  if (!expandedTile?.shadowRoot) {
+  if (!expandedTile) {
     throw new Error("The expanded tile element not found")
   }
 

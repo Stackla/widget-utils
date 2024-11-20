@@ -208,7 +208,6 @@ function RenderTwitterTemplate({ tile }: { tile: Tile }) {
 }
 
 function RenderTikTokTemplate({ tile }: { tile: Tile }) {
-  // extracts
   const tiktokId = tile.tiktok_id
 
   return (

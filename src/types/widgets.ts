@@ -52,6 +52,7 @@ export type WidgetOptions = {
   enable_old_widget_styling?: boolean
   style: Style
   config: Config
+  google_ads: GoogleAdsConfig
 }
 
 export interface ExpandedTileOptions {
@@ -92,6 +93,8 @@ export interface InlineTileOptions {
   show_products: boolean
   show_add_to_cart: boolean
   auto_play_video: boolean
+  show_inline_tiles: boolean
+  show_carousel: boolean
 }
 
 export interface ClaimConfig {
@@ -162,6 +165,16 @@ export interface Style {
   inline_tile_border_radius: string
   expanded_tile_border_radius: string
   tile_tag_background: string
+  map_content_feed_filter_id: string
+  map_content_feed_filter_name: string
+  displayMode: string
+  isScrollZoomDisabled: boolean
+  providerApiKey: string
+  providerLayer: string
+  connectedContentWidgetId: string
+  defaultBounds: string
+  pinColor: string
+  pinTextColor: string
 }
 
 export interface DynamicFilterFallback {
@@ -240,6 +253,17 @@ export interface GATrackingInstance {
   domainName: string | null
   trackingStatus: boolean
 }
+export interface GoogleAdsConfig {
+  isEnabled: boolean
+  isOverridden: boolean
+  ad_unit_id: string
+  ad_zone: string
+  ad_tag_id: string
+  ad_default_slug: string
+  ad_unit_width: string
+  ad_unit_height: string
+  position: string
+}
 
 export type ExpandedTileProperty = keyof ExpandedTileOptions
 export type TileOptionsProperty = keyof InlineTileOptions
@@ -247,3 +271,4 @@ export type OptionsProperty = keyof WidgetOptions
 export type StyleOptionsProperty = keyof Style
 export type DynamicFilterFallbackProperty = keyof DynamicFilterFallback
 export type GATrackingInstanceProperty = keyof GATrackingInstance
+export type GoogleAdsConfigProperty = keyof GoogleAdsConfig

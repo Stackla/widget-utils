@@ -1,5 +1,41 @@
 # @stackla/widget-utils
 
+## 0.1.16
+
+### Patch Changes
+
+- 4026403: Add pinColor and pinTextColor into Map Style properties
+
+## 0.1.15
+
+### Patch Changes
+
+- 5a1adde: fix toktok player
+
+## 0.1.14
+
+### Patch Changes
+
+- 8863dfc: Add map widget property type
+
+## 0.1.13
+
+### Patch Changes
+
+- b88abc9: update data type for Google Ads
+
+## 0.1.12
+
+### Patch Changes
+
+- 99dbc2d: Google Ads updated type
+
+## 0.1.11
+
+### Patch Changes
+
+- 81908e7: Add Google Ads config interface
+
 ## 0.1.10
 
 ### Patch Changes
