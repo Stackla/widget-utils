@@ -207,8 +207,8 @@ function RenderTwitterTemplate({ tile }: { tile: Tile }) {
   )
 }
 
-function RenderTikTokTemplate({ tile }: { tile: Tile }) {
-  const tiktokId = tile.original_url.split("/")[5]
+function RenderTikTokTemplate({ tile }: { tile: Tile }, autoPlay: boolean = false) {
+  const tiktokId = tile.original_url.split("/")[5].split("?")[0]
 
   return (
     <iframe
@@ -216,7 +216,7 @@ function RenderTikTokTemplate({ tile }: { tile: Tile }) {
       class="video-content"
       frameborder="0"
       allowfullscreen
-      src={`https://www.tiktok.com/player/v1/${tiktokId}`}
+      src={`https://www.tiktok.com/player/v1/${tiktokId}?autoplay=${+autoPlay}`}
     />
   )
 }
