@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.16
+
+### Patch Changes
+
+- 4026403: Add pinColor and pinTextColor into Map Style properties
+
 ## 0.1.15
 
 ### Patch Changes
