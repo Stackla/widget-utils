@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.14
+
+### Patch Changes
+
+- 8863dfc: Add map widget property type
+
 ## 0.1.13
 
 ### Patch Changes
