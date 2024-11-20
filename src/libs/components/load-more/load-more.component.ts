@@ -21,6 +21,6 @@ export default class LoadMoreComponent extends HTMLElement {
 
 try {
   customElements.define("load-more", LoadMoreComponent)
-} catch (err) {
+} catch (_err) {
   // Allow load-more to be redefined without an error
 }
