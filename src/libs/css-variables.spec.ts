@@ -128,7 +128,7 @@ describe("Widget Functions", () => {
         shopspot_btn_font_color: "00ffff",
         margin: "10",
         text_tile_font_size: "16",
-
+        text_caption_paragraph_font_size: "12",
         text_tile_user_name_font_size: "16",
         tile_tag_background: "D6D4D5",
         auto_refresh: "",
