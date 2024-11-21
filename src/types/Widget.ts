@@ -144,6 +144,7 @@ export interface Style {
   text_tile_background: string
   text_tile_font_color: string
   text_tile_font_size: string
+  text_caption_paragraph_font_size: string
   text_tile_user_handle_font_color: string
   text_tile_user_handle_font_size: string
   text_tile_user_name_font_color: string
