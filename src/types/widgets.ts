@@ -236,21 +236,21 @@ type GATrackingEventProperties = {
   voteClick: boolean
 }
 export interface GATrackingInstance {
-  propertyId: string | null
+  propertyId: string
   events: GATrackingEventProperties
   nonInteractionEvents: GATrackingEventProperties
-  categoryName: string | null
+  categoryName: string
   enabledCustomCategoryName: boolean
   eventLabel: string | "default"
-  trackingId: string | null
+  trackingId: string
   isOverridden: boolean
   isDisabled: boolean
   isActive: boolean
-  widgetName: string | null
-  widgetId: number | null
-  accountId: string | null
-  dataStreamId: string | null
-  domainName: string | null
+  widgetName: string
+  widgetId: number
+  accountId: string
+  dataStreamId: string
+  domainName: string
   trackingStatus: boolean
 }
 export interface GoogleAdsConfig {
