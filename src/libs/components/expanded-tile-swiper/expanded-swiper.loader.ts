@@ -54,8 +54,6 @@ function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: Lo
     throw new Error("Failed to find widget UI element. Failed to initialise Glide")
   }
 
-  sdk.tiles.setVisibleTilesCount(2)
-
   initializeSwiper({
     id: "expanded",
     widgetSelector,
