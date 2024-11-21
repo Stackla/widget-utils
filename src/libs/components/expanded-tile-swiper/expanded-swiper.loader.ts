@@ -224,7 +224,7 @@ export function onTileExpand(tileId: string) {
   expandedTile.parentElement!.classList.add("expanded-tile-overlay")
 
   waitForElm(expandedTile, [".swiper-expanded"], () => {
-    const tileElement = expandedTile.shadowRoot?.querySelector(`.swiper-slide[data-id="${tileId}"]`)
+    const tileElement = expandedTile?.querySelector(`.swiper-slide[data-id="${tileId}"]`)
     const youtubeId = tileElement?.getAttribute("data-yt-id")
     const tiktokId = tileElement?.getAttribute("data-tiktok-id")
     if (youtubeId) {
