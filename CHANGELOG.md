@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.17
+
+### Patch Changes
+
+- 622cac3: Update property type for Google Analytics.
+
 ## 0.1.16
 
 ### Patch Changes
