@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.18
+
+### Patch Changes
+
+- be09c71: Introduce css variable to control cation paragraph font size
+
 ## 0.1.17
 
 ### Patch Changes
