@@ -1,10 +1,10 @@
 # @stackla/widget-utils
 
-## 0.0.0-20241120180413
+## 0.1.17
 
 ### Patch Changes
 
-- Add new --text-caption-paragraph-font-size variable to control caption paragraph size
+- 622cac3: Update property type for Google Analytics.
 
 ## 0.1.16
 
