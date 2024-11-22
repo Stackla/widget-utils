@@ -202,9 +202,9 @@ async function loadFeatures(settings: EnforcedWidgetSettings) {
   sdk.tiles.hideBrokenTiles = hideBrokenImages
 
   if (loadTileContent) {
-    sdk.addLoadedComponents(["tile-content", "tile-timephrase"])
+    sdk.addLoadedComponents(["tile-content", "timephrase"])
   } else if (loadTimephrase) {
-    sdk.addLoadedComponents(["tile-timephrase"])
+    sdk.addLoadedComponents(["timephrase"])
   }
 
   if (disableWidgetIfNotEnabled) {
