@@ -7,7 +7,7 @@ import {
   LookupAttr
 } from "../../extensions/swiper/swiper.extension"
 import { waitForElm } from "../../widget.features"
-import { registerExpandedTileShareMenuListeners } from "../../templates/share-menu/share-menu.listener"
+import { registerShareMenuListenersWithSwiper } from "../../listeners"
 import { SdkSwiper } from "../../../types/SdkSwiper"
 import Swiper from "swiper"
 import { pauseTiktokVideo, playTiktokVideo } from "./tiktok-message"
@@ -264,7 +264,7 @@ export function onTileRendered() {
     if (!shareButton) {
       throw new Error(`Share button not found in expanded tile ${tileId}`)
     }
-    registerExpandedTileShareMenuListeners(expandedTilesElement, shareButton, tile)
+    registerShareMenuListenersWithSwiper(expandedTilesElement, shareButton, tile)
 
     setupVideoEvents(tile, widgetSelector)
     setupYoutubeEvents(tile, widgetSelector)
