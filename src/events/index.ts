@@ -20,7 +20,6 @@ export const SHOPSPOT_TOGGLE = "shopspotToggle"
 export const SHOPSPOT_OPEN = "shopspotOpen"
 export const SHOPSPOT_ACTION_CLICK = "shopspotActionClick"
 export const USER_CLICK = "userClick"
-export const SHARE_CLICK = "shareClick"
 export const EVENT_IMPRESSION = "impression"
 export const EVENT_LOAD = "load"
 export const EVENT_LOAD_MORE = "moreLoad"
@@ -31,7 +30,7 @@ export const EVENT_PRODUCT_CLICK = "productClick"
 export const EVENT_PRODUCT_PINCLICK = "pinClick"
 export const EVENT_TILE_EXPAND = "tileExpand"
 export const EVENT_PRODUCT_USER_CLICK = "userClick"
-export const EVENT_SHARE_CLICK = "shareClick"
+export const EVENT_SHARE_CLICK = "shareClick" //GA Specific. Needs cleanup
 export const EVENT_SHOPSPOT_FLYOUT = "shopspotFlyout"
 export const EVENT_TILE_METADATA_LOADED = "tileMetadataLoaded"
 export const EVENT_TILE_DATA_SET = "tileDataSet"
@@ -53,6 +52,8 @@ export const EVENT_TILE_EXPAND_PROD_RECS_RENDERED = "tileExpandProductRecsRender
 export const EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED = "tileExpandCrossSellersRendered"
 export const EVENT_TILE_BG_IMG_ERROR = "tileBgImageError"
 export const EVENT_TILE_BG_IMG_RENDER_COMPLETE = "tileBgImgRenderComplete"
+export const EVENT_SHARE_MENU_OPENED = "shareMenuOpened"
+export const EVENT_SHARE_MENU_CLOSED = "shareMenuClosed"
 
 export const allEvents = [
   PRODUCT_ACTION_CLICK,
@@ -68,7 +69,6 @@ export const allEvents = [
   SHOPSPOT_OPEN,
   SHOPSPOT_ACTION_CLICK,
   USER_CLICK,
-  SHARE_CLICK,
   EVENT_IMPRESSION,
   EVENT_LOAD,
   EVENT_LOAD_MORE,
@@ -100,7 +100,9 @@ export const allEvents = [
   EVENT_TILE_EXPAND_PROD_RECS_RENDERED,
   EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED,
   EVENT_TILE_BG_IMG_ERROR,
-  EVENT_TILE_BG_IMG_RENDER_COMPLETE
+  EVENT_TILE_BG_IMG_RENDER_COMPLETE,
+  EVENT_SHARE_MENU_OPENED,
+  EVENT_SHARE_MENU_CLOSED
 ]
 
 export type EventName = (typeof allEvents)[number]
@@ -153,7 +155,9 @@ export const callbackDefaults = {
   onLikeClick: [],
   onDislikeClick: [],
   onTileExpandProductRecsRendered: [],
-  onTileExpandCrossSellersRendered: []
+  onTileExpandCrossSellersRendered: [],
+  onShareMenuOpened: [],
+  onShareMenuClosed: []
 }
 
 /**
@@ -389,6 +393,16 @@ export interface Callbacks {
    * Called when cross-sellers are rendered on an expanded tile.
    */
   onTileExpandCrossSellersRendered: Callback[]
+
+  /**
+   * Called when a shared menu is opened
+   */
+  onShareMenuOpened: Callback[]
+
+  /**
+   * Called when a shared menu is closed
+   */
+  onShareMenuClosed: Callback[]
 }
 
 /**
@@ -442,7 +456,9 @@ export function loadListeners(settings: EnforcedWidgetSettings) {
     onLikeClick,
     onDislikeClick,
     onTileExpandProductRecsRendered,
-    onTileExpandCrossSellersRendered
+    onTileExpandCrossSellersRendered,
+    onShareMenuOpened,
+    onShareMenuClosed
   } = settings.callbacks
 
   onLoad?.forEach(event => registerGenericEventListener(EVENT_LOAD, event))
@@ -470,7 +486,8 @@ export function loadListeners(settings: EnforcedWidgetSettings) {
   onShopspotOpen?.forEach(event => registerGenericEventListener(SHOPSPOT_OPEN, event))
   onShopspotActionClick?.forEach(event => registerGenericEventListener(SHOPSPOT_ACTION_CLICK, event))
   onUserClick?.forEach(event => registerGenericEventListener(USER_CLICK, event))
-  onShareClick?.forEach(event => registerGenericEventListener(SHARE_CLICK, event))
+  // TODO - Clean this with not required for GA
+  onShareClick?.forEach(event => registerGenericEventListener(EVENT_SHARE_CLICK, event))
   onImpression?.forEach(event => registerGenericEventListener(EVENT_IMPRESSION, event))
   onLike?.forEach(event => registerGenericEventListener(EVENT_LIKE, event))
   onDislike?.forEach(event => registerGenericEventListener(EVENT_DISLIKE, event))
@@ -497,6 +514,8 @@ export function loadListeners(settings: EnforcedWidgetSettings) {
   onTileExpandCrossSellersRendered?.forEach(event =>
     registerGenericEventListener(EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED, event)
   )
+  onShareMenuOpened?.forEach(event => registerGenericEventListener(EVENT_SHARE_MENU_OPENED, event))
+  onShareMenuClosed?.forEach(event => registerGenericEventListener(EVENT_SHARE_MENU_CLOSED, event))
 }
 
 export function registerDefaultClickEvents() {
@@ -531,4 +550,20 @@ export function registerTileExpandListener(fn: (tileId: string) => void = () => 
 
 export function registerGenericEventListener(eventName: EventName, fn: Callback | EventCallback) {
   sdk.addEventListener(eventName, fn)
+}
+
+export function registerShareMenuOpenedListener(fn: (tileId: string) => void = () => {}) {
+  sdk.addEventListener(EVENT_SHARE_MENU_OPENED, (event: Event) => {
+    const customEvent = event as CustomEvent
+    const sourceId = customEvent.detail.sourceId as string
+    fn(sourceId)
+  })
+}
+
+export function registerShareMenuClosedListener(fn: (tileId: string) => void = () => {}) {
+  sdk.addEventListener(EVENT_SHARE_MENU_CLOSED, (event: Event) => {
+    const customEvent = event as CustomEvent
+    const sourceId = customEvent.detail.sourceId as string
+    fn(sourceId)
+  })
 }

@@ -26,7 +26,6 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
 
   return (
     <>
-      {sharingToolsEnabled ? <share-menu tile-id={tile.id} /> : <></>}
       <div class="panel">
         <div class="panel-left">
           <RenderIconSection tile={tile} productsEnabled={productsEnabled} />
@@ -53,10 +52,7 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
           <div class="panel-right-wrapper">
             <div class="content-wrapper">
               <div class="content-inner-wrapper">
-                <button class="share-button">
-                  <span class="widget-icon icon-share" alt="Share button"></span>
-                </button>
-                <tile-content tileId={tile.id} />
+                <tile-content tileId={tile.id} render-share-menu={sharingToolsEnabled} />
                 {tagsEnabled && <tile-tags tile-id={tile.id} />}
                 {productsEnabled && (
                   <>
