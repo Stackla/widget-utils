@@ -53,4 +53,5 @@ export interface IPlacement {
   getSharedCssStyleSheets(componentName: string): CSSStyleSheet[]
   getCustomTemplate(component: string): Template
   setCustomTemplate(component: string, template: Template): void
+  loadedInlineTiles(): HTMLElement[]
 }

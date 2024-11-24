@@ -22,7 +22,7 @@ export function hasMinimumTilesRequired() {
   const minimalTiles = parseInt(minimal_tiles)
 
   if (minimalTiles && minimalTiles > 0) {
-    const tiles = sdk.querySelectorAll(".ugc-tile")
+    const tiles = sdk.placement.loadedInlineTiles()
 
     if (tiles && tiles.length >= minimalTiles) {
       return true
