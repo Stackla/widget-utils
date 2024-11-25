@@ -15,19 +15,19 @@ describe("Widget Functions", () => {
     it("should return medium size when inline_tile_size is not defined", () => {
       sdk.getStyleConfig.mockReturnValue({})
 
-      const result = getTileSizeByWidget()
+      const result = getTileSizeByWidget('carousel')
       expect(result).toEqual({ "--tile-size": "265.5px", "--tile-size-unitless": "265.5" })
     })
 
     it("should return correct tile size based on inline_tile_size", () => {
       sdk.getStyleConfig.mockReturnValue({ inline_tile_size: "small" })
-      expect(getTileSizeByWidget()).toEqual({ "--tile-size": "173px", "--tile-size-unitless": "173" })
+      expect(getTileSizeByWidget('carousel')).toEqual({ "--tile-size": "173px", "--tile-size-unitless": "173" })
 
       sdk.getStyleConfig.mockReturnValue({ inline_tile_size: "medium" })
-      expect(getTileSizeByWidget()).toEqual({ "--tile-size": "265.5px", "--tile-size-unitless": "265.5" })
+      expect(getTileSizeByWidget('carousel')).toEqual({ "--tile-size": "265.5px", "--tile-size-unitless": "265.5" })
 
       sdk.getStyleConfig.mockReturnValue({ inline_tile_size: "large" })
-      expect(getTileSizeByWidget()).toEqual({ "--tile-size": "400px", "--tile-size-unitless": "400" })
+      expect(getTileSizeByWidget('carousel')).toEqual({ "--tile-size": "400px", "--tile-size-unitless": "400" })
     })
   })
   // Tests for getCSSVariables
@@ -57,7 +57,7 @@ describe("Widget Functions", () => {
       })
 
       // Check if the generated CSS variables match the snapshot
-      const cssVariables = getCSSVariables()
+      const cssVariables = getCSSVariables('carousel')
       expect(cssVariables).toMatchSnapshot()
     })
 
@@ -82,7 +82,6 @@ describe("Widget Functions", () => {
         name: "",
         plugin_instance_id: "",
         polling_frequency: "",
-        rows_per_page: "",
         shopspot_btn_font_size: "",
         shopspot_icon: "",
         style: "",
@@ -133,7 +132,6 @@ describe("Widget Functions", () => {
         name: "",
         plugin_instance_id: "",
         polling_frequency: "",
-        rows_per_page: "",
         shopspot_btn_font_size: "",
         shopspot_icon: "",
         style: "",

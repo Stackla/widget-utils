@@ -1,7 +1,6 @@
 import { ExpandedTiles } from "./base.template"
 import expandedTileStyle from "../../../styles/components/expanded-tile-swiper/base.scss"
 import swiperExpandedStyles from "../../extensions/swiper/swiper-expanded.scss"
-import tileTagStyles from "../../../styles/templates/tags/tags.scss"
 import { ISdk } from "../../../"
 import shareMenuStyle from "../../../styles/templates/share-menu/share-menu.scss"
 import addToCartStyleOverrides from "../../../styles/components/expanded-tile-swiper/add-to-cart.scss"
@@ -53,7 +52,6 @@ function loadDefaultExpandedTileStyles(settings: ExpandedTileSettings) {
     sdk.addCSSToComponent(expandedTileStyle, "expanded-tiles")
     sdk.addCSSToComponent(shareMenuStyle, "expanded-tiles")
     sdk.addCSSToComponent(swiperExpandedStyles, "expanded-tiles")
-    sdk.addCSSToComponent(tileTagStyles, "expanded-tiles")
   }
   if (settings.useDefaultAddToCartStyles) {
     sdk.addCSSToComponent(addToCartStyleOverrides, "add-to-cart")

@@ -19,6 +19,7 @@ jest.mock("./libs/components/expanded-tile-swiper", () => ({
 }))
 
 const settings = {
+  type: "direct-uploader",
   features: {
     showTitle: true,
     preloadImages: true,

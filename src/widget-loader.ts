@@ -102,6 +102,7 @@ export interface MyWidgetSettings {
   callbacks: Partial<Callbacks>
   extensions: Partial<Extensions>
   templates: Partial<Templates>
+  type: string
   /**
    * Default font - can be a google font link or an external font link
    * @default "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
@@ -113,7 +114,8 @@ export interface EnforcedWidgetSettings {
   features: Features
   callbacks: Callbacks
   extensions: Extensions
-  templates: Partial<Templates>
+  templates: Partial<Templates>,
+  type: string
 }
 
 function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
@@ -146,6 +148,7 @@ function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
 
 function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSettings {
   return {
+    type: settings.type,
     features: {
       showTitle: true,
       preloadImages: true,
@@ -218,7 +221,7 @@ async function loadFeatures(settings: EnforcedWidgetSettings) {
   }
 
   if (limitTilesPerPage) {
-    addTilesPerPageFeature()
+    addTilesPerPageFeature(settings.type);
   }
 
   return settings
@@ -301,7 +304,7 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
 
 export function loadWidget(settings: MyWidgetSettings) {
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
-  addCSSVariablesToPlacement(getCSSVariables())
+  addCSSVariablesToPlacement(getCSSVariables(settingsWithDefaults.type))
   loadTemplates(settingsWithDefaults)
   loadFeatures(settingsWithDefaults)
   loadExtensions(settingsWithDefaults)

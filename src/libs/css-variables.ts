@@ -2,14 +2,27 @@ import type { ISdk, Style } from "../"
 
 declare const sdk: ISdk
 
-function getTileSize() {
+export function getTileSize(widgetType: string) {
   const style = sdk.getStyleConfig()
   const { inline_tile_size } = style
 
-  const tileSizes: { [key: string]: string } = {
-    small: "173px",
-    medium: "265.5px",
-    large: "400px"
+  let tileSizes : Record<string, string>
+
+  switch (widgetType) {
+    case "direct-uploader":
+      tileSizes = {
+        small: "127.75px",
+        medium: "210.4px",
+        large: "265.5px",
+      }
+      break;
+    default:
+      tileSizes = {
+        small: "173px",
+        medium: "265.5px",
+        large: "400px"
+      }
+      break;
   }
 
   if (!inline_tile_size) {
@@ -19,8 +32,8 @@ function getTileSize() {
   return tileSizes[inline_tile_size]
 }
 
-export function getTileSizeByWidget() {
-  const sizeWithUnit = getTileSize()
+export function getTileSizeByWidget(widgetType: string) {
+  const sizeWithUnit = getTileSize(widgetType)
   const sizeUnitless = sizeWithUnit.replace("px", "")
   return { "--tile-size": sizeWithUnit, "--tile-size-unitless": sizeUnitless }
 }
@@ -32,7 +45,7 @@ export function trimHashValuesFromObject(obj: Style) {
   }, {})
 }
 
-export default function getCSSVariables(): string {
+export default function getCSSVariables(widgetType: string): string {
   const styles = sdk.getStyleConfig()
   const inlineTileSettings = sdk.getInlineTileConfig()
   const {
@@ -49,8 +62,7 @@ export default function getCSSVariables(): string {
     text_tile_user_name_font_size,
     text_tile_user_handle_font_size,
     shopspot_icon,
-    expanded_tile_border_radius,
-    tile_tag_background
+    expanded_tile_border_radius
   } = trimHashValuesFromObject(styles)
 
   const { show_timestamp, show_caption } = inlineTileSettings
@@ -79,8 +91,9 @@ export default function getCSSVariables(): string {
     "--cta-button-font-color": `#ffffff`,
     "--cta-button-font-size": `18px`,
     "--expanded-tile-border-radius": `${expanded_tile_border_radius}px`,
-    ...getTileSizeByWidget(),
-    "--tile-tag-background": `#${tile_tag_background}`
+    ...getTileSizeByWidget(widgetType),
+    "--tile-tag-background": 'rgba(0, 0, 0, 0.4)',
+    '--tile-tag-inline-background': 'rgba(0, 0, 0, 0.4)',
   }
 
   return Object.entries(cssVariables)

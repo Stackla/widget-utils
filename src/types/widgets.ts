@@ -137,7 +137,6 @@ export interface Style {
   name: string
   plugin_instance_id: string
   polling_frequency: string
-  rows_per_page: string
   shopspot_btn_background: string
   shopspot_btn_font_color: string
   shopspot_btn_font_size: string
