@@ -283,14 +283,12 @@ export function createTileContainerResizeObserver(widgetType: string) {
 }
 
 export function addTilesPerPageFeature(widgetType: string) {
-  // on resize of element, calculate how many tiles to show
     const { enable_custom_tiles_per_page, tiles_per_page } = sdk.getStyleConfig()
 
     if (enable_custom_tiles_per_page) {
       // FIXME: Make tiles_per_page number across the board
       sdk.tiles.setVisibleTilesCount(parseInt(tiles_per_page))
     } else {
-      // Use screen size of sdk.getPlacement.getShadowRoot() to determine how many tiles to show and rows per page
       createTileContainerResizeObserver(widgetType)
     }
 }
