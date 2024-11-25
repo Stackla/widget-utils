@@ -1,8 +1,6 @@
 import type { ISdk } from "../../../"
 import { Tile } from "../../../"
 import { createElement, createFragment } from "../../"
-import { Tags } from "../../templates/tags/tags.lib"
-import { ShareMenu } from "../../templates/share-menu/share-menu.lib"
 import { EmbedYoutube } from "./embed-youtube.template"
 
 export type ExpandedTileProps = {
@@ -28,9 +26,7 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
 
   return (
     <>
-      {sharingToolsEnabled ? <ShareMenu tile={tile} /> : <></>}
       <div class="panel">
-        <div class="panel-overlay"></div>
         <div class="panel-left">
           <RenderIconSection tile={tile} productsEnabled={productsEnabled} />
           <div class="image-wrapper">
@@ -56,11 +52,8 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
           <div class="panel-right-wrapper">
             <div class="content-wrapper">
               <div class="content-inner-wrapper">
-                <button class="share-button">
-                  <span class="widget-icon icon-share" alt="Share button"></span>
-                </button>
-                <tile-content tileId={tile.id} />
-                {tagsEnabled && <Tags tile={tile} />}
+                <tile-content tileId={tile.id} render-share-menu={sharingToolsEnabled} />
+                {tagsEnabled && <tile-tags tile-id={tile.id} />}
                 {productsEnabled && (
                   <>
                     <ugc-products parent={parent} tile-id={tile.id} />

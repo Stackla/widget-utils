@@ -55,7 +55,13 @@
       "import": "./dist/esm/events/index.js",
       "types": "./dist/esm/events/index.d.ts",
       "require": "./dist/cjs/events/index.js"
-    }
+    },
+    "./icons": "./dist/styles/_icons.scss",
+    "./mixins": "./dist/styles/_mixins.scss",
+    "./fonts": "./dist/styles/_fonts.scss",
+    "./grid": "./dist/styles/_grid.scss",
+    "./icon-sections": "./dist/styles/_icon-sections.scss",
+    "./tile-overlay": "./dist/styles/_tile-overlay.scss"
   },
   "scripts": {
     "eslint": "eslint src/.",

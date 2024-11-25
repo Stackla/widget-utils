@@ -1,13 +1,13 @@
 import {
   destroySwiper,
   getActiveSlide,
+  getActiveSlideElement,
   getInstance,
   getSwiperIndexforTile,
   initializeSwiper,
   LookupAttr
 } from "../../extensions/swiper/swiper.extension"
 import { waitForElm } from "../../widget.features"
-import { registerExpandedTileShareMenuListeners } from "../../templates/share-menu/share-menu.listener"
 import { SdkSwiper } from "../../../types/SdkSwiper"
 import Swiper from "swiper"
 import { pauseTiktokVideo, playTiktokVideo } from "./tiktok-message"
@@ -259,16 +259,77 @@ export function onTileRendered() {
   setupTikTokPlayerReadyEvent()
 
   tiles?.forEach(tile => {
-    const tileId = tile.getAttribute("data-id")
-    const shareButton = tile.querySelector<HTMLElement>(".panel-right .share-button")
-    if (!shareButton) {
-      throw new Error(`Share button not found in expanded tile ${tileId}`)
-    }
-    registerExpandedTileShareMenuListeners(expandedTilesElement, shareButton, tile)
-
     setupVideoEvents(tile, widgetSelector)
     setupYoutubeEvents(tile, widgetSelector)
   })
+}
+
+/**
+ * Reduces visibility of swiper controls when share menu is opened
+ */
+export function reduceBackgroundControlsVisibility(sourceId: string) {
+  if (!isValidEventSource(sourceId)) {
+    return
+  }
+
+  const expandedTilesElement = sdk.querySelector("expanded-tiles")
+
+  const wrapper = expandedTilesElement.querySelector<HTMLElement>(".expanded-tile-wrapper")
+
+  if (!wrapper) {
+    return
+  }
+
+  const navigationPrevButton = wrapper.querySelector<HTMLElement>(".swiper-expanded-button-prev")
+  const navigationNextButton = wrapper.querySelector<HTMLElement>(".swiper-expanded-button-next")
+  const exitTileButton = wrapper.querySelector<HTMLElement>(".exit")
+
+  navigationNextButton?.classList.add("swiper-button-disabled")
+  navigationPrevButton?.classList.add("swiper-button-disabled")
+
+  if (exitTileButton) {
+    exitTileButton.style.opacity = "0.4"
+  }
+}
+
+/**
+ * Resets visibility of swiper controls when share menu is closed
+ */
+export function resetBackgroundControlsVisibility(sourceId: string) {
+  if (!isValidEventSource(sourceId)) {
+    return
+  }
+
+  const expandedTilesElement = sdk.querySelector("expanded-tiles")
+
+  const wrapper = expandedTilesElement.querySelector<HTMLElement>(".expanded-tile-wrapper")
+
+  if (!wrapper) {
+    return
+  }
+
+  const navigationPrevButton = wrapper.querySelector<HTMLElement>(".swiper-expanded-button-prev")
+  const navigationNextButton = wrapper.querySelector<HTMLElement>(".swiper-expanded-button-next")
+  const exitTileButton = wrapper.querySelector<HTMLElement>(".exit")
+
+  navigationNextButton?.classList.remove("swiper-button-disabled")
+  navigationPrevButton?.classList.remove("swiper-button-disabled")
+
+  if (exitTileButton) {
+    exitTileButton.removeAttribute("style")
+  }
+}
+
+/**
+ * Checks if the source id from the event matches the active slide tile id
+ * TODO - Improve this if the tile id can be repeated real time
+ *
+ * @param { string } sourceId - an event identifier. usually a tileId or a combinations of ids
+ * @returns
+ */
+function isValidEventSource(sourceId: string) {
+  const activeSlideElement = getActiveSlideElement("expanded")
+  return activeSlideElement?.getAttribute("data-id") === sourceId
 }
 
 /**

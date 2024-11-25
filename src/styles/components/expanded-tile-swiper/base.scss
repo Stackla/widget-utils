@@ -24,10 +24,6 @@ expanded-tiles {
   }
 
   .expanded-tile-wrapper {
-    .panel-overlay {
-      display: none;
-    }
-
     .panel {
       background: var(--text-tile-background);
       border-radius: var(--expanded-tile-border-radius);
@@ -80,7 +76,6 @@ expanded-tiles {
 
         .content-inner-wrapper {
           height: 100%;
-          position: relative;
 
           a {
             color: var(--text-tile-tag-font-color);
