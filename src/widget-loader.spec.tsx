@@ -1,6 +1,6 @@
 import { callbackDefaults } from "./events"
 import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
-import { loadTemplates } from "./widget-loader"
+import { EnforcedWidgetSettings, loadTemplates } from "./widget-loader"
 
 const sdk = {
   addSharedCssCustomStyles: jest.fn(),
@@ -18,7 +18,7 @@ jest.mock("./libs/components/expanded-tile-swiper", () => ({
   loadExpandedTileTemplates: jest.fn()
 }))
 
-const settings = {
+const settings: EnforcedWidgetSettings = {
   features: {
     showTitle: true,
     preloadImages: true,
@@ -29,6 +29,7 @@ const settings = {
     hideBrokenImages: true,
     loadExpandedTileSlider: true,
     loadTileContent: true,
+    loadTimephrase: true,
     expandedTileSettings: {
       useDefaultExpandedTileStyles: true,
       useDefaultProductStyles: true,

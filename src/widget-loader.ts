@@ -67,6 +67,11 @@ interface Features {
    */
   loadTileContent: boolean
   /**
+   * Load the timephrase web component
+   * @default true
+   */
+  loadTimephrase: boolean
+  /**
    * Expanded tile settings
    */
   expandedTileSettings: ExpandedTileSettings
@@ -156,6 +161,7 @@ function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSe
       hideBrokenImages: true,
       loadExpandedTileSlider: true,
       loadTileContent: true,
+      loadTimephrase: true,
       expandedTileSettings: {
         useDefaultExpandedTileStyles: true,
         useDefaultProductStyles: true,
@@ -188,14 +194,17 @@ async function loadFeatures(settings: EnforcedWidgetSettings) {
     handleLoadMore,
     limitTilesPerPage,
     hideBrokenImages,
-    loadTileContent
+    loadTileContent,
+    loadTimephrase
   } = settings.features
 
   sdk.tiles.preloadImages = preloadImages
   sdk.tiles.hideBrokenTiles = hideBrokenImages
 
   if (loadTileContent) {
-    sdk.addLoadedComponents(["tile-content"])
+    sdk.addLoadedComponents(["tile-content", "timephrase"])
+  } else if (loadTimephrase) {
+    sdk.addLoadedComponents(["timephrase"])
   }
 
   if (disableWidgetIfNotEnabled) {
