@@ -1,4 +1,3 @@
-export * from "./clipboard-polyfills"
 export * from "./css-variables"
 export * from "./jsx-html"
 export * from "./tile.lib"

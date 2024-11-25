@@ -7,6 +7,8 @@ import {
   getTileSize,
   registerDefaultClickEvents,
   registerGenericEventListener,
+  registerShareMenuClosedListener,
+  registerShareMenuOpenedListener,
   registerTileExpandListener,
   type ISdk,
   type Tile
@@ -15,7 +17,13 @@ import { loadExpandSettingComponents } from "./widget.components"
 import { isEnabled } from "./widget.layout"
 import { useInfiniteScroller } from "../hooks"
 
-import { onTileClosed, onTileExpand, onTileRendered } from "./components/expanded-tile-swiper/expanded-swiper.loader"
+import {
+  onTileClosed,
+  onTileExpand,
+  onTileRendered,
+  reduceBackgroundControlsVisibility,
+  resetBackgroundControlsVisibility
+} from "./components/expanded-tile-swiper/expanded-swiper.loader"
 
 declare const sdk: ISdk
 
@@ -118,6 +126,8 @@ export function loadExpandedTileFeature() {
     registerTileExpandListener(onTileExpand)
     registerGenericEventListener(EXPANDED_TILE_CLOSE, onTileClosed)
     registerGenericEventListener(EVENT_TILE_EXPAND_RENDERED, onTileRendered)
+    registerShareMenuOpenedListener(reduceBackgroundControlsVisibility)
+    registerShareMenuClosedListener(resetBackgroundControlsVisibility)
   } else if (click_through_url === "[ORIGINAL_URL]" || /^https?:\/\/.+/.test(click_through_url ?? "")) {
     registerDefaultClickEvents()
   }

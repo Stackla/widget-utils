@@ -17,7 +17,11 @@ export function ExpandedTiles(sdk: ISdk) {
       <div class="swiper swiper-expanded">
         <div class="swiper-wrapper ugc-tiles">
           {Object.values(tiles).map(tile => (
-            <div class="ugc-tile swiper-slide" data-id={tile.id} data-yt-id={tile.youtube_id || ""}>
+            <div
+              class="ugc-tile swiper-slide"
+              data-id={tile.id}
+              data-yt-id={tile.youtube_id || ""}
+              data-tiktok-id={tile.tiktok_id || ""}>
               <ExpandedTile sdk={sdk} tile={tile} />
             </div>
           ))}

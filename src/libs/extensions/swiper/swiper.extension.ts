@@ -4,6 +4,11 @@ import { Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
 
 declare const sdk: SdkSwiper
 
+export type LookupAttr = {
+  name: string
+  value: string
+}
+
 export function initializeSwiper({
   id,
   widgetSelector,
@@ -65,9 +70,17 @@ export function refreshSwiper(id: string) {
   }
 }
 
-export function getSwiperIndexforTile(swiperSelector: HTMLElement, tileId: string) {
+export function getSwiperIndexforTile(swiperSelector: HTMLElement, tileId: string, lookupAttr?: LookupAttr) {
   const slideElements = swiperSelector.querySelectorAll<HTMLElement>(".swiper-slide")
-  const index = Array.from(slideElements).findIndex(element => element.getAttribute("data-id") === tileId)
+  const index = (() => {
+    if (lookupAttr) {
+      return Array.from(slideElements).findIndex(
+        element =>
+          element.getAttribute("data-id") === tileId && element.getAttribute(lookupAttr.name) === lookupAttr.value
+      )
+    }
+    return Array.from(slideElements).findIndex(element => element.getAttribute("data-id") === tileId)
+  })()
   return index < 0 ? 0 : index
 }
 
@@ -102,5 +115,9 @@ export function getInstance(id: string) {
 }
 
 export function getActiveSlide(id: string) {
-  return sdk[id]?.instance?.realIndex
+  return sdk[id]?.instance?.realIndex || 0
+}
+
+export function getActiveSlideElement(id: string) {
+  return sdk[id]?.instance?.slides[getActiveSlide(id) || 0]
 }

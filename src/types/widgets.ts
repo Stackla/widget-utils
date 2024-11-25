@@ -145,6 +145,7 @@ export interface Style {
   text_tile_background: string
   text_tile_font_color: string
   text_tile_font_size: string
+  text_caption_paragraph_font_size: string
   text_tile_user_handle_font_color: string
   text_tile_user_handle_font_size: string
   text_tile_user_name_font_color: string
@@ -172,6 +173,8 @@ export interface Style {
   providerLayer: string
   connectedContentWidgetId: string
   defaultBounds: string
+  pinColor: string
+  pinTextColor: string
 }
 
 export interface DynamicFilterFallback {
@@ -233,21 +236,21 @@ type GATrackingEventProperties = {
   voteClick: boolean
 }
 export interface GATrackingInstance {
-  propertyId: string | null
+  propertyId: string
   events: GATrackingEventProperties
   nonInteractionEvents: GATrackingEventProperties
-  categoryName: string | null
+  categoryName: string
   enabledCustomCategoryName: boolean
   eventLabel: string | "default"
-  trackingId: string | null
+  trackingId: string
   isOverridden: boolean
   isDisabled: boolean
   isActive: boolean
-  widgetName: string | null
-  widgetId: number | null
-  accountId: string | null
-  dataStreamId: string | null
-  domainName: string | null
+  widgetName: string
+  widgetId: number
+  accountId: string
+  dataStreamId: string
+  domainName: string
   trackingStatus: boolean
 }
 export interface GoogleAdsConfig {

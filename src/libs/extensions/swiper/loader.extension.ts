@@ -8,7 +8,7 @@ function enableTileContent(slide: HTMLElement) {
 }
 
 function enableTileImage(slide: HTMLElement) {
-  const tileImage = slide.querySelector<HTMLImageElement>(".tile-image > img")
+  const tileImage = slide.querySelector<HTMLImageElement>(".tile-image-wrapper > img")
   if (tileImage) {
     if (tileImage.complete) {
       enableTileContent(slide)

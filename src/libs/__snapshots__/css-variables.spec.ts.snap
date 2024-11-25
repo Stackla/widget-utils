@@ -12,6 +12,7 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --shopspot-btn-font-color: #00ffff;
 --margin: 10px;
 --text-tile-font-size: 16px;
+--text-caption-paragraph-font-size: 12px;
 --text-tile-user-name-font-size: 16px;
 --text-tile-user-handle-font-size: 12px;
 --show-caption: none;

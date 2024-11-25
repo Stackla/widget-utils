@@ -1,8 +1,6 @@
 import type { ISdk } from "../../../"
 import { Tile } from "../../../"
 import { createElement, createFragment } from "../../"
-import { Tags } from "../../templates/tags/tags.lib"
-import { ShareMenu } from "../../templates/share-menu/share-menu.lib"
 import { EmbedYoutube } from "./embed-youtube.template"
 
 export type ExpandedTileProps = {
@@ -28,9 +26,7 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
 
   return (
     <>
-      {sharingToolsEnabled ? <ShareMenu tile={tile} /> : <></>}
       <div class="panel">
-        <div class="panel-overlay"></div>
         <div class="panel-left">
           <RenderIconSection tile={tile} productsEnabled={productsEnabled} />
           <div class="image-wrapper">
@@ -56,11 +52,8 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
           <div class="panel-right-wrapper">
             <div class="content-wrapper">
               <div class="content-inner-wrapper">
-                <button class="share-button">
-                  <span class="widget-icon icon-share" alt="Share button"></span>
-                </button>
-                <tile-content tileId={tile.id} />
-                {tagsEnabled && <Tags tile={tile} />}
+                <tile-content tileId={tile.id} render-share-menu={sharingToolsEnabled} />
+                {tagsEnabled && <tile-tags tile-id={tile.id} />}
                 {productsEnabled && (
                   <>
                     <ugc-products parent={parent} tile-id={tile.id} />
@@ -208,15 +201,17 @@ function RenderTwitterTemplate({ tile }: { tile: Tile }) {
 }
 
 function RenderTikTokTemplate({ tile }: { tile: Tile }) {
-  const tiktokId = tile.original_url.split("/")[5]
+  const tiktokId = tile.tiktok_id
 
   return (
     <iframe
+      id={`tiktok-frame-${tile.id}-${tiktokId}`}
       loading="lazy"
       class="video-content"
       frameborder="0"
       allowfullscreen
-      src={`https://www.tiktok.com/player/v1/${tiktokId}`}
+      allow="autoplay" // refer https://developer.chrome.com/blog/autoplay/
+      src={`https://www.tiktok.com/player/v1/${tiktokId}?rel=0`}
     />
   )
 }

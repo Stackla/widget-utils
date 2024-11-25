@@ -2,11 +2,10 @@ import { ExpandedTiles } from "./base.template"
 import expandedTileStyle from "../../../styles/components/expanded-tile-swiper/base.scss"
 import swiperExpandedStyles from "../../extensions/swiper/swiper-expanded.scss"
 import { ISdk } from "../../../"
-import shareMenuStyle from "../../../styles/templates/share-menu/share-menu.scss"
 import addToCartStyleOverrides from "../../../styles/components/expanded-tile-swiper/add-to-cart.scss"
 import productStyleOverrides from "../../../styles/components/expanded-tile-swiper/products.scss"
 import { loadSwiperStyles } from "../../extensions/swiper"
-import icons from "../../../styles/uikit/icon.scss"
+import icons from "../../../styles/uikit/_icons.scss"
 
 declare const sdk: ISdk
 
@@ -50,7 +49,6 @@ export interface ExpandedTileSettings {
 function loadDefaultExpandedTileStyles(settings: ExpandedTileSettings) {
   if (settings.useDefaultExpandedTileStyles) {
     sdk.addCSSToComponent(expandedTileStyle, "expanded-tiles")
-    sdk.addCSSToComponent(shareMenuStyle, "expanded-tiles")
     sdk.addCSSToComponent(swiperExpandedStyles, "expanded-tiles")
   }
   if (settings.useDefaultAddToCartStyles) {

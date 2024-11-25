@@ -44,6 +44,7 @@ describe("Widget Functions", () => {
         shopspot_btn_font_color: "00ffff",
         margin: 10,
         text_tile_font_size: 16,
+        text_caption_paragraph_font_size: 12,
         text_tile_user_name_font_size: 16,
         text_tile_user_handle_font_size: null,
         shopspot_icon: null,
@@ -73,6 +74,7 @@ describe("Widget Functions", () => {
         shopspot_btn_font_color: "#00ffff",
         margin: "10",
         text_tile_font_size: "16",
+        text_caption_paragraph_font_size: "12",
         text_tile_user_name_font_size: "16",
         tile_tag_background: "#D6D4D5",
         auto_refresh: "",
@@ -109,7 +111,9 @@ describe("Widget Functions", () => {
         providerApiKey: "",
         providerLayer: "OpenStreetMap.BlackAndWhite",
         connectedContentWidgetId: "",
-        defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102"
+        defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102",
+        pinColor: "f7584c",
+        pinTextColor: "ffffff"
       })
 
       expect(value).toEqual({
@@ -123,6 +127,7 @@ describe("Widget Functions", () => {
         shopspot_btn_font_color: "00ffff",
         margin: "10",
         text_tile_font_size: "16",
+        text_caption_paragraph_font_size: "12",
         text_tile_user_name_font_size: "16",
         tile_tag_background: "D6D4D5",
         auto_refresh: "",
@@ -159,7 +164,9 @@ describe("Widget Functions", () => {
         providerApiKey: "",
         providerLayer: "OpenStreetMap.BlackAndWhite",
         connectedContentWidgetId: "",
-        defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102"
+        defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102",
+        pinColor: "f7584c",
+        pinTextColor: "ffffff"
       })
     })
   })
