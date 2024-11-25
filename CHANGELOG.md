@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.19
+
+### Patch Changes
+
+- 9951731: Refactoring logic of rendering share-menu and listerens so that they can be reused
+
 ## 0.1.18
 
 ### Patch Changes
