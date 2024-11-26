@@ -1,4 +1,5 @@
 import {
+  EVENT_LOAD,
   EVENT_LOAD_MORE,
   EVENT_TILE_EXPAND,
   EVENT_TILE_EXPAND_RENDERED,
@@ -252,8 +253,7 @@ export function getRowsPerPage(widgetType: string, tileSize: number, gap: number
 }
 
 function calculateTilesToShow(margin: number, widgetType: string) {
-  const screenWidth = sdk.placement.getElement().offsetWidth - margin
-
+    const screenWidth = sdk.placement.getElement().offsetWidth - margin
     const tileSize = parseInt(getTileSize(widgetType).replace("px", ""))
     const tilesByScreenWidth = Math.floor(screenWidth / (tileSize + margin))
     const rows = getRowsPerPage(widgetType, tileSize, margin)
@@ -285,10 +285,15 @@ function calculateTilesToShow(margin: number, widgetType: string) {
 
 export function createTileContainerResizeObserver(widgetType: string) {
   const styleOptions = sdk.getStyleConfig()
+  const events = sdk.events;
   const { margin } = styleOptions
   const marginAsInt = parseInt(margin)
 
   calculateTilesToShow(marginAsInt, widgetType)
+
+  events.addUgcEventListener(EVENT_LOAD, () => {
+    calculateTilesToShow(marginAsInt, widgetType)
+  })
 
   window.addEventListener("resize", () => {
     calculateTilesToShow(marginAsInt, widgetType)
