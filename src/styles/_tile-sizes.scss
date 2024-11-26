@@ -1,0 +1,33 @@
+@use "sass:map";
+
+$tile-sizes: (
+  "small": 173px,
+  "medium": 265.5px,
+  "large": 400px
+);
+
+$tile-sizes-unitless: (
+  "small": 173,
+  "medium": 265.5,
+  "large": 400
+);
+
+@function get-tile-size($size) {
+  @return map.get($tile-sizes, $size);
+}
+
+@function get-ile-size-unitless($size) {
+  @return map.get($tile-sizes-unitless, $size);
+}
+
+@mixin load-css-variables($host) {
+  #{$host} {
+    @each $key, $value in $tile-sizes {
+      --#{$key}: #{$value};
+    }
+
+    @each $key, $value in $tile-sizes-unitless {
+      --#{$key}-unitless: #{$value};
+    }
+  }
+}
