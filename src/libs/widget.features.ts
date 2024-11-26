@@ -255,41 +255,37 @@ export function createTileContainerResizeObserver(widgetType: string) {
   const styleOptions = sdk.getStyleConfig()
   const { margin } = styleOptions
   const marginAsInt = parseInt(margin)
-  const resizeObserver = new ResizeObserver(entries => {
-    entries.forEach(() => {
-      const screenWidth = sdk.placement.getElement().offsetWidth - marginAsInt
+  window.addEventListener("resize", () => {
+    const screenWidth = sdk.placement.getElement().offsetWidth - marginAsInt
 
-      const tileSize = parseInt(getTileSize(widgetType).replace("px", ""))
-      const tilesByScreenWidth = Math.floor(screenWidth / (tileSize + marginAsInt))
-      const rows = getRowsPerPage(widgetType, tileSize, marginAsInt)
-      const tilesPerPage = tilesByScreenWidth * rows
+    const tileSize = parseInt(getTileSize(widgetType).replace("px", ""))
+    const tilesByScreenWidth = Math.floor(screenWidth / (tileSize + marginAsInt))
+    const rows = getRowsPerPage(widgetType, tileSize, marginAsInt)
+    const tilesPerPage = tilesByScreenWidth * rows
 
-      sdk.tiles.setVisibleTilesCount(tilesPerPage)
-      sdk.tiles.loadTilesUntilVisibleTilesCount()
+    sdk.tiles.setVisibleTilesCount(tilesPerPage)
+    sdk.tiles.loadTilesUntilVisibleTilesCount()
 
-      // Hide tiles after the calculated tiles per page
-      const tiles = sdk.querySelectorAll(".ugc-tile")
-      const tilesToHideArray = Array.from(tiles).slice(tilesPerPage)
-      tilesToHideArray.forEach(tile => {
-        tile.style.display = "none"
-        tile.classList.remove("last-tile")
-      })
-
-      // Show tiles after the calculated tiles per page
-      const tilesToShowArray = Array.from(tiles).slice(0, tilesPerPage)
-      tilesToShowArray.forEach(tile => {
-        tile.style.display = ""
-        tile.classList.remove("last-tile")
-      })
-
-      // There are complications with pseudo elements and last-child that is visible, so we need to add a class to the last tile
-      if (tilesToShowArray[tilesToShowArray.length - 1]) {
-        tilesToShowArray[tilesToShowArray.length - 1].classList.add("last-tile")
-      }
+    // Hide tiles after the calculated tiles per page
+    const tiles = sdk.querySelectorAll(".ugc-tile")
+    const tilesToHideArray = Array.from(tiles).slice(tilesPerPage)
+    tilesToHideArray.forEach(tile => {
+      tile.style.display = "none"
+      tile.classList.remove("last-tile")
     })
-  })
 
-  resizeObserver.observe(sdk.placement.getElement())
+    // Show tiles after the calculated tiles per page
+    const tilesToShowArray = Array.from(tiles).slice(0, tilesPerPage)
+    tilesToShowArray.forEach(tile => {
+      tile.style.display = ""
+      tile.classList.remove("last-tile")
+    })
+
+    // There are complications with pseudo elements and last-child that is visible, so we need to add a class to the last tile
+    if (tilesToShowArray[tilesToShowArray.length - 1]) {
+      tilesToShowArray[tilesToShowArray.length - 1].classList.add("last-tile")
+    }
+  })
 }
 
 export function addTilesPerPageFeature(widgetType: string) {
