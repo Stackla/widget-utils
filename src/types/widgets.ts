@@ -128,6 +128,8 @@ export type Type = {
 
 export type StylePropertyValue = string | boolean | DynamicFilterFallback
 
+export type TileSize = "small" | "medium" | "large"
+
 export interface Style {
   auto_refresh: string
   click_through_url: string
@@ -162,7 +164,7 @@ export interface Style {
   unavailable_products_behaviour: string
   dynamic_filter: string
   dynamic_filter_fallback: DynamicFilterFallback
-  inline_tile_size: string
+  inline_tile_size: TileSize
   inline_tile_border_radius: string
   expanded_tile_border_radius: string
   tile_tag_background: string

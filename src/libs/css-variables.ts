@@ -1,16 +1,16 @@
-import type { ISdk, Style } from "../"
+import type { ISdk, Style, TileSize } from "../"
 
 declare const sdk: ISdk
 
-function getTileSize() {
+const tileSizes: Record<TileSize, string> = {
+  small: "173px",
+  medium: "265.5px",
+  large: "400px"
+}
+
+function getTileSizeConfigured() {
   const style = sdk.getStyleConfig()
   const { inline_tile_size } = style
-
-  const tileSizes: { [key: string]: string } = {
-    small: "173px",
-    medium: "265.5px",
-    large: "400px"
-  }
 
   if (!inline_tile_size) {
     return tileSizes["medium"]
@@ -20,9 +20,13 @@ function getTileSize() {
 }
 
 export function getTileSizeByWidget() {
-  const sizeWithUnit = getTileSize()
+  const sizeWithUnit = getTileSizeConfigured()
   const sizeUnitless = sizeWithUnit.replace("px", "")
   return { "--tile-size": sizeWithUnit, "--tile-size-unitless": sizeUnitless }
+}
+
+export function getTileSize(size: TileSize, unitless: boolean = false) {
+  return unitless ? tileSizes[size].replace("px", "") : tileSizes[size]
 }
 
 export function trimHashValuesFromObject(obj: Style) {

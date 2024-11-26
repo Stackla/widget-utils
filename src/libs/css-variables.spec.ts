@@ -102,7 +102,7 @@ describe("Widget Functions", () => {
           brand: false,
           custom: 0
         },
-        inline_tile_size: "",
+        inline_tile_size: "small",
         inline_tile_border_radius: "",
         expanded_tile_border_radius: "",
         map_content_feed_filter_id: "31915",
@@ -156,7 +156,7 @@ describe("Widget Functions", () => {
           brand: false,
           custom: 0
         },
-        inline_tile_size: "",
+        inline_tile_size: "small",
         inline_tile_border_radius: "",
         expanded_tile_border_radius: "",
         map_content_feed_filter_id: "31915",
