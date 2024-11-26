@@ -241,6 +241,7 @@ function loadExtensions(settings: EnforcedWidgetSettings) {
 
   if (extensions?.masonry) {
     settings = loadMasonryCallbacks(settings)
+    settings.features.limitTilesPerPage = false
   }
 
   return settings
@@ -313,9 +314,10 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
 
 export function loadWidget(settings: MyWidgetSettings) {
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
+  settings = loadExtensions(settingsWithDefaults)
+
   addCSSVariablesToPlacement(getCSSVariables(settingsWithDefaults.type))
   loadTemplates(settingsWithDefaults)
   loadFeatures(settingsWithDefaults)
-  loadExtensions(settingsWithDefaults)
   loadListeners(settingsWithDefaults)
 }
