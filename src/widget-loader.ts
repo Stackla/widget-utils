@@ -119,7 +119,7 @@ export interface EnforcedWidgetSettings {
   features: Features
   callbacks: Callbacks
   extensions: Extensions
-  templates: Partial<Templates>,
+  templates: Partial<Templates>
   type: string
 }
 
@@ -127,8 +127,8 @@ function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
   settings.callbacks.onLoad.push(() => {
     loadAllUnloadedTiles()
     setTimeout(() => renderMasonryLayout(), 1000)
-  });
-  
+  })
+
   settings.callbacks.onTilesUpdated.push(() => {
     renderMasonryLayout()
   })
@@ -230,7 +230,7 @@ async function loadFeatures(settings: EnforcedWidgetSettings) {
   }
 
   if (limitTilesPerPage) {
-    addTilesPerPageFeature(settings.type);
+    addTilesPerPageFeature(settings.type)
   }
 
   return settings

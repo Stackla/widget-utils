@@ -6,23 +6,23 @@ export function getTileSize(widgetType: string) {
   const style = sdk.getStyleConfig()
   const { inline_tile_size } = style
 
-  let tileSizes : Record<string, string>
+  let tileSizes: Record<string, string>
 
   switch (widgetType) {
     case "direct-uploader":
       tileSizes = {
         small: "127.75px",
         medium: "210.4px",
-        large: "265.5px",
+        large: "265.5px"
       }
-      break;
+      break
     default:
       tileSizes = {
         small: "173px",
         medium: "265.5px",
         large: "400px"
       }
-      break;
+      break
   }
 
   if (!inline_tile_size) {
@@ -94,8 +94,8 @@ export default function getCSSVariables(widgetType: string): string {
     "--cta-button-font-size": `18px`,
     "--expanded-tile-border-radius": `${expanded_tile_border_radius}px`,
     ...getTileSizeByWidget(widgetType),
-    "--tile-tag-background": 'rgba(0, 0, 0, 0.4)',
-    '--tile-tag-inline-background': 'rgba(0, 0, 0, 0.4)',
+    "--tile-tag-background": "rgba(0, 0, 0, 0.4)",
+    "--tile-tag-inline-background": "rgba(0, 0, 0, 0.4)"
   }
 
   return Object.entries(cssVariables)

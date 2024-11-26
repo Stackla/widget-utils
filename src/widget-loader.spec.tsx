@@ -18,7 +18,7 @@ jest.mock("./libs/components/expanded-tile-swiper", () => ({
   loadExpandedTileTemplates: jest.fn()
 }))
 
-const settings : EnforcedWidgetSettings = {
+const settings: EnforcedWidgetSettings = {
   type: "direct-uploader",
   features: {
     showTitle: true,
