@@ -290,14 +290,8 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
 
       if (styles) {
         styles.forEach(style => {
-          const { css, global } = style
-
-          if (global) {
-            const randomKey = Math.random().toString(36).substring(7)
-            sdk.addSharedCssCustomStyles(randomKey, css, [sdk.placement.getWidgetId(), key])
-          } else {
-            sdk.addCSSToComponent(css, key)
-          }
+          const { css } = style
+          sdk.placement.injectStaticComponentStyle(key, css)
         })
       }
 
