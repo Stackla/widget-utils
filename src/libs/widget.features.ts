@@ -251,16 +251,12 @@ export function getRowsPerPage(widgetType: string, tileSize: number, gap: number
   return Math.ceil(window.innerHeight / (tileSize + gap)) - 1
 }
 
-export function createTileContainerResizeObserver(widgetType: string) {
-  const styleOptions = sdk.getStyleConfig()
-  const { margin } = styleOptions
-  const marginAsInt = parseInt(margin)
-  window.addEventListener("resize", () => {
-    const screenWidth = sdk.placement.getElement().offsetWidth - marginAsInt
+function calculateTilesToShow(margin: number, widgetType: string) {
+  const screenWidth = sdk.placement.getElement().offsetWidth - margin
 
     const tileSize = parseInt(getTileSize(widgetType).replace("px", ""))
-    const tilesByScreenWidth = Math.floor(screenWidth / (tileSize + marginAsInt))
-    const rows = getRowsPerPage(widgetType, tileSize, marginAsInt)
+    const tilesByScreenWidth = Math.floor(screenWidth / (tileSize + margin))
+    const rows = getRowsPerPage(widgetType, tileSize, margin)
     const tilesPerPage = tilesByScreenWidth * rows
 
     sdk.tiles.setVisibleTilesCount(tilesPerPage)
@@ -281,10 +277,21 @@ export function createTileContainerResizeObserver(widgetType: string) {
       tile.classList.remove("last-tile")
     })
 
-    // There are complications with pseudo elements and last-child that is visible, so we need to add a class to the last tile
+    // There are complications with pseudo selectors and last-child that is visible, so we need to add a class to the last tile
     if (tilesToShowArray[tilesToShowArray.length - 1]) {
       tilesToShowArray[tilesToShowArray.length - 1].classList.add("last-tile")
     }
+}
+
+export function createTileContainerResizeObserver(widgetType: string) {
+  const styleOptions = sdk.getStyleConfig()
+  const { margin } = styleOptions
+  const marginAsInt = parseInt(margin)
+
+  calculateTilesToShow(marginAsInt, widgetType)
+
+  window.addEventListener("resize", () => {
+    calculateTilesToShow(marginAsInt, widgetType)
   })
 }
 
