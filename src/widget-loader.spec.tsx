@@ -7,7 +7,8 @@ const sdk = {
   addCSSToComponent: jest.fn(),
   addTemplateToComponent: jest.fn(),
   placement: {
-    getWidgetId: jest.fn().mockReturnValue("widget-id")
+    getWidgetId: jest.fn().mockReturnValue("widget-id"),
+    injectStaticComponentStyle: jest.fn()
   }
 }
 
@@ -124,7 +125,7 @@ describe("loadTemplates", () => {
 
     loadTemplates(mutatedSettings)
 
-    expect(sdk.addCSSToComponent).toHaveBeenCalledWith("body { color: red; }", "shopspots")
+    expect(sdk.placement.injectStaticComponentStyle).toHaveBeenCalledWith("shopspots", "body { color: red; }")
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     expect(sdk.addTemplateToComponent).toHaveBeenCalledWith(expect.any(Function), "shopspots")
   })
@@ -151,9 +152,9 @@ describe("loadTemplates", () => {
 
     loadTemplates(mutatedSettings)
 
-    expect(sdk.addSharedCssCustomStyles).toHaveBeenCalled()
+    expect(sdk.placement.injectStaticComponentStyle).toHaveBeenCalled()
 
-    expect(sdk.addCSSToComponent).toHaveBeenCalledWith("body { color: blue; }", "shopspots")
+    expect(sdk.placement.injectStaticComponentStyle).toHaveBeenCalledWith("shopspots", "body { color: blue; }")
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     expect(sdk.addTemplateToComponent).toHaveBeenCalledWith(expect.any(Function), "shopspots")
   })
