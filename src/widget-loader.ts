@@ -124,11 +124,11 @@ export interface EnforcedWidgetSettings {
 }
 
 function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
-  settings.callbacks.onWidgetInitComplete.push(() => {
+  settings.callbacks.onLoad.push(() => {
     loadAllUnloadedTiles()
     setTimeout(() => renderMasonryLayout(), 1000)
-  })
-
+  });
+  
   settings.callbacks.onTilesUpdated.push(() => {
     renderMasonryLayout()
   })
