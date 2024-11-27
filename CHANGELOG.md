@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.21
+
+### Patch Changes
+
+- a66f023: Remove css types for cleanliness
+
 ## 0.1.20
 
 ### Patch Changes
