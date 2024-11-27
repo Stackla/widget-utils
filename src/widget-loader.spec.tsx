@@ -3,8 +3,6 @@ import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swipe
 import { EnforcedWidgetSettings, loadTemplates } from "./widget-loader"
 
 const sdk = {
-  addSharedCssCustomStyles: jest.fn(),
-  addCSSToComponent: jest.fn(),
   addTemplateToComponent: jest.fn(),
   placement: {
     getWidgetId: jest.fn().mockReturnValue("widget-id"),
@@ -49,21 +47,9 @@ const settings: EnforcedWidgetSettings = {
   },
   templates: {
     direct_uploader: {
-      styles: [
-        {
-          css: "body { color: red; }",
-          global: false
-        }
-      ],
       template: () => "<p>Hello!</p>"
     },
     shopspots: {
-      styles: [
-        {
-          css: "body { color: blue; }",
-          global: true
-        }
-      ],
       template: () => "<p>Hi!</p>"
     }
   }
@@ -101,9 +87,6 @@ describe("loadTemplates", () => {
     }
 
     loadTemplates(mutatedSettings)
-
-    expect(sdk.addSharedCssCustomStyles).not.toHaveBeenCalled()
-    expect(sdk.addCSSToComponent).not.toHaveBeenCalled()
     expect(sdk.addTemplateToComponent).not.toHaveBeenCalled()
   })
 
@@ -125,7 +108,6 @@ describe("loadTemplates", () => {
 
     loadTemplates(mutatedSettings)
 
-    expect(sdk.placement.injectStaticComponentStyle).toHaveBeenCalledWith("shopspots", "body { color: red; }")
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     expect(sdk.addTemplateToComponent).toHaveBeenCalledWith(expect.any(Function), "shopspots")
   })
@@ -152,9 +134,6 @@ describe("loadTemplates", () => {
 
     loadTemplates(mutatedSettings)
 
-    expect(sdk.placement.injectStaticComponentStyle).toHaveBeenCalled()
-
-    expect(sdk.placement.injectStaticComponentStyle).toHaveBeenCalledWith("shopspots", "body { color: blue; }")
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     expect(sdk.addTemplateToComponent).toHaveBeenCalledWith(expect.any(Function), "shopspots")
   })
