@@ -90,13 +90,7 @@ interface Extensions {
   masonry: boolean
 }
 
-interface TemplateStyle {
-  css: string
-  global: boolean
-}
-
 interface CustomTemplate {
-  styles?: TemplateStyle[]
   template?: Template
 }
 
