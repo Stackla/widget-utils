@@ -5,7 +5,6 @@ declare const sdk: ISdk
 let screenWidth = 0
 let previousWidthHandled = 0
 
-
 export function handleTileImageRendered(tileId?: string) {
   if (!tileId) {
     return
@@ -73,7 +72,7 @@ export function renderMasonryLayout(reset = false, resize = false) {
     throw new Error("Failed to find Nosto UGC container")
   }
 
-    const currentScreenWidth = ugcContainer.clientWidth!
+  const currentScreenWidth = ugcContainer.clientWidth!
 
   if (currentScreenWidth === 0) {
     return
@@ -88,25 +87,30 @@ export function renderMasonryLayout(reset = false, resize = false) {
     previousWidthHandled = currentScreenWidth
   }
 
-
   const allTiles = Array.from(sdk.querySelectorAll<HTMLElement>(".grid-item") ?? [])
-  const ugcTiles = reset || resize ? allTiles : allTiles.filter(tile => tile.getAttribute("width-set") !== "true" && tile.getAttribute('set-for-width') !== screenWidth.toString())
+  const ugcTiles =
+    reset || resize
+      ? allTiles
+      : allTiles.filter(
+          tile =>
+            tile.getAttribute("width-set") !== "true" && tile.getAttribute("set-for-width") !== screenWidth.toString()
+        )
 
   resizeTiles(ugcTiles)
 }
 
 function resizeTiles(ugcTiles: HTMLElement[]) {
   if (!ugcTiles || ugcTiles.length === 0) {
-    return;
+    return
   }
 
   ugcTiles.forEach((tile: HTMLElement) => {
-    const randomFlexGrow = Math.random() * 2 + 1;
-    const randomWidth = Math.random() * 200 + 150;
+    const randomFlexGrow = Math.random() * 2 + 1
+    const randomWidth = Math.random() * 200 + 150
 
-    tile.style.flex = `${randomFlexGrow} 1 auto`;
-    tile.style.width = `${randomWidth}px`;
-    tile.setAttribute("width-set", "true");
-    tile.setAttribute("set-for-width", screenWidth.toString());
-  });
+    tile.style.flex = `${randomFlexGrow} 1 auto`
+    tile.style.width = `${randomWidth}px`
+    tile.setAttribute("width-set", "true")
+    tile.setAttribute("set-for-width", screenWidth.toString())
+  })
 }
