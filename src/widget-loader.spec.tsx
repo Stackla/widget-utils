@@ -86,7 +86,7 @@ describe("loadTemplates", () => {
       templates: {}
     }
 
-    loadTemplates(mutatedSettings);
+    loadTemplates(mutatedSettings)
     expect(sdk.addTemplateToComponent).not.toHaveBeenCalled()
   })
 
