@@ -159,7 +159,7 @@ const getLoadMoreButton = () => {
     throw new Error("Failed to find load more component")
   }
 
-  const loadMoreButton = loadMoreComponent.shadowRoot?.querySelector<HTMLElement>("#load-more")
+  const loadMoreButton = loadMoreComponent?.querySelector<HTMLElement>("#load-more")
 
   if (!loadMoreButton) {
     throw new Error("Failed to find load more button")
