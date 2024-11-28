@@ -32,6 +32,10 @@ export function trimHashValuesFromObject(obj: Style) {
   }, {})
 }
 
+/**
+ * @description Get the CSS variables for the widget
+ * @params tileSizeSettings - Custom tile size settings, small, medium, large
+ */
 export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSettings"]): string {
   const styles = sdk.getStyleConfig()
   const inlineTileSettings = sdk.getInlineTileConfig()

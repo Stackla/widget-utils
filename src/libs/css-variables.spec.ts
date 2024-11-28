@@ -62,6 +62,18 @@ describe("Widget Functions", () => {
       expect(cssVariables).toMatchSnapshot()
     })
 
+    it("should return correct sizes with custom tile size settings", () => {
+      sdk.getStyleConfig.mockReturnValue({})
+      const tileSizeSettings = {
+        small: "100px",
+        medium: "200px",
+        large: "300px"
+      }
+
+      const result = getCSSVariables(tileSizeSettings)
+      expect(result).toBe("--tile-size: 200px; --tile-size-unitless: 200")
+    })
+
     it("should replace hashes with nothing in the returned object", () => {
       const value = trimHashValuesFromObject({
         widget_background: "#ffffff",
