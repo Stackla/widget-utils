@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.23
+
+### Patch Changes
+
+- 09b614e: Introduce tile size customisability
+
 ## 0.1.22
 
 ### Patch Changes
