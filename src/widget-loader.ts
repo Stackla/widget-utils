@@ -90,13 +90,7 @@ interface Extensions {
   masonry: boolean
 }
 
-interface TemplateStyle {
-  css: string
-  global: boolean
-}
-
 interface CustomTemplate {
-  styles?: TemplateStyle[]
   template?: Template
 }
 
@@ -290,20 +284,7 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
         return
       }
 
-      const { styles, template } = customTemplate
-
-      if (styles) {
-        styles.forEach(style => {
-          const { css, global } = style
-
-          if (global) {
-            const randomKey = Math.random().toString(36).substring(7)
-            sdk.addSharedCssCustomStyles(randomKey, css, [sdk.placement.getWidgetId(), key])
-          } else {
-            sdk.addCSSToComponent(css, key)
-          }
-        })
-      }
+      const { template } = customTemplate
 
       if (template) {
         sdk.addTemplateToComponent(template, key)

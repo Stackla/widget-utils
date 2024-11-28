@@ -1,5 +1,17 @@
 # @stackla/widget-utils
 
+## 0.1.21
+
+### Patch Changes
+
+- a66f023: Remove css types for cleanliness
+
+## 0.1.20
+
+### Patch Changes
+
+- 3759809: Expose inject option for injecting styles for static components and fix youtube icon rendering
+
 ## 0.1.19
 
 ### Patch Changes
