@@ -377,3 +377,13 @@
   background-size: contain;
   background-image: url("data:image/svg+xml,%3Csvg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_1219_155652)'%3E%3Ccircle cx='18' cy='18' r='14' transform='rotate(-180 18 18)' fill='white'/%3E%3C/g%3E%3Cmask id='mask0_1219_155652' style='mask-type:alpha' maskUnits='userSpaceOnUse' x='7' y='7' width='22' height='22'%3E%3Crect x='28.5' y='28.5' width='21' height='21' transform='rotate(-180 28.5 28.5)' fill='%23D9D9D9'/%3E%3C/mask%3E%3Cg mask='url(%23mask0_1219_155652)'%3E%3Cpath d='M18.3501 18.0016L15.2876 14.9391C15.0251 14.6766 14.8938 14.3557 14.8938 13.9766C14.8938 13.5974 15.0251 13.2766 15.2876 13.0141C15.5501 12.7516 15.8709 12.6203 16.2501 12.6203C16.6293 12.6203 16.9501 12.7516 17.2126 13.0141L21.2157 17.0172C21.347 17.1484 21.4491 17.3016 21.522 17.4766C21.5949 17.6516 21.6313 17.8266 21.6313 18.0016C21.6313 18.1766 21.5949 18.3516 21.522 18.5266C21.4491 18.7016 21.347 18.8547 21.2157 18.9859L17.2126 22.9891C16.9501 23.2516 16.6293 23.3828 16.2501 23.3828C15.8709 23.3828 15.5501 23.2516 15.2876 22.9891C15.0251 22.7266 14.8938 22.4057 14.8938 22.0266C14.8938 21.6474 15.0251 21.3266 15.2876 21.0641L18.3501 18.0016Z' fill='black'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter id='filter0_d_1219_155652' x='0' y='0' width='36' height='36' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_1219_155652'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_1219_155652' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E%0A");
 }
+
+.icon-play {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="15" fill="%23BCBBBC"/><path d="M19.5 14.1336C20.1667 14.5185 20.1667 15.4808 19.5 15.8657L13.5 19.3298C12.8333 19.7147 12 19.2335 12 18.4637L12 11.5355C12 10.7657 12.8333 10.2846 13.5 10.6695L19.5 14.1336Z" fill="black"/></svg>');
+    background-size: contain;
+    position: absolute;
+    top: calc(50% - 15px);
+}

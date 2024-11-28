@@ -577,7 +577,7 @@ export default [
     is_pin: false,
     is_winner: false,
     lang: "en",
-    media: "image",
+    media: "video",
     message:
       "SATURDAY JOGWALK! #BadCircleRunners #asics #newbalance #coros #UnderArmour #uniqloph #UniqloPH #strava #nike #IlocosNorte #nikeph #nikephilippines https://t.co/xmxYU1IT7X",
     name: "Jorge Richard P. Guerrero",
@@ -900,7 +900,7 @@ export default [
     is_pin: false,
     is_winner: false,
     lang: "ja",
-    media: "image",
+    media: "video",
     message:
       "Saturday morning RUN！\n全然寒くない！\nグローブ暑くて脱ぎました。\n\n#runosaka\n#runner \n#ランニング\n#nikerunning\n#runningstyle\n#nrc\n#ハシリマスタグラム\n#ナイキランニング\n#ジョギング\n#ランニング好きな人と繋がりたい \n#garmin\n#garmin245 \n#マラソン\n#nike\n#zoompegasus38\n#zoompegasus https://t.co/kbH3bx1qMy",
     name: "Naoteru NAKA",
