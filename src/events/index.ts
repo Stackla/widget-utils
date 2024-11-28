@@ -469,7 +469,7 @@ export function loadListeners(settings: EnforcedWidgetSettings) {
   onWidgetInitComplete?.forEach(event => registerGenericEventListener("widgetInit", event))
   onTileBgImgRenderComplete?.forEach(event => registerGenericEventListener(EVENT_TILE_BG_IMG_RENDER_COMPLETE, event))
   onTileBgImageError?.forEach(event => registerGenericEventListener(EVENT_TILE_BG_IMG_ERROR, event))
-  onResize?.forEach(event => registerGenericEventListener("resize", event))
+  onResize?.forEach(event => window.addEventListener("resize", event))
   onTilesUpdated?.forEach(event => registerGenericEventListener(EVENT_TILES_UPDATED, event))
   onLoadMore?.forEach(event => registerGenericEventListener("loadMore", event))
   onProductActionClick?.forEach(event => registerGenericEventListener(PRODUCT_ACTION_CLICK, event))

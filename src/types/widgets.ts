@@ -52,7 +52,7 @@ export type WidgetOptions = {
   enable_old_widget_styling?: boolean
   style: Style
   config: Config
-  google_ads: GoogleAdsConfig
+  google_ads?: GoogleAdsConfig
 }
 
 export interface ExpandedTileOptions {

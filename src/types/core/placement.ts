@@ -33,7 +33,7 @@ export interface IPlacement {
   updateInlineTileOptions(mutatedInlineTileOptions: Partial<ExpandedTileOptions>): void
   updateFilterId(filterId: string): void
   getPluginsSettings(): Record<string, { config: Record<string, never> }>
-  getElement(): Element
+  getElement(): HTMLElement
   attachUGC(): void
   loadComponents(): Promise<void>
   getTilesService(): ITilesService
