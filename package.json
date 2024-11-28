@@ -61,7 +61,8 @@
     "./fonts": "./dist/styles/_fonts.scss",
     "./grid": "./dist/styles/_grid.scss",
     "./icon-sections": "./dist/styles/_icon-sections.scss",
-    "./tile-overlay": "./dist/styles/_tile-overlay.scss"
+    "./tile-overlay": "./dist/styles/_tile-overlay.scss",
+    "./inline-tiles": "./dist/styles/_inline-tiles.scss"
   },
   "scripts": {
     "eslint": "eslint src/.",
