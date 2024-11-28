@@ -22,59 +22,62 @@ declare const sdk: ISdk
 
 export interface Features {
   /**
-   * Show the title of the widget
+   * @description Show the title of the widget
    * @default true
    */
   showTitle: boolean
   /**
-   * Allow UGC to handle image preloading
+   * @description Allow UGC to handle image preloading
    * @default true
    */
   preloadImages: boolean
   /**
-   * Disable the widget if it is not enabled
+   * @description Disable the widget if it is not enabled
    * @default true
    */
   disableWidgetIfNotEnabled: boolean
   /**
-   * Automatically add new tiles to the widget
+   * @description Automatically add new tiles to the widget
    * @default true
    */
   addNewTilesAutomatically: boolean
   /**
-   * Handle the load more button
+   * @description Handle the load more button
    * @default true
    */
   handleLoadMore: boolean
   /**
-   * Limit the number of tiles per page
+   * @description Limit the number of tiles per page
    * @default true
    */
   limitTilesPerPage: boolean
   /**
-   * Hide broken images
+   * @description Hide broken images
    * @default true
    */
   hideBrokenImages: boolean
   /**
-   * Load the expanded tile slider
+   * @description Load the expanded tile slider
    * @default true
    */
   loadExpandedTileSlider: boolean
   /**
-   * Load the tile content web component
+   * @description Load the tile content web component
    * @default true
    */
   loadTileContent: boolean
   /**
-   * Load the timephrase web component
+   * @description Load the timephrase web component
    * @default true
    */
   loadTimephrase: boolean
   /**
-   * Expanded tile settings
+   * @description Expanded tile settings
    */
   expandedTileSettings: ExpandedTileSettings
+  /**
+   * @description Modify default tile size settings
+   */
   tileSizeSettings?: {
     small: string
     medium: string
