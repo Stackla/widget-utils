@@ -20,61 +20,69 @@ import { callbackDefaults, Callbacks, loadListeners } from "./events"
 
 declare const sdk: ISdk
 
-interface Features {
+export interface Features {
   /**
-   * Show the title of the widget
+   * @description Show the title of the widget
    * @default true
    */
   showTitle: boolean
   /**
-   * Allow UGC to handle image preloading
+   * @description Allow UGC to handle image preloading
    * @default true
    */
   preloadImages: boolean
   /**
-   * Disable the widget if it is not enabled
+   * @description Disable the widget if it is not enabled
    * @default true
    */
   disableWidgetIfNotEnabled: boolean
   /**
-   * Automatically add new tiles to the widget
+   * @description Automatically add new tiles to the widget
    * @default true
    */
   addNewTilesAutomatically: boolean
   /**
-   * Handle the load more button
+   * @description Handle the load more button
    * @default true
    */
   handleLoadMore: boolean
   /**
-   * Limit the number of tiles per page
+   * @description Limit the number of tiles per page
    * @default true
    */
   limitTilesPerPage: boolean
   /**
-   * Hide broken images
+   * @description Hide broken images
    * @default true
    */
   hideBrokenImages: boolean
   /**
-   * Load the expanded tile slider
+   * @description Load the expanded tile slider
    * @default true
    */
   loadExpandedTileSlider: boolean
   /**
-   * Load the tile content web component
+   * @description Load the tile content web component
    * @default true
    */
   loadTileContent: boolean
   /**
-   * Load the timephrase web component
+   * @description Load the timephrase web component
    * @default true
    */
   loadTimephrase: boolean
   /**
-   * Expanded tile settings
+   * @description Expanded tile settings
    */
   expandedTileSettings: ExpandedTileSettings
+  /**
+   * @description Modify default tile size settings
+   */
+  tileSizeSettings?: {
+    small: string
+    medium: string
+    large: string
+  }
 }
 
 interface Extensions {
@@ -97,10 +105,10 @@ interface CustomTemplate {
 type Templates = Record<string, CustomTemplate>
 
 export interface MyWidgetSettings {
-  features: Partial<Features>
-  callbacks: Partial<Callbacks>
-  extensions: Partial<Extensions>
-  templates: Partial<Templates>
+  features?: Partial<Features>
+  callbacks?: Partial<Callbacks>
+  extensions?: Partial<Extensions>
+  templates?: Partial<Templates>
   /**
    * Default font - can be a google font link or an external font link
    * @default "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
@@ -146,7 +154,7 @@ function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
   return settings
 }
 
-function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSettings {
+function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetSettings {
   return {
     features: {
       showTitle: true,
@@ -165,20 +173,20 @@ function mergeSettingsWithDefaults(settings: MyWidgetSettings): EnforcedWidgetSe
         useDefaultAddToCartStyles: true,
         useDefaultExpandedTileTemplates: true,
         useDefaultSwiperStyles: true,
-        defaultFont: settings.font ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+        defaultFont: settings?.font ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
       },
-      ...settings.features
+      ...settings?.features
     },
     callbacks: {
       ...callbackDefaults,
-      ...settings.callbacks
+      ...settings?.callbacks
     },
     extensions: {
       swiper: false,
       masonry: false,
-      ...settings.extensions
+      ...settings?.extensions
     },
-    templates: settings.templates
+    templates: settings?.templates ?? {}
   }
 }
 
@@ -241,7 +249,7 @@ function loadExtensions(settings: EnforcedWidgetSettings) {
 }
 
 export function initialiseFeatures(settings: MyWidgetSettings) {
-  if (Object.keys(settings.features).length === 0) {
+  if (Object.keys(settings.features ?? {}).length === 0) {
     settings.features = {
       showTitle: true,
       preloadImages: true,
@@ -292,9 +300,9 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
   }
 }
 
-export function loadWidget(settings: MyWidgetSettings) {
+export function loadWidget(settings?: MyWidgetSettings) {
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
-  addCSSVariablesToPlacement(getCSSVariables())
+  addCSSVariablesToPlacement(getCSSVariables(settings?.features?.tileSizeSettings))
   loadTemplates(settingsWithDefaults)
   loadFeatures(settingsWithDefaults)
   loadExtensions(settingsWithDefaults)

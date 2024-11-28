@@ -387,3 +387,11 @@
     position: absolute;
     top: calc(50% - 15px);
 }
+
+.icon-upload {
+    background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17" fill="none"><path d="M7.5 12.4004V4.25039L4.9 6.85039L3.5 5.40039L8.5 0.400391L13.5 5.40039L12.1 6.85039L9.5 4.25039V12.4004H7.5ZM2.5 16.4004C1.95 16.4004 1.47917 16.2046 1.0875 15.8129C0.695833 15.4212 0.5 14.9504 0.5 14.4004V11.4004H2.5V14.4004H14.5V11.4004H16.5V14.4004C16.5 14.9504 16.3042 15.4212 15.9125 15.8129C15.5208 16.2046 15.05 16.4004 14.5 16.4004H2.5Z" fill="white"/></svg>');
+    height: 15px;
+    width: 15px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
