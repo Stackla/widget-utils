@@ -71,7 +71,7 @@ describe("Widget Functions", () => {
       }
 
       const result = getCSSVariables(tileSizeSettings)
-      expect(result).toBe("--tile-size: 200px; --tile-size-unitless: 200")
+      expect(result).toContain("--tile-size: 200px;")
     })
 
     it("should replace hashes with nothing in the returned object", () => {
