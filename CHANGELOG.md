@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.22
+
+### Patch Changes
+
+- 61ed443: Add masonry changes
+
 ## 0.1.21
 
 ### Patch Changes
