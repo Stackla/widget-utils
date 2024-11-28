@@ -72,9 +72,9 @@ export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSet
     "--shopspot-btn-font-color": `#${shopspot_btn_font_color}`,
     "--margin": `${margin ? margin : 0}px`,
     "--text-tile-font-size": `${text_tile_font_size}px`,
-    "--text-caption-paragraph-font-size": `${text_caption_paragraph_font_size}px`,
+    "--text-caption-paragraph-font-size": `${text_caption_paragraph_font_size || 12}px`,
     "--text-tile-user-name-font-size": `${text_tile_user_name_font_size}px`,
-    "--text-tile-user-handle-font-size": `${text_tile_user_handle_font_size ? text_tile_user_handle_font_size : 12}px`,
+    "--text-tile-user-handle-font-size": `${text_tile_user_handle_font_size || 12}px`,
     "--show-caption": `${show_caption ? "block" : "none"}`,
     "--tile-timephrase-display": `${show_timestamp ? "inline-block" : "none"}`,
     "--shopspot-icon": shopspot_icon
