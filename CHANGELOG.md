@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.24
+
+### Patch Changes
+
+- cc9de3f: Add support for new icon
+
 ## 0.1.23
 
 ### Patch Changes
