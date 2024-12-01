@@ -6,7 +6,6 @@ export function ExpandedTiles(sdk: ISdk) {
   const tiles = sdk.tiles.tiles
   const { show_nav } = sdk.getExpandedTileConfig()
   const navigationArrowsEnabled = show_nav
-  const isDesktopScreen = window.innerWidth > 992
 
   return (
     <div class="expanded-tile-wrapper">
@@ -28,13 +27,13 @@ export function ExpandedTiles(sdk: ISdk) {
         </div>
       </div>
       <div
-        class="swiper-expanded-button-prev swiper-button-prev"
-        style={{ display: isDesktopScreen && navigationArrowsEnabled ? "flex" : "none" }}>
+        class="swiper-expanded-button-prev swiper-button-prev btn-lg"
+        style={{ display: navigationArrowsEnabled ? "flex" : "none" }}>
         <span class="chevron-left" alt="Previous arrow" />
       </div>
       <div
-        class="swiper-expanded-button-next swiper-button-next"
-        style={{ display: isDesktopScreen && navigationArrowsEnabled ? "flex" : "none" }}>
+        class="swiper-expanded-button-next swiper-button-next btn-lg"
+        style={{ display: navigationArrowsEnabled ? "flex" : "none" }}>
         <span class="chevron-right" alt="Next arrow" />
       </div>
     </div>

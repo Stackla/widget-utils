@@ -13,6 +13,9 @@ export function onExpandedTileCrossSellersRendered(tileId: string, target: HTMLE
         nextButton: "swiper-exp-product-recs-button-next",
         paramsOverrides: {
           slidesPerView: "auto",
+          mousewheel: {
+            enabled: false
+          },
           grabCursor: false,
           on: {
             beforeInit: swiper => {
