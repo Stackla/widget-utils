@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.25
+
+### Patch Changes
+
+- 143cde3: Move styles out to tempaltes repo and fix listeners
+
 ## 0.1.24
 
 ### Patch Changes
