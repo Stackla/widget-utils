@@ -1,6 +1,5 @@
 import { ISdk } from "../../../"
 import swiperFont from "./font.scss"
-import swiperCommon from "./overrides.scss"
 import swiperBundleCss from "swiper/swiper-bundle.css"
 
 declare const sdk: ISdk
@@ -17,7 +16,6 @@ export function loadSwiperStyles() {
     "expanded-tiles",
     "ugc-products"
   ])
-  sdk.addSharedCssCustomStyles("swiper-overrides", swiperCommon, [sdk.placement.getWidgetId(), "expanded-tiles"])
 }
 
 export * from "./loader.extension"

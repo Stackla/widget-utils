@@ -548,6 +548,15 @@ export function registerTileExpandListener(fn: (tileId: string) => void = () => 
   })
 }
 
+export function registerCrossSellersLoadListener(fn: (tileId: string, target: HTMLElement) => void = () => {}) {
+  sdk.addEventListener(EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED, (event: Event) => {
+    const customEvent = event as CustomEvent
+    const tileId = customEvent.detail.data as string
+    const target = customEvent.detail.target as HTMLElement
+    fn(tileId, target)
+  })
+}
+
 export function registerGenericEventListener(eventName: EventName, fn: Callback | EventCallback) {
   sdk.addEventListener(eventName, fn)
 }

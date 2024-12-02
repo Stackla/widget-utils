@@ -1,9 +1,5 @@
 import { ExpandedTiles } from "./base.template"
-import expandedTileStyle from "../../../styles/components/expanded-tile-swiper/base.scss"
-import swiperExpandedStyles from "../../extensions/swiper/swiper-expanded.scss"
 import { ISdk } from "../../../"
-import addToCartStyleOverrides from "../../../styles/components/expanded-tile-swiper/add-to-cart.scss"
-import productStyleOverrides from "../../../styles/components/expanded-tile-swiper/products.scss"
 import { loadSwiperStyles } from "../../extensions/swiper"
 import icons from "../../../styles/uikit/_icons.scss"
 
@@ -46,19 +42,6 @@ export interface ExpandedTileSettings {
    * */
 }
 
-function loadDefaultExpandedTileStyles(settings: ExpandedTileSettings) {
-  if (settings.useDefaultExpandedTileStyles) {
-    sdk.addCSSToComponent(expandedTileStyle, "expanded-tiles")
-    sdk.addCSSToComponent(swiperExpandedStyles, "expanded-tiles")
-  }
-  if (settings.useDefaultAddToCartStyles) {
-    sdk.addCSSToComponent(addToCartStyleOverrides, "add-to-cart")
-  }
-  if (settings.useDefaultProductStyles) {
-    sdk.addCSSToComponent(productStyleOverrides, "ugc-products")
-  }
-}
-
 function loadDefaultExpandedTileTemplates(addExpandedTileTemplates: boolean) {
   if (addExpandedTileTemplates) {
     sdk.addTemplateToComponent(ExpandedTiles, "expanded-tiles")
@@ -78,7 +61,6 @@ function loadDefaultIcons() {
 }
 
 export function loadExpandedTileTemplates(settings: ExpandedTileSettings) {
-  loadDefaultExpandedTileStyles(settings)
   loadDefaultExpandedTileTemplates(settings.useDefaultExpandedTileTemplates)
   loadWidgetFonts(settings.defaultFont)
   loadDefaultIcons()

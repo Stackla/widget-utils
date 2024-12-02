@@ -52,8 +52,9 @@ export function initializeSwiper({
     watchOverflow: true,
     mousewheel: {
       enabled: true,
-      releaseOnEdges: true,
-      thresholdDelta: 5
+      releaseOnEdges: false,
+      thresholdDelta: 5,
+      invert: true
     },
     navigation: {
       nextEl: next,
