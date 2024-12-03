@@ -379,21 +379,18 @@
 }
 
 .icon-play {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="15" fill="%23BCBBBC"/><path d="M19.5 14.1336C20.1667 14.5185 20.1667 15.4808 19.5 15.8657L13.5 19.3298C12.8333 19.7147 12 19.2335 12 18.4637L12 11.5355C12 10.7657 12.8333 10.2846 13.5 10.6695L19.5 14.1336Z" fill="black"/></svg>');
-    background-size: contain;
-    position: absolute;
-    top: calc(50% - 15px);
+  width: 2em;
+  height: 2em;
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="15" fill="%23BCBBBC"/><path d="M19.5 14.1336C20.1667 14.5185 20.1667 15.4808 19.5 15.8657L13.5 19.3298C12.8333 19.7147 12 19.2335 12 18.4637L12 11.5355C12 10.7657 12.8333 10.2846 13.5 10.6695L19.5 14.1336Z" fill="black"/></svg>');
+  background-size: contain;
 }
 
 .icon-upload {
-    background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17" fill="none"><path d="M7.5 12.4004V4.25039L4.9 6.85039L3.5 5.40039L8.5 0.400391L13.5 5.40039L12.1 6.85039L9.5 4.25039V12.4004H7.5ZM2.5 16.4004C1.95 16.4004 1.47917 16.2046 1.0875 15.8129C0.695833 15.4212 0.5 14.9504 0.5 14.4004V11.4004H2.5V14.4004H14.5V11.4004H16.5V14.4004C16.5 14.9504 16.3042 15.4212 15.9125 15.8129C15.5208 16.2046 15.05 16.4004 14.5 16.4004H2.5Z" fill="white"/></svg>');
-    height: 15px;
-    width: 15px;
-    background-size: contain;
-    background-repeat: no-repeat;
+  background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17" fill="none"><path d="M7.5 12.4004V4.25039L4.9 6.85039L3.5 5.40039L8.5 0.400391L13.5 5.40039L12.1 6.85039L9.5 4.25039V12.4004H7.5ZM2.5 16.4004C1.95 16.4004 1.47917 16.2046 1.0875 15.8129C0.695833 15.4212 0.5 14.9504 0.5 14.4004V11.4004H2.5V14.4004H14.5V11.4004H16.5V14.4004C16.5 14.9504 16.3042 15.4212 15.9125 15.8129C15.5208 16.2046 15.05 16.4004 14.5 16.4004H2.5Z" fill="white"/></svg>');
+  height: 15px;
+  width: 15px;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .icon-picture {
