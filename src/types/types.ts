@@ -1,4 +1,4 @@
-import { ISdk } from "./core/sdk"
+import { type ISdk } from "./core/sdk"
 export type MaybePromise<T> = Promise<T> | T
 export type Maybe<T> = NonNullable<T> | undefined
 export type MaybeArray<T> = T | T[]
@@ -18,3 +18,5 @@ export type AnalyticsOptions = {
 export type Analytics = AnalyticsOptions & {
   track?: (event: string, data: Record<string, unknown>) => void
 }
+
+export type Sdk = ISdk

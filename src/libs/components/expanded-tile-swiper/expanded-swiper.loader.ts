@@ -8,11 +8,11 @@ import {
   LookupAttr
 } from "../../extensions/swiper/swiper.extension"
 import { waitForElm } from "../../widget.features"
-import { SdkSwiper } from "../../../types/SdkSwiper"
 import Swiper from "swiper"
 import { pauseTiktokVideo, playTiktokVideo } from "./tiktok-message"
+import { ISdk } from "src/types"
 
-declare const sdk: SdkSwiper
+declare const sdk: ISdk
 
 type YoutubeContentWindow = Window & {
   play: () => void

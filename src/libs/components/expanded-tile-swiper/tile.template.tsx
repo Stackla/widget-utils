@@ -53,7 +53,7 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
             <div class="content-wrapper">
               <div class="content-inner-wrapper">
                 <tile-content tileId={tile.id} render-share-menu={sharingToolsEnabled} />
-                {tagsEnabled && <tile-tags tile-id={tile.id} />}
+                {tagsEnabled && <tile-tags tile-id={tile.id} mode="swiper" context="expanded" />}
                 {productsEnabled && (
                   <>
                     <ugc-products parent={parent} tile-id={tile.id} />
