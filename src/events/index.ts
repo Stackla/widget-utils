@@ -519,9 +519,6 @@ export function loadListeners(settings: EnforcedWidgetSettings) {
 }
 
 export function registerDefaultClickEvents() {
-  const { click_through_url } = sdk.getStyleConfig()
-  const urlPattern = /^https?:\/\/.+/
-
   const tiles = sdk.querySelectorAll(".ugc-tile")
 
   if (!tiles) {
@@ -529,13 +526,21 @@ export function registerDefaultClickEvents() {
   }
 
   tiles.forEach((tile: HTMLElement) => {
-    const url = click_through_url ?? ""
-    const urlIsValid = urlPattern.test(url)
+    const tileDataId = tile.getAttribute("data-id")
 
-    if (urlIsValid) {
-      tile.onclick = e => {
-        handleTileClick(e, url)
-      }
+    if (!tileDataId) {
+      throw new Error("Failed to find tile data ID")
+    }
+
+    const url = sdk.tiles.getTile(tileDataId)?.original_url
+
+    if (!url) {
+      console.warn("Failed to find tile URL", tile)
+      return
+    }
+
+    tile.onclick = e => {
+      handleTileClick(e, url)
     }
   })
 }

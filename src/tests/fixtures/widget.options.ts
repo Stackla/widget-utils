@@ -67,6 +67,7 @@ export default {
     text_tile_link_color: "00abf0",
     text_tile_tag_font_color: "201C1F",
     tile_tag_background: "D6D4D5",
+    inline_tile_border_radius: "5",
     tile_tag_inline_background: "00000066",
     tiles_per_page: 15,
     minimal_tiles: 1,
