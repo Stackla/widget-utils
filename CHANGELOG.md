@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.27
+
+### Patch Changes
+
+- c2721e5: Update widget utils to support new vars
+
 ## 0.1.26
 
 ### Patch Changes
