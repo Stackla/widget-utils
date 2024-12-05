@@ -54,7 +54,6 @@ export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSet
     text_tile_user_handle_font_size,
     shopspot_icon,
     expanded_tile_border_radius,
-    tile_tag_background,
     inline_tile_border_radius,
     shopspot_btn_font_size
   } = trimHashValuesFromObject(styles)
@@ -85,7 +84,7 @@ export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSet
     "--cta-button-font-size": `${shopspot_btn_font_size}px`,
     "--expanded-tile-border-radius": `${expanded_tile_border_radius}px`,
     ...getTileSizeByWidget(tileSizeSettings),
-    "--tile-tag-background": `#${tile_tag_background}`,
+    "--tile-tag-background": `#bcbbbc`,
     "--inline-tile-border-radius": `${inline_tile_border_radius}px`,
     "--tags-display": `${show_tags ? "flex" : "none"}`,
     "--shopspots-display": `${show_shopspots ? "block" : "none"}`

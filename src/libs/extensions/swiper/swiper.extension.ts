@@ -47,9 +47,7 @@ export function initializeSwiper({
     normalizeSlideIndex: true,
     watchOverflow: true,
     mousewheel: {
-      enabled: true,
-      releaseOnEdges: false,
-      thresholdDelta: 5
+      enabled: false
     },
     navigation: {
       enabled: !!(prev && next),
