@@ -132,6 +132,8 @@ export function loadExpandedTileFeature() {
     registerCrossSellersLoadListener(onExpandedTileCrossSellersRendered)
   } else if (click_through_url === "[ORIGINAL_URL]" || /^https?:\/\/.+/.test(click_through_url ?? "")) {
     registerDefaultClickEvents()
+  } else if (click_through_url === "[CUSTOM]") {
+    alert("Custom URL integration Not implemented yet")
   }
 }
 
