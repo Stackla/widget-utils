@@ -2,7 +2,7 @@ import { SdkSwiper, SwiperData, SwiperProps } from "../../../types/SdkSwiper"
 import Swiper from "swiper"
 import { Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
 
-declare const sdk: SdkSwiper
+const swiperContainer: SdkSwiper = {}
 
 export type LookupAttr = {
   name: string
@@ -19,15 +19,11 @@ export function initializeSwiper({
   const prev = widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${prevButton}`)
   const next = widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${nextButton}`)
 
-  if (!prev || !next) {
-    throw new Error("Missing swiper Navigation elements for previous and next navigation")
+  if (!swiperContainer[id]) {
+    swiperContainer[id] = {} as SwiperData
   }
 
-  if (!sdk[id]) {
-    sdk[id] = {} as SwiperData
-  }
-
-  const swiperInstance = sdk[id]?.instance
+  const swiperInstance = swiperContainer[id]?.instance
 
   if (swiperInstance) {
     if (!swiperInstance.params?.enabled) {
@@ -37,10 +33,10 @@ export function initializeSwiper({
     // re-initialize
     swiperInstance.destroy(true)
   } else {
-    sdk[id] = { pageIndex: 1 }
+    swiperContainer[id] = { pageIndex: 1 }
   }
 
-  sdk[id]!.instance = new Swiper(widgetSelector, {
+  swiperContainer[id]!.instance = new Swiper(widgetSelector, {
     modules: [Navigation, Manipulation, Keyboard, Mousewheel],
     spaceBetween: 10,
     observer: true,
@@ -53,10 +49,10 @@ export function initializeSwiper({
     mousewheel: {
       enabled: true,
       releaseOnEdges: false,
-      thresholdDelta: 5,
-      invert: true
+      thresholdDelta: 5
     },
     navigation: {
+      enabled: !!(prev && next),
       nextEl: next,
       prevEl: prev
     },
@@ -66,8 +62,8 @@ export function initializeSwiper({
 }
 
 export function refreshSwiper(id: string) {
-  if (sdk[id]?.instance) {
-    sdk[id].instance.update()
+  if (swiperContainer[id]?.instance) {
+    swiperContainer[id].instance.update()
   }
 }
 
@@ -86,39 +82,58 @@ export function getSwiperIndexforTile(swiperSelector: HTMLElement, tileId: strin
 }
 
 export function disableSwiper(id: string) {
-  sdk[id]?.instance?.disable()
+  swiperContainer[id]?.instance?.disable()
 }
 
 export function enableSwiper(id: string) {
-  sdk[id]?.instance?.enable()
+  swiperContainer[id]?.instance?.enable()
 }
 
 export function destroySwiper(id: string) {
-  if (sdk[id]?.instance) {
-    sdk[id].instance.destroy(true, true)
-    delete sdk[id]
+  if (swiperContainer[id]?.instance) {
+    swiperContainer[id].instance.destroy(true, true)
+    delete swiperContainer[id]
   }
 }
 
 export function getClickedIndex(id: string) {
-  if (sdk[id]?.instance) {
-    const clickedSlide = sdk[id].instance.clickedSlide
+  if (swiperContainer[id]?.instance) {
+    const clickedSlide = swiperContainer[id].instance.clickedSlide
     const indexFromAttribute = clickedSlide.getAttribute("data-swiper-slide-index")
     return indexFromAttribute && !Number.isNaN(parseInt(indexFromAttribute))
       ? parseInt(indexFromAttribute)
-      : sdk[id].instance.clickedIndex
+      : swiperContainer[id].instance.clickedIndex
   }
   return 0
 }
 
 export function getInstance(id: string) {
-  return sdk[id]?.instance
+  return swiperContainer[id]?.instance
 }
 
 export function getActiveSlide(id: string) {
-  return sdk[id]?.instance?.realIndex || 0
+  return swiperContainer[id]?.instance?.realIndex || 0
 }
 
 export function getActiveSlideElement(id: string) {
-  return sdk[id]?.instance?.slides[getActiveSlide(id) || 0]
+  return swiperContainer[id]?.instance?.slides[getActiveSlide(id) || 0]
+}
+
+export function isSwiperLoading(id: string) {
+  if (swiperContainer[id] && swiperContainer[id].instance) {
+    return swiperContainer[id].isLoading
+  }
+  return false
+}
+
+export function setSwiperLoadingStatus(id: string, isLoading: boolean) {
+  if (swiperContainer[id] && swiperContainer[id].instance) {
+    swiperContainer[id].isLoading = isLoading
+  }
+}
+
+export function updateSwiperInstance(id: string, updateProps: (swiperData: SwiperData) => void) {
+  if (swiperContainer[id] && swiperContainer[id].instance) {
+    updateProps(swiperContainer[id])
+  }
 }

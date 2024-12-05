@@ -1,6 +1,7 @@
-import type { ISdk } from "../"
-import Swiper from "swiper"
+import { type Swiper } from "swiper"
 import { SwiperOptions } from "swiper/types"
+
+export type SwiperType = Swiper
 
 export type SwiperMode = "inline" | "expanded" | "cross-sell" | "expanded-product-recs" | "tags"
 
@@ -20,6 +21,6 @@ export type SwiperData = {
   pageIndex: number
 }
 
-export type SdkSwiper = ISdk & {
+export type SdkSwiper = {
   [id: string]: SwiperData | undefined
 }
