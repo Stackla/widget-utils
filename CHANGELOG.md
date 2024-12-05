@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.26
+
+### Patch Changes
+
+- 1292a41: Expose more useful methods from swiper extension
+
 ## 0.1.25
 
 ### Patch Changes
