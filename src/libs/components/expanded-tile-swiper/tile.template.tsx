@@ -15,7 +15,7 @@ type ShopspotProps = {
 }
 
 export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
-  const { show_shopspots, show_products, show_tags, show_sharing } = sdk.getExpandedTileConfig()
+  const { show_shopspots, show_products, show_tags, show_sharing, show_caption, show_timestamp } = sdk.getExpandedTileConfig()
 
   const shopspotEnabled = sdk.isComponentLoaded("shopspots") && show_shopspots && !!tile.hotspots?.length
   const productsEnabled = sdk.isComponentLoaded("products") && show_products && !!tile.tags_extended?.length
@@ -52,7 +52,7 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
           <div class="panel-right-wrapper">
             <div class="content-wrapper">
               <div class="content-inner-wrapper">
-                <tile-content tileId={tile.id} render-share-menu={sharingToolsEnabled} />
+                <tile-content tileId={tile.id} render-share-menu={sharingToolsEnabled} render-caption={show_caption} render-timephrase={show_timestamp} />
                 {tagsEnabled && <tile-tags tile-id={tile.id} mode="swiper" context="expanded" />}
                 {productsEnabled && (
                   <>
