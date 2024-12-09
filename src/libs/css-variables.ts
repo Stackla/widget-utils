@@ -76,6 +76,7 @@ export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSet
     "--text-tile-user-name-font-size": `${text_tile_user_name_font_size}px`,
     "--text-tile-user-handle-font-size": `${text_tile_user_handle_font_size || 12}px`,
     "--show-caption": `${show_caption ? "block" : "none"}`,
+    "--show-caption-webkit": `${show_caption ? "-webkit-box" : "none"}`,
     "--shopspot-icon": shopspot_icon ? shopspot_icon : `#000`,
     "--tags-gap": `4px`,
     "--cta-button-background-color": `#${shopspot_btn_background}`,
