@@ -16,6 +16,7 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --text-tile-user-name-font-size: 16px;
 --text-tile-user-handle-font-size: 12px;
 --show-caption: none;
+--show-caption-webkit: none;
 --shopspot-icon: #000;
 --tags-gap: 4px;
 --cta-button-background-color: #ff00ff;
