@@ -29,13 +29,13 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
     <>
       <div class="panel">
         <div class="panel-left">
-          <RenderIconSection tile={tile} productsEnabled={productsEnabled} />
+          <IconSection tile={tile} productsEnabled={productsEnabled} />
           <div class="image-wrapper">
             <div class="image-wrapper-inner">
               {tile.media === "video" ? (
                 <>
-                  <VideoTemplate tile={tile} parent={parent} />
-                  <RenderVideoErrorFallbackTemplate tile={tile} />
+                  <VideoContainer tile={tile} parent={parent} />
+                  <VideoErrorFallbackTemplate tile={tile} />
                 </>
               ) : tile.media === "image" ? (
                 <ImageTemplate tile={tile} image={tile.image} shopspotEnabled={shopspotEnabled} parent={parent} />
@@ -74,7 +74,7 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
   )
 }
 
-function RenderIconSection({ tile, productsEnabled }: { tile: Tile; productsEnabled: boolean }) {
+function IconSection({ tile, productsEnabled }: { tile: Tile; productsEnabled: boolean }) {
   const topSectionIconContent = []
   const bottomSectionIconContent = []
 
@@ -135,7 +135,7 @@ function ImageTemplate({
   )
 }
 
-function VideoTemplate({ tile, parent }: { tile: Tile; parent?: string }) {
+function VideoContainer({ tile, parent }: { tile: Tile; parent?: string }) {
   return (
     <div class="video-content-wrapper">
       <div class="image-filler" style={{ "background-image": `url('${tile.original_image_url}')` }}></div>
@@ -148,7 +148,7 @@ function SourceVideoContent({ tile, parent }: { tile: Tile; parent?: string }) {
   // handle unplayable tiktok source
   // TODO handle vide_source "tiktok"
   if (tile.source === "tiktok" || tile.video_source === "tiktok") {
-    return <RenderTikTokTemplate tile={tile} />
+    return <TikTokTemplate tile={tile} />
   }
 
   if (tile.source === "youtube" && tile.youtube_id) {
@@ -158,23 +158,19 @@ function SourceVideoContent({ tile, parent }: { tile: Tile; parent?: string }) {
   if (tile.source === "facebook") {
     const videoUrlPattern = /videos\/(\d)+?/
     if (!tile.video_files?.length || !videoUrlPattern.test(tile.video_files[0].url)) {
-      return <RenderVideoErrorFallbackTemplate tile={tile} parent={parent} defaultHidden={false} />
+      return <VideoErrorFallbackTemplate tile={tile} parent={parent} defaultHidden={false} />
     }
   }
 
   if (tile.source === "twitter") {
-    return <RenderTwitterTemplate tile={tile} />
+    return <TwitterTemplate tile={tile} />
   }
 
-  if (tile.video_files?.length) {
-    return <RenderVideoTemplate tile={tile} />
+  if (tile.video_files?.length || (tile.video && tile.video.standard_resolution)) {
+    return <UgcVideoTemplate tile={tile} />
   }
 
-  if (tile.video && tile.video.standard_resolution) {
-    return <RenderVideoTemplate tile={tile} />
-  }
-
-  return <RenderFacebookFallbackTemplate tile={tile} />
+  return <FacebookFallbackTemplate tile={tile} />
 }
 
 function getVideoData(tile: Tile) {
@@ -194,7 +190,7 @@ function getVideoData(tile: Tile) {
   throw new Error("Failed to find video data")
 }
 
-function RenderVideoTemplate({ tile }: { tile: Tile }) {
+function UgcVideoTemplate({ tile }: { tile: Tile }) {
   const { url, width, height, mime } = getVideoData(tile)
 
   return (
@@ -211,7 +207,7 @@ function RenderVideoTemplate({ tile }: { tile: Tile }) {
   )
 }
 
-function RenderTwitterTemplate({ tile }: { tile: Tile }) {
+function TwitterTemplate({ tile }: { tile: Tile }) {
   const { standard_resolution } = tile.video
 
   return (
@@ -227,7 +223,7 @@ function RenderTwitterTemplate({ tile }: { tile: Tile }) {
   )
 }
 
-function RenderTikTokTemplate({ tile }: { tile: Tile }) {
+function TikTokTemplate({ tile }: { tile: Tile }) {
   const tiktokId = tile.tiktok_id
 
   return (
@@ -243,7 +239,7 @@ function RenderTikTokTemplate({ tile }: { tile: Tile }) {
   )
 }
 
-function RenderFacebookFallbackTemplate({ tile }: { tile: Tile }) {
+function FacebookFallbackTemplate({ tile }: { tile: Tile }) {
   const embedBlock = (
     <div class="fb-content-wrapper">
       <div id="fb-root"></div>
@@ -267,7 +263,7 @@ function RenderFacebookFallbackTemplate({ tile }: { tile: Tile }) {
   )
 }
 
-function RenderVideoErrorFallbackTemplate({
+function VideoErrorFallbackTemplate({
   tile,
   defaultHidden = true
 }: {
