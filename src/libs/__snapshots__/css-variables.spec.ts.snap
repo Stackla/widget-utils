@@ -28,5 +28,6 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --tile-tag-background: #bcbbbc;
 --inline-tile-border-radius: undefinedpx;
 --tags-display: none;
---shopspots-display: none;"
+--shopspots-display: none;
+--timephrase-display: block;"
 `;
