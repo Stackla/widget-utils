@@ -58,7 +58,7 @@ export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSet
     shopspot_btn_font_size
   } = trimHashValuesFromObject(styles)
 
-  const { show_caption, show_tags, show_shopspots, show_timestamp } = inlineTileSettings
+  const { show_caption, show_tags, show_shopspots, show_timestamp, show_sharing } = inlineTileSettings
 
   const cssVariables: { [key: string]: string } = {
     "--widget-background": `#${widget_background}`,
@@ -88,7 +88,8 @@ export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSet
     "--inline-tile-border-radius": `${inline_tile_border_radius}px`,
     "--tags-display": `${show_tags ? "flex" : "none"}`,
     "--shopspots-display": `${show_shopspots ? "block" : "none"}`,
-    "--timephrase-display": `${show_timestamp ? "block" : "none"}`
+    "--timephrase-display": `${show_timestamp ? "block" : "none"}`,
+    "--share-icon-display": `${show_sharing ? "inline-block" : "none"}`
   }
 
   return Object.entries(cssVariables)
