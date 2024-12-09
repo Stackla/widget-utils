@@ -170,11 +170,32 @@ function SourceVideoContent({ tile, parent }: { tile: Tile; parent?: string }) {
     return <RenderVideoTemplate tile={tile} />
   }
 
+  if (tile.video && tile.video.standard_resolution) {
+    return <RenderVideoTemplate tile={tile} />
+  }
+
   return <RenderFacebookFallbackTemplate tile={tile} />
 }
 
+function getVideoData(tile: Tile) {
+  if (tile.video_files?.length) {
+    return tile.video_files[0]
+  }
+
+  if (tile.video && tile.video.standard_resolution) {
+    return {
+      width: "auto",
+      height: "auto",
+      mime: "video/mp4",
+      url: tile.video.standard_resolution.url
+    }
+  }
+
+  throw new Error("Failed to find video data")
+}
+
 function RenderVideoTemplate({ tile }: { tile: Tile }) {
-  const { url, width, height, mime } = tile.video_files[0]
+  const { url, width, height, mime } = getVideoData(tile)
 
   return (
     <video
