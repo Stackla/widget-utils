@@ -14,7 +14,6 @@ import {
   handleAllTileImageRendered,
   renderMasonryLayout
 } from "./libs/extensions/masonry/masonry.extension"
-import { loadAllUnloadedTiles } from "./libs/extensions/swiper/loader.extension"
 import { ExpandedTileSettings, loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 import { callbackDefaults, Callbacks, loadListeners } from "./events"
 import { updateTagListMask } from "./libs/components/tags"
@@ -130,11 +129,6 @@ export interface EnforcedWidgetSettings {
 }
 
 function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
-  settings.callbacks.onWidgetInitComplete.push(() => {
-    loadAllUnloadedTiles()
-    setTimeout(() => renderMasonryLayout(), 1000)
-  })
-
   settings.callbacks.onTilesUpdated.push(() => {
     renderMasonryLayout()
   })
@@ -149,6 +143,8 @@ function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
     const tileWithError = customEvent.detail.data.target as HTMLElement
     handleTileImageError(tileWithError)
   })
+
+  renderMasonryLayout()
 
   const grid = sdk.querySelector(".grid")
   const observer = new ResizeObserver(() => {
