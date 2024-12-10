@@ -1,14 +1,9 @@
 import type { ISdk } from "../"
 
 declare const sdk: ISdk
-export function addCSSVariablesToPlacement(cssVariables: string) {
-  const shadowRoot = sdk.placement.getShadowRoot()
-  const style = document.createElement("style")
-  style.innerHTML = `
-      :host {
-          ${cssVariables}
-      }`
-  shadowRoot.appendChild(style)
+export function addCSSVariablesToPlacement(cssVariables: Record<string, string>) {
+  const hostElement = sdk.placement.getElement()
+  Object.entries(cssVariables).forEach(([key, value]) => hostElement.style.setProperty(key, value))
 }
 
 export function isEnabled() {

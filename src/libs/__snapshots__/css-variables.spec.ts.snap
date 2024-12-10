@@ -1,6 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Widget Functions getCSSVariables should return the correct CSS variables 1`] = `
+<<<<<<< Updated upstream
 "--widget-background: #ffffff;
 --text-tile-background: #000000;
 --text-tile-font-color: #333333;
@@ -31,4 +32,35 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --shopspots-display: none;
 --timephrase-display: block;
 --share-icon-display: none;"
+=======
+{
+  "--cta-button-background-color": "#ff00ff",
+  "--cta-button-font-color": "#00ffff",
+  "--cta-button-font-size": "undefinedpx",
+  "--expanded-tile-border-radius": "5px",
+  "--inline-tile-border-radius": "undefinedpx",
+  "--margin": "10px",
+  "--shopspot-btn-background": "#ff00ff",
+  "--shopspot-btn-font-color": "#00ffff",
+  "--shopspot-icon": "#000",
+  "--shopspots-display": "none",
+  "--show-caption": "none",
+  "--tags-display": "none",
+  "--tags-gap": "4px",
+  "--text-caption-paragraph-font-size": "16px",
+  "--text-tile-background": "#000000",
+  "--text-tile-font-color": "#333333",
+  "--text-tile-font-size": "16px",
+  "--text-tile-link-color": "#ff0000",
+  "--text-tile-tag-font-color": "#333333",
+  "--text-tile-user-handle-font-color": "#00ff00",
+  "--text-tile-user-handle-font-size": "12px",
+  "--text-tile-user-name-font-color": "#0000ff",
+  "--text-tile-user-name-font-size": "16px",
+  "--tile-size": "265.5px",
+  "--tile-size-unitless": "265.5",
+  "--tile-tag-background": "#bcbbbc",
+  "--widget-background": "#ffffff",
+}
+>>>>>>> Stashed changes
 `;

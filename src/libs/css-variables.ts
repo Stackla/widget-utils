@@ -36,7 +36,7 @@ export function trimHashValuesFromObject(obj: Style) {
  * @description Get the CSS variables for the widget
  * @params tileSizeSettings - Custom tile size settings, small, medium, large
  */
-export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSettings"]): string {
+export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSettings"]) {
   const styles = sdk.getStyleConfig()
   const inlineTileSettings = sdk.getInlineTileConfig()
   const {
@@ -60,7 +60,7 @@ export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSet
 
   const { show_caption, show_tags, show_shopspots, show_timestamp, show_sharing } = inlineTileSettings
 
-  const cssVariables: { [key: string]: string } = {
+  return {
     "--widget-background": `#${widget_background}`,
     "--text-tile-background": `#${text_tile_background}`,
     "--text-tile-font-color": `#${text_tile_font_color}`,
@@ -91,8 +91,4 @@ export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSet
     "--timephrase-display": `${show_timestamp ? "block" : "none"}`,
     "--share-icon-display": `${show_sharing ? "inline-block" : "none"}`
   }
-
-  return Object.entries(cssVariables)
-    .map(([key, value]) => `${key}: ${value};`)
-    .join("\n")
 }
