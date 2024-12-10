@@ -144,8 +144,6 @@ function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
     handleTileImageError(tileWithError)
   })
 
-  renderMasonryLayout()
-
   const grid = sdk.querySelector(".grid")
   const observer = new ResizeObserver(() => {
     renderMasonryLayout(false, true)
@@ -251,6 +249,7 @@ function loadExtensions(settings: EnforcedWidgetSettings) {
 
   if (extensions?.masonry) {
     settings = loadMasonryCallbacks(settings)
+    renderMasonryLayout()
   }
 
   return settings
