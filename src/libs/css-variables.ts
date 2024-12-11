@@ -24,7 +24,6 @@ export function getTileSizeByWidget(tileSizeSettings?: Features["tileSizeSetting
   const sizeUnitless = sizeWithUnit.replace("px", "")
   return { "--tile-size": sizeWithUnit, "--tile-size-unitless": sizeUnitless }
 }
-
 export function trimHashValuesFromObject(obj: Style) {
   return Object.entries(obj).reduce((acc: Record<string, string>, [key, value]) => {
     acc[key] = typeof value === "string" && value.startsWith("#") ? value.replace("#", "") : value
@@ -36,7 +35,8 @@ export function trimHashValuesFromObject(obj: Style) {
  * @description Get the CSS variables for the widget
  * @params tileSizeSettings - Custom tile size settings, small, medium, large
  */
-export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSettings"]): string {
+export default function getCSSVariables(features?: Partial<Features>): string {
+  const { tileSizeSettings, cssVariables } = features || {}
   const styles = sdk.getStyleConfig()
   const inlineTileSettings = sdk.getInlineTileConfig()
   const {
@@ -60,7 +60,8 @@ export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSet
 
   const { show_caption, show_tags, show_shopspots, show_timestamp, show_sharing } = inlineTileSettings
 
-  const cssVariables: { [key: string]: string } = {
+  const mutatedCssVariables: { [key: string]: string } = {
+    ...cssVariables,
     "--widget-background": `#${widget_background}`,
     "--text-tile-background": `#${text_tile_background}`,
     "--text-tile-font-color": `#${text_tile_font_color}`,
@@ -92,7 +93,7 @@ export default function getCSSVariables(tileSizeSettings?: Features["tileSizeSet
     "--share-icon-display": `${show_sharing ? "inline-block" : "none"}`
   }
 
-  return Object.entries(cssVariables)
+  return Object.entries(mutatedCssVariables)
     .map(([key, value]) => `${key}: ${value};`)
     .join("\n")
 }

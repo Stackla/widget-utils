@@ -65,9 +65,11 @@ describe("Widget Functions", () => {
     it("should return correct sizes with custom tile size settings", () => {
       sdk.getStyleConfig.mockReturnValue({})
       const tileSizeSettings = {
-        small: "100px",
-        medium: "200px",
-        large: "300px"
+        tileSizeSettings: {
+          small: "100px",
+          medium: "200px",
+          large: "300px"
+        }
       }
 
       const result = getCSSVariables(tileSizeSettings)
