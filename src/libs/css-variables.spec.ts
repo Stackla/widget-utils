@@ -65,13 +65,15 @@ describe("Widget Functions", () => {
     it("should return correct sizes with custom tile size settings", () => {
       sdk.getStyleConfig.mockReturnValue({})
       const tileSizeSettings = {
-        small: "100px",
-        medium: "200px",
-        large: "300px"
+        tileSizeSettings: {
+          small: "100px",
+          medium: "200px",
+          large: "300px"
+        }
       }
 
       const result = getCSSVariables(tileSizeSettings)
-      expect(result["--tile-size"]).toContain("200px")
+      expect(result).toContain("--tile-size: 200px;")
     })
 
     it("should replace hashes with nothing in the returned object", () => {
