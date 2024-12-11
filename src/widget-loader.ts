@@ -83,7 +83,10 @@ export interface Features {
     medium: string
     large: string
   }
-
+  /**
+   * @description Add css variables to the placement
+   */
+  cssVariables?: Record<string, string>
   /**
    * @description Automatically add a mask to the tags list
    */
@@ -309,7 +312,7 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
 
 export function loadWidget(settings?: MyWidgetSettings) {
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
-  addCSSVariablesToPlacement(getCSSVariables(settings?.features?.tileSizeSettings))
+  addCSSVariablesToPlacement(getCSSVariables(settings?.features))
   loadTemplates(settingsWithDefaults)
   loadFeatures(settingsWithDefaults)
   loadExtensions(settingsWithDefaults)
