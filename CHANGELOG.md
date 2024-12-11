@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.28
+
+### Patch Changes
+
+- deaa34d: improve css variable injection and add white version of arrow icons
+
 ## 0.1.27
 
 ### Patch Changes
