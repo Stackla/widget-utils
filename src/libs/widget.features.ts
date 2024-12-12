@@ -316,6 +316,7 @@ export function waitForElements(
     const newElements = parent.querySelectorAll<HTMLElement>(target)
     if (newElements.length > 0) {
       callback(newElements)
+      observer.disconnect()
     }
   })
 
@@ -323,6 +324,4 @@ export function waitForElements(
     childList: true,
     subtree: true
   })
-
-  return observer
 }
