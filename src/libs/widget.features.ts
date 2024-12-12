@@ -314,8 +314,9 @@ export function waitForElements(
 
   const observer = new MutationObserver(() => {
     const newElements = parent.querySelectorAll<HTMLElement>(target)
+    console.log(newElements)
     if (newElements.length > 0) {
-      observer.disconnect()
+      // observer.disconnect()
       callback(newElements)
     }
   })
@@ -324,4 +325,6 @@ export function waitForElements(
     childList: true,
     subtree: true
   })
+
+  return observer;
 }
