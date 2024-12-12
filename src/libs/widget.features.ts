@@ -324,5 +324,5 @@ export function waitForElements(
     subtree: true
   })
 
-  return observer;
+  return observer
 }
