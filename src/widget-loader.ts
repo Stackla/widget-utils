@@ -16,7 +16,6 @@ import {
 } from "./libs/extensions/masonry/masonry.extension"
 import { ExpandedTileSettings, loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 import { callbackDefaults, Callbacks, loadListeners } from "./events"
-import { updateTagListMask } from "./libs/components/tags"
 
 declare const sdk: ISdk
 
@@ -87,10 +86,6 @@ export interface Features {
    * @description Add css variables to the placement
    */
   cssVariables?: Record<string, string>
-  /**
-   * @description Automatically add a mask to the tags list
-   */
-  loadTagsListMask?: boolean
 }
 
 interface Extensions {
@@ -170,7 +165,6 @@ function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetS
       loadExpandedTileSlider: true,
       loadTileContent: true,
       loadTimephrase: true,
-      loadTagsListMask: true,
       expandedTileSettings: {
         useDefaultExpandedTileStyles: true,
         useDefaultProductStyles: true,
@@ -204,8 +198,7 @@ async function loadFeatures(settings: EnforcedWidgetSettings) {
     limitTilesPerPage,
     hideBrokenImages,
     loadTileContent,
-    loadTimephrase,
-    loadTagsListMask
+    loadTimephrase
   } = settings.features
 
   sdk.tiles.preloadImages = preloadImages
@@ -215,10 +208,6 @@ async function loadFeatures(settings: EnforcedWidgetSettings) {
     sdk.addLoadedComponents(["tile-content", "timephrase", "tags", "share-menu"])
   } else if (loadTimephrase) {
     sdk.addLoadedComponents(["timephrase"])
-  }
-
-  if (loadTagsListMask) {
-    updateTagListMask()
   }
 
   if (disableWidgetIfNotEnabled) {
