@@ -86,6 +86,10 @@ export interface Features {
    * @description Add css variables to the placement
    */
   cssVariables?: Record<string, string>
+  /**
+   * @description Automatically add a mask to the tags list
+   */
+  loadTagsListMask?: boolean
 }
 
 interface Extensions {
@@ -165,6 +169,7 @@ function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetS
       loadExpandedTileSlider: true,
       loadTileContent: true,
       loadTimephrase: true,
+      loadTagsListMask: true,
       expandedTileSettings: {
         useDefaultExpandedTileStyles: true,
         useDefaultProductStyles: true,
