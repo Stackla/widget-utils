@@ -37,7 +37,6 @@ describe("Widget Functions", () => {
       sdk.getStyleConfig.mockReturnValue({
         widget_background: "ffffff",
         text_tile_background: "000000",
-        text_tile_font_color: "333333",
         text_tile_link_color: "ff0000",
         text_tile_user_name_font_color: "0000ff",
         text_tile_user_handle_font_color: "00ff00",
