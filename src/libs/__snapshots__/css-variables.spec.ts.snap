@@ -3,9 +3,7 @@
 exports[`Widget Functions getCSSVariables should return the correct CSS variables 1`] = `
 "--widget-background: #ffffff;
 --text-tile-background: #000000;
---text-tile-font-color: #333333;
 --text-tile-link-color: #ff0000;
---text-tile-user-name-font-color: #0000ff;
 --text-tile-user-handle-font-color: #00ff00;
 --shopspot-btn-background: #ff00ff;
 --shopspot-btn-font-color: #00ffff;
