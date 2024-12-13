@@ -3,7 +3,8 @@ import getCSSVariables, { getTileSizeByWidget, trimHashValuesFromObject } from "
 // Mock sdk object globally
 const sdk = {
   getStyleConfig: jest.fn(),
-  getInlineTileConfig: jest.fn()
+  getInlineTileConfig: jest.fn(),
+  getExpandedTileConfig: jest.fn()
 }
 
 // @ts-expect-error global properties are not typed
@@ -55,6 +56,10 @@ describe("Widget Functions", () => {
       sdk.getInlineTileConfig.mockReturnValue({
         show_timestamp: true,
         show_caption: false
+      })
+
+      sdk.getExpandedTileConfig.mockReturnValue({
+        show_tags: false
       })
 
       // Check if the generated CSS variables match the snapshot

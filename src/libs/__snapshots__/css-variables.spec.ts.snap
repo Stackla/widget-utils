@@ -7,7 +7,6 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --text-tile-link-color: #ff0000;
 --text-tile-user-name-font-color: #0000ff;
 --text-tile-user-handle-font-color: #00ff00;
---text-tile-tag-font-color: #333333;
 --shopspot-btn-background: #ff00ff;
 --shopspot-btn-font-color: #00ffff;
 --margin: 10px;
@@ -27,7 +26,8 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --tile-size-unitless: 265.5;
 --tile-tag-background: #bcbbbc;
 --inline-tile-border-radius: undefinedpx;
---tags-display: none;
+--tags-display-inline: none;
+--tags-display-expanded: none;
 --shopspots-display: none;
 --timephrase-display: block;
 --share-icon-display: none;"
