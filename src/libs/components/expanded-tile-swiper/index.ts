@@ -1,7 +1,6 @@
 import { ExpandedTiles } from "./base.template"
 import { ISdk } from "../../../"
 import { loadSwiperStyles } from "../../extensions/swiper"
-import icons from "../../../styles/uikit/_icons.scss"
 
 declare const sdk: ISdk
 
@@ -56,14 +55,9 @@ function loadWidgetFonts(defaultFont: string) {
   }`)
 }
 
-function loadDefaultIcons() {
-  sdk.addSharedCssCustomStyles("icons", icons, [sdk.placement.getWidgetId(), "expanded-tiles"])
-}
-
 export function loadExpandedTileTemplates(settings: ExpandedTileSettings) {
   loadDefaultExpandedTileTemplates(settings.useDefaultExpandedTileTemplates)
   loadWidgetFonts(settings.defaultFont)
-  loadDefaultIcons()
 
   if (settings.useDefaultSwiperStyles) {
     loadSwiperStyles()
