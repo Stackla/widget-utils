@@ -3,7 +3,7 @@ import {
   EVENT_TILE_EXPAND,
   EVENT_TILE_EXPAND_RENDERED,
   EVENT_TILES_UPDATED,
-  EXPANDED_TILE_CLOSE,
+  EVENT_EXPANDED_TILE_CLOSE,
   registerCrossSellersLoadListener,
   registerDefaultClickEvents,
   registerGenericEventListener,
@@ -88,7 +88,7 @@ export const arrowClickListener = (e: Event) => {
     filterId: sdk.placement.getWidgetContainer().widgetOptions?.filter_id
   }
 
-  sdk.triggerEvent(EXPANDED_TILE_CLOSE)
+  sdk.triggerEvent(EVENT_EXPANDED_TILE_CLOSE)
   sdk.triggerEvent(EVENT_TILE_EXPAND, tileData)
 }
 
@@ -125,7 +125,7 @@ export function loadExpandedTileFeature() {
   if (click_through_url === "[EXPAND]") {
     loadExpandSettingComponents()
     registerTileExpandListener(onTileExpand)
-    registerGenericEventListener(EXPANDED_TILE_CLOSE, onTileClosed)
+    registerGenericEventListener(EVENT_EXPANDED_TILE_CLOSE, onTileClosed)
     registerGenericEventListener(EVENT_TILE_EXPAND_RENDERED, onTileRendered)
     registerShareMenuOpenedListener(reduceBackgroundControlsVisibility)
     registerShareMenuClosedListener(resetBackgroundControlsVisibility)

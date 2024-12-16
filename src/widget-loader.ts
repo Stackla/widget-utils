@@ -73,7 +73,7 @@ export interface Features {
   /**
    * @description Expanded tile settings
    */
-  expandedTileSettings: ExpandedTileSettings
+  expandedTileSettings: Partial<ExpandedTileSettings>
   /**
    * @description Modify default tile size settings
    */
@@ -136,7 +136,7 @@ function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
     setTimeout(handleAllTileImageRendered, 1000)
   })
 
-  settings.callbacks.onTileBgImageError.push((event: Event) => {
+  settings.callbacks.onTileBgImageError.push(event => {
     const customEvent = event as CustomEvent
     const tileWithError = customEvent.detail.data.target as HTMLElement
     handleTileImageError(tileWithError)
@@ -275,12 +275,12 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
 
   if (settings.features.loadExpandedTileSlider) {
     loadExpandedTileTemplates({
-      useDefaultExpandedTileStyles: useDefaultExpandedTileStyles,
-      useDefaultProductStyles: useDefaultProductStyles,
-      useDefaultAddToCartStyles: useDefaultAddToCartStyles,
-      useDefaultExpandedTileTemplates: useDefaultExpandedTileTemplates,
-      defaultFont: defaultFont,
-      useDefaultSwiperStyles: useDefaultSwiperStyles
+      useDefaultExpandedTileStyles: useDefaultExpandedTileStyles ?? true,
+      useDefaultProductStyles: useDefaultProductStyles ?? true,
+      useDefaultAddToCartStyles: useDefaultAddToCartStyles ?? true,
+      useDefaultExpandedTileTemplates: useDefaultExpandedTileTemplates ?? true,
+      defaultFont: defaultFont ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
+      useDefaultSwiperStyles: useDefaultSwiperStyles ?? true
     })
   }
 
