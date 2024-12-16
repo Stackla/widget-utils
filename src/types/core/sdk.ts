@@ -5,7 +5,8 @@ import { IEventService } from "../services/event.service"
 import { EventMapping, EventName } from "../../events"
 import { ClaimConfig, ExpandedTileOptions, InlineTileOptions, Style, WidgetOptions, WidgetResponse } from "../widgets"
 
-export type Template = (sdk: ISdk) => string | HTMLElement
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Template<C> = (sdk: ISdk, component?: C) => string | HTMLElement
 
 export interface ISdk {
   widget: IWidgetService
@@ -34,7 +35,7 @@ export interface ISdk {
   addSharedCssCustomStyles(key: string, content: string, componentNames: string[]): void
   addCSSImportUrl(url: string): Promise<void>
   addCSSToComponent(css: string, componentName: string): void
-  addTemplateToComponent(template: Template, componentName: string): void
+  addTemplateToComponent<C>(template: Template<C>, componentName: string): void
   setState(key: string, value: unknown): void
   getState(key: string): unknown
   getNodeId(): string

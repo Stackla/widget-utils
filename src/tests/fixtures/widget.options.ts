@@ -57,6 +57,7 @@ export default {
     shopspot_icon: "",
     style: "base_carousel_v3",
     text_tile_background: "ffffff",
+    text_tile_font_color: "000000",
     text_tile_font_size: 12,
     text_caption_paragraph_font_size: 12,
     text_tile_user_handle_font_color: "636062",
