@@ -41,6 +41,7 @@ export default function getCSSVariables(features?: Partial<Features>): string {
   const inlineTileSettings = sdk.getInlineTileConfig()
   const {
     widget_background,
+    tile_background,
     text_tile_background,
     text_tile_link_color,
     text_tile_user_handle_font_color,
@@ -53,6 +54,7 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     shopspot_icon,
     expanded_tile_border_radius,
     inline_tile_border_radius,
+    inline_tile_margin,
     shopspot_btn_font_size,
     text_tile_font_color,
     text_tile_user_name_font_color
@@ -63,10 +65,13 @@ export default function getCSSVariables(features?: Partial<Features>): string {
   const mutatedCssVariables: { [key: string]: string } = {
     ...cssVariables,
     "--widget-background": `#${widget_background}`,
+    "--inline-tile-background": `#${tile_background}`,
     "--text-tile-background": `#${text_tile_background}`,
+    "--shopspot-btn-background": `#${shopspot_btn_background}`,
+    "--cta-button-background-color": `#${shopspot_btn_background}`,
+    "--tile-tag-background": `#bcbbbc`,
     "--text-tile-link-color": `#${text_tile_link_color}`,
     "--text-tile-user-handle-font-color": `#${text_tile_user_handle_font_color}`,
-    "--shopspot-btn-background": `#${shopspot_btn_background}`,
     "--shopspot-btn-font-color": `#${shopspot_btn_font_color}`,
     "--margin": `${margin ? margin : 0}px`,
     "--text-tile-font-size": `${text_tile_font_size}px`,
@@ -79,14 +84,13 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--show-caption-webkit": `${show_caption ? "-webkit-box" : "none"}`,
     "--shopspot-icon": shopspot_icon ? shopspot_icon : `#000`,
     "--tags-gap": `4px`,
-    "--cta-button-background-color": `#${shopspot_btn_background}`,
     // TODO - Replace these with cta_button_font_color and cta_button_font_size @Peng Zhou
     "--cta-button-font-color": `#${shopspot_btn_font_color}`,
     "--cta-button-font-size": `${shopspot_btn_font_size}px`,
     "--expanded-tile-border-radius": `${expanded_tile_border_radius}px`,
     ...getTileSizeByWidget(tileSizeSettings),
-    "--tile-tag-background": `#bcbbbc`,
     "--inline-tile-border-radius": `${inline_tile_border_radius}px`,
+    "--inline-tile-margin": `${inline_tile_margin}px`,
     "--tags-display-inline": `${show_tags_inline ? "flex" : "none"}`,
     "--tags-display-expanded": `${show_tags_expanded ? "flex" : "none"}`,
     "--shopspots-display": `${show_shopspots ? "block" : "none"}`,
