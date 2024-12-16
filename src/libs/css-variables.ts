@@ -24,7 +24,7 @@ export function getTileSizeByWidget(tileSizeSettings?: Features["tileSizeSetting
   const sizeUnitless = sizeWithUnit.replace("px", "")
   return { "--tile-size": sizeWithUnit, "--tile-size-unitless": sizeUnitless }
 }
-export function trimHashValuesFromObject(obj: Style) {
+export function trimHashValuesFromObject(obj: Style): Record<keyof Style, string> {
   return Object.entries(obj).reduce((acc: Record<string, string>, [key, value]) => {
     acc[key] = typeof value === "string" && value.startsWith("#") ? value.replace("#", "") : value
     return acc
@@ -53,7 +53,9 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     shopspot_icon,
     expanded_tile_border_radius,
     inline_tile_border_radius,
-    shopspot_btn_font_size
+    shopspot_btn_font_size,
+    text_tile_font_color,
+    text_tile_user_name_font_color
   } = trimHashValuesFromObject(styles)
   const { show_tags: show_tags_expanded } = sdk.getExpandedTileConfig()
   const { show_caption, show_tags: show_tags_inline, show_shopspots, show_timestamp, show_sharing } = inlineTileSettings
@@ -70,12 +72,15 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--text-tile-font-size": `${text_tile_font_size}px`,
     "--text-caption-paragraph-font-size": `${text_tile_font_size || 12}px`,
     "--text-tile-user-name-font-size": `${text_tile_user_name_font_size}px`,
+    "--text-tile-user-name-font-color": `#${text_tile_user_name_font_color}`,
     "--text-tile-user-handle-font-size": `${text_tile_user_handle_font_size || 12}px`,
+    "--text-tile-font-color": `#${text_tile_font_color}`,
     "--show-caption": `${show_caption ? "block" : "none"}`,
     "--show-caption-webkit": `${show_caption ? "-webkit-box" : "none"}`,
     "--shopspot-icon": shopspot_icon ? shopspot_icon : `#000`,
     "--tags-gap": `4px`,
     "--cta-button-background-color": `#${shopspot_btn_background}`,
+    // TODO - Replace these with cta_button_font_color and cta_button_font_size @Peng Zhou
     "--cta-button-font-color": `#${shopspot_btn_font_color}`,
     "--cta-button-font-size": `${shopspot_btn_font_size}px`,
     "--expanded-tile-border-radius": `${expanded_tile_border_radius}px`,
