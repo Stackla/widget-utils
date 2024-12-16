@@ -409,7 +409,7 @@ export interface Callbacks {
  * Registers event listeners for the widget.
  * @param settings
  */
-export function loadListeners(settings: EnforcedWidgetSettings) {
+export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
   const {
     onLoad,
     onExpandTile,
