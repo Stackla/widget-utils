@@ -169,7 +169,6 @@ function mergeSettingsWithDefaults<C>(settings?: MyWidgetSettings<C>): EnforcedW
         useDefaultExpandedTileStyles: true,
         useDefaultProductStyles: true,
         useDefaultAddToCartStyles: true,
-        useDefaultExpandedTileTemplates: true,
         useDefaultSwiperStyles: true,
         defaultFont: settings?.font ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
       },
@@ -268,20 +267,21 @@ export function loadTemplates<C>(settings: EnforcedWidgetSettings<C>) {
     useDefaultExpandedTileStyles,
     useDefaultProductStyles,
     useDefaultAddToCartStyles,
-    useDefaultExpandedTileTemplates,
     defaultFont,
     useDefaultSwiperStyles
   } = expandedTileSettings
 
   if (settings.features.loadExpandedTileSlider) {
-    loadExpandedTileTemplates({
-      useDefaultExpandedTileStyles: useDefaultExpandedTileStyles ?? true,
-      useDefaultProductStyles: useDefaultProductStyles ?? true,
-      useDefaultAddToCartStyles: useDefaultAddToCartStyles ?? true,
-      useDefaultExpandedTileTemplates: useDefaultExpandedTileTemplates ?? true,
-      defaultFont: defaultFont ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
-      useDefaultSwiperStyles: useDefaultSwiperStyles ?? true
-    })
+    loadExpandedTileTemplates(
+      {
+        useDefaultExpandedTileStyles: useDefaultExpandedTileStyles ?? true,
+        useDefaultProductStyles: useDefaultProductStyles ?? true,
+        useDefaultAddToCartStyles: useDefaultAddToCartStyles ?? true,
+        defaultFont: defaultFont ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
+        useDefaultSwiperStyles: useDefaultSwiperStyles ?? true
+      },
+      settings.templates["expanded-tiles"]?.template ? false : true
+    )
   }
 
   if (settings.templates && Object.keys(settings.templates).length) {
