@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.29
+
+### Patch Changes
+
+- 37f29e7: Fix expanded tile. render arrow for swiper tags
+
 ## 0.1.28
 
 ### Patch Changes
