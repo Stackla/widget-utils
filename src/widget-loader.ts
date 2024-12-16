@@ -101,17 +101,17 @@ interface Extensions {
   masonry: boolean
 }
 
-interface CustomTemplate {
-  template?: Template
+interface CustomTemplate<C> {
+  template?: Template<C>
 }
 
-type Templates = Record<string, CustomTemplate>
+type Templates<C> = Record<string, CustomTemplate<C>>
 
-export interface MyWidgetSettings {
+export interface MyWidgetSettings<C> {
   features?: Partial<Features>
   callbacks?: Partial<Callbacks>
   extensions?: Partial<Extensions>
-  templates?: Partial<Templates>
+  templates?: Partial<Templates<C>>
   /**
    * Default font - can be a google font link or an external font link
    * @default "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
@@ -119,14 +119,14 @@ export interface MyWidgetSettings {
   font?: string
 }
 
-export interface EnforcedWidgetSettings {
+export interface EnforcedWidgetSettings<C> {
   features: Features
   callbacks: Callbacks
   extensions: Extensions
-  templates: Partial<Templates>
+  templates: Partial<Templates<C>>
 }
 
-function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
+function loadMasonryCallbacks<C>(settings: EnforcedWidgetSettings<C>) {
   settings.callbacks.onTilesUpdated.push(() => {
     renderMasonryLayout()
   })
@@ -152,7 +152,7 @@ function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
   return settings
 }
 
-function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetSettings {
+function mergeSettingsWithDefaults<C>(settings?: MyWidgetSettings<C>): EnforcedWidgetSettings<C> {
   return {
     features: {
       showTitle: true,
@@ -188,7 +188,7 @@ function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetS
   }
 }
 
-async function loadFeatures(settings: EnforcedWidgetSettings) {
+async function loadFeatures<C>(settings: EnforcedWidgetSettings<C>) {
   const {
     showTitle,
     preloadImages,
@@ -236,7 +236,7 @@ async function loadFeatures(settings: EnforcedWidgetSettings) {
   return settings
 }
 
-function loadExtensions(settings: EnforcedWidgetSettings) {
+function loadExtensions<C>(settings: EnforcedWidgetSettings<C>) {
   const { extensions } = settings
 
   if (extensions?.masonry) {
@@ -247,7 +247,7 @@ function loadExtensions(settings: EnforcedWidgetSettings) {
   return settings
 }
 
-export function initialiseFeatures(settings: MyWidgetSettings) {
+export function initialiseFeatures<C>(settings: MyWidgetSettings<C>) {
   if (Object.keys(settings.features ?? {}).length === 0) {
     settings.features = {
       showTitle: true,
@@ -262,7 +262,7 @@ export function initialiseFeatures(settings: MyWidgetSettings) {
   return settings
 }
 
-export function loadTemplates(settings: EnforcedWidgetSettings) {
+export function loadTemplates<C>(settings: EnforcedWidgetSettings<C>) {
   const { expandedTileSettings } = settings.features
   const {
     useDefaultExpandedTileStyles,
@@ -299,11 +299,11 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
   }
 }
 
-export function loadWidget(settings?: MyWidgetSettings) {
+export function loadWidget<C>(settings?: MyWidgetSettings<C>) {
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
   addCSSVariablesToPlacement(getCSSVariables(settings?.features))
   loadTemplates(settingsWithDefaults)
   loadFeatures(settingsWithDefaults)
   loadExtensions(settingsWithDefaults)
-  loadListeners(settingsWithDefaults)
+  loadListeners<C>(settingsWithDefaults)
 }

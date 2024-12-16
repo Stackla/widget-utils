@@ -2,28 +2,32 @@
 
 exports[`Widget Functions getCSSVariables should return the correct CSS variables 1`] = `
 "--widget-background: #ffffff;
+--inline-tile-background: #undefined;
 --text-tile-background: #000000;
+--shopspot-btn-background: #ff00ff;
+--cta-button-background-color: #ff00ff;
+--tile-tag-background: #bcbbbc;
 --text-tile-link-color: #ff0000;
 --text-tile-user-handle-font-color: #00ff00;
---shopspot-btn-background: #ff00ff;
 --shopspot-btn-font-color: #00ffff;
 --margin: 10px;
 --text-tile-font-size: 16px;
 --text-caption-paragraph-font-size: 16px;
 --text-tile-user-name-font-size: 16px;
+--text-tile-user-name-font-color: #0000ff;
 --text-tile-user-handle-font-size: 12px;
+--text-tile-font-color: #undefined;
 --show-caption: none;
 --show-caption-webkit: none;
 --shopspot-icon: #000;
 --tags-gap: 4px;
---cta-button-background-color: #ff00ff;
 --cta-button-font-color: #00ffff;
 --cta-button-font-size: undefinedpx;
 --expanded-tile-border-radius: 5px;
 --tile-size: 265.5px;
 --tile-size-unitless: 265.5;
---tile-tag-background: #bcbbbc;
 --inline-tile-border-radius: undefinedpx;
+--inline-tile-margin: undefinedpx;
 --tags-display-inline: none;
 --tags-display-expanded: none;
 --shopspots-display: none;

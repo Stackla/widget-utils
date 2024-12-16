@@ -403,7 +403,7 @@ export interface Callbacks extends Record<EventName, Callback[]> {
  * Registers event listeners for the widget.
  * @param settings
  */
-export function loadListeners(settings: EnforcedWidgetSettings) {
+export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
   const {
     onLoad,
     onTileExpand,

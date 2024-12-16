@@ -164,6 +164,7 @@ export interface Style {
   dynamic_filter_fallback: DynamicFilterFallback
   inline_tile_size: string
   inline_tile_border_radius: string
+  inline_tile_margin: string
   expanded_tile_border_radius: string
   tile_tag_background: string
   map_content_feed_filter_id: string

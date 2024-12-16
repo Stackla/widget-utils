@@ -59,7 +59,9 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
                   render-caption={show_caption}
                   render-timephrase={show_timestamp}
                 />
-                {tagsEnabled && <tile-tags tile-id={tile.id} mode="swiper" context="expanded" />}
+                {tagsEnabled && (
+                  <tile-tags tile-id={tile.id} mode="swiper" context="expanded" navigation-arrows="true" />
+                )}
                 {productsEnabled && (
                   <>
                     <ugc-products parent={parent} tile-id={tile.id} />
