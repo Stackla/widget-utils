@@ -2,7 +2,7 @@
 
 exports[`Widget Functions getCSSVariables should return the correct CSS variables 1`] = `
 "--widget-background: #ffffff;
---inline-tile-background: #undefined;
+--inline-tile-background: #000000;
 --text-tile-background: #000000;
 --shopspot-btn-background: #ff00ff;
 --cta-button-background-color: #ff00ff;
@@ -27,7 +27,7 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --tile-size: 265.5px;
 --tile-size-unitless: 265.5;
 --inline-tile-border-radius: undefinedpx;
---inline-tile-margin: undefinedpx;
+--inline-tile-margin: 10px;
 --tags-display-inline: none;
 --tags-display-expanded: none;
 --shopspots-display: none;
