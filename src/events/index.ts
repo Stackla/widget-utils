@@ -7,19 +7,19 @@ declare const sdk: ISdk
 export type Callback = (args: unknown) => void | Promise<void>
 export type EventCallback = (event: Event) => void | Promise<void>
 
-export const PRODUCT_ACTION_CLICK = "productActionClick"
-export const EXPANDED_TILE_IMAGE_LOAD = "expandedTileImageLoad"
-export const EXPANDED_TILE_OPEN = "expandedTileOpen"
-export const EXPANDED_TILE_CLOSE = "expandedTileClose"
-export const BEFORE_EXPANDED_TILE_IMAGE_RESIZE = "beforeExpandedTileImageResize"
-export const EXPANDED_TILE_IMAGE_RESIZE = "expandedTileImageResize"
-export const BEFORE_EXPANDED_TILE_CLOSE = "beforeExpandedTileClose"
-export const BEFORE_EXPANDED_TILE_OPEN = "beforeExpandedTileOpen"
-export const SHOPSPOT_FLYOUT_EXPAND = "shopspotFlyoutExpand"
-export const SHOPSPOT_TOGGLE = "shopspotToggle"
-export const SHOPSPOT_OPEN = "shopspotOpen"
-export const SHOPSPOT_ACTION_CLICK = "shopspotActionClick"
-export const USER_CLICK = "userClick"
+export const EVENT_PRODUCT_ACTION_CLICK = "productActionClick"
+export const EVENT_EXPANDED_TILE_IMAGE_LOAD = "expandedTileImageLoad"
+export const EVENT_EXPANDED_TILE_OPEN = "expandedTileOpen"
+export const EVENT_EXPANDED_TILE_CLOSE = "expandedTileClose"
+export const EVENT_BEFORE_EXPANDED_TILE_IMAGE_RESIZE = "beforeExpandedTileImageResize"
+export const EVENT_EXPANDED_TILE_IMAGE_RESIZE = "expandedTileImageResize"
+export const EVENT_BEFORE_EXPANDED_TILE_CLOSE = "beforeExpandedTileClose"
+export const EVENT_BEFORE_EVENT_EXPANDED_TILE_OPEN = "beforeExpandedTileOpen"
+export const EVENT_SHOPSPOT_FLYOUT_EXPAND = "shopspotFlyoutExpand"
+export const EVENT_SHOPSPOT_TOGGLE = "shopspotToggle"
+export const EVENT_SHOPSPOT_OPEN = "shopspotOpen"
+export const EVENT_SHOPSPOT_ACTION_CLICK = "shopspotActionClick"
+export const EVENT_USER_CLICK = "userClick"
 export const EVENT_IMPRESSION = "impression"
 export const EVENT_LOAD = "load"
 export const EVENT_LOAD_MORE = "moreLoad"
@@ -29,7 +29,7 @@ export const EVENT_HOVER = "tileHover"
 export const EVENT_PRODUCT_CLICK = "productClick"
 export const EVENT_PRODUCT_PINCLICK = "pinClick"
 export const EVENT_TILE_EXPAND = "tileExpand"
-export const EVENT_PRODUCT_USER_CLICK = "userClick"
+export const EVENT_PRODUCT_EVENT_USER_CLICK = "userClick"
 export const EVENT_SHARE_CLICK = "shareClick" //GA Specific. Needs cleanup
 export const EVENT_SHOPSPOT_FLYOUT = "shopspotFlyout"
 export const EVENT_TILE_METADATA_LOADED = "tileMetadataLoaded"
@@ -37,16 +37,16 @@ export const EVENT_TILE_DATA_SET = "tileDataSet"
 export const EVENT_HTML_RENDERED = "htmlRendered"
 export const EVENT_JS_RENDERED = "jsRendered"
 export const EVENT_GLOBALS_LOADED = "globalsLoaded"
-export const CROSS_SELLERS_LOADED = "crossSellersLoaded"
+export const EVENT_CROSS_SELLERS_LOADED = "crossSellersLoaded"
 export const EVENT_PRODUCT_PAGE_LOADED = "productPageLoaded"
 export const EVENT_PRODUCTS_UPDATED = "productsUpdated"
 export const EVENT_ADD_TO_CART_FAILED = "addToCartFailed"
 export const EVENT_TILES_UPDATED = "tilesUpdated"
-export const WIDGET_INIT_COMPLETE = "widgetInitComplete"
+export const EVENT_WIDGET_INIT_COMPLETE = "widgetInitComplete"
 export const EMAIL_TILE_LOAD = "emailTileLoad"
 export const EMAIL_TILE_CLICK = "emailTileClick"
-export const LIKE_CLICK = "likeClick"
-export const DISLIKE_CLICK = "dislikeClick"
+export const EVENT_LIKE_CLICK = "likeClick"
+export const EVENT_DISLIKE_CLICK = "dislikeClick"
 export const EVENT_TILE_EXPAND_RENDERED = "expandedTileRendered"
 export const EVENT_TILE_EXPAND_PROD_RECS_RENDERED = "tileExpandProductRecsRendered"
 export const EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED = "tileExpandCrossSellersRendered"
@@ -56,19 +56,19 @@ export const EVENT_SHARE_MENU_OPENED = "shareMenuOpened"
 export const EVENT_SHARE_MENU_CLOSED = "shareMenuClosed"
 
 export const allEvents = [
-  PRODUCT_ACTION_CLICK,
-  EXPANDED_TILE_IMAGE_LOAD,
-  EXPANDED_TILE_OPEN,
-  EXPANDED_TILE_CLOSE,
-  BEFORE_EXPANDED_TILE_IMAGE_RESIZE,
-  EXPANDED_TILE_IMAGE_RESIZE,
-  BEFORE_EXPANDED_TILE_CLOSE,
-  BEFORE_EXPANDED_TILE_OPEN,
-  SHOPSPOT_FLYOUT_EXPAND,
-  SHOPSPOT_TOGGLE,
-  SHOPSPOT_OPEN,
-  SHOPSPOT_ACTION_CLICK,
-  USER_CLICK,
+  EVENT_PRODUCT_ACTION_CLICK,
+  EVENT_EXPANDED_TILE_IMAGE_LOAD,
+  EVENT_EXPANDED_TILE_OPEN,
+  EVENT_EXPANDED_TILE_CLOSE,
+  EVENT_BEFORE_EXPANDED_TILE_IMAGE_RESIZE,
+  EVENT_EXPANDED_TILE_IMAGE_RESIZE,
+  EVENT_BEFORE_EXPANDED_TILE_CLOSE,
+  EVENT_BEFORE_EVENT_EXPANDED_TILE_OPEN,
+  EVENT_SHOPSPOT_FLYOUT_EXPAND,
+  EVENT_SHOPSPOT_TOGGLE,
+  EVENT_SHOPSPOT_OPEN,
+  EVENT_SHOPSPOT_ACTION_CLICK,
+  EVENT_USER_CLICK,
   EVENT_IMPRESSION,
   EVENT_LOAD,
   EVENT_LOAD_MORE,
@@ -78,7 +78,7 @@ export const allEvents = [
   EVENT_PRODUCT_CLICK,
   EVENT_PRODUCT_PINCLICK,
   EVENT_TILE_EXPAND,
-  EVENT_PRODUCT_USER_CLICK,
+  EVENT_PRODUCT_EVENT_USER_CLICK,
   EVENT_SHARE_CLICK,
   EVENT_SHOPSPOT_FLYOUT,
   EVENT_TILE_METADATA_LOADED,
@@ -86,16 +86,16 @@ export const allEvents = [
   EVENT_HTML_RENDERED,
   EVENT_JS_RENDERED,
   EVENT_GLOBALS_LOADED,
-  CROSS_SELLERS_LOADED,
+  EVENT_CROSS_SELLERS_LOADED,
   EVENT_PRODUCT_PAGE_LOADED,
   EVENT_PRODUCTS_UPDATED,
   EVENT_ADD_TO_CART_FAILED,
   EVENT_TILES_UPDATED,
-  WIDGET_INIT_COMPLETE,
+  EVENT_WIDGET_INIT_COMPLETE,
   EMAIL_TILE_LOAD,
   EMAIL_TILE_CLICK,
-  LIKE_CLICK,
-  DISLIKE_CLICK,
+  EVENT_LIKE_CLICK,
+  EVENT_DISLIKE_CLICK,
   EVENT_TILE_EXPAND_RENDERED,
   EVENT_TILE_EXPAND_PROD_RECS_RENDERED,
   EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED,
@@ -112,7 +112,7 @@ export type EventMapping = Record<EventName, Event>
 export const callbackDefaults = {
   onResize: [],
   onLoad: [],
-  onExpandTile: [],
+  onTileExpand: [],
   onTileClose: [],
   onTileRendered: [],
   onTilesUpdated: [],
@@ -163,7 +163,7 @@ export const callbackDefaults = {
 /**
  * Interface representing various callback events.
  */
-export interface Callbacks {
+export interface Callbacks extends Record<EventName, Callback[]> {
   /**
    * Called when the window is resized.
    */
@@ -177,7 +177,7 @@ export interface Callbacks {
   /**
    * Called when a tile is expanded.
    */
-  onExpandTile: Callback[]
+  onTileExpand: Callback[]
 
   /**
    * Called when a tile is closed.
@@ -208,12 +208,6 @@ export interface Callbacks {
    * Called when the background image of a tile is rendered.
    */
   onTileBgImgRenderComplete: Callback[]
-
-  /**
-   * Called when there is an error rendering the background image of a tile.
-   */
-  onTileBgImageError: EventCallback[]
-
   /**
    * Called when a product action is clicked.
    */
@@ -412,7 +406,7 @@ export interface Callbacks {
 export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
   const {
     onLoad,
-    onExpandTile,
+    onTileExpand,
     onTileClose,
     onTileRendered,
     onCrossSellersRendered,
@@ -462,30 +456,30 @@ export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
   } = settings.callbacks
 
   onLoad?.forEach(event => registerGenericEventListener(EVENT_LOAD, event))
-  onExpandTile?.forEach(event => registerGenericEventListener(EVENT_TILE_EXPAND_RENDERED, event))
-  onTileClose?.forEach(event => registerGenericEventListener("onTileClose", event))
+  onTileExpand?.forEach(event => registerGenericEventListener(EVENT_TILE_EXPAND_RENDERED, event))
+  onTileClose?.forEach(event => registerGenericEventListener(EVENT_EXPANDED_TILE_CLOSE, event))
   onTileRendered?.forEach(event => registerTileExpandListener(event))
-  onCrossSellersRendered?.forEach(event => registerGenericEventListener("crossSellersRendered", event))
-  onWidgetInitComplete?.forEach(event => registerGenericEventListener("widgetInit", event))
+  onCrossSellersRendered?.forEach(event => registerGenericEventListener(EVENT_CROSS_SELLERS_LOADED, event))
+  onWidgetInitComplete?.forEach(event => registerGenericEventListener(EVENT_WIDGET_INIT_COMPLETE, event))
   onTileBgImgRenderComplete?.forEach(event => registerGenericEventListener(EVENT_TILE_BG_IMG_RENDER_COMPLETE, event))
   onTileBgImageError?.forEach(event => registerGenericEventListener(EVENT_TILE_BG_IMG_ERROR, event))
   onResize?.forEach(event => window.addEventListener("resize", event))
   onTilesUpdated?.forEach(event => registerGenericEventListener(EVENT_TILES_UPDATED, event))
-  onLoadMore?.forEach(event => registerGenericEventListener("loadMore", event))
-  onProductActionClick?.forEach(event => registerGenericEventListener(PRODUCT_ACTION_CLICK, event))
-  onExpandedTileImageLoad?.forEach(event => registerGenericEventListener(EXPANDED_TILE_IMAGE_LOAD, event))
-  onExpandedTileOpen?.forEach(event => registerGenericEventListener(EXPANDED_TILE_OPEN, event))
-  onExpandedTileClose?.forEach(event => registerGenericEventListener(EXPANDED_TILE_CLOSE, event))
+  onLoadMore?.forEach(event => registerGenericEventListener(EVENT_LOAD_MORE, event))
+  onProductActionClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_ACTION_CLICK, event))
+  onExpandedTileImageLoad?.forEach(event => registerGenericEventListener(EVENT_EXPANDED_TILE_IMAGE_LOAD, event))
+  onExpandedTileOpen?.forEach(event => registerGenericEventListener(EVENT_EXPANDED_TILE_OPEN, event))
+  onExpandedTileClose?.forEach(event => registerGenericEventListener(EVENT_EXPANDED_TILE_CLOSE, event))
   onBeforeExpandedTileImageResize?.forEach(event =>
-    registerGenericEventListener(BEFORE_EXPANDED_TILE_IMAGE_RESIZE, event)
+    registerGenericEventListener(EVENT_BEFORE_EXPANDED_TILE_IMAGE_RESIZE, event)
   )
-  onBeforeExpandedTileClose?.forEach(event => registerGenericEventListener(BEFORE_EXPANDED_TILE_CLOSE, event))
-  onBeforeExpandedTileOpen?.forEach(event => registerGenericEventListener(BEFORE_EXPANDED_TILE_OPEN, event))
-  onShopspotFlyoutExpand?.forEach(event => registerGenericEventListener(SHOPSPOT_FLYOUT_EXPAND, event))
-  onShopspotToggle?.forEach(event => registerGenericEventListener(SHOPSPOT_TOGGLE, event))
-  onShopspotOpen?.forEach(event => registerGenericEventListener(SHOPSPOT_OPEN, event))
-  onShopspotActionClick?.forEach(event => registerGenericEventListener(SHOPSPOT_ACTION_CLICK, event))
-  onUserClick?.forEach(event => registerGenericEventListener(USER_CLICK, event))
+  onBeforeExpandedTileClose?.forEach(event => registerGenericEventListener(EVENT_BEFORE_EXPANDED_TILE_CLOSE, event))
+  onBeforeExpandedTileOpen?.forEach(event => registerGenericEventListener(EVENT_BEFORE_EVENT_EXPANDED_TILE_OPEN, event))
+  onShopspotFlyoutExpand?.forEach(event => registerGenericEventListener(EVENT_SHOPSPOT_FLYOUT_EXPAND, event))
+  onShopspotToggle?.forEach(event => registerGenericEventListener(EVENT_SHOPSPOT_TOGGLE, event))
+  onShopspotOpen?.forEach(event => registerGenericEventListener(EVENT_SHOPSPOT_OPEN, event))
+  onShopspotActionClick?.forEach(event => registerGenericEventListener(EVENT_SHOPSPOT_ACTION_CLICK, event))
+  onUserClick?.forEach(event => registerGenericEventListener(EVENT_USER_CLICK, event))
   // TODO - Clean this with not required for GA
   onShareClick?.forEach(event => registerGenericEventListener(EVENT_SHARE_CLICK, event))
   onImpression?.forEach(event => registerGenericEventListener(EVENT_IMPRESSION, event))
@@ -494,7 +488,7 @@ export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
   onHover?.forEach(event => registerGenericEventListener(EVENT_HOVER, event))
   onProductClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_CLICK, event))
   onProductPinClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_PINCLICK, event))
-  onProductUserClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_USER_CLICK, event))
+  onProductUserClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_EVENT_USER_CLICK, event))
   onShopspotFlyout?.forEach(event => registerGenericEventListener(EVENT_SHOPSPOT_FLYOUT, event))
   onTileMetadataLoaded?.forEach(event => registerGenericEventListener(EVENT_TILE_METADATA_LOADED, event))
   onTileDataSet?.forEach(event => registerGenericEventListener(EVENT_TILE_DATA_SET, event))
@@ -506,8 +500,8 @@ export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
   onAddToCartFailed?.forEach(event => registerGenericEventListener(EVENT_ADD_TO_CART_FAILED, event))
   onEmailTileLoad?.forEach(event => registerGenericEventListener(EMAIL_TILE_LOAD, event))
   onEmailTileClick?.forEach(event => registerGenericEventListener(EMAIL_TILE_CLICK, event))
-  onLikeClick?.forEach(event => registerGenericEventListener(LIKE_CLICK, event))
-  onDislikeClick?.forEach(event => registerGenericEventListener(DISLIKE_CLICK, event))
+  onLikeClick?.forEach(event => registerGenericEventListener(EVENT_LIKE_CLICK, event))
+  onDislikeClick?.forEach(event => registerGenericEventListener(EVENT_DISLIKE_CLICK, event))
   onTileExpandProductRecsRendered?.forEach(event =>
     registerGenericEventListener(EVENT_TILE_EXPAND_PROD_RECS_RENDERED, event)
   )

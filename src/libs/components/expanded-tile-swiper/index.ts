@@ -21,11 +21,6 @@ export interface ExpandedTileSettings {
    */
   useDefaultAddToCartStyles: boolean
   /**
-   * Use default expanded tile templates
-   * @default true
-   */
-  useDefaultExpandedTileTemplates: boolean
-  /**
    * Default font - can be a google font link or an external font link
    * @default "https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
    */
@@ -55,11 +50,16 @@ function loadWidgetFonts(defaultFont: string) {
   }`)
 }
 
-export function loadExpandedTileTemplates(settings: ExpandedTileSettings) {
-  loadDefaultExpandedTileTemplates(settings.useDefaultExpandedTileTemplates)
+export function loadExpandedTileTemplates(settings: ExpandedTileSettings, templateEnabled: boolean) {
+  loadDefaultExpandedTileTemplates(templateEnabled)
   loadWidgetFonts(settings.defaultFont)
 
   if (settings.useDefaultSwiperStyles) {
     loadSwiperStyles()
   }
 }
+
+export * from "./tile.template"
+export * from "./embed-youtube.template"
+export * from "./video.templates"
+export * from "./types"
