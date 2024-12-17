@@ -60,6 +60,7 @@ export function TikTokTemplate({ tile }: { tile: Tile }) {
       class="video-content"
       frameborder="0"
       allowfullscreen
+      height="100%"
       allow="autoplay" // refer https://developer.chrome.com/blog/autoplay/
       src={`https://www.tiktok.com/player/v1/${tiktokId}?rel=0`}
     />

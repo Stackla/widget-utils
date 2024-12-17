@@ -13,6 +13,8 @@ export function EmbedYoutube({ tileId, videoId }: EmbedYoutubeProps) {
       loading="lazy"
       id={`yt-frame-${tileId}-${videoId}`}
       class="video-content"
+      height="360px"
+      width="480px"
       frameborder="0"
       srcdoc={contentElement.innerHTML}></iframe>
   )
@@ -26,6 +28,11 @@ function loadYoutubeIframeContent(tileId: string, videoId: string) {
       <head>
         <script id={scriptId} src="https://www.youtube.com/iframe_api"></script>
         <script>{loadYoutubePlayerAPI(playerId, videoId)}</script>
+        <style>{`
+          body {
+            margin: 0;
+          }
+        `}</style>
       </head>
       <body>
         <div id={playerId}></div>
