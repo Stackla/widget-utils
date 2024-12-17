@@ -41,7 +41,6 @@ export default function getCSSVariables(features?: Partial<Features>): string {
   const inlineTileSettings = sdk.getInlineTileConfig()
   const {
     widget_background,
-    tile_background,
     text_tile_background,
     text_tile_link_color,
     text_tile_user_handle_font_color,
@@ -54,7 +53,6 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     shopspot_icon,
     expanded_tile_border_radius,
     inline_tile_border_radius,
-    inline_tile_margin,
     shopspot_btn_font_size,
     text_tile_font_color,
     text_tile_user_name_font_color
@@ -65,7 +63,7 @@ export default function getCSSVariables(features?: Partial<Features>): string {
   const mutatedCssVariables: { [key: string]: string } = {
     ...cssVariables,
     "--widget-background": `#${widget_background}`,
-    "--inline-tile-background": `#${tile_background}`,
+    "--inline-tile-background": `#${text_tile_background}`,
     "--text-tile-background": `#${text_tile_background}`,
     "--shopspot-btn-background": `#${shopspot_btn_background}`,
     "--cta-button-background-color": `#${shopspot_btn_background}`,
@@ -90,7 +88,7 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--expanded-tile-border-radius": `${expanded_tile_border_radius}px`,
     ...getTileSizeByWidget(tileSizeSettings),
     "--inline-tile-border-radius": `${inline_tile_border_radius}px`,
-    "--inline-tile-margin": `${inline_tile_margin}px`,
+    "--inline-tile-margin": `${margin}px`,
     "--tags-display-inline": `${show_tags_inline ? "flex" : "none"}`,
     "--tags-display-expanded": `${show_tags_expanded ? "flex" : "none"}`,
     "--shopspots-display": `${show_shopspots ? "block" : "none"}`,
