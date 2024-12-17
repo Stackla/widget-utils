@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.31
+
+### Patch Changes
+
+- e4e9668: Fix video rendering and expanded tile active tile logic
+
 ## 0.1.30
 
 ### Patch Changes
