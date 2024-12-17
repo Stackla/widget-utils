@@ -62,6 +62,7 @@ function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: Lo
     nextButton: "swiper-expanded-button-next",
     paramsOverrides: {
       slidesPerView: 1,
+      autoHeight: true,
       keyboard: {
         enabled: true,
         onlyInViewport: false
