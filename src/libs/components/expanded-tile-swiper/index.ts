@@ -37,8 +37,6 @@ export interface ExpandedTileSettings {
 }
 
 function loadDefaultExpandedTileTemplates(addExpandedTileTemplates: boolean) {
-  console.log("tile enabled", addExpandedTileTemplates)
-
   if (addExpandedTileTemplates) {
     sdk.addTemplateToComponent(ExpandedTiles, "expanded-tiles")
   }
