@@ -425,6 +425,14 @@ function playActiveMediaTileOnLoad(tile: Element, widgetSelector: HTMLElement, l
  */
 function isActiveTile(tile: Element, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
   const tileId = tile.getAttribute("data-id")
+
+  if (lookupAttr) {
+    const originalLookupAttrValue = tile.getAttribute(lookupAttr.name)
+    const activeSwiperElement = getActiveSlideElement("expanded")
+    const activeElementTileId = activeSwiperElement?.getAttribute("data-id")
+    const activeElementLookupAttrValue = activeSwiperElement?.getAttribute(lookupAttr.name)
+    return originalLookupAttrValue === activeElementLookupAttrValue && tileId === activeElementTileId
+  }
   const tileIndex = tileId ? getSwiperIndexforTile(widgetSelector, tileId, lookupAttr) : 0
   return getActiveSlide("expanded") === tileIndex
 }
