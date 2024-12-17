@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.30
+
+### Patch Changes
+
+- ee1a490: Fixup naming convention of events
+
 ## 0.1.29
 
 ### Patch Changes
