@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.32
+
+### Patch Changes
+
+- 63d9fe3: enable expanded tile auto-height
+
 ## 0.1.31
 
 ### Patch Changes
