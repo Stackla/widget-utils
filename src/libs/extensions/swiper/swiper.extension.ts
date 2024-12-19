@@ -9,15 +9,9 @@ export type LookupAttr = {
   value: string
 }
 
-export function initializeSwiper({
-  id,
-  widgetSelector,
-  prevButton = "swiper-button-prev",
-  nextButton = "swiper-button-next",
-  paramsOverrides
-}: SwiperProps) {
-  const prev = widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${prevButton}`)
-  const next = widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${nextButton}`)
+export function initializeSwiper({ id, widgetSelector, prevButton, nextButton, paramsOverrides }: SwiperProps) {
+  const prev = prevButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${prevButton}`) : undefined
+  const next = nextButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${nextButton}`) : undefined
 
   if (!swiperContainer[id]) {
     swiperContainer[id] = {} as SwiperData
@@ -118,14 +112,14 @@ export function getActiveSlideElement(id: string) {
 }
 
 export function isSwiperLoading(id: string) {
-  if (swiperContainer[id] && swiperContainer[id].instance) {
+  if (swiperContainer[id]) {
     return swiperContainer[id].isLoading
   }
   return false
 }
 
 export function setSwiperLoadingStatus(id: string, isLoading: boolean) {
-  if (swiperContainer[id] && swiperContainer[id].instance) {
+  if (swiperContainer[id]) {
     swiperContainer[id].isLoading = isLoading
   }
 }
