@@ -14,6 +14,7 @@ function enableTileImage(slide: HTMLElement) {
       enableTileContent(slide)
     }
     tileImage.onload = () => enableTileContent(slide)
+    tileImage.onerror = () => slide.remove()
   }
 }
 
