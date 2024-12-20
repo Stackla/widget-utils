@@ -27,7 +27,6 @@ export interface ITilesService extends IBaseService {
   fetchTiles(page?: number, limit?: number): Promise<void>
   getPage(): number
   setTile(tile: Tile): void
-  clearTile(): void
   getTile(tileId?: string): Tile | undefined
   getProductById(productId: string): TagExtended
   getSelectedProduct(): TagExtended
