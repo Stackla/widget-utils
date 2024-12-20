@@ -8,7 +8,7 @@ import {
   loadWidgetIsEnabled
 } from "./libs"
 import getCSSVariables from "./libs/css-variables"
-import { ISdk, Template } from "./types"
+import { ExpandedTileOptions, InlineTileOptions, ISdk, Style, Template } from "./types"
 import {
   handleTileImageError,
   handleAllTileImageRendered,
@@ -105,6 +105,12 @@ interface CustomTemplate<C> {
   template?: Template<C>
 }
 
+interface WidgetConfig {
+  style: Partial<Style>
+  expandedTile: Partial<ExpandedTileOptions>
+  inlineTile: Partial<InlineTileOptions>
+}
+
 type Templates<C> = Record<string, CustomTemplate<C>>
 
 export interface MyWidgetSettings<C> {
@@ -112,6 +118,7 @@ export interface MyWidgetSettings<C> {
   callbacks?: Partial<Callbacks>
   extensions?: Partial<Extensions>
   templates?: Partial<Templates<C>>
+  config?: Partial<WidgetConfig>
   /**
    * Default font - can be a google font link or an external font link
    * @default "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
@@ -124,6 +131,7 @@ export interface EnforcedWidgetSettings<C> {
   callbacks: Callbacks
   extensions: Extensions
   templates: Partial<Templates<C>>
+  config: Partial<WidgetConfig>
 }
 
 function loadMasonryCallbacks<C>(settings: EnforcedWidgetSettings<C>) {
@@ -183,7 +191,8 @@ function mergeSettingsWithDefaults<C>(settings?: MyWidgetSettings<C>): EnforcedW
       masonry: false,
       ...settings?.extensions
     },
-    templates: settings?.templates ?? {}
+    templates: settings?.templates ?? {},
+    config: settings?.config ?? {}
   }
 }
 
@@ -299,8 +308,35 @@ export function loadTemplates<C>(settings: EnforcedWidgetSettings<C>) {
   }
 }
 
+function addConfigStyles<C>(settings: EnforcedWidgetSettings<C>) {
+  const { style } = settings.config
+
+  if (style) {
+    sdk.placement.updateWidgetStyle(style)
+  }
+}
+
+function addConfigExpandedTileSettings<C>(settings: EnforcedWidgetSettings<C>) {
+  const { expandedTile } = settings.config
+
+  if (expandedTile) {
+    sdk.placement.updateExpandedTileOptions(expandedTile)
+  }
+}
+
+function addConfigInlineTileSettings<C>(settings: EnforcedWidgetSettings<C>) {
+  const { inlineTile } = settings.config
+
+  if (inlineTile) {
+    sdk.placement.updateInlineTileOptions(inlineTile)
+  }
+}
+
 export function loadWidget<C>(settings?: MyWidgetSettings<C>) {
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
+  addConfigStyles(settingsWithDefaults)
+  addConfigExpandedTileSettings(settingsWithDefaults)
+  addConfigInlineTileSettings(settingsWithDefaults)
   addCSSVariablesToPlacement(getCSSVariables(settings?.features))
   loadTemplates(settingsWithDefaults)
   loadFeatures(settingsWithDefaults)
