@@ -28,14 +28,7 @@ const settings: EnforcedWidgetSettings<unknown> = {
     hideBrokenImages: true,
     loadExpandedTileSlider: true,
     loadTileContent: true,
-    loadTimephrase: true,
-    expandedTileSettings: {
-      useDefaultExpandedTileStyles: true,
-      useDefaultProductStyles: true,
-      useDefaultAddToCartStyles: true,
-      defaultFont: "https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap",
-      useDefaultSwiperStyles: true
-    }
+    loadTimephrase: true
   },
   callbacks: {
     ...callbackDefaults
