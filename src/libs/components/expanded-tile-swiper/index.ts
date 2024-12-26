@@ -1,4 +1,5 @@
 import { ExpandedTiles } from "./base.template"
+import { StoryExpandedTiles } from "./story/base.template"
 import { ISdk } from "../../../"
 import { loadSwiperStyles } from "../../extensions/swiper"
 
@@ -36,8 +37,14 @@ export interface ExpandedTileSettings {
    * */
 }
 
-function loadDefaultExpandedTileTemplates(addExpandedTileTemplates: boolean) {
-  if (addExpandedTileTemplates) {
+function loadDefaultExpandedTileTemplates(addExpandedTileTemplates: boolean, story: boolean) {
+  if (!addExpandedTileTemplates) {
+    return
+  }
+
+  if (story) {
+    sdk.addTemplateToComponent(StoryExpandedTiles, "expanded-tiles")
+  } else {
     sdk.addTemplateToComponent(ExpandedTiles, "expanded-tiles")
   }
 }
@@ -50,8 +57,8 @@ function loadWidgetFonts(defaultFont: string) {
   }`)
 }
 
-export function loadExpandedTileTemplates(settings: ExpandedTileSettings, templateEnabled: boolean) {
-  loadDefaultExpandedTileTemplates(templateEnabled)
+export function loadExpandedTileTemplates(settings: ExpandedTileSettings, templateEnabled: boolean, story: boolean) {
+  loadDefaultExpandedTileTemplates(templateEnabled, story)
   loadWidgetFonts(settings.defaultFont)
 
   if (settings.useDefaultSwiperStyles) {

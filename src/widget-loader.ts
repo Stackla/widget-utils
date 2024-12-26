@@ -61,6 +61,11 @@ export interface Features {
    */
   loadExpandedTileSlider: boolean
   /**
+   * @description Defines if the current template renders story
+   * @default false
+   */
+  story: boolean
+  /**
    * @description Load the tile content web component
    * @default true
    */
@@ -165,6 +170,7 @@ function mergeSettingsWithDefaults<C>(settings?: MyWidgetSettings<C>): EnforcedW
       loadExpandedTileSlider: true,
       loadTileContent: true,
       loadTimephrase: true,
+      story: false,
       expandedTileSettings: {
         useDefaultExpandedTileStyles: true,
         useDefaultProductStyles: true,
@@ -262,7 +268,7 @@ export function initialiseFeatures<C>(settings: MyWidgetSettings<C>) {
 }
 
 export function loadTemplates<C>(settings: EnforcedWidgetSettings<C>) {
-  const { expandedTileSettings } = settings.features
+  const { expandedTileSettings, story } = settings.features
   const {
     useDefaultExpandedTileStyles,
     useDefaultProductStyles,
@@ -280,7 +286,8 @@ export function loadTemplates<C>(settings: EnforcedWidgetSettings<C>) {
         defaultFont: defaultFont ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
         useDefaultSwiperStyles: useDefaultSwiperStyles ?? true
       },
-      settings.templates["expanded-tiles"]?.template ? false : true
+      settings.templates["expanded-tiles"]?.template ? false : true,
+      story
     )
   }
 

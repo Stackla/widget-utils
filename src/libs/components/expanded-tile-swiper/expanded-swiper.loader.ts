@@ -45,7 +45,9 @@ let tiktokDefaultPlayed = false
  */
 function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: LookupAttr) {
   const expandedTile = sdk.querySelector("expanded-tiles")
-  if (!expandedTile) {
+  const expandedTileWrapper = expandedTile?.querySelector(".expanded-tile-wrapper")
+
+  if (!expandedTile || !expandedTileWrapper) {
     throw new Error("The expanded tile element not found")
   }
   const widgetSelector = expandedTile.querySelector<HTMLElement>(".swiper-expanded")
@@ -53,6 +55,8 @@ function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: Lo
   if (!widgetSelector) {
     throw new Error("Failed to find widget UI element. Failed to initialise Glide")
   }
+
+  const isStory = expandedTileWrapper.getAttribute("variation") === "story"
 
   initializeSwiper({
     id: "expanded",
@@ -63,6 +67,9 @@ function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: Lo
     paramsOverrides: {
       slidesPerView: 1,
       autoHeight: true,
+      autoplay: isStory && {
+        delay: 5000
+      },
       keyboard: {
         enabled: true,
         onlyInViewport: false
@@ -72,10 +79,49 @@ function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: Lo
           const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId, lookupAttr) : 0
           swiper.slideToLoop(tileIndex, 0, false)
         },
+        afterInit: (swiper: Swiper) => {
+          registerStoryControls(expandedTileWrapper, swiper)
+        },
         navigationNext: controlVideoPlayback,
         navigationPrev: controlVideoPlayback
       }
     }
+  })
+}
+
+function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
+  const storyCtrls = tileWrapper.querySelector(".story-controls")
+
+  if (!storyCtrls) {
+    return
+  }
+
+  const playCtrl = storyCtrls.querySelector(".play-ctrl")
+  const pauseCtrl = storyCtrls.querySelector(".pause-ctrl")
+
+  const volumeCtrl = storyCtrls.querySelector(".volume-ctrl")
+  const muteCtrl = storyCtrls.querySelector(".mute-ctrl")
+
+  playCtrl?.addEventListener("click", () => {
+    playCtrl.classList.add("hidden")
+    pauseCtrl?.classList.remove("hidden")
+    swiper.autoplay.resume()
+  })
+
+  pauseCtrl?.addEventListener("click", () => {
+    pauseCtrl.classList.add("hidden")
+    playCtrl?.classList.remove("hidden")
+    swiper.autoplay.pause()
+  })
+
+  volumeCtrl?.addEventListener("click", () => {
+    volumeCtrl.classList.add("hidden")
+    muteCtrl?.classList.remove("hidden")
+  })
+
+  muteCtrl?.addEventListener("click", () => {
+    muteCtrl.classList.add("hidden")
+    volumeCtrl?.classList.remove("hidden")
   })
 }
 

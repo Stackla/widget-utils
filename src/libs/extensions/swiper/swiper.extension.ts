@@ -1,6 +1,6 @@
 import { SdkSwiper, SwiperData, SwiperProps } from "../../../types/SdkSwiper"
 import Swiper from "swiper"
-import { Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
+import { Autoplay, Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
 
 const swiperContainer: SdkSwiper = {}
 
@@ -31,7 +31,7 @@ export function initializeSwiper({ id, widgetSelector, prevButton, nextButton, p
   }
 
   swiperContainer[id]!.instance = new Swiper(widgetSelector, {
-    modules: [Navigation, Manipulation, Keyboard, Mousewheel],
+    modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay],
     spaceBetween: 10,
     observer: true,
     grabCursor: true,
