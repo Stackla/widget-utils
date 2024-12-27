@@ -17,8 +17,8 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --text-tile-user-name-font-color: #0000ff;
 --text-tile-user-handle-font-size: 12px;
 --text-tile-font-color: #undefined;
---show-caption: none;
---show-caption-webkit: none;
+--show-caption-inline: none;
+--show-caption-inline-webkit: none;
 --shopspot-icon: #000;
 --tags-gap: 4px;
 --cta-button-font-color: #00ffff;
@@ -30,7 +30,8 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --inline-tile-margin: 10px;
 --tags-display-inline: none;
 --tags-display-expanded: none;
---shopspots-display: none;
---timephrase-display: block;
---share-icon-display: none;"
+--shopspots-display-inline: none;
+--shopspots-display-expanded: none;
+--timephrase-display-inline: block;
+--share-icon-display-inline: none;"
 `;
