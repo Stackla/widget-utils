@@ -15,7 +15,19 @@ export function StoryExpandedTile({ sdk, tile }: ExpandedTileProps) {
 
   return (
     <>
-      <div class="panel">
+      <div class="panel-inactive">
+        <tile-content
+          tileId={tile.id}
+          render-share-menu="false"
+          render-description="false"
+          render-caption="false"
+          render-timephrase={show_timestamp}
+          orientation="vertical"
+          mode="dark"
+          render-user-handle="false"></tile-content>
+        <div class={`network-icon icon-${tile.source}`}></div>
+      </div>
+      <div class="panel-active">
         <AutoplayProgress />
         <tile-content
           tileId={tile.id}
