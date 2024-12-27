@@ -203,6 +203,12 @@ async function loadFeatures<C>(settings: EnforcedWidgetSettings<C>) {
   sdk.tiles.preloadImages = preloadImages
   sdk.tiles.hideBrokenTiles = hideBrokenImages
 
+  const { show_shopspots: showShopspotsInline } = sdk.getInlineTileConfig()
+
+  if (showShopspotsInline) {
+    sdk.addLoadedComponents(["shopspots"])
+  }
+
   if (loadTileContent) {
     sdk.addLoadedComponents(["tile-content", "timephrase", "tags", "share-menu"])
   } else if (loadTimephrase) {
