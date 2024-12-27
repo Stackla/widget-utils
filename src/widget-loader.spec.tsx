@@ -29,6 +29,7 @@ const settings: EnforcedWidgetSettings<unknown> = {
     loadExpandedTileSlider: true,
     loadTileContent: true,
     loadTimephrase: true,
+    story: false,
     expandedTileSettings: {
       useDefaultExpandedTileStyles: true,
       useDefaultProductStyles: true,
