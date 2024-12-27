@@ -2,6 +2,7 @@ import {
   destroySwiper,
   getActiveSlide,
   getActiveSlideElement,
+  getAutoplayStatus,
   getInstance,
   getSwiperIndexforTile,
   initializeSwiper,
@@ -10,7 +11,8 @@ import {
 import { waitForElm } from "../../widget.features"
 import Swiper from "swiper"
 import { pauseTiktokVideo, playTiktokVideo } from "./tiktok-message"
-import { ISdk } from "src/types"
+import { AutoplayStatus, ISdk } from "src/types"
+import { updateAutoplayStatus } from "dist/esm"
 
 declare const sdk: ISdk
 
@@ -58,6 +60,14 @@ function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: Lo
 
   const isStory = expandedTileWrapper.getAttribute("variation") === "story"
 
+  if (isStory) {
+    initalizeStoryExpandedTile(initialTileId, widgetSelector, expandedTileWrapper, lookupAttr)
+  } else {
+    initalizeExpandedTile(initialTileId, widgetSelector, lookupAttr)
+  }
+}
+
+function initalizeExpandedTile(initialTileId: string, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
   initializeSwiper({
     id: "expanded",
     widgetSelector,
@@ -67,8 +77,54 @@ function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: Lo
     paramsOverrides: {
       slidesPerView: 1,
       autoHeight: true,
-      autoplay: isStory && {
+      keyboard: {
+        enabled: true,
+        onlyInViewport: false
+      },
+      on: {
+        beforeInit: (swiper: Swiper) => {
+          const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId, lookupAttr) : 0
+          swiper.slideToLoop(tileIndex, 0, false)
+        },
+        autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
+          storyAutoplayProgress(swiper, percentage)
+        },
+        navigationNext: controlVideoPlayback,
+        navigationPrev: controlVideoPlayback
+      }
+    }
+  })
+}
+
+function initalizeStoryExpandedTile(
+  initialTileId: string,
+  widgetSelector: HTMLElement,
+  expandedTileWrapper: Element,
+  lookupAttr?: LookupAttr
+) {
+  const autoplayStatus = getAutoplayStatus("expanded")
+
+  initializeSwiper({
+    id: "expanded",
+    widgetSelector,
+    mode: "expanded",
+    prevButton: "swiper-expanded-button-prev",
+    nextButton: "swiper-expanded-button-next",
+    paramsOverrides: {
+      slidesPerView: "auto",
+      autoHeight: true,
+      autoplay: {
         delay: 5000
+      },
+      centeredSlides: true,
+      effect: "coverflow",
+      coverflowEffect: {
+        rotate: 0,
+        scale: 0.8,
+        stretch: -1,
+        depth: 1,
+        modifier: 1,
+        slideShadows: false
       },
       keyboard: {
         enabled: true,
@@ -81,12 +137,29 @@ function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: Lo
         },
         afterInit: (swiper: Swiper) => {
           registerStoryControls(expandedTileWrapper, swiper)
+          if (autoplayStatus.paused) {
+            swiper.autoplay.pause()
+          }
+        },
+        autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
+          storyAutoplayProgress(swiper, percentage)
         },
         navigationNext: controlVideoPlayback,
         navigationPrev: controlVideoPlayback
       }
     }
   })
+}
+
+function storyAutoplayProgress(swiper: Swiper, progress: number) {
+  const activeSlideElement = swiper.slides[swiper.realIndex]
+  const progressLine = activeSlideElement.querySelector<HTMLElement>(".story-autoplay-progress > .progress-content")
+
+  if (!progressLine) {
+    return
+  }
+
+  progressLine.style.width = `${100 - Math.round(progress * 100)}%`
 }
 
 function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
@@ -106,22 +179,34 @@ function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
     playCtrl.classList.add("hidden")
     pauseCtrl?.classList.remove("hidden")
     swiper.autoplay.resume()
+    updateAutoplayStatus("expanded", (autoplayStatus: AutoplayStatus) => {
+      autoplayStatus.paused = false
+    })
   })
 
   pauseCtrl?.addEventListener("click", () => {
     pauseCtrl.classList.add("hidden")
     playCtrl?.classList.remove("hidden")
     swiper.autoplay.pause()
+    updateAutoplayStatus("expanded", (autoplayStatus: AutoplayStatus) => {
+      autoplayStatus.paused = true
+    })
   })
 
   volumeCtrl?.addEventListener("click", () => {
     volumeCtrl.classList.add("hidden")
     muteCtrl?.classList.remove("hidden")
+    updateAutoplayStatus("expanded", (autoplayStatus: AutoplayStatus) => {
+      autoplayStatus.muted = false
+    })
   })
 
   muteCtrl?.addEventListener("click", () => {
     muteCtrl.classList.add("hidden")
     volumeCtrl?.classList.remove("hidden")
+    updateAutoplayStatus("expanded", (autoplayStatus: AutoplayStatus) => {
+      autoplayStatus.muted = true
+    })
   })
 }
 

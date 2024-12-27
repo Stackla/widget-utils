@@ -1,6 +1,6 @@
-import { SdkSwiper, SwiperData, SwiperProps } from "../../../types/SdkSwiper"
+import { AutoplayStatus, SdkSwiper, SwiperData, SwiperProps } from "../../../types/SdkSwiper"
 import Swiper from "swiper"
-import { Autoplay, Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
+import { Autoplay, EffectCoverflow, Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
 
 const swiperContainer: SdkSwiper = {}
 
@@ -31,7 +31,7 @@ export function initializeSwiper({ id, widgetSelector, prevButton, nextButton, p
   }
 
   swiperContainer[id]!.instance = new Swiper(widgetSelector, {
-    modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay],
+    modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow],
     spaceBetween: 10,
     observer: true,
     grabCursor: true,
@@ -128,4 +128,14 @@ export function updateSwiperInstance(id: string, updateProps: (swiperData: Swipe
   if (swiperContainer[id] && swiperContainer[id].instance) {
     updateProps(swiperContainer[id])
   }
+}
+
+export function updateAutoplayStatus(id: string, updateProps: (autoplayStatus: AutoplayStatus) => void) {
+  if (swiperContainer[id] && swiperContainer[id].autoplayStatus) {
+    updateProps(swiperContainer[id].autoplayStatus)
+  }
+}
+
+export function getAutoplayStatus(id: string) {
+  return swiperContainer[id]?.autoplayStatus || { muted: false, paused: false }
 }

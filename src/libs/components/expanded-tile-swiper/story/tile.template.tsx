@@ -16,6 +16,7 @@ export function StoryExpandedTile({ sdk, tile }: ExpandedTileProps) {
   return (
     <>
       <div class="panel">
+        <AutoplayProgress />
         <tile-content
           tileId={tile.id}
           render-share-menu={sharingToolsEnabled}
@@ -105,5 +106,15 @@ export function ImageTemplate({
     </>
   ) : (
     <></>
+  )
+}
+
+function AutoplayProgress() {
+  return (
+    <div class="story-progress-wrapper">
+      <div class="story-autoplay-progress">
+        <div class="progress-content"></div>
+      </div>
+    </div>
   )
 }

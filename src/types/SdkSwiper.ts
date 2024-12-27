@@ -14,11 +14,17 @@ export type SwiperProps = {
   paramsOverrides?: SwiperOptions
 }
 
+export type AutoplayStatus = {
+  muted: boolean
+  paused: boolean
+}
+
 export type SwiperData = {
   instance?: Swiper
   perView?: number | "auto"
   isLoading?: boolean
   pageIndex: number
+  autoplayStatus?: AutoplayStatus
 }
 
 export type SdkSwiper = {
