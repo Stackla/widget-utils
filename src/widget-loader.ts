@@ -14,7 +14,7 @@ import {
   handleAllTileImageRendered,
   renderMasonryLayout
 } from "./libs/extensions/masonry/masonry.extension"
-import { ExpandedTileSettings, loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
+import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 import { callbackDefaults, Callbacks, loadListeners } from "./events"
 
 declare const sdk: ISdk
@@ -75,10 +75,6 @@ export interface Features {
    * @default true
    */
   loadTimephrase: boolean
-  /**
-   * @description Expanded tile settings
-   */
-  expandedTileSettings: Partial<ExpandedTileSettings>
   /**
    * @description Modify default tile size settings
    */
@@ -171,13 +167,6 @@ function mergeSettingsWithDefaults<C>(settings?: MyWidgetSettings<C>): EnforcedW
       loadTileContent: true,
       loadTimephrase: true,
       story: false,
-      expandedTileSettings: {
-        useDefaultExpandedTileStyles: true,
-        useDefaultProductStyles: true,
-        useDefaultAddToCartStyles: true,
-        useDefaultSwiperStyles: true,
-        defaultFont: settings?.font ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
-      },
       ...settings?.features
     },
     callbacks: {
@@ -274,27 +263,9 @@ export function initialiseFeatures<C>(settings: MyWidgetSettings<C>) {
 }
 
 export function loadTemplates<C>(settings: EnforcedWidgetSettings<C>) {
-  const { expandedTileSettings, story } = settings.features
-  const {
-    useDefaultExpandedTileStyles,
-    useDefaultProductStyles,
-    useDefaultAddToCartStyles,
-    defaultFont,
-    useDefaultSwiperStyles
-  } = expandedTileSettings
-
   if (settings.features.loadExpandedTileSlider) {
-    loadExpandedTileTemplates(
-      {
-        useDefaultExpandedTileStyles: useDefaultExpandedTileStyles ?? true,
-        useDefaultProductStyles: useDefaultProductStyles ?? true,
-        useDefaultAddToCartStyles: useDefaultAddToCartStyles ?? true,
-        defaultFont: defaultFont ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
-        useDefaultSwiperStyles: useDefaultSwiperStyles ?? true
-      },
-      settings.templates["expanded-tiles"]?.template ? false : true,
-      story
-    )
+    const { story } = settings.features
+    loadExpandedTileTemplates(settings.templates["expanded-tiles"]?.template ? false : true, story)
   }
 
   if (settings.templates && Object.keys(settings.templates).length) {
