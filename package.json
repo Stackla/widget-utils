@@ -9,6 +9,7 @@
     "access": "public",
     "registry": "https://npm.pkg.github.com/"
   },
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
