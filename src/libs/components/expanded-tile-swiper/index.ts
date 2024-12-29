@@ -16,7 +16,7 @@ function loadDefaultExpandedTileTemplates(addExpandedTileTemplates: boolean, sto
   }
 }
 
-export function loadExpandedTileTemplates(settings: ExpandedTileSettings, story: boolean) {
+export function loadExpandedTileTemplates(templateEnabled: boolean, story: boolean) {
   loadDefaultExpandedTileTemplates(templateEnabled, story)
 }
 
