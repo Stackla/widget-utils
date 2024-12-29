@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.33
+
+### Patch Changes
+
+- f90e6ff: Cleanup bloat
+
 ## 0.1.32
 
 ### Patch Changes
