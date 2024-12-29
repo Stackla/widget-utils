@@ -1,12 +1,12 @@
 import {
   addAutoAddTileFeature,
-  addCSSVariablesToPlacement,
   addLoadMoreButtonFeature,
   addTilesPerPageFeature,
   loadExpandedTileFeature,
   loadTitle,
   loadWidgetIsEnabled
-} from "./libs"
+} from "./libs/widget.features"
+import { addCSSVariablesToPlacement } from "./libs/widget.layout"
 import getCSSVariables from "./libs/css-variables"
 import { ISdk, Template } from "./types"
 import {

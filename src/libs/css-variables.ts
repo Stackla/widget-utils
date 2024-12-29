@@ -1,4 +1,5 @@
-import type { Features, ISdk, Style } from "../"
+import type { ISdk, Style } from "../types"
+import type { Features } from "../widget-loader"
 
 declare const sdk: ISdk
 

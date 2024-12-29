@@ -1,4 +1,4 @@
-import { handleTileClick } from "../libs"
+import { handleTileClick } from "../libs/tile.lib"
 import { ISdk } from "../types"
 import { EnforcedWidgetSettings } from "../widget-loader"
 
