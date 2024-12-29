@@ -61,6 +61,11 @@ export interface Features {
    */
   loadExpandedTileSlider: boolean
   /**
+   * @description Defines if the current template renders story
+   * @default false
+   */
+  story: boolean
+  /**
    * @description Load the tile content web component
    * @default true
    */
@@ -161,6 +166,7 @@ function mergeSettingsWithDefaults<C>(settings?: MyWidgetSettings<C>): EnforcedW
       loadExpandedTileSlider: true,
       loadTileContent: true,
       loadTimephrase: true,
+      story: false,
       ...settings?.features
     },
     callbacks: {
@@ -191,6 +197,12 @@ async function loadFeatures<C>(settings: EnforcedWidgetSettings<C>) {
 
   sdk.tiles.preloadImages = preloadImages
   sdk.tiles.hideBrokenTiles = hideBrokenImages
+
+  const { show_shopspots: showShopspotsInline } = sdk.getInlineTileConfig()
+
+  if (showShopspotsInline) {
+    sdk.addLoadedComponents(["shopspots"])
+  }
 
   if (loadTileContent) {
     sdk.addLoadedComponents(["tile-content", "timephrase", "tags", "share-menu"])
@@ -252,7 +264,8 @@ export function initialiseFeatures<C>(settings: MyWidgetSettings<C>) {
 
 export function loadTemplates<C>(settings: EnforcedWidgetSettings<C>) {
   if (settings.features.loadExpandedTileSlider) {
-    loadExpandedTileTemplates(settings.templates["expanded-tiles"]?.template ? false : true)
+    const { story } = settings.features
+    loadExpandedTileTemplates(settings.templates["expanded-tiles"]?.template ? false : true, story)
   }
 
   if (settings.templates && Object.keys(settings.templates).length) {

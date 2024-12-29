@@ -1,18 +1,16 @@
-import type { ISdk } from "../../../"
-import { ExpandedTile } from "./tile.template"
-import { createElement } from "../../"
+import type { ISdk } from "../../../../"
+import { StoryExpandedTile } from "./tile.template"
+import { createElement } from "../../../"
 
-export function ExpandedTiles(sdk: ISdk) {
+export function StoryExpandedTiles(sdk: ISdk) {
   const tiles = sdk.tiles.tiles
   const { show_nav } = sdk.getExpandedTileConfig()
   const navigationArrowsEnabled = show_nav
 
   return (
-    <div class="expanded-tile-wrapper" variation="default">
-      <a class="exit" href="#">
-        <span class="widget-icon close-white"></span>
-      </a>
+    <div class="expanded-tile-wrapper" variation="story">
       <BackArrowIcon />
+      <StoryControls />
       <div class="swiper swiper-expanded">
         <div class="swiper-wrapper ugc-tiles">
           {Object.values(tiles).map(tile => (
@@ -21,7 +19,7 @@ export function ExpandedTiles(sdk: ISdk) {
               data-id={tile.id}
               data-yt-id={tile.youtube_id || ""}
               data-tiktok-id={tile.tiktok_id || ""}>
-              <ExpandedTile sdk={sdk} tile={tile} />
+              <StoryExpandedTile sdk={sdk} tile={tile} />
             </div>
           ))}
         </div>
@@ -45,5 +43,19 @@ function BackArrowIcon() {
     <a class="back" href="#">
       <span class="widget-icon back-arrow"></span>
     </a>
+  )
+}
+
+function StoryControls() {
+  return (
+    <div class="story-controls">
+      <span class="icon-video-volume volume-ctrl" />
+      <span class="icon-video-mute mute-ctrl hidden" />
+      <span class="icon-video-pause pause-ctrl" />
+      <span class="icon-video-play play-ctrl hidden" />
+      <span class="exit">
+        <span class="widget-icon close-white"></span>
+      </span>
+    </div>
   )
 }
