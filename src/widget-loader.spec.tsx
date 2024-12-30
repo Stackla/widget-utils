@@ -45,7 +45,8 @@ const settings: EnforcedWidgetSettings<unknown> = {
     shopspots: {
       template: () => "<p>Hi!</p>"
     }
-  }
+  },
+  config: {}
 }
 
 describe("loadTemplates", () => {

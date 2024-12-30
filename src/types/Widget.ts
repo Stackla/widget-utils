@@ -55,14 +55,14 @@ export type WidgetOptions = {
 }
 
 export interface ExpandedTileOptions {
-  apply_custom_sharing_title_on_miss_title: boolean
-  disable_short_url: boolean
-  fallback_share_image: string
-  layout: string
-  post_comments: boolean
-  sharing_text: string
-  sharing_title: string
-  show_additional_info: boolean
+  apply_custom_sharing_title_on_miss_title?: boolean
+  disable_short_url?: boolean
+  fallback_share_image?: string
+  layout?: string
+  post_comments?: boolean
+  sharing_text?: string
+  sharing_title?: string
+  show_additional_info?: boolean
   show_caption: boolean
   show_timestamp: boolean
   show_comments: boolean
@@ -133,12 +133,12 @@ export interface Style {
   load_more_type: string
   margin: string
   name: string
-  plugin_instance_id: string
-  polling_frequency: string
-  rows_per_page: string
-  shopspot_btn_background: string
-  shopspot_btn_font_color: string
-  shopspot_btn_font_size: string
+  plugin_instance_id?: string
+  polling_frequency?: string
+  rows_per_page?: string
+  shopspot_btn_background?: string
+  shopspot_btn_font_color?: string
+  shopspot_btn_font_size?: string
   shopspot_icon: string
   style: string
   text_tile_background: string
@@ -150,27 +150,26 @@ export interface Style {
   text_tile_user_name_font_color: string
   text_tile_user_name_font_size: string
   text_tile_link_color: string
-  tile_background: string
   tiles_per_page: string
   minimal_tiles: string
   type: string
   widget_background: string
-  widget_height: string
-  widget_loading_image: string
-  unavailable_products_behaviour: string
+  widget_height?: string
+  widget_loading_image?: string
+  unavailable_products_behaviour?: string
   dynamic_filter: string
   dynamic_filter_fallback: DynamicFilterFallback
   inline_tile_size: string
   inline_tile_border_radius: string
   expanded_tile_border_radius: string
-  map_content_feed_filter_id: string
+  map_content_feed_filter_id?: string
   // legacy Map widget properties
-  displayMode: string
-  isScrollZoomDisabled: boolean
-  providerApiKey: string
-  providerLayer: string
-  connectedContentWidgetId: string
-  defaultBounds: string
+  displayMode?: string
+  isScrollZoomDisabled?: boolean
+  providerApiKey?: string
+  providerLayer?: string
+  connectedContentWidgetId?: string
+  defaultBounds?: string
 }
 
 export interface DynamicFilterFallback {

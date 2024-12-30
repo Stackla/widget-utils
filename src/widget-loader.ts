@@ -8,7 +8,7 @@ import {
 } from "./libs/widget.features"
 import { addCSSVariablesToPlacement } from "./libs/widget.layout"
 import getCSSVariables from "./libs/css-variables"
-import { ISdk, Template } from "./types"
+import { ExpandedTileOptions, InlineTileOptions, ISdk, Style, Template } from "./types"
 import {
   handleTileImageError,
   handleAllTileImageRendered,
@@ -106,25 +106,22 @@ interface CustomTemplate<C> {
   template?: Template<C>
 }
 
-type Templates<C> = Record<string, CustomTemplate<C>>
-
-export interface MyWidgetSettings<C> {
-  features?: Partial<Features>
-  callbacks?: Partial<Callbacks>
-  extensions?: Partial<Extensions>
-  templates?: Partial<Templates<C>>
-  /**
-   * Default font - can be a google font link or an external font link
-   * @default "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
-   */
-  font?: string
+interface WidgetConfig {
+  style: Partial<Style>
+  expandedTile: Partial<ExpandedTileOptions>
+  inlineTile: Partial<InlineTileOptions>
 }
 
-export interface EnforcedWidgetSettings<C> {
+type Templates<C> = Record<string, CustomTemplate<C>>
+
+type MyWidgetSettings<C> = Partial<EnforcedWidgetSettings<C>>
+
+export type EnforcedWidgetSettings<C> = {
   features: Features
   callbacks: Callbacks
   extensions: Extensions
   templates: Partial<Templates<C>>
+  config: Partial<WidgetConfig>
 }
 
 function loadMasonryCallbacks<C>(settings: EnforcedWidgetSettings<C>) {
@@ -178,7 +175,8 @@ function mergeSettingsWithDefaults<C>(settings?: MyWidgetSettings<C>): EnforcedW
       masonry: false,
       ...settings?.extensions
     },
-    templates: settings?.templates ?? {}
+    templates: settings?.templates ?? {},
+    config: settings?.config ?? {}
   }
 }
 
@@ -255,7 +253,12 @@ export function initialiseFeatures<C>(settings: MyWidgetSettings<C>) {
       disableWidgetIfNotEnabled: true,
       addNewTilesAutomatically: true,
       handleLoadMore: true,
-      limitTilesPerPage: true
+      limitTilesPerPage: true,
+      hideBrokenImages: true,
+      loadExpandedTileSlider: true,
+      story: false,
+      loadTileContent: true,
+      loadTimephrase: true
     }
   }
 
@@ -283,8 +286,35 @@ export function loadTemplates<C>(settings: EnforcedWidgetSettings<C>) {
   }
 }
 
+function addConfigStyles<C>(settings: EnforcedWidgetSettings<C>) {
+  const { style } = settings.config
+
+  if (style) {
+    sdk.placement.updateWidgetStyle(style)
+  }
+}
+
+function addConfigExpandedTileSettings<C>(settings: EnforcedWidgetSettings<C>) {
+  const { expandedTile } = settings.config
+
+  if (expandedTile) {
+    sdk.placement.updateExpandedTileOptions(expandedTile)
+  }
+}
+
+function addConfigInlineTileSettings<C>(settings: EnforcedWidgetSettings<C>) {
+  const { inlineTile } = settings.config
+
+  if (inlineTile) {
+    sdk.placement.updateInlineTileOptions(inlineTile)
+  }
+}
+
 export function loadWidget<C>(settings?: MyWidgetSettings<C>) {
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
+  addConfigStyles(settingsWithDefaults)
+  addConfigExpandedTileSettings(settingsWithDefaults)
+  addConfigInlineTileSettings(settingsWithDefaults)
   addCSSVariablesToPlacement(getCSSVariables(settings?.features))
   loadTemplates(settingsWithDefaults)
   loadFeatures(settingsWithDefaults)

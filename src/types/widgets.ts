@@ -56,38 +56,38 @@ export type WidgetOptions = {
 }
 
 export interface ExpandedTileOptions {
-  apply_custom_sharing_title_on_miss_title: boolean
-  disable_short_url: boolean
-  fallback_share_image: string
-  layout: string
-  post_comments: boolean
-  sharing_text: string
-  sharing_title: string
-  show_additional_info: boolean
+  apply_custom_sharing_title_on_miss_title?: boolean
+  disable_short_url?: boolean
+  fallback_share_image?: string
+  layout?: string
+  post_comments?: boolean
+  sharing_text?: string
+  sharing_title?: string
+  show_additional_info?: boolean
   show_caption: boolean
   show_timestamp: boolean
-  show_comments: boolean
-  show_dislikes: boolean
-  show_likes: boolean
+  show_comments?: boolean
+  show_dislikes?: boolean
+  show_likes?: boolean
   show_nav: boolean
   show_sharing: boolean
   show_shopspots: boolean
   show_products: boolean
   show_tags: boolean
-  show_votes: boolean
+  show_votes?: boolean
   show_cross_sellers: boolean
   show_add_to_cart: boolean
 }
 
 export interface InlineTileOptions {
-  show_comments: boolean
-  show_dislikes: boolean
-  show_likes: boolean
+  show_comments?: boolean
+  show_dislikes?: boolean
+  show_likes?: boolean
   show_nav: boolean
   show_sharing: boolean
   show_shopspots: boolean
   show_tags: boolean
-  show_votes: boolean
+  show_votes?: boolean
   show_timestamp: boolean
   show_caption: boolean
   show_products: boolean
@@ -132,51 +132,51 @@ export interface Style {
   auto_refresh: string
   click_through_url: string
   enable_custom_tiles_per_page: boolean
-  load_more_type: string
+  load_more_type: "scroll" | "button" | "static"
   margin: string
   name: string
-  plugin_instance_id: string
-  polling_frequency: string
-  rows_per_page: string
-  shopspot_btn_background: string
-  shopspot_btn_font_color: string
-  shopspot_btn_font_size: string
+  plugin_instance_id?: string
+  polling_frequency?: string
+  rows_per_page?: string
+  shopspot_btn_background?: string
+  shopspot_btn_font_color?: string
+  shopspot_btn_font_size?: string
   shopspot_icon: string
-  style: string
+  style?: string
   text_tile_background: string
   text_tile_font_color: string
   text_tile_font_size: string
-  text_caption_paragraph_font_size: string
+  text_caption_paragraph_font_size?: string
   text_tile_user_handle_font_color: string
   text_tile_user_handle_font_size: string
   text_tile_user_name_font_color: string
   text_tile_user_name_font_size: string
   text_tile_link_color: string
-  tile_background: string
-  tiles_per_page: string
+  tile_background?: string
+  tiles_per_page?: string
   minimal_tiles: string
-  type: string
+  type?: string
   widget_background: string
-  widget_height: string
-  widget_loading_image: string
-  unavailable_products_behaviour: string
-  dynamic_filter: string
-  dynamic_filter_fallback: DynamicFilterFallback
+  widget_height?: string
+  widget_loading_image?: string
+  unavailable_products_behaviour?: string
+  dynamic_filter?: string
+  dynamic_filter_fallback?: DynamicFilterFallback
   inline_tile_size: string
   inline_tile_border_radius: string
-  inline_tile_margin: string
+  inline_tile_margin?: string
   expanded_tile_border_radius: string
-  tile_tag_background: string
-  map_content_feed_filter_id: string
-  map_content_feed_filter_name: string
-  displayMode: string
-  isScrollZoomDisabled: boolean
-  providerApiKey: string
-  providerLayer: string
-  connectedContentWidgetId: string
-  defaultBounds: string
-  pinColor: string
-  pinTextColor: string
+  tile_tag_background?: string
+  map_content_feed_filter_id?: string
+  map_content_feed_filter_name?: string
+  displayMode?: string
+  isScrollZoomDisabled?: boolean
+  providerApiKey?: string
+  providerLayer?: string
+  connectedContentWidgetId?: string
+  defaultBounds?: string
+  pinColor?: string
+  pinTextColor?: string
 }
 
 export interface DynamicFilterFallback {

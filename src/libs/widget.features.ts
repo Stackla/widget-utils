@@ -264,7 +264,7 @@ export function hideAllTilesAfterNTiles(numberTiles: number) {
 export function addTilesPerPageFeature() {
   const { enable_custom_tiles_per_page, tiles_per_page } = sdk.getStyleConfig()
 
-  if (enable_custom_tiles_per_page) {
+  if (enable_custom_tiles_per_page && tiles_per_page) {
     // FIXME: Make tiles_per_page number across the board
     sdk.tiles.setVisibleTilesCount(parseInt(tiles_per_page))
     hideAllTilesAfterNTiles(parseInt(tiles_per_page))
