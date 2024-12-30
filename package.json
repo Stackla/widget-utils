@@ -9,11 +9,17 @@
     "access": "public",
     "registry": "https://npm.pkg.github.com/"
   },
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
       "types": "./dist/esm/index.d.ts",
       "require": "./dist/cjs/index.js"
+    },
+    "./jsx": {
+      "import": "./dist/esm/libs/jsx-html.js",
+      "types": "./dist/esm/libs/jsx-html.d.ts",
+      "require": "./dist/cjs/libs/jsx-html.js"
     },
     "./types": "./dist/esm/types/index.d.ts",
     "./libs": {

@@ -1,2 +1,7 @@
-export * from "./loader.extension"
-export * from "./swiper.extension"
+export {
+  initializeSwiper,
+  isSwiperLoading,
+  updateSwiperInstance,
+  setSwiperLoadingStatus,
+  refreshSwiper
+} from "./swiper.extension"

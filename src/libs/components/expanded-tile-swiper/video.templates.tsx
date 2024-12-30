@@ -1,5 +1,5 @@
-import { EmbedYoutube, ImageTemplate, Tile, createElement } from "../../../"
-
+import { Tile, createElement } from "../../../"
+import { EmbedYoutube, ImageTemplate } from "../../components"
 function getVideoData(tile: Tile) {
   if (tile.video_files?.length) {
     return tile.video_files[0]
