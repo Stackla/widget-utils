@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.34
+
+### Patch Changes
+
+- 019c6fc: Isolate swiper extension to prevent bloat
+
 ## 0.1.33
 
 ### Patch Changes
