@@ -114,20 +114,9 @@ interface WidgetConfig {
 
 type Templates<C> = Record<string, CustomTemplate<C>>
 
-export interface MyWidgetSettings<C> {
-  features?: Partial<Features>
-  callbacks?: Partial<Callbacks>
-  extensions?: Partial<Extensions>
-  templates?: Partial<Templates<C>>
-  config?: Partial<WidgetConfig>
-  /**
-   * Default font - can be a google font link or an external font link
-   * @default "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
-   */
-  font?: string
-}
+type MyWidgetSettings<C> = Partial<EnforcedWidgetSettings<C>>
 
-export interface EnforcedWidgetSettings<C> {
+export type EnforcedWidgetSettings<C> = {
   features: Features
   callbacks: Callbacks
   extensions: Extensions
@@ -264,7 +253,12 @@ export function initialiseFeatures<C>(settings: MyWidgetSettings<C>) {
       disableWidgetIfNotEnabled: true,
       addNewTilesAutomatically: true,
       handleLoadMore: true,
-      limitTilesPerPage: true
+      limitTilesPerPage: true,
+      hideBrokenImages: true,
+      loadExpandedTileSlider: true,
+      story: false,
+      loadTileContent: true,
+      loadTimephrase: true
     }
   }
 
