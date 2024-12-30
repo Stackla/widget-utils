@@ -1,4 +1,4 @@
-import { ISdk } from "../../../"
+import { ISdk } from "../types"
 
 declare const sdk: ISdk
 

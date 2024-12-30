@@ -1,12 +1,12 @@
 import {
   addAutoAddTileFeature,
-  addCSSVariablesToPlacement,
   addLoadMoreButtonFeature,
   addTilesPerPageFeature,
   loadExpandedTileFeature,
   loadTitle,
   loadWidgetIsEnabled
-} from "./libs"
+} from "./libs/widget.features"
+import { addCSSVariablesToPlacement } from "./libs/widget.layout"
 import getCSSVariables from "./libs/css-variables"
 import { ExpandedTileOptions, InlineTileOptions, ISdk, Style, Template } from "./types"
 import {
@@ -14,7 +14,7 @@ import {
   handleAllTileImageRendered,
   renderMasonryLayout
 } from "./libs/extensions/masonry/masonry.extension"
-import { ExpandedTileSettings, loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
+import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 import { callbackDefaults, Callbacks, loadListeners } from "./events"
 
 declare const sdk: ISdk
@@ -61,6 +61,11 @@ export interface Features {
    */
   loadExpandedTileSlider: boolean
   /**
+   * @description Defines if the current template renders story
+   * @default false
+   */
+  story: boolean
+  /**
    * @description Load the tile content web component
    * @default true
    */
@@ -70,10 +75,6 @@ export interface Features {
    * @default true
    */
   loadTimephrase: boolean
-  /**
-   * @description Expanded tile settings
-   */
-  expandedTileSettings: Partial<ExpandedTileSettings>
   /**
    * @description Modify default tile size settings
    */
@@ -173,13 +174,7 @@ function mergeSettingsWithDefaults<C>(settings?: MyWidgetSettings<C>): EnforcedW
       loadExpandedTileSlider: true,
       loadTileContent: true,
       loadTimephrase: true,
-      expandedTileSettings: {
-        useDefaultExpandedTileStyles: true,
-        useDefaultProductStyles: true,
-        useDefaultAddToCartStyles: true,
-        useDefaultSwiperStyles: true,
-        defaultFont: settings?.font ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
-      },
+      story: false,
       ...settings?.features
     },
     callbacks: {
@@ -211,6 +206,12 @@ async function loadFeatures<C>(settings: EnforcedWidgetSettings<C>) {
 
   sdk.tiles.preloadImages = preloadImages
   sdk.tiles.hideBrokenTiles = hideBrokenImages
+
+  const { show_shopspots: showShopspotsInline } = sdk.getInlineTileConfig()
+
+  if (showShopspotsInline) {
+    sdk.addLoadedComponents(["shopspots"])
+  }
 
   if (loadTileContent) {
     sdk.addLoadedComponents(["tile-content", "timephrase", "tags", "share-menu"])
@@ -271,26 +272,9 @@ export function initialiseFeatures<C>(settings: MyWidgetSettings<C>) {
 }
 
 export function loadTemplates<C>(settings: EnforcedWidgetSettings<C>) {
-  const { expandedTileSettings } = settings.features
-  const {
-    useDefaultExpandedTileStyles,
-    useDefaultProductStyles,
-    useDefaultAddToCartStyles,
-    defaultFont,
-    useDefaultSwiperStyles
-  } = expandedTileSettings
-
   if (settings.features.loadExpandedTileSlider) {
-    loadExpandedTileTemplates(
-      {
-        useDefaultExpandedTileStyles: useDefaultExpandedTileStyles ?? true,
-        useDefaultProductStyles: useDefaultProductStyles ?? true,
-        useDefaultAddToCartStyles: useDefaultAddToCartStyles ?? true,
-        defaultFont: defaultFont ?? "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
-        useDefaultSwiperStyles: useDefaultSwiperStyles ?? true
-      },
-      settings.templates["expanded-tiles"]?.template ? false : true
-    )
+    const { story } = settings.features
+    loadExpandedTileTemplates(settings.templates["expanded-tiles"]?.template ? false : true, story)
   }
 
   if (settings.templates && Object.keys(settings.templates).length) {

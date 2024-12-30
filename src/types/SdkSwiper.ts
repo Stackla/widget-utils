@@ -19,6 +19,7 @@ export type SwiperData = {
   perView?: number | "auto"
   isLoading?: boolean
   pageIndex: number
+  muted?: boolean
 }
 
 export type SdkSwiper = {

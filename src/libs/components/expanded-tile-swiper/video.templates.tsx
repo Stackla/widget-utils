@@ -1,5 +1,5 @@
-import { EmbedYoutube, ImageTemplate, Tile, createElement } from "../../../"
-
+import { Tile, createElement } from "../../../"
+import { EmbedYoutube, ImageTemplate } from "../../components"
 function getVideoData(tile: Tile) {
   if (tile.video_files?.length) {
     return tile.video_files[0]
@@ -60,6 +60,7 @@ export function TikTokTemplate({ tile }: { tile: Tile }) {
       class="video-content"
       frameborder="0"
       allowfullscreen
+      height="100%"
       allow="autoplay" // refer https://developer.chrome.com/blog/autoplay/
       src={`https://www.tiktok.com/player/v1/${tiktokId}?rel=0`}
     />

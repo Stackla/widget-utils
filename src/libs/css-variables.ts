@@ -1,4 +1,5 @@
-import type { Features, ISdk, Style } from "../"
+import type { ISdk, Style } from "../types"
+import type { Features } from "../widget-loader"
 
 declare const sdk: ISdk
 
@@ -57,8 +58,14 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     text_tile_font_color,
     text_tile_user_name_font_color
   } = trimHashValuesFromObject(styles)
-  const { show_tags: show_tags_expanded } = sdk.getExpandedTileConfig()
-  const { show_caption, show_tags: show_tags_inline, show_shopspots, show_timestamp, show_sharing } = inlineTileSettings
+  const { show_tags: show_tags_expanded, show_shopspots: show_shopspots_expanded } = sdk.getExpandedTileConfig()
+  const {
+    show_caption: show_caption_inline,
+    show_tags: show_tags_inline,
+    show_shopspots: show_shopspots_inline,
+    show_timestamp: show_timestamp_inline,
+    show_sharing: show_sharing_inline
+  } = inlineTileSettings
 
   const mutatedCssVariables: { [key: string]: string } = {
     ...cssVariables,
@@ -78,8 +85,8 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--text-tile-user-name-font-color": `#${text_tile_user_name_font_color}`,
     "--text-tile-user-handle-font-size": `${text_tile_user_handle_font_size || 12}px`,
     "--text-tile-font-color": `#${text_tile_font_color}`,
-    "--show-caption": `${show_caption ? "block" : "none"}`,
-    "--show-caption-webkit": `${show_caption ? "-webkit-box" : "none"}`,
+    "--show-caption-inline": `${show_caption_inline ? "block" : "none"}`,
+    "--show-caption-inline-webkit": `${show_caption_inline ? "-webkit-box" : "none"}`,
     "--shopspot-icon": shopspot_icon ? shopspot_icon : `#000`,
     "--tags-gap": `4px`,
     // TODO - Replace these with cta_button_font_color and cta_button_font_size @Peng Zhou
@@ -91,9 +98,10 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--inline-tile-margin": `${margin}px`,
     "--tags-display-inline": `${show_tags_inline ? "flex" : "none"}`,
     "--tags-display-expanded": `${show_tags_expanded ? "flex" : "none"}`,
-    "--shopspots-display": `${show_shopspots ? "block" : "none"}`,
-    "--timephrase-display": `${show_timestamp ? "block" : "none"}`,
-    "--share-icon-display": `${show_sharing ? "inline-block" : "none"}`
+    "--shopspots-display-inline": `${show_shopspots_inline ? "block" : "none"}`,
+    "--shopspots-display-expanded": `${show_shopspots_expanded ? "block" : "none"}`,
+    "--timephrase-display-inline": `${show_timestamp_inline ? "block" : "none"}`,
+    "--share-icon-display-inline": `${show_sharing_inline ? "inline-block" : "none"}`
   }
 
   return Object.entries(mutatedCssVariables)

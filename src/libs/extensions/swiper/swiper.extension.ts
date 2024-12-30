@@ -1,6 +1,6 @@
 import { SdkSwiper, SwiperData, SwiperProps } from "../../../types/SdkSwiper"
 import Swiper from "swiper"
-import { Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
+import { Autoplay, EffectCoverflow, Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
 
 const swiperContainer: SdkSwiper = {}
 
@@ -9,15 +9,9 @@ export type LookupAttr = {
   value: string
 }
 
-export function initializeSwiper({
-  id,
-  widgetSelector,
-  prevButton = "swiper-button-prev",
-  nextButton = "swiper-button-next",
-  paramsOverrides
-}: SwiperProps) {
-  const prev = widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${prevButton}`)
-  const next = widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${nextButton}`)
+export function initializeSwiper({ id, widgetSelector, prevButton, nextButton, paramsOverrides }: SwiperProps) {
+  const prev = prevButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${prevButton}`) : undefined
+  const next = nextButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${nextButton}`) : undefined
 
   if (!swiperContainer[id]) {
     swiperContainer[id] = {} as SwiperData
@@ -37,7 +31,7 @@ export function initializeSwiper({
   }
 
   swiperContainer[id]!.instance = new Swiper(widgetSelector, {
-    modules: [Navigation, Manipulation, Keyboard, Mousewheel],
+    modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow],
     spaceBetween: 10,
     observer: true,
     grabCursor: true,
@@ -118,14 +112,14 @@ export function getActiveSlideElement(id: string) {
 }
 
 export function isSwiperLoading(id: string) {
-  if (swiperContainer[id] && swiperContainer[id].instance) {
+  if (swiperContainer[id]) {
     return swiperContainer[id].isLoading
   }
   return false
 }
 
 export function setSwiperLoadingStatus(id: string, isLoading: boolean) {
-  if (swiperContainer[id] && swiperContainer[id].instance) {
+  if (swiperContainer[id]) {
     swiperContainer[id].isLoading = isLoading
   }
 }

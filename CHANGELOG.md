@@ -1,5 +1,29 @@
 # @stackla/widget-utils
 
+## 0.1.34
+
+### Patch Changes
+
+- 019c6fc: Isolate swiper extension to prevent bloat
+
+## 0.1.33
+
+### Patch Changes
+
+- f90e6ff: Cleanup bloat
+
+## 0.1.32
+
+### Patch Changes
+
+- 63d9fe3: enable expanded tile auto-height
+
+## 0.1.31
+
+### Patch Changes
+
+- e4e9668: Fix video rendering and expanded tile active tile logic
+
 ## 0.1.30
 
 ### Patch Changes

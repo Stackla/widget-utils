@@ -5,12 +5,13 @@ import {
   getInstance,
   getSwiperIndexforTile,
   initializeSwiper,
-  LookupAttr
+  LookupAttr,
+  updateSwiperInstance
 } from "../../extensions/swiper/swiper.extension"
 import { waitForElm } from "../../widget.features"
 import Swiper from "swiper"
 import { pauseTiktokVideo, playTiktokVideo } from "./tiktok-message"
-import { ISdk } from "src/types"
+import { ISdk, SwiperData } from "src/types"
 
 declare const sdk: ISdk
 
@@ -45,7 +46,9 @@ let tiktokDefaultPlayed = false
  */
 function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: LookupAttr) {
   const expandedTile = sdk.querySelector("expanded-tiles")
-  if (!expandedTile) {
+  const expandedTileWrapper = expandedTile?.querySelector(".expanded-tile-wrapper")
+
+  if (!expandedTile || !expandedTileWrapper) {
     throw new Error("The expanded tile element not found")
   }
   const widgetSelector = expandedTile.querySelector<HTMLElement>(".swiper-expanded")
@@ -54,6 +57,16 @@ function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: Lo
     throw new Error("Failed to find widget UI element. Failed to initialise Glide")
   }
 
+  const isStory = expandedTileWrapper.getAttribute("variation") === "story"
+
+  if (isStory) {
+    initalizeStoryExpandedTile(initialTileId, widgetSelector, expandedTileWrapper, lookupAttr)
+  } else {
+    initalizeExpandedTile(initialTileId, widgetSelector, lookupAttr)
+  }
+}
+
+function initalizeExpandedTile(initialTileId: string, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
   initializeSwiper({
     id: "expanded",
     widgetSelector,
@@ -62,6 +75,7 @@ function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: Lo
     nextButton: "swiper-expanded-button-next",
     paramsOverrides: {
       slidesPerView: 1,
+      autoHeight: true,
       keyboard: {
         enabled: true,
         onlyInViewport: false
@@ -71,10 +85,120 @@ function initializeSwiperForExpandedTiles(initialTileId: string, lookupAttr?: Lo
           const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId, lookupAttr) : 0
           swiper.slideToLoop(tileIndex, 0, false)
         },
+        autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
+          storyAutoplayProgress(swiper, percentage)
+        },
         navigationNext: controlVideoPlayback,
         navigationPrev: controlVideoPlayback
       }
     }
+  })
+}
+
+function initalizeStoryExpandedTile(
+  initialTileId: string,
+  widgetSelector: HTMLElement,
+  expandedTileWrapper: Element,
+  lookupAttr?: LookupAttr
+) {
+  initializeSwiper({
+    id: "expanded",
+    widgetSelector,
+    mode: "expanded",
+    prevButton: "swiper-expanded-button-prev",
+    nextButton: "swiper-expanded-button-next",
+    paramsOverrides: {
+      slidesPerView: "auto",
+      autoHeight: true,
+      autoplay: {
+        delay: 5000
+      },
+      centeredSlides: true,
+      effect: "coverflow",
+      coverflowEffect: {
+        rotate: 0,
+        scale: 0.8,
+        stretch: -1,
+        depth: 1,
+        modifier: 1,
+        slideShadows: false
+      },
+      keyboard: {
+        enabled: true,
+        onlyInViewport: false
+      },
+      on: {
+        beforeInit: (swiper: Swiper) => {
+          const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId, lookupAttr) : 0
+          swiper.slideToLoop(tileIndex, 0, false)
+        },
+        afterInit: (swiper: Swiper) => {
+          registerStoryControls(expandedTileWrapper, swiper)
+        },
+        autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
+          storyAutoplayProgress(swiper, percentage)
+        },
+        navigationNext: (swiper: Swiper) => {
+          controlVideoPlayback(swiper)
+        },
+        navigationPrev: (swiper: Swiper) => {
+          controlVideoPlayback(swiper)
+        }
+      }
+    }
+  })
+}
+
+function storyAutoplayProgress(swiper: Swiper, progress: number) {
+  const activeSlideElement = swiper.slides[swiper.realIndex]
+  const progressLine = activeSlideElement.querySelector<HTMLElement>(".story-autoplay-progress > .progress-content")
+
+  if (!progressLine) {
+    return
+  }
+
+  progressLine.style.width = `${100 - Math.round(progress * 100)}%`
+}
+
+function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
+  const storyCtrls = tileWrapper.querySelector(".story-controls")
+
+  if (!storyCtrls) {
+    return
+  }
+
+  const playCtrl = storyCtrls.querySelector(".play-ctrl")
+  const pauseCtrl = storyCtrls.querySelector(".pause-ctrl")
+
+  const volumeCtrl = storyCtrls.querySelector(".volume-ctrl")
+  const muteCtrl = storyCtrls.querySelector(".mute-ctrl")
+
+  playCtrl?.addEventListener("click", () => {
+    playCtrl.classList.add("hidden")
+    pauseCtrl?.classList.remove("hidden")
+    swiper.autoplay.start()
+  })
+
+  pauseCtrl?.addEventListener("click", () => {
+    pauseCtrl.classList.add("hidden")
+    playCtrl?.classList.remove("hidden")
+    swiper.autoplay.stop()
+  })
+
+  volumeCtrl?.addEventListener("click", () => {
+    volumeCtrl.classList.add("hidden")
+    muteCtrl?.classList.remove("hidden")
+    updateSwiperInstance("expanded", (swiperData: SwiperData) => {
+      swiperData.muted = false
+    })
+  })
+
+  muteCtrl?.addEventListener("click", () => {
+    muteCtrl.classList.add("hidden")
+    volumeCtrl?.classList.remove("hidden")
+    updateSwiperInstance("expanded", (swiperData: SwiperData) => {
+      swiperData.muted = true
+    })
   })
 }
 
@@ -425,6 +549,14 @@ function playActiveMediaTileOnLoad(tile: Element, widgetSelector: HTMLElement, l
  */
 function isActiveTile(tile: Element, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
   const tileId = tile.getAttribute("data-id")
+
+  if (lookupAttr) {
+    const originalLookupAttrValue = tile.getAttribute(lookupAttr.name)
+    const activeSwiperElement = getActiveSlideElement("expanded")
+    const activeElementTileId = activeSwiperElement?.getAttribute("data-id")
+    const activeElementLookupAttrValue = activeSwiperElement?.getAttribute(lookupAttr.name)
+    return originalLookupAttrValue === activeElementLookupAttrValue && tileId === activeElementTileId
+  }
   const tileIndex = tileId ? getSwiperIndexforTile(widgetSelector, tileId, lookupAttr) : 0
   return getActiveSlide("expanded") === tileIndex
 }
