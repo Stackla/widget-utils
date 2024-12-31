@@ -114,14 +114,18 @@ interface WidgetConfig {
 
 type Templates<C> = Record<string, CustomTemplate<C>>
 
-type MyWidgetSettings<C> = Partial<EnforcedWidgetSettings<C>>
+export interface MyWidgetSettings<C> {
+  features?: Partial<Features>
+  callbacks?: Partial<Callbacks>
+  extensions?: Partial<Extensions>
+  templates?: Partial<Templates<C>>
+  config?: Partial<WidgetConfig>
+}
 
-export type EnforcedWidgetSettings<C> = {
+export interface EnforcedWidgetSettings<C> extends Required<MyWidgetSettings<C>> {
   features: Features
   callbacks: Callbacks
   extensions: Extensions
-  templates: Partial<Templates<C>>
-  config: Partial<WidgetConfig>
 }
 
 function loadMasonryCallbacks<C>(settings: EnforcedWidgetSettings<C>) {
