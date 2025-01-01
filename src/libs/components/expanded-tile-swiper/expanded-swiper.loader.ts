@@ -12,6 +12,7 @@ import { waitForElm } from "../../widget.features"
 import Swiper from "swiper"
 import { pauseTiktokVideo, playTiktokVideo } from "./tiktok-message"
 import { ISdk, SwiperData } from "src/types"
+import { EVENT_LOAD_MORE } from "src/events"
 
 declare const sdk: ISdk
 
@@ -81,6 +82,10 @@ function initalizeExpandedTile(initialTileId: string, widgetSelector: HTMLElemen
         onlyInViewport: false
       },
       on: {
+        reachEnd: (swiper: Swiper) => {
+          sdk.triggerEvent(EVENT_LOAD_MORE)
+          swiper.update()
+        },
         beforeInit: (swiper: Swiper) => {
           const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId, lookupAttr) : 0
           swiper.slideToLoop(tileIndex, 0, false)
@@ -131,6 +136,10 @@ function initalizeStoryExpandedTile(
         beforeInit: (swiper: Swiper) => {
           const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId, lookupAttr) : 0
           swiper.slideToLoop(tileIndex, 0, false)
+        },
+        reachEnd: (swiper: Swiper) => {
+          sdk.triggerEvent(EVENT_LOAD_MORE)
+          swiper.update()
         },
         afterInit: (swiper: Swiper) => {
           registerStoryControls(expandedTileWrapper, swiper)
