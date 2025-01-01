@@ -11,8 +11,8 @@ import {
 import { waitForElm } from "../../widget.features"
 import Swiper from "swiper"
 import { pauseTiktokVideo, playTiktokVideo } from "./tiktok-message"
-import { ISdk, SwiperData } from "src/types"
-import { EVENT_LOAD_MORE } from "src/events"
+import { ISdk, SwiperData } from "../../../types"
+import { EVENT_LOAD_MORE } from "../../../events"
 
 declare const sdk: ISdk
 
