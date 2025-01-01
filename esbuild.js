@@ -8,7 +8,8 @@ const defaultConfig = {
   format: "esm",
   jsx: "automatic",
   outdir: "dist/esm",
-  external: ["react/jsx-runtime"]
+  external: ["react/jsx-runtime"],
+  sourcemap: true,
 }
 
 // Build ESM

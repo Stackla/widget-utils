@@ -74,6 +74,7 @@
     "build:types:esm": "tsc --project tsconfig.esm.json",
     "prebuild": "npm run build:types",
     "build": "node esbuild.js",
+    "build:dev": "NODE_ENV=development node esbuild.js",
     "prepare": "npm run build",
     "stylelint": "stylelint **/*.scss",
     "lint": "npm run eslint && npm run stylelint",
