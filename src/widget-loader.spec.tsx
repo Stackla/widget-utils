@@ -28,8 +28,7 @@ const settings: EnforcedWidgetSettings<unknown> = {
     hideBrokenImages: true,
     loadExpandedTileSlider: true,
     loadTileContent: true,
-    loadTimephrase: true,
-    story: false
+    loadTimephrase: true
   },
   callbacks: {
     ...callbackDefaults

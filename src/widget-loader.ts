@@ -62,11 +62,6 @@ export interface Features {
    */
   loadExpandedTileSlider: boolean
   /**
-   * @description Defines if the current template renders story
-   * @default false
-   */
-  story: boolean
-  /**
    * @description Load the tile content web component
    * @default true
    */
@@ -169,7 +164,6 @@ function mergeSettingsWithDefaults<C>(settings?: MyWidgetSettings<C>): EnforcedW
       loadExpandedTileSlider: true,
       loadTileContent: true,
       loadTimephrase: true,
-      story: false,
       ...settings?.features
     },
     callbacks: {
@@ -262,7 +256,6 @@ export function initialiseFeatures<C>(settings: MyWidgetSettings<C>) {
       limitTilesPerPage: true,
       hideBrokenImages: true,
       loadExpandedTileSlider: true,
-      story: false,
       loadTileContent: true,
       loadTimephrase: true
     }
@@ -273,8 +266,7 @@ export function initialiseFeatures<C>(settings: MyWidgetSettings<C>) {
 
 export function loadTemplates<C>(settings: EnforcedWidgetSettings<C>) {
   if (settings.features.loadExpandedTileSlider) {
-    const { story } = settings.features
-    loadExpandedTileTemplates(settings.templates["expanded-tiles"]?.template ? false : true, story)
+    loadExpandedTileTemplates(settings.templates["expanded-tiles"]?.template ? false : true)
   }
 
   if (settings.templates && Object.keys(settings.templates).length) {
