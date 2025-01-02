@@ -25,6 +25,7 @@ export interface ITilesService extends IBaseService {
   fetchAllTiles(): Promise<Tile[]>
   fetchTile(tileId: string): Promise<Tile>
   fetchTiles(page?: number, limit?: number): Promise<void>
+  setMediaType(mediaType: string): void
   getPage(): number
   setTile(tile: Tile): void
   getTile(tileId?: string): Tile | undefined
