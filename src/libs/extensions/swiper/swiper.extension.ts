@@ -129,3 +129,5 @@ export function updateSwiperInstance(id: string, updateProps: (swiperData: Swipe
     updateProps(swiperContainer[id])
   }
 }
+
+export { Swiper }
