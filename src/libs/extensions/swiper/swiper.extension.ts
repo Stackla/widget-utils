@@ -1,5 +1,4 @@
 import { SdkSwiper, SwiperData, SwiperProps } from "../../../types/SdkSwiper"
-import Swiper from "swiper"
 import { Autoplay, EffectCoverflow, Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
 
 const swiperContainer: SdkSwiper = {}
@@ -30,7 +29,10 @@ export function initializeSwiper({ id, widgetSelector, prevButton, nextButton, p
     swiperContainer[id] = { pageIndex: 1 }
   }
 
-  swiperContainer[id]!.instance = new Swiper(widgetSelector, {
+  console.log(window.ugc)
+
+  // @ts-expect-error Swiper is a global variable, TODO add to shims
+  swiperContainer[id]!.instance = new window.ugc.libs.Swiper(widgetSelector, {
     modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow],
     spaceBetween: 10,
     observer: true,
@@ -129,5 +131,3 @@ export function updateSwiperInstance(id: string, updateProps: (swiperData: Swipe
     updateProps(swiperContainer[id])
   }
 }
-
-export { Swiper }

@@ -15,7 +15,7 @@ import {
   renderMasonryLayout
 } from "./libs/extensions/masonry/masonry.extension"
 import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
-import { callbackDefaults, Callbacks, loadListeners } from "./events"
+import { callbackDefaults, Callbacks, EVENT_LOAD, loadListeners } from "./events"
 import IWidgetRequest from "./types/core/widget-request"
 
 declare const sdk: ISdk
@@ -317,14 +317,16 @@ function addConfigFilter<C>(settings: EnforcedWidgetSettings<C>) {
 }
 
 export function loadWidget<C>(settings?: MyWidgetSettings<C>) {
-  const settingsWithDefaults = mergeSettingsWithDefaults(settings)
-  addConfigStyles(settingsWithDefaults)
-  addConfigExpandedTileSettings(settingsWithDefaults)
-  addConfigInlineTileSettings(settingsWithDefaults)
-  addCSSVariablesToPlacement(getCSSVariables(settings?.features))
-  addConfigFilter(settingsWithDefaults)
-  loadTemplates(settingsWithDefaults)
-  loadFeatures(settingsWithDefaults)
-  loadExtensions(settingsWithDefaults)
-  loadListeners<C>(settingsWithDefaults)
+  sdk.addEventListener(EVENT_LOAD, () => {
+    const settingsWithDefaults = mergeSettingsWithDefaults(settings)
+    addConfigStyles(settingsWithDefaults)
+    addConfigExpandedTileSettings(settingsWithDefaults)
+    addConfigInlineTileSettings(settingsWithDefaults)
+    addCSSVariablesToPlacement(getCSSVariables(settings?.features))
+    addConfigFilter(settingsWithDefaults)
+    loadTemplates(settingsWithDefaults)
+    loadFeatures(settingsWithDefaults)
+    loadExtensions(settingsWithDefaults)
+    loadListeners<C>(settingsWithDefaults)
+  })
 }
