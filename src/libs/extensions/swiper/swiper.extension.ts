@@ -29,9 +29,6 @@ export function initializeSwiper({ id, widgetSelector, prevButton, nextButton, p
     swiperContainer[id] = { pageIndex: 1 }
   }
 
-  console.log(window.ugc)
-
-  // @ts-expect-error Swiper is a global variable, TODO add to shims
   swiperContainer[id]!.instance = new window.ugc.libs.Swiper(widgetSelector, {
     modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow],
     spaceBetween: 10,

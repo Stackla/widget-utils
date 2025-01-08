@@ -1,6 +1,11 @@
 interface Window {
   scrollLocked: boolean,
-  __isLoading: boolean
+  __isLoading: boolean,
+  ugc: {
+    libs: {
+      Swiper: typeof import("swiper").Swiper
+    }
+  }
 }
 
 declare module "*.scss" {
