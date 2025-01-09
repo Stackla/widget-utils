@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.35
+
+### Patch Changes
+
+- 31c8d47: Slim down swiper, move swiper to core engine libs
+
 ## 0.1.34
 
 ### Patch Changes
