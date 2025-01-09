@@ -112,12 +112,10 @@
     "stylelint-prettier": "^5.0.2",
     "stylelint-scss": "^6.8.1",
     "ts-jest": "^29.2.5",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "swiper": "^11.1.14"
   },
   "files": [
     "dist"
-  ],
-  "dependencies": {
-    "swiper": "^11.1.14"
-  }
+  ]
 }

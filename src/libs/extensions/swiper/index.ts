@@ -3,6 +3,5 @@ export {
   isSwiperLoading,
   updateSwiperInstance,
   setSwiperLoadingStatus,
-  refreshSwiper,
-  Swiper
+  refreshSwiper
 } from "./swiper.extension"

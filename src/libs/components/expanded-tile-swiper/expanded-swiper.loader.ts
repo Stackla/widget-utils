@@ -9,7 +9,7 @@ import {
   updateSwiperInstance
 } from "../../extensions/swiper/swiper.extension"
 import { waitForElm } from "../../widget.features"
-import Swiper from "swiper"
+import { type Swiper } from "swiper"
 import { pauseTiktokVideo, playTiktokVideo } from "./tiktok-message"
 import { ISdk, SwiperData } from "../../../types"
 import { EVENT_LOAD_MORE } from "../../../events"
