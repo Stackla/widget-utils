@@ -1,5 +1,10 @@
+import { EVENT_TILES_UPDATED } from "../../../events"
+import { Sdk, Tile } from "../../../types"
 import { SdkSwiper, SwiperData, SwiperProps } from "../../../types/SdkSwiper"
 import { Autoplay, EffectCoverflow, Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
+import { loadAllUnloadedTiles } from "./loader.extension"
+
+declare const sdk: Sdk
 
 const swiperContainer: SdkSwiper = {}
 
@@ -8,7 +13,29 @@ export type LookupAttr = {
   value: string
 }
 
-export function initializeSwiper({ id, widgetSelector, prevButton, nextButton, paramsOverrides }: SwiperProps) {
+function addTilesUpdatedListener(id: string, getSlides?: (tiles: Record<string, Tile>) => JSX.Element[]) {
+  const swiper = getInstance(id)
+
+  sdk.addEventListener(EVENT_TILES_UPDATED, event => {
+    const tiles = event.detail.data.tiles
+    if (getSlides) {
+      getSlides(tiles).forEach(slide => swiper?.appendSlide(slide))
+    }
+
+    loadAllUnloadedTiles()
+
+    swiper?.update()
+  })
+}
+
+export function initializeSwiper({
+  id,
+  widgetSelector,
+  prevButton,
+  nextButton,
+  paramsOverrides,
+  getSliderTemplate
+}: SwiperProps) {
   const prev = prevButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${prevButton}`) : undefined
   const next = nextButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${nextButton}`) : undefined
 
@@ -50,6 +77,8 @@ export function initializeSwiper({ id, widgetSelector, prevButton, nextButton, p
     resizeObserver: true,
     ...paramsOverrides
   })
+
+  addTilesUpdatedListener(id, getSliderTemplate)
 }
 
 export function refreshSwiper(id: string) {

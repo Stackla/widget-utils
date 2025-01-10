@@ -13,6 +13,7 @@ import { type Swiper } from "swiper"
 import { pauseTiktokVideo, playTiktokVideo } from "./tiktok-message"
 import { ISdk, SwiperData } from "../../../types"
 import { EVENT_LOAD_MORE } from "../../../events"
+import { getExpandedSlides } from "./base.template"
 
 declare const sdk: ISdk
 
@@ -75,6 +76,7 @@ function initalizeExpandedTile(initialTileId: string, widgetSelector: HTMLElemen
     prevButton: "swiper-expanded-button-prev",
     nextButton: "swiper-expanded-button-next",
     paramsOverrides: {
+      loop: false,
       slidesPerView: 1,
       autoHeight: true,
       keyboard: {
@@ -82,9 +84,8 @@ function initalizeExpandedTile(initialTileId: string, widgetSelector: HTMLElemen
         onlyInViewport: false
       },
       on: {
-        reachEnd: (swiper: Swiper) => {
+        reachEnd: () => {
           sdk.triggerEvent(EVENT_LOAD_MORE)
-          swiper.update()
         },
         beforeInit: (swiper: Swiper) => {
           const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId, lookupAttr) : 0
@@ -96,7 +97,8 @@ function initalizeExpandedTile(initialTileId: string, widgetSelector: HTMLElemen
         navigationNext: controlVideoPlayback,
         navigationPrev: controlVideoPlayback
       }
-    }
+    },
+    getSliderTemplate: getExpandedSlides
   })
 }
 
@@ -137,9 +139,8 @@ function initalizeStoryExpandedTile(
           const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId, lookupAttr) : 0
           swiper.slideToLoop(tileIndex, 0, false)
         },
-        reachEnd: (swiper: Swiper) => {
+        reachEnd: () => {
           sdk.triggerEvent(EVENT_LOAD_MORE)
-          swiper.update()
         },
         afterInit: (swiper: Swiper) => {
           registerStoryControls(expandedTileWrapper, swiper)
@@ -147,14 +148,15 @@ function initalizeStoryExpandedTile(
         autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
           storyAutoplayProgress(swiper, percentage)
         },
-        navigationNext: (swiper: Swiper) => {
-          controlVideoPlayback(swiper)
+        navigationNext: async (swiper: Swiper) => {
+          await controlVideoPlayback(swiper)
         },
-        navigationPrev: (swiper: Swiper) => {
-          controlVideoPlayback(swiper)
+        navigationPrev: async (swiper: Swiper) => {
+          await controlVideoPlayback(swiper)
         }
       }
-    }
+    },
+    getSliderTemplate: getExpandedSlides
   })
 }
 
@@ -250,11 +252,11 @@ function handleAutoplayProgress(tileWrapper: Element, swiper: Swiper, playCtrl: 
 /**
  * Play the video/audio attached to the slide on load where the element is a media element (video/youtube/tiktok)
  */
-function playMediaOnLoad() {
+async function playMediaOnLoad() {
   const swiper = getInstance("expanded")
   if (swiper) {
     const activeElementData = getSwiperVideoElement(swiper, swiper.realIndex)
-    triggerPlay(activeElementData)
+    await triggerPlay(activeElementData)
   }
 }
 
@@ -262,12 +264,17 @@ function playMediaOnLoad() {
  * Play/Pause the video/audio attached to the slide on navigation where the element is a media element (video/youtube/tiktok)
  * @param { Swiper } swiper - the swiper element
  */
-function controlVideoPlayback(swiper: Swiper) {
+async function controlVideoPlayback(swiper: Swiper) {
   const activeElement = getSwiperVideoElement(swiper, swiper.realIndex)
   const previousElement = getSwiperVideoElement(swiper, swiper.previousIndex)
 
-  triggerPlay(activeElement)
-  triggerPause(previousElement)
+  if (activeElement) {
+    await triggerPlay(activeElement)
+  }
+
+  if (previousElement) {
+    await triggerPause(previousElement)
+  }
 }
 
 /**
@@ -277,7 +284,7 @@ function controlVideoPlayback(swiper: Swiper) {
  * @param elementData.element - the container element of the media (video tag or iframe.contentWindow)
  * @param elementData.source - the media source (video for custom video source, youtube/tiktok)
  */
-function triggerPlay(elementData?: SwiperVideoElementData) {
+async function triggerPlay(elementData?: SwiperVideoElementData) {
   if (!elementData) {
     return
   }
@@ -285,17 +292,17 @@ function triggerPlay(elementData?: SwiperVideoElementData) {
   switch (elementData.source) {
     case "video": {
       const videoElement = elementData.element as HTMLVideoElement
-      videoElement.play()
+      await videoElement.play()
       break
     }
     case "youtube": {
       const YoutubeContentWindow = elementData.element as YoutubeContentWindow
-      YoutubeContentWindow.play()
+      await YoutubeContentWindow.play()
       break
     }
     case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
-      playTiktokVideo(tiktokFrameWindow)
+      await playTiktokVideo(tiktokFrameWindow)
       break
     }
     default:
@@ -312,7 +319,7 @@ function triggerPlay(elementData?: SwiperVideoElementData) {
  */
 function triggerPause(elementData?: SwiperVideoElementData) {
   if (!elementData) {
-    return
+    throw new Error("elementData is required")
   }
 
   switch (elementData.source) {
@@ -348,8 +355,17 @@ function triggerPause(elementData?: SwiperVideoElementData) {
 function getSwiperVideoElement(swiper: Swiper, index: number): SwiperVideoElementData | undefined {
   const element = swiper.slides[index]
   const tileId = element.getAttribute("data-id")
-
   const youtubeId = element.getAttribute("data-yt-id")
+
+  if (!tileId) {
+    throw new Error(`Failed to find tile id for the slide at index ${index}`)
+  }
+
+  const media = sdk.tiles.tiles[tileId].media
+
+  if (media !== "video" && media !== "short") {
+    return undefined
+  }
 
   if (youtubeId) {
     const youtubeFrame = element.querySelector<YoutubeIframeElementType>(`iframe#yt-frame-${tileId}-${youtubeId}`)
@@ -372,7 +388,7 @@ function getSwiperVideoElement(swiper: Swiper, index: number): SwiperVideoElemen
     return { element: videoElement, source: "video" }
   }
 
-  return undefined
+  throw new Error(`Failed to find video element for tile ${tileId} ${sdk.tiles.tiles[tileId].media}`)
 }
 
 /**

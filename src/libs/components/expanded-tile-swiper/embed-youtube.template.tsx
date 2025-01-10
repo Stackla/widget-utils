@@ -16,6 +16,7 @@ export function EmbedYoutube({ tileId, videoId }: EmbedYoutubeProps) {
       height="360px"
       width="480px"
       frameborder="0"
+      enablejsapi="1"
       srcdoc={contentElement.innerHTML}></iframe>
   )
 }
@@ -73,6 +74,14 @@ export function loadYoutubePlayerAPI(playerId: string, videoId: string) {
     if (!player) {
       loadPlayer(false) //needed when expanded tile re-opened
     } else {
+      if (!player || !player.mute) {
+        setTimeout(() => {
+          pause()
+        }, 500)
+
+        return
+      }
+
       player.mute()
       player.pauseVideo()
     }
@@ -90,12 +99,10 @@ export function loadYoutubePlayerAPI(playerId: string, videoId: string) {
     if (!player) {
       loadPlayer(true) //needed when expanded tile re-opened
     } else {
-     setTimeout(() => {
       if (player.isMuted()) {
         player.unMute()
       }
       player.playVideo()
-      }, 500)
     }
   } `
 }
