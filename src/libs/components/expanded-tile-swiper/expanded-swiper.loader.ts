@@ -209,6 +209,42 @@ function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
       swiperData.muted = true
     })
   })
+
+  handleAutoplayProgress(tileWrapper, swiper, playCtrl)
+}
+
+/**
+ * pause autoplay progress when hover over active slide
+ * resume autoplay progress when mouse leave the active slide
+ * @param tileWrapper
+ * @param swiper
+ * @param playCtrl
+ */
+function handleAutoplayProgress(tileWrapper: Element, swiper: Swiper, playCtrl: Element | null) {
+  const swiperWrapperEle = tileWrapper.querySelector(".swiper-wrapper")
+  swiperWrapperEle?.addEventListener("mouseover", (e: Event) => {
+    const eventTarget = e.target as HTMLElement
+    const panelActiveEle = eventTarget ? eventTarget.closest(".swiper-slide-active") : null
+    if (panelActiveEle) {
+      if (!swiper.autoplay.paused) {
+        swiper.autoplay.pause()
+      }
+    } else {
+      if (playCtrl?.classList.contains("hidden")) {
+        if (swiper.autoplay.paused) {
+          swiper.autoplay.resume()
+        }
+      }
+    }
+  })
+
+  swiperWrapperEle?.addEventListener("mouseleave", () => {
+    if (playCtrl?.classList.contains("hidden")) {
+      if (swiper.autoplay.paused) {
+        swiper.autoplay.resume()
+      }
+    }
+  })
 }
 
 /**
