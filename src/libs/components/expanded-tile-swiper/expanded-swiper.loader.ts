@@ -210,11 +210,16 @@ function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
     })
   })
 
+  handleAutoplayProgress(tileWrapper, swiper, playCtrl)
+}
+
+function handleAutoplayProgress(tileWrapper: Element, swiper: Swiper, playCtrl: Element) {
   // pause autoplay progress when hover over active slide
   const swiperWrapperEle = tileWrapper.querySelector(".swiper-wrapper")
-  swiperWrapperEle?.addEventListener("mouseover", e => {
-    const pannelActiveEle = e.target?.closest(".swiper-slide-active")
-    if (pannelActiveEle) {
+  swiperWrapperEle?.addEventListener("mouseover", (e: Event) => {
+    const eventTarget = e.target as HTMLElement
+    const panelActiveEle = eventTarget ? eventTarget.closest(".swiper-slide-active") : null
+    if (panelActiveEle) {
       if (!swiper.autoplay.paused) {
         swiper.autoplay.pause()
       }
