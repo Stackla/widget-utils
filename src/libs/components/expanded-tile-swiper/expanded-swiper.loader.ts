@@ -220,7 +220,7 @@ function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
  * @param swiper
  * @param playCtrl
  */
-function handleAutoplayProgress(tileWrapper: Element, swiper: Swiper, playCtrl: Element) {
+function handleAutoplayProgress(tileWrapper: Element, swiper: Swiper, playCtrl: Element | null) {
   const swiperWrapperEle = tileWrapper.querySelector(".swiper-wrapper")
   swiperWrapperEle?.addEventListener("mouseover", (e: Event) => {
     const eventTarget = e.target as HTMLElement
