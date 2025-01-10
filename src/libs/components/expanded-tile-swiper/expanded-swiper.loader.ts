@@ -213,8 +213,14 @@ function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
   handleAutoplayProgress(tileWrapper, swiper, playCtrl)
 }
 
+/**
+ * pause autoplay progress when hover over active slide
+ * resume autoplay progress when mouse leave the active slide
+ * @param tileWrapper
+ * @param swiper
+ * @param playCtrl
+ */
 function handleAutoplayProgress(tileWrapper: Element, swiper: Swiper, playCtrl: Element) {
-  // pause autoplay progress when hover over active slide
   const swiperWrapperEle = tileWrapper.querySelector(".swiper-wrapper")
   swiperWrapperEle?.addEventListener("mouseover", (e: Event) => {
     const eventTarget = e.target as HTMLElement
