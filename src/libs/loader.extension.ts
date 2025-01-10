@@ -2,7 +2,7 @@ import { ISdk } from "../types"
 
 declare const sdk: ISdk
 
-function enableTileContent(slide: HTMLElement) {
+export function enableTileContent(slide: HTMLElement) {
   slide.querySelector(".tile-loading")?.classList.add("hidden")
   slide.querySelector(".icon-section.hidden")?.classList.remove("hidden")
 }

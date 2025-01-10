@@ -4,10 +4,11 @@ const { build } = require("esbuild")
 
 const defaultConfig = {
   entryPoints: [path.resolve(__dirname, "src/index.ts"), ...globSync("src/libs/**/index.ts")],
+  bundle: process.env.NODE_ENV === "development",
   format: "esm",
   jsx: "automatic",
   outdir: "dist/esm",
-  sourcemap: true,
+  sourcemap: false,
   treeShaking: true,
 }
 
@@ -19,5 +20,5 @@ build({
   ...defaultConfig,
   format: "cjs",
   outdir: "dist/cjs",
-  treeShaking: true,
+  treeShaking: process.env.NODE_ENV === "development"
 }).catch(() => process.exit(1))
