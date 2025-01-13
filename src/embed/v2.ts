@@ -2,10 +2,9 @@ import { generateDataHTMLStringByParams } from "./embed.params"
 
 const getUrlByEnv = () => {
   switch (process.env.NODE_ENV) {
-    case "production":
-      return "assetscdn.stackla.com"
     case "staging":
       return "assetscdn.teaser.stackla.com"
+    case "production":
     default:
       return "assetscdn.stackla.com"
   }
