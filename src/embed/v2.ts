@@ -1,16 +1,20 @@
+import { Environment } from "."
 import { generateDataHTMLStringByParams } from "./embed.params"
 
-const getUrlByEnv = () => {
-  switch (process.env.NODE_ENV) {
+declare const STAGING_LEGACY_WIDGET_URL: string
+declare const PRODUCTION_LEGACY_WIDGET_URL: string
+
+const getUrlByEnv = (environment: Environment) => {
+  switch (environment) {
     case "staging":
-      return "assetscdn.teaser.stackla.com"
+      return STAGING_LEGACY_WIDGET_URL
     case "production":
     default:
-      return "assetscdn.stackla.com"
+      return PRODUCTION_LEGACY_WIDGET_URL
   }
 }
 
-const getWidgetV2EmbedCode = (data: Record<string, string | boolean | number>) => {
+const getWidgetV2EmbedCode = (data: Record<string, string | boolean | number>, environment: Environment) => {
   const dataParams = generateDataHTMLStringByParams(data)
 
   return `
@@ -22,7 +26,7 @@ const getWidgetV2EmbedCode = (data: Record<string, string | boolean | number>) =
         if (el) el.dataset.initTimestamp = (new Date()).getTime();
         if (d.getElementById(id)) return;
         t = d.createElement('script');
-        t.src = '//${getUrlByEnv()}/media/js/widget/fluid-embed.min.js';
+        t.src = '//${getUrlByEnv(environment)}/media/js/widget/fluid-embed.min.js';
         t.id = id;
         (d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(t);
     }(document, 'stackla-widget-js'));
