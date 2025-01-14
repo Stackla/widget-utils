@@ -27,8 +27,7 @@
     "skipLibCheck": true,
     "jsx": "react",
     "jsxFactory": "createElement",
-    "jsxFragmentFactory": "createFragment",
-    "allowJs": true
+    "jsxFragmentFactory": "createFragment"
   },
   "exclude": ["node_modules"],
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "src/tests/setup.ts"]
