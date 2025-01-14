@@ -4,23 +4,7 @@ import fetchMock from "jest-fetch-mock"
 import { getWidgetV2EmbedCode } from "./v2"
 import { getWidgetV3EmbedCode } from "./v3"
 import { generateDataHTMLStringByParams } from "./embed.params"
-import {
-  STAGING_LEGACY_WIDGET_URL,
-  PRODUCTION_LEGACY_WIDGET_URL,
-  STAGING_DATA_URL,
-  STAGING_UI_URL,
-  PRODUCTION_DATA_URL,
-  PRODUCTION_UI_URL
-} from "../constants"
-
-declare global {
-  var STAGING_LEGACY_WIDGET_URL: string
-  var PRODUCTION_LEGACY_WIDGET_URL: string
-  var STAGING_DATA_URL: string
-  var STAGING_UI_URL: string
-  var PRODUCTION_DATA_URL: string
-  var PRODUCTION_UI_URL: string
-}
+import { SERVER_URLS } from "../constants"
 
 fetchMock.enableMocks()
 
@@ -28,13 +12,11 @@ const REQUEST_URL = "https://widget-data.stackla.com/123/version"
 
 describe("load embed code", () => {
   beforeEach(() => {
-    global.STAGING_LEGACY_WIDGET_URL = STAGING_LEGACY_WIDGET_URL
-    global.PRODUCTION_LEGACY_WIDGET_URL = PRODUCTION_LEGACY_WIDGET_URL
-    global.STAGING_DATA_URL = STAGING_DATA_URL
-    global.STAGING_UI_URL = STAGING_UI_URL
-    global.PRODUCTION_DATA_URL = PRODUCTION_DATA_URL
-    global.PRODUCTION_UI_URL = PRODUCTION_UI_URL
     fetchMock.resetMocks()
+
+    Object.assign(global, {
+      ...SERVER_URLS
+    })
   })
 
   it("should return the correct embed code for v2", async () => {
