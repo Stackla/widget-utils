@@ -26,19 +26,6 @@ export function getWidgetDataUrl(env: Environment) {
   }
 }
 
-export function loadWidgetCodeByGen<T>(options: EmbedOptions<T>) {
-  const { dataProperties, environment, version } = options
-
-  switch (version) {
-    case "2":
-      return getWidgetV2EmbedCode(dataProperties, environment)
-    case "3":
-      return getWidgetV3EmbedCode(dataProperties, environment)
-    default:
-      throw new Error(`No widget code accessible with generation ${version}`)
-  }
-}
-
 function getRequestUrl(widgetId: string, environment: Environment) {
   return `${getWidgetDataUrl(environment)}/${widgetId}/version`
 }
@@ -54,13 +41,7 @@ export async function embed<T extends ShadowRoot | HTMLElement>(options: EmbedOp
   const { environment = "production", widgetId, root, version, dataProperties } = options
 
   try {
-    if (version) {
-      const html = loadWidgetCodeByGen(options)
-      root.innerHTML += html
-      return
-    }
-
-    const widgetVersion = await retrieveWidgetVersionFromServer(widgetId, environment)
+    const widgetVersion = version ?? (await retrieveWidgetVersionFromServer(widgetId, environment))
 
     switch (widgetVersion) {
       case "2":
