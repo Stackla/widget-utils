@@ -16,11 +16,7 @@ export const SERVER_URLS = {
   PRODUCTION_UI_URL
 }
 
-export const SERVER_URLS_AS_JSON = {
-  STAGING_LEGACY_WIDGET_URL: JSON.stringify(STAGING_LEGACY_WIDGET_URL),
-  PRODUCTION_LEGACY_WIDGET_URL: JSON.stringify(PRODUCTION_LEGACY_WIDGET_URL),
-  STAGING_DATA_URL: JSON.stringify(STAGING_DATA_URL),
-  STAGING_UI_URL: JSON.stringify(STAGING_UI_URL),
-  PRODUCTION_DATA_URL: JSON.stringify(PRODUCTION_DATA_URL),
-  PRODUCTION_UI_URL: JSON.stringify(PRODUCTION_UI_URL)
-}
+export const SERVER_URLS_AS_JSON = Object.entries(SERVER_URLS).reduce((acc, [key, value]) => {
+  acc[`process.env.${key}`] = JSON.stringify(value)
+  return acc
+}, {})
