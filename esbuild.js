@@ -9,7 +9,7 @@ const defaultConfig = {
   jsx: "automatic",
   outdir: "dist/esm",
   sourcemap: false,
-  treeShaking: true,
+  treeShaking: true
 }
 
 // Build ESM
