@@ -95,4 +95,24 @@ describe("load embed code", () => {
 
     expect(params).toBe(' data-foo="bar" data-baz="123"')
   })
+
+  it("should deal with malicious payloads", async () => {
+    const createdDiv = document.createElement("div")
+    await embed({
+      widgetId: "123",
+      root: createdDiv,
+      version: "3",
+      dataProperties: {
+        foo: "bar",
+        baz: 123,
+        '><img src="x" onerror="alert(1)">': '"><img src="x" onerror="alert(1)">'
+      },
+      environment: "production"
+    })
+
+    expect(fetchMock).not.toHaveBeenCalled()
+    expect(createdDiv.innerHTML).toContain(
+      `<div id="ugc-widget" data-foo="bar" data-baz="123" data-%3e%3cimg%20src%3d%22x%22%20onerror%3d%22alert(1)%22%3e="%22%3E%3Cimg%20src%3D%22x%22%20onerror%3D%22alert(1)%22%3E"></div>`
+    )
+  })
 })
