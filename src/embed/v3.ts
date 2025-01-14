@@ -1,8 +1,6 @@
+import { STAGING_UI_URL, PRODUCTION_UI_URL } from "../constants"
 import { Environment } from "."
 import { generateDataHTMLStringByParams } from "./embed.params"
-
-declare const STAGING_UI_URL: string
-declare const PRODUCTION_UI_URL: string
 
 const getUrlByEnv = (environment: Environment) => {
   switch (environment) {

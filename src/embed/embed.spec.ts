@@ -4,7 +4,6 @@ import fetchMock from "jest-fetch-mock"
 import { getWidgetV2EmbedCode } from "./v2"
 import { getWidgetV3EmbedCode } from "./v3"
 import { generateDataHTMLStringByParams } from "./embed.params"
-import { SERVER_URLS } from "../constants"
 
 fetchMock.enableMocks()
 
@@ -13,10 +12,6 @@ const REQUEST_URL = "https://widget-data.stackla.com/123/version"
 describe("load embed code", () => {
   beforeEach(() => {
     fetchMock.resetMocks()
-
-    Object.assign(global, {
-      ...SERVER_URLS
-    })
   })
 
   it("should return the correct embed code for v2", async () => {

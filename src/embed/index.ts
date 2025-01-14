@@ -1,8 +1,6 @@
+import { STAGING_DATA_URL, PRODUCTION_DATA_URL } from "../constants"
 import { getWidgetV2EmbedCode } from "./v2"
 import { getWidgetV3EmbedCode } from "./v3"
-
-declare const STAGING_DATA_URL: string
-declare const PRODUCTION_DATA_URL: string
 
 export type Environment = "staging" | "production"
 type Generation = "2" | "3"

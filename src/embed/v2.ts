@@ -1,8 +1,6 @@
+import { STAGING_LEGACY_WIDGET_URL, PRODUCTION_LEGACY_WIDGET_URL } from "../constants"
 import { Environment } from "."
 import { generateDataHTMLStringByParams } from "./embed.params"
-
-declare const STAGING_LEGACY_WIDGET_URL: string
-declare const PRODUCTION_LEGACY_WIDGET_URL: string
 
 const getUrlByEnv = (environment: Environment) => {
   switch (environment) {

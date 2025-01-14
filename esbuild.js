@@ -1,7 +1,6 @@
 const path = require("path")
 const { globSync } = require("glob")
 const { build } = require("esbuild")
-const { SERVER_URLS_AS_JSON } = require("./src/constants")
 
 const defaultConfig = {
   entryPoints: [path.resolve(__dirname, "src/index.ts"), ...globSync("src/libs/**/index.ts")],
@@ -10,10 +9,7 @@ const defaultConfig = {
   jsx: "automatic",
   outdir: "dist/esm",
   sourcemap: false,
-  treeShaking: true,
-  define: {
-    ...SERVER_URLS_AS_JSON
-  }
+  treeShaking: true
 }
 
 // Build ESM
