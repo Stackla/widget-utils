@@ -26,6 +26,21 @@ function addTilesUpdatedListener(id: string, getSlides?: (tiles: Record<string, 
 
     swiper?.update()
   })
+
+  if (!swiper) {
+    console.warn("Swiper instance not found")
+    return
+  }
+
+  const observer = new MutationObserver(() => {
+    swiper.update()
+    sdk.querySelector(".tile-loading:not(.hidden)")?.classList.add("hidden")
+  })
+
+  observer.observe(sdk.querySelector(".ugc-tiles")!, {
+    childList: true,
+    subtree: true
+  })
 }
 
 export function initializeSwiper({
