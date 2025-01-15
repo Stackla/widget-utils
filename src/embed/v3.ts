@@ -12,17 +12,22 @@ const getUrlByEnv = (environment: Environment) => {
   }
 }
 
-const getWidgetV3EmbedCode = (data: Record<string, string | boolean | number>, environment: Environment) => {
+const getWidgetV3EmbedCode = (data: Record<string, string | boolean | number>) => {
   const dataParams = generateDataHTMLStringByParams(data)
 
-  return `
-    <div id="ugc-widget"${dataParams}></div>
-    <script type="module">
-          (async () => {
-            const widget = await import('https://${getUrlByEnv(environment)}/core.esm.js');
-            widget.init();
-          })();
-    </script>`
+  return `<div id="ugc-widget"${dataParams}></div>`
 }
 
-export { getWidgetV3EmbedCode }
+const invokeV3Javascript = (environment: Environment, root: HTMLElement | ShadowRoot) => {
+  const invocationScript = document.createElement("script")
+  invocationScript.type = "module"
+  invocationScript.textContent = `
+    (async () => {
+      const widget = await import('${getUrlByEnv(environment)}/core.esm.js');
+      widget.init();
+    })();
+  `
+  root.appendChild(invocationScript)
+}
+
+export { getWidgetV3EmbedCode, invokeV3Javascript }
