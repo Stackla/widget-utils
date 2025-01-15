@@ -41,7 +41,7 @@ jobs:
           git add .
           git commit -m "chore: release [skip ci]" || true
           git push origin master
-          npm publish
+          npm publish --access public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.STACKLA_BOT_GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
