@@ -40,6 +40,8 @@ async function retrieveWidgetVersionFromServer(widgetId: string, environment: En
 export async function embed<T extends ShadowRoot | HTMLElement>(options: EmbedOptions<T>) {
   const { environment = "production", widgetId, root, version, dataProperties } = options
 
+  dataProperties["wid"] = widgetId
+
   try {
     const widgetVersion = version ?? (await retrieveWidgetVersionFromServer(widgetId, environment))
 
