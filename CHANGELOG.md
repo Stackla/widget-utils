@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.36
+
+### Patch Changes
+
+- 2692d47: Export embed
+
 ## 0.1.35
 
 ### Patch Changes
