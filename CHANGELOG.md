@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.37
+
+### Patch Changes
+
+- d68e414: Fixup url for request
+
 ## 0.1.36
 
 ### Patch Changes
