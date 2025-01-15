@@ -7,7 +7,7 @@ import { generateDataHTMLStringByParams } from "./embed.params"
 
 fetchMock.enableMocks()
 
-const REQUEST_URL = "https://widget-data.stackla.com/123/version"
+const REQUEST_URL = "https://widget-data.stackla.com/widgets/123/version"
 
 describe("load embed code", () => {
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe("load embed code", () => {
 
   it("should return the correct embed code for v2", async () => {
     fetchMock.mockIf(REQUEST_URL, async () => {
-      return JSON.stringify({ version: "2" })
+      return JSON.stringify({ version: 2 })
     })
 
     const createdDiv = document.createElement("div")
@@ -30,12 +30,13 @@ describe("load embed code", () => {
       environment: "production"
     })
 
-    expect(createdDiv.innerHTML).toBe(getWidgetV2EmbedCode({ foo: "bar", baz: 123 }, "production"))
+    expect(createdDiv.innerHTML).toContain(getWidgetV2EmbedCode({ foo: "bar", baz: 123 }))
+    expect(createdDiv.innerHTML).toContain("var t, el = d.scripts[d.scripts.length - 1].previousElementSibling;")
   })
 
   it("should return the correct embed code for v3", async () => {
     fetchMock.mockIf(REQUEST_URL, async () => {
-      return JSON.stringify({ version: "3" })
+      return JSON.stringify({ version: 3 })
     })
 
     const createdDiv = document.createElement("div")
@@ -49,12 +50,13 @@ describe("load embed code", () => {
       environment: "production"
     })
 
-    expect(createdDiv.innerHTML).toBe(getWidgetV3EmbedCode({ foo: "bar", baz: 123 }, "production"))
+    expect(createdDiv.innerHTML).toContain(getWidgetV3EmbedCode({ foo: "bar", baz: 123 }))
+    expect(createdDiv.innerHTML).toContain(`const widget = await import('https://widget-ui.stackla.com/core.esm.js');`)
   })
 
   it("should throw an error if the version is not supported", async () => {
     fetchMock.mockIf(REQUEST_URL, async () => {
-      return JSON.stringify({ version: "4" })
+      return JSON.stringify({ version: 4 })
     })
 
     const createdDiv = document.createElement("div")
@@ -78,7 +80,7 @@ describe("load embed code", () => {
     await embed({
       widgetId: "123",
       root: createdDiv,
-      version: "3",
+      version: 3,
       dataProperties: {
         foo: "bar",
         baz: 123
@@ -87,7 +89,8 @@ describe("load embed code", () => {
     })
 
     expect(fetchMock).not.toHaveBeenCalled()
-    expect(createdDiv.innerHTML).toBe(getWidgetV3EmbedCode({ foo: "bar", baz: 123 }, "production"))
+    expect(createdDiv.innerHTML).toContain(getWidgetV3EmbedCode({ foo: "bar", baz: 123 }))
+    expect(createdDiv.innerHTML).toContain("const widget = await import('https://widget-ui.stackla.com/core.esm.js');")
   })
 
   it("should test param string method", async () => {
@@ -101,7 +104,7 @@ describe("load embed code", () => {
     await embed({
       widgetId: "123",
       root: createdDiv,
-      version: "3",
+      version: 3,
       dataProperties: {
         foo: "bar",
         baz: 123,

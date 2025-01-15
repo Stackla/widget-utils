@@ -12,13 +12,19 @@ const getUrlByEnv = (environment: Environment) => {
   }
 }
 
-const getWidgetV2EmbedCode = (data: Record<string, string | boolean | number>, environment: Environment) => {
+const getWidgetV2EmbedCode = (data: Record<string, string | boolean | number>) => {
   const dataParams = generateDataHTMLStringByParams(data)
 
   return `
     <!-- Nosto Widget Embed Code (start) -->
     <div class="stackla-widget" style="width: 100%; overflow: hidden;"${dataParams}></div>
-    <script type="text/javascript">
+    <!-- Nosto Widget Embed Code (end) -->
+    `
+}
+
+const invokeV2Javascript = (environment: Environment, root: HTMLElement | ShadowRoot) => {
+  const invocationScript = document.createElement("script")
+  invocationScript.textContent = `
     (function (d, id) {
         var t, el = d.scripts[d.scripts.length - 1].previousElementSibling;
         if (el) el.dataset.initTimestamp = (new Date()).getTime();
@@ -27,10 +33,9 @@ const getWidgetV2EmbedCode = (data: Record<string, string | boolean | number>, e
         t.src = '//${getUrlByEnv(environment)}/media/js/widget/fluid-embed.min.js';
         t.id = id;
         (d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(t);
-    }(document, 'stackla-widget-js'));
-    </script>
-    <!-- Nosto Widget Embed Code (end) -->
-    `
+    }(document, 'stackla-widget-js'));`
+
+  root.appendChild(invocationScript)
 }
 
-export { getWidgetV2EmbedCode }
+export { getWidgetV2EmbedCode, invokeV2Javascript }

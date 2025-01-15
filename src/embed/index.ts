@@ -1,9 +1,9 @@
 import { STAGING_DATA_URL, PRODUCTION_DATA_URL } from "../constants"
-import { getWidgetV2EmbedCode } from "./v2"
-import { getWidgetV3EmbedCode } from "./v3"
+import { getWidgetV2EmbedCode, invokeV2Javascript } from "./v2"
+import { getWidgetV3EmbedCode, invokeV3Javascript } from "./v3"
 
 export type Environment = "staging" | "production"
-type Generation = "2" | "3"
+type Generation = 2 | 3
 
 interface EmbedOptions<T> {
   widgetId: string
@@ -14,7 +14,7 @@ interface EmbedOptions<T> {
 }
 
 interface JSONSchema {
-  version: string
+  version: number
 }
 
 export function getWidgetDataUrl(env: Environment) {
@@ -27,10 +27,10 @@ export function getWidgetDataUrl(env: Environment) {
 }
 
 function getRequestUrl(widgetId: string, environment: Environment) {
-  return `${getWidgetDataUrl(environment)}/${widgetId}/version`
+  return `${getWidgetDataUrl(environment)}/widgets/${widgetId}/version`
 }
 
-async function retrieveWidgetVersionFromServer(widgetId: string, environment: Environment): Promise<string> {
+async function retrieveWidgetVersionFromServer(widgetId: string, environment: Environment): Promise<number> {
   const response = await fetch(getRequestUrl(widgetId, environment))
   const json: JSONSchema = await response.json()
 
@@ -44,11 +44,13 @@ export async function embed<T extends ShadowRoot | HTMLElement>(options: EmbedOp
     const widgetVersion = version ?? (await retrieveWidgetVersionFromServer(widgetId, environment))
 
     switch (widgetVersion) {
-      case "2":
-        root.innerHTML += getWidgetV2EmbedCode(dataProperties, environment)
+      case 2:
+        root.innerHTML += getWidgetV2EmbedCode(dataProperties)
+        invokeV2Javascript(environment, root)
         break
-      case "3":
-        root.innerHTML += getWidgetV3EmbedCode(dataProperties, environment)
+      case 3:
+        root.innerHTML += getWidgetV3EmbedCode(dataProperties)
+        invokeV3Javascript(environment, root)
         break
       default:
         throw new Error(`No widget code accessible with version ${widgetVersion}`)
