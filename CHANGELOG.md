@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.38
+
+### Patch Changes
+
+- 7c90dfa: Add wid to data properties
+
 ## 0.1.37
 
 ### Patch Changes
