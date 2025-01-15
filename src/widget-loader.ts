@@ -126,8 +126,13 @@ export interface EnforcedWidgetSettings<C> extends Required<MyWidgetSettings<C>>
 }
 
 function loadMasonryCallbacks<C>(settings: EnforcedWidgetSettings<C>) {
-  settings.callbacks.onTilesUpdated.push(() => {
+  const tilesUpdatedObserver = new MutationObserver(() => {
     renderMasonryLayout()
+  })
+
+  tilesUpdatedObserver.observe(sdk.querySelector(".ugc-tiles")!, {
+    childList: true,
+    subtree: true
   })
 
   settings.callbacks.onTileBgImgRenderComplete.push(() => {
@@ -143,7 +148,7 @@ function loadMasonryCallbacks<C>(settings: EnforcedWidgetSettings<C>) {
 
   const grid = sdk.querySelector(".grid")
   const observer = new ResizeObserver(() => {
-    renderMasonryLayout(false, true)
+    renderMasonryLayout()
   })
 
   observer.observe(grid)
