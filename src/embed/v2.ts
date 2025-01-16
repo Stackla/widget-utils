@@ -30,7 +30,7 @@ const invokeV2Javascript = (environment: Environment, root: HTMLElement | Shadow
         if (el) el.dataset.initTimestamp = (new Date()).getTime();
         if (d.getElementById(id)) return;
         t = d.createElement('script');
-        t.src = '//${getUrlByEnv(environment)}/media/js/widget/fluid-embed.min.js';
+        t.src = '${getUrlByEnv(environment)}/media/js/widget/fluid-embed.min.js';
         t.id = id;
         (d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(t);
     }(document, 'stackla-widget-js'));`

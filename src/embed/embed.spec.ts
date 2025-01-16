@@ -30,7 +30,7 @@ describe("load embed code", () => {
       environment: "production"
     })
 
-    expect(createdDiv.innerHTML).toContain(getWidgetV2EmbedCode({ foo: "bar", baz: 123, wid: "123" }))
+    expect(createdDiv.innerHTML).toContain(getWidgetV2EmbedCode({ foo: "bar", baz: 123, hash: "123" }))
     expect(createdDiv.innerHTML).toContain("var t, el = d.scripts[d.scripts.length - 1].previousElementSibling;")
   })
 
