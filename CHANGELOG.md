@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.39
+
+### Patch Changes
+
+- 7b5df8e: Fixup bugs
+
 ## 0.1.38
 
 ### Patch Changes
