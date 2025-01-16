@@ -1,4 +1,4 @@
-import { STAGING_DATA_URL, PRODUCTION_DATA_URL } from "../constants"
+import { STAGING_DATA_URL, PRODUCTION_DATA_URL, STAGING_LEGACY_WIDGET_DOMAIN } from "../constants"
 import { getWidgetV2EmbedCode, invokeV2Javascript } from "./v2"
 import { getWidgetV3EmbedCode, invokeV3Javascript } from "./v3"
 
@@ -45,6 +45,7 @@ export async function embed<T extends ShadowRoot | HTMLElement>(options: EmbedOp
 
     switch (widgetVersion) {
       case 2:
+        window.stackWidgetDomain = STAGING_LEGACY_WIDGET_DOMAIN
         dataProperties["hash"] = widgetId
         root.innerHTML += getWidgetV2EmbedCode(dataProperties)
         invokeV2Javascript(environment, root)
