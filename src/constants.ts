@@ -1,4 +1,4 @@
-export const STAGING_LEGACY_WIDGET_URL = "https://assetscdn.teaser.stackla.com"
+export const STAGING_LEGACY_WIDGET_URL = "https://staging-assetscdn.stackla.com"
 export const PRODUCTION_LEGACY_WIDGET_URL = "https://assetscdn.stackla.com"
 
 export const STAGING_DATA_URL = "https://widget-data.teaser.stackla.com"
