@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.41
+
+### Patch Changes
+
+- 4859e25: Fix minor caveat where stacklaWidgetDomain is required for legacy views
+
 ## 0.1.40
 
 ### Patch Changes
