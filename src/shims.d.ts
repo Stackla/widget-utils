@@ -5,7 +5,8 @@ interface Window {
     libs: {
       Swiper: typeof import("swiper").Swiper
     }
-  }
+  },
+  stackWidgetDomain: string
 }
 
 declare module "*.scss" {
