@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.40
+
+### Patch Changes
+
+- 08e3faa: Fixup staging url
+
 ## 0.1.39
 
 ### Patch Changes
