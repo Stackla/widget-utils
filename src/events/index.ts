@@ -1,6 +1,5 @@
 import { handleTileClick } from "../libs/tile.lib"
-import { ISdk } from "../types"
-import { EnforcedWidgetSettings } from "../widget-loader"
+import { ISdk, EnforcedWidgetSettings } from "../types"
 
 declare const sdk: ISdk
 

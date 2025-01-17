@@ -1,6 +1,7 @@
 import { callbackDefaults } from "./events"
 import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
-import { EnforcedWidgetSettings, loadTemplates } from "./widget-loader"
+import { EnforcedWidgetSettings } from "./types"
+import { loadTemplates } from "./widget-loader"
 
 const sdk = {
   addTemplateToComponent: jest.fn(),
