@@ -139,6 +139,9 @@ export interface Style {
   shopspot_btn_background?: string
   shopspot_btn_font_color?: string
   shopspot_btn_font_size?: string
+  cta_btn_background?: string
+  cta_btn_font_color?: string
+  cta_btn_font_size?: string
   shopspot_icon: string
   style: string
   text_tile_background: string
