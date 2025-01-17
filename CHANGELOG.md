@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.42
+
+### Patch Changes
+
+- 9acd86e: CTA Button Background Color should use correct data storage attribute
+
 ## 0.1.41
 
 ### Patch Changes
