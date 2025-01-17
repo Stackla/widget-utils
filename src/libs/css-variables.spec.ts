@@ -42,6 +42,9 @@ describe("Widget Functions", () => {
         text_tile_user_handle_font_color: "00ff00",
         shopspot_btn_background: "ff00ff",
         shopspot_btn_font_color: "00ffff",
+        cta_btn_background: "#000000",
+        cta_btn_font_color: "#ffffff",
+        cta_btn_font_size: "10",
         margin: 10,
         text_tile_font_size: 16,
         text_caption_paragraph_font_size: 12,
@@ -134,8 +137,8 @@ describe("Widget Functions", () => {
         defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102",
         pinColor: "f7584c",
         pinTextColor: "ffffff",
-        cta_btn_background: "000000",
-        cta_btn_font_color: "ffffff",
+        cta_btn_background: "#000000",
+        cta_btn_font_color: "#ffffff",
         cta_btn_font_size: "10"
       })
 

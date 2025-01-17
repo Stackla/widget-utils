@@ -5,7 +5,7 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --inline-tile-background: #000000;
 --text-tile-background: #000000;
 --shopspot-btn-background: #ff00ff;
---cta-button-background-color: #undefined;
+--cta-button-background-color: #000000;
 --tile-tag-background: #bcbbbc;
 --text-tile-link-color: #ff0000;
 --text-tile-user-handle-font-color: #00ff00;
@@ -21,8 +21,8 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --show-caption-inline-webkit: none;
 --shopspot-icon: #000;
 --tags-gap: 4px;
---cta-button-font-color: #undefined;
---cta-button-font-size: undefinedpx;
+--cta-button-font-color: #ffffff;
+--cta-button-font-size: 10px;
 --expanded-tile-border-radius: 5px;
 --tile-size: 265.5px;
 --tile-size-unitless: 265.5;
