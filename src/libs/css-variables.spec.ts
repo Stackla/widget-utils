@@ -133,7 +133,10 @@ describe("Widget Functions", () => {
         connectedContentWidgetId: "",
         defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102",
         pinColor: "f7584c",
-        pinTextColor: "ffffff"
+        pinTextColor: "ffffff",
+        cta_btn_background: "000000",
+        cta_btn_font_color: "ffffff",
+        cta_btn_font_size: "10"
       })
 
       expect(value).toEqual({
@@ -188,7 +191,10 @@ describe("Widget Functions", () => {
         connectedContentWidgetId: "",
         defaultBounds: "-33.8336347704208,151.26371383666992,-33.876401620744,151.18646621704102",
         pinColor: "f7584c",
-        pinTextColor: "ffffff"
+        pinTextColor: "ffffff",
+        cta_btn_background: "000000",
+        cta_btn_font_color: "ffffff",
+        cta_btn_font_size: "10"
       })
     })
   })

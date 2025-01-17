@@ -46,6 +46,9 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     text_tile_user_handle_font_color,
     shopspot_btn_background,
     shopspot_btn_font_color,
+    cta_btn_background,
+    cta_btn_font_color,
+    cta_btn_font_size,
     margin,
     text_tile_font_size,
     text_tile_user_name_font_size,
@@ -53,7 +56,6 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     shopspot_icon,
     expanded_tile_border_radius,
     inline_tile_border_radius,
-    shopspot_btn_font_size,
     text_tile_font_color,
     text_tile_user_name_font_color
   } = trimHashValuesFromObject(styles)
@@ -72,7 +74,7 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--inline-tile-background": `#${text_tile_background}`,
     "--text-tile-background": `#${text_tile_background}`,
     "--shopspot-btn-background": `#${shopspot_btn_background}`,
-    "--cta-button-background-color": `#${shopspot_btn_background}`,
+    "--cta-button-background-color": `#${cta_btn_background}`,
     "--tile-tag-background": `#bcbbbc`,
     "--text-tile-link-color": `#${text_tile_link_color}`,
     "--text-tile-user-handle-font-color": `#${text_tile_user_handle_font_color}`,
@@ -88,9 +90,8 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--show-caption-inline-webkit": `${show_caption_inline ? "-webkit-box" : "none"}`,
     "--shopspot-icon": shopspot_icon ? shopspot_icon : `#000`,
     "--tags-gap": `4px`,
-    // TODO - Replace these with cta_button_font_color and cta_button_font_size @Peng Zhou
-    "--cta-button-font-color": `#${shopspot_btn_font_color}`,
-    "--cta-button-font-size": `${shopspot_btn_font_size}px`,
+    "--cta-button-font-color": `#${cta_btn_font_color}`,
+    "--cta-button-font-size": `${cta_btn_font_size}px`,
     "--expanded-tile-border-radius": `${expanded_tile_border_radius}px`,
     ...getTileSizeByWidget(tileSizeSettings),
     "--inline-tile-border-radius": `${inline_tile_border_radius}px`,
