@@ -404,6 +404,12 @@ export function onTileExpand(tileId: string) {
     throw new Error("The expanded tile element not found")
   }
 
+  const body = document.querySelector("body")
+
+  if (body) {
+    body.style.overflow = "hidden"
+  }
+
   expandedTile.parentElement!.classList.add("expanded-tile-overlay")
 
   waitForElm(expandedTile, [".swiper-expanded"], () => {
@@ -634,6 +640,12 @@ export function onTileClosed() {
   }
 
   expandedTile.parentElement!.classList.remove("expanded-tile-overlay")
+
+  const body = document.querySelector("body")
+
+  if (body) {
+    body.style.overflow = "auto"
+  }
 
   destroySwiper("expanded")
 }
