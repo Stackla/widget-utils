@@ -42,6 +42,8 @@ jobs:
           git commit -m "chore: release [skip ci]" || true
           git push origin master
           npm publish --access public
+          npm publish --registry=https://npm.pkg.github.com/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          GITHUB_REGISTRY_TOKEN: ${{ secrets.STACKLA_BOT_GITHUB_TOKEN }}
