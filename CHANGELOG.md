@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.43
+
+### Patch Changes
+
+- 2e5f9b8: fix style property value type
+
 ## 0.1.42
 
 ### Patch Changes
