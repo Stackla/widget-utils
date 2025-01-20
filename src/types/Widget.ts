@@ -124,7 +124,7 @@ export type Type = {
   style: string
 }
 
-export type StylePropertyValue = string | boolean | DynamicFilterFallback
+export type StylePropertyValue = Style[keyof Style]
 
 export interface Style {
   auto_refresh: string
