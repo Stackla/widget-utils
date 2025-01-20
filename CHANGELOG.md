@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.44
+
+### Patch Changes
+
+- 224afb5: Introduce new publish pipeline
+
 ## 0.1.43
 
 ### Patch Changes
