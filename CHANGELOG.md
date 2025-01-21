@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.45
+
+### Patch Changes
+
+- 7a1b0a8: Add adjustments to libs
+
 ## 0.1.44
 
 ### Patch Changes
