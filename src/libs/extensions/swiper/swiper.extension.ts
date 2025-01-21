@@ -17,14 +17,15 @@ function addTilesUpdatedListener(id: string, getSlides?: (tiles: Record<string, 
   const swiper = getInstance(id)
 
   sdk.addEventListener(EVENT_TILES_UPDATED, event => {
-    const tiles = event.detail.data.tiles
-    if (getSlides) {
-      getSlides(tiles).forEach(slide => swiper?.appendSlide(slide))
+    if (event instanceof CustomEvent) {
+      const tiles = event.detail.data.tiles
+      if (getSlides) {
+        getSlides(tiles).forEach(slide => swiper?.appendSlide(slide))
+        swiper?.update()
+      }
+
+      loadAllUnloadedTiles()
     }
-
-    loadAllUnloadedTiles()
-
-    swiper?.update()
   })
 
   if (!swiper) {

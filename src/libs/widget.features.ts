@@ -4,7 +4,6 @@ import {
   EVENT_TILE_EXPAND_RENDERED,
   EVENT_TILES_UPDATED,
   EVENT_EXPANDED_TILE_CLOSE,
-  registerCrossSellersLoadListener,
   registerDefaultClickEvents,
   registerGenericEventListener,
   registerShareMenuClosedListener,
@@ -24,7 +23,6 @@ import {
   reduceBackgroundControlsVisibility,
   resetBackgroundControlsVisibility
 } from "./components/expanded-tile-swiper/expanded-swiper.loader"
-import { onExpandedTileCrossSellersRendered } from "./components/expanded-tile-swiper/product-recs-swiper.loader"
 
 declare const sdk: ISdk
 
@@ -129,7 +127,6 @@ export function loadExpandedTileFeature() {
     registerGenericEventListener(EVENT_TILE_EXPAND_RENDERED, onTileRendered)
     registerShareMenuOpenedListener(reduceBackgroundControlsVisibility)
     registerShareMenuClosedListener(resetBackgroundControlsVisibility)
-    registerCrossSellersLoadListener(onExpandedTileCrossSellersRendered)
   } else if (click_through_url === "[ORIGINAL_URL]" || /^https?:\/\/.+/.test(click_through_url ?? "")) {
     registerDefaultClickEvents()
   } else if (click_through_url === "[CUSTOM]") {

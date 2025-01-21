@@ -106,7 +106,7 @@ export const allEvents = [
 
 export type EventName = (typeof allEvents)[number]
 
-export type EventMapping = Record<EventName, CustomEvent>
+export type EventMapping = Record<EventName, CustomEvent | Event>
 
 export const callbackDefaults = {
   onResize: [],
