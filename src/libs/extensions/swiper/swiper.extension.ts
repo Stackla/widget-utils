@@ -20,11 +20,10 @@ function addTilesUpdatedListener(id: string, getSlides?: (tiles: Record<string, 
     const tiles = event.detail.data.tiles
     if (getSlides) {
       getSlides(tiles).forEach(slide => swiper?.appendSlide(slide))
+      swiper?.update()
     }
 
     loadAllUnloadedTiles()
-
-    swiper?.update()
   })
 
   if (!swiper) {
