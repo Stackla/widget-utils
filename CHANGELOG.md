@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.46
+
+### Patch Changes
+
+- a9caa48: Revert changes around swiper
+
 ## 0.1.45
 
 ### Patch Changes
