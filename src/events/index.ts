@@ -574,3 +574,12 @@ export function registerShareMenuClosedListener(fn: (tileId: string) => void = (
     fn(sourceId)
   })
 }
+
+export function registerProductsUpdatedListener(fn: (tileId: string, target: HTMLElement) => void = () => {}) {
+  sdk.addEventListener(EVENT_PRODUCTS_UPDATED, (event: Event) => {
+    const customEvent = event as CustomEvent
+    const tileId = customEvent.detail.tileId as string
+    const target = customEvent.detail.target as HTMLElement
+    fn(tileId, target)
+  })
+}
