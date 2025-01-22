@@ -10,7 +10,8 @@ import {
   registerShareMenuOpenedListener,
   registerTileExpandListener,
   type ISdk,
-  type Tile
+  type Tile,
+  registerProductsUpdatedListener
 } from "../"
 import { loadExpandSettingComponents } from "./widget.components"
 import { isEnabled } from "./widget.layout"
@@ -23,6 +24,7 @@ import {
   reduceBackgroundControlsVisibility,
   resetBackgroundControlsVisibility
 } from "./components/expanded-tile-swiper/expanded-swiper.loader"
+import { loadProductsSwiper } from "./components/expanded-tile-swiper/products.swiper"
 
 declare const sdk: ISdk
 
@@ -127,6 +129,7 @@ export function loadExpandedTileFeature() {
     registerGenericEventListener(EVENT_TILE_EXPAND_RENDERED, onTileRendered)
     registerShareMenuOpenedListener(reduceBackgroundControlsVisibility)
     registerShareMenuClosedListener(resetBackgroundControlsVisibility)
+    registerProductsUpdatedListener(loadProductsSwiper)
   } else if (click_through_url === "[ORIGINAL_URL]" || /^https?:\/\/.+/.test(click_through_url ?? "")) {
     registerDefaultClickEvents()
   } else if (click_through_url === "[CUSTOM]") {
