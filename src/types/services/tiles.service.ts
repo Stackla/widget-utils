@@ -34,4 +34,5 @@ export interface ITilesService extends IBaseService {
   setSelectedProductId(productId: string): void
   addProducts(products: TagExtended[]): void
   getShopspotsFromTile(tileId?: string): Promise<TagExtended[]>
+  waitForTile(tileId: string): Promise<Tile>
 }
