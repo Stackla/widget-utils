@@ -6,7 +6,7 @@ import { loadAllUnloadedTiles } from "./loader.extension"
 
 declare const sdk: Sdk
 
-window.ugc.swiperContainer = window.ugc.swiperContainer ?? {}
+window.ugc.swiperContainer = window.ugc?.swiperContainer ?? {}
 
 export type LookupAttr = {
   name: string
