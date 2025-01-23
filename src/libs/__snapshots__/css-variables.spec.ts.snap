@@ -32,6 +32,6 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --tags-display-expanded: none;
 --shopspots-display-inline: none;
 --shopspots-display-expanded: none;
---timephrase-display-inline: block;
+--timephrase-display-inline: flex;
 --share-icon-display-inline: none;"
 `;
