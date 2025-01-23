@@ -22,13 +22,16 @@ export function UgcVideoTemplate({ tile }: { tile: Tile }) {
 
   return (
     <video
+      style={{
+        display: "none"
+      }}
       muted={true}
       tileid={tile.id}
       class="video-content"
       controls
       preload="none"
       playsinline="playsinline"
-      oncanplay="this.muted=true">
+      oncanplay="this.muted=true; this.style.display='flex';">
       <source src={url} width={width.toString()} height={height.toString()} type={mime} />
     </video>
   )
@@ -39,12 +42,15 @@ export function TwitterTemplate({ tile }: { tile: Tile }) {
 
   return (
     <video
+      style={{
+        display: "none"
+      }}
       tileid={tile.id}
       class="video-content"
       controls
       preload="none"
       playsinline="playsinline"
-      oncanplay="this.muted=true">
+      oncanplay="this.muted=true; this.style.display='flex';">
       <source src={standard_resolution.url} />
     </video>
   )
