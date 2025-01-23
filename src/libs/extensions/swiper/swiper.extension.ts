@@ -44,14 +44,16 @@ function addTilesUpdatedListener(id: string, getSlides?: (tiles: Record<string, 
   })
 }
 
-export function initializeSwiper({
-  id,
-  widgetSelector,
-  prevButton,
-  nextButton,
-  paramsOverrides,
-  getSliderTemplate
-}: SwiperProps) {
+export function initializeSwiper(swiperProps: SwiperProps) {
+  // check if constructor is available
+  if (!window.ugc.libs.Swiper && window.ugc.libs.Swiper.prototype && window.ugc.libs.Swiper.prototype.name) {
+    console.warn("Swiper library not found. Retrying in 100ms")
+    setTimeout(() => initializeSwiper(swiperProps), 100)
+    return
+  }
+
+  const { id, widgetSelector, prevButton, nextButton, paramsOverrides, getSliderTemplate } = swiperProps
+
   const prev = prevButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${prevButton}`) : undefined
   const next = nextButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${nextButton}`) : undefined
 
