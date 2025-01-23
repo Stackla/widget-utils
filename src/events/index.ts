@@ -53,6 +53,7 @@ export const EVENT_TILE_BG_IMG_ERROR = "tileBgImageError"
 export const EVENT_TILE_BG_IMG_RENDER_COMPLETE = "tileBgImgRenderComplete"
 export const EVENT_SHARE_MENU_OPENED = "shareMenuOpened"
 export const EVENT_SHARE_MENU_CLOSED = "shareMenuClosed"
+export const EVENT_TAGS_LOADED = "tagsLoaded"
 
 export const allEvents = [
   EVENT_PRODUCT_ACTION_CLICK,
@@ -101,7 +102,8 @@ export const allEvents = [
   EVENT_TILE_BG_IMG_ERROR,
   EVENT_TILE_BG_IMG_RENDER_COMPLETE,
   EVENT_SHARE_MENU_OPENED,
-  EVENT_SHARE_MENU_CLOSED
+  EVENT_SHARE_MENU_CLOSED,
+  EVENT_TAGS_LOADED
 ]
 
 export type EventName = (typeof allEvents)[number]

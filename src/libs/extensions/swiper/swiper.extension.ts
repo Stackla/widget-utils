@@ -1,12 +1,12 @@
 import { EVENT_TILES_UPDATED } from "../../../events"
 import { Sdk, Tile } from "../../../types"
-import { SdkSwiper, SwiperData, SwiperProps } from "../../../types/SdkSwiper"
+import { SwiperData, SwiperProps } from "../../../types/SdkSwiper"
 import { Autoplay, EffectCoverflow, Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
 import { loadAllUnloadedTiles } from "./loader.extension"
 
 declare const sdk: Sdk
 
-const swiperContainer: SdkSwiper = {}
+window.ugc.swiperContainer = window.ugc.swiperContainer ?? {}
 
 export type LookupAttr = {
   name: string
@@ -46,10 +46,15 @@ function addTilesUpdatedListener(id: string, getSlides?: (tiles: Record<string, 
 
 export function initializeSwiper(swiperProps: SwiperProps) {
   // check if constructor is available
-  if (!window.ugc.libs.Swiper && window.ugc.libs.Swiper.prototype && window.ugc.libs.Swiper.prototype.name) {
+  if (!window.ugc.libs.Swiper) {
     console.warn("Swiper library not found. Retrying in 100ms")
     setTimeout(() => initializeSwiper(swiperProps), 100)
     return
+  }
+
+  if (!window.ugc.libs.Swiper.prototype) {
+    console.warn("Swiper library cant be initialised. Retrying in 100ms")
+    setTimeout(() => initializeSwiper(swiperProps), 100)
   }
 
   const { id, widgetSelector, prevButton, nextButton, paramsOverrides, getSliderTemplate } = swiperProps
@@ -57,11 +62,11 @@ export function initializeSwiper(swiperProps: SwiperProps) {
   const prev = prevButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${prevButton}`) : undefined
   const next = nextButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${nextButton}`) : undefined
 
-  if (!swiperContainer[id]) {
-    swiperContainer[id] = {} as SwiperData
+  if (!window.ugc.swiperContainer[id]) {
+    window.ugc.swiperContainer[id] = { ...(window.ugc.swiperContainer ?? {}) }
   }
 
-  const swiperInstance = swiperContainer[id]?.instance
+  const swiperInstance = window.ugc.swiperContainer[id]?.instance
 
   if (swiperInstance) {
     if (!swiperInstance.params?.enabled) {
@@ -71,10 +76,10 @@ export function initializeSwiper(swiperProps: SwiperProps) {
     // re-initialize
     swiperInstance.destroy(true)
   } else {
-    swiperContainer[id] = { pageIndex: 1 }
+    window.ugc.swiperContainer[id] = { pageIndex: 1 }
   }
 
-  swiperContainer[id]!.instance = new window.ugc.libs.Swiper(widgetSelector, {
+  window.ugc.swiperContainer[id]!.instance = new window.ugc.libs.Swiper(widgetSelector, {
     modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow],
     spaceBetween: 10,
     observer: true,
@@ -100,8 +105,8 @@ export function initializeSwiper(swiperProps: SwiperProps) {
 }
 
 export function refreshSwiper(id: string) {
-  if (swiperContainer[id]?.instance) {
-    swiperContainer[id].instance.update()
+  if (window.ugc.swiperContainer[id]?.instance) {
+    window.ugc.swiperContainer[id].instance.update()
   }
 }
 
@@ -120,58 +125,58 @@ export function getSwiperIndexforTile(swiperSelector: HTMLElement, tileId: strin
 }
 
 export function disableSwiper(id: string) {
-  swiperContainer[id]?.instance?.disable()
+  window.ugc.swiperContainer[id]?.instance?.disable()
 }
 
 export function enableSwiper(id: string) {
-  swiperContainer[id]?.instance?.enable()
+  window.ugc.swiperContainer[id]?.instance?.enable()
 }
 
 export function destroySwiper(id: string) {
-  if (swiperContainer[id]?.instance) {
-    swiperContainer[id].instance.destroy(true, true)
-    delete swiperContainer[id]
+  if (window.ugc.swiperContainer[id]?.instance) {
+    window.ugc.swiperContainer[id].instance.destroy(true, true)
+    delete window.ugc.swiperContainer[id]
   }
 }
 
 export function getClickedIndex(id: string) {
-  if (swiperContainer[id]?.instance) {
-    const clickedSlide = swiperContainer[id].instance.clickedSlide
+  if (window.ugc.swiperContainer[id]?.instance) {
+    const clickedSlide = window.ugc.swiperContainer[id].instance.clickedSlide
     const indexFromAttribute = clickedSlide.getAttribute("data-swiper-slide-index")
     return indexFromAttribute && !Number.isNaN(parseInt(indexFromAttribute))
       ? parseInt(indexFromAttribute)
-      : swiperContainer[id].instance.clickedIndex
+      : window.ugc.swiperContainer[id].instance.clickedIndex
   }
   return 0
 }
 
 export function getInstance(id: string) {
-  return swiperContainer[id]?.instance
+  return window.ugc.swiperContainer[id]?.instance
 }
 
 export function getActiveSlide(id: string) {
-  return swiperContainer[id]?.instance?.realIndex || 0
+  return window.ugc.swiperContainer[id]?.instance?.realIndex || 0
 }
 
 export function getActiveSlideElement(id: string) {
-  return swiperContainer[id]?.instance?.slides[getActiveSlide(id) || 0]
+  return window.ugc.swiperContainer[id]?.instance?.slides[getActiveSlide(id) || 0]
 }
 
 export function isSwiperLoading(id: string) {
-  if (swiperContainer[id]) {
-    return swiperContainer[id].isLoading
+  if (window.ugc.swiperContainer[id]) {
+    return window.ugc.swiperContainer[id].isLoading
   }
   return false
 }
 
 export function setSwiperLoadingStatus(id: string, isLoading: boolean) {
-  if (swiperContainer[id]) {
-    swiperContainer[id].isLoading = isLoading
+  if (window.ugc.swiperContainer[id]) {
+    window.ugc.swiperContainer[id].isLoading = isLoading
   }
 }
 
 export function updateSwiperInstance(id: string, updateProps: (swiperData: SwiperData) => void) {
-  if (swiperContainer[id] && swiperContainer[id].instance) {
-    updateProps(swiperContainer[id])
+  if (window.ugc.swiperContainer[id] && window.ugc.swiperContainer[id].instance) {
+    updateProps(window.ugc.swiperContainer[id])
   }
 }

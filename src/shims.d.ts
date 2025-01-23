@@ -7,6 +7,7 @@ interface Window {
     libs: {
       Swiper: swiper
     }
+    swiperContainer: Record<string, Swiper>
   },
   stackWidgetDomain: string
 }
