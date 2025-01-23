@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.47
+
+### Patch Changes
+
+- ad786fc: Store swiper as globals
+
 ## 0.1.46
 
 ### Patch Changes
