@@ -6,8 +6,6 @@ import { loadAllUnloadedTiles } from "./loader.extension"
 
 declare const sdk: Sdk
 
-window.ugc.swiperContainer = window.ugc?.swiperContainer ?? {}
-
 export type LookupAttr = {
   name: string
   value: string
@@ -56,6 +54,8 @@ export function initializeSwiper(swiperProps: SwiperProps) {
     console.warn("Swiper library cant be initialised. Retrying in 100ms")
     setTimeout(() => initializeSwiper(swiperProps), 100)
   }
+
+  window.ugc.swiperContainer = window.ugc?.swiperContainer ?? {}
 
   const { id, widgetSelector, prevButton, nextButton, paramsOverrides, getSliderTemplate } = swiperProps
 
