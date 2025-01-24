@@ -74,7 +74,12 @@ export function IconSection({ tile, productsEnabled }: { tile: Tile; productsEna
   } else if (tile.attrs.includes("youtube.short")) {
     topSectionIconContent.push(<div class="content-icon icon-youtube-short"></div>)
   }
-  if (productsEnabled) {
+  if (
+    productsEnabled &&
+    tile.tags_extended &&
+    tile.tags_extended.length &&
+    tile.tags_extended.find(tag => tag.type == "product")
+  ) {
     topSectionIconContent.push(<div class="shopping-icon icon-products"></div>)
   }
 
