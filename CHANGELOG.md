@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.48
+
+### Patch Changes
+
+- 3c5f298: add pagination module to swiper
+
 ## 0.1.47
 
 ### Patch Changes
