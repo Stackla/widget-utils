@@ -1,7 +1,7 @@
 import { EVENT_TILES_UPDATED } from "../../../events"
 import { Sdk, Tile } from "../../../types"
 import { SwiperData, SwiperProps } from "../../../types/SdkSwiper"
-import { Autoplay, EffectCoverflow, Keyboard, Manipulation, Mousewheel, Navigation } from "swiper/modules"
+import { Autoplay, EffectCoverflow, Keyboard, Manipulation, Mousewheel, Navigation, Pagination } from "swiper/modules"
 import { loadAllUnloadedTiles } from "./loader.extension"
 
 declare const sdk: Sdk
@@ -80,7 +80,7 @@ export function initializeSwiper(swiperProps: SwiperProps) {
   }
 
   window.ugc.swiperContainer[id]!.instance = new window.ugc.libs.Swiper(widgetSelector, {
-    modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow],
+    modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow, Pagination],
     spaceBetween: 10,
     observer: true,
     grabCursor: true,
