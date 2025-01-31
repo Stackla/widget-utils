@@ -12,7 +12,7 @@ export function loadExpandSettingComponents() {
   sdk.addLoadedComponents(["expanded-tile"])
 
   if (show_products) {
-    sdk.addLoadedComponents(["products"])
+    sdk.addLoadedComponents(["products", "inline-products"])
   }
   if (show_add_to_cart) {
     sdk.addLoadedComponents(["add-to-cart"])
