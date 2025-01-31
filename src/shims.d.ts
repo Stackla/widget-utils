@@ -1,10 +1,13 @@
+const swiper = typeof import("swiper").Swiper
+
 interface Window {
   scrollLocked: boolean,
   __isLoading: boolean,
   ugc: {
     libs: {
-      Swiper: typeof import("swiper").Swiper
+      Swiper: swiper
     }
+    swiperContainer: Record<string, Swiper>
   },
   stackWidgetDomain: string
 }

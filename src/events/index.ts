@@ -53,6 +53,7 @@ export const EVENT_TILE_BG_IMG_ERROR = "tileBgImageError"
 export const EVENT_TILE_BG_IMG_RENDER_COMPLETE = "tileBgImgRenderComplete"
 export const EVENT_SHARE_MENU_OPENED = "shareMenuOpened"
 export const EVENT_SHARE_MENU_CLOSED = "shareMenuClosed"
+export const EVENT_TAGS_LOADED = "tagsLoaded"
 
 export const allEvents = [
   EVENT_PRODUCT_ACTION_CLICK,
@@ -101,12 +102,13 @@ export const allEvents = [
   EVENT_TILE_BG_IMG_ERROR,
   EVENT_TILE_BG_IMG_RENDER_COMPLETE,
   EVENT_SHARE_MENU_OPENED,
-  EVENT_SHARE_MENU_CLOSED
+  EVENT_SHARE_MENU_CLOSED,
+  EVENT_TAGS_LOADED
 ]
 
 export type EventName = (typeof allEvents)[number]
 
-export type EventMapping = Record<EventName, CustomEvent>
+export type EventMapping = Record<EventName, CustomEvent | Event>
 
 export const callbackDefaults = {
   onResize: [],
@@ -572,5 +574,14 @@ export function registerShareMenuClosedListener(fn: (tileId: string) => void = (
     const customEvent = event as CustomEvent
     const sourceId = customEvent.detail.sourceId as string
     fn(sourceId)
+  })
+}
+
+export function registerProductsUpdatedListener(fn: (tileId: string, target: HTMLElement) => void = () => {}) {
+  sdk.addEventListener(EVENT_PRODUCTS_UPDATED, (event: Event) => {
+    const customEvent = event as CustomEvent
+    const tileId = customEvent.detail.tileId as string
+    const target = customEvent.detail.target as HTMLElement
+    fn(tileId, target)
   })
 }

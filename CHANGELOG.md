@@ -1,5 +1,29 @@
 # @stackla/widget-utils
 
+## 0.1.48
+
+### Patch Changes
+
+- 3c5f298: add pagination module to swiper
+
+## 0.1.47
+
+### Patch Changes
+
+- ad786fc: Store swiper as globals
+
+## 0.1.46
+
+### Patch Changes
+
+- a9caa48: Revert changes around swiper
+
+## 0.1.45
+
+### Patch Changes
+
+- 7a1b0a8: Add adjustments to libs
+
 ## 0.1.44
 
 ### Patch Changes

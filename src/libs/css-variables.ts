@@ -100,7 +100,7 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--tags-display-expanded": `${show_tags_expanded ? "flex" : "none"}`,
     "--shopspots-display-inline": `${show_shopspots_inline ? "block" : "none"}`,
     "--shopspots-display-expanded": `${show_shopspots_expanded ? "block" : "none"}`,
-    "--timephrase-display-inline": `${show_timestamp_inline ? "block" : "none"}`,
+    "--timephrase-display-inline": `${show_timestamp_inline ? "flex" : "none"}`,
     "--share-icon-display-inline": `${show_sharing_inline ? "inline-block" : "none"}`
   }
 
