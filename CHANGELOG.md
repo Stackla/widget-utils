@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.49
+
+### Patch Changes
+
+- 1257db4: update version
+
 ## 0.1.48
 
 ### Patch Changes
