@@ -7,6 +7,7 @@ export type Callback = (args: unknown) => void | Promise<void>
 export type EventCallback = (event: Event) => void | Promise<void>
 
 export const EVENT_PRODUCT_ACTION_CLICK = "productActionClick"
+export const EVENT_PRODUCT_HIDE_ICON_CLICK = "productHideIconClick"
 export const EVENT_EXPANDED_TILE_IMAGE_LOAD = "expandedTileImageLoad"
 export const EVENT_EXPANDED_TILE_OPEN = "expandedTileOpen"
 export const EVENT_EXPANDED_TILE_CLOSE = "expandedTileClose"
@@ -57,6 +58,7 @@ export const EVENT_TAGS_LOADED = "tagsLoaded"
 
 export const allEvents = [
   EVENT_PRODUCT_ACTION_CLICK,
+  EVENT_PRODUCT_HIDE_ICON_CLICK,
   EVENT_EXPANDED_TILE_IMAGE_LOAD,
   EVENT_EXPANDED_TILE_OPEN,
   EVENT_EXPANDED_TILE_CLOSE,
@@ -122,6 +124,7 @@ export const callbackDefaults = {
   onTileBgImgRenderComplete: [],
   onTileBgImageError: [],
   onProductActionClick: [],
+  onProductHideIconClick: [],
   onExpandedTileImageLoad: [],
   onExpandedTileOpen: [],
   onExpandedTileClose: [],
@@ -213,6 +216,10 @@ export interface Callbacks extends Record<EventName, Callback[]> {
    * Called when a product action is clicked.
    */
   onProductActionClick: Callback[]
+  /**
+   * Called when a product hide icon is clicked.
+   */
+  onProductHideIconClick: Callback[]
 
   /**
    * Called when an expanded tile image is loaded.
@@ -418,6 +425,7 @@ export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
     onResize,
     onLoadMore,
     onProductActionClick,
+    onProductHideIconClick,
     onExpandedTileImageLoad,
     onExpandedTileOpen,
     onExpandedTileClose,
@@ -468,6 +476,7 @@ export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
   onTilesUpdated?.forEach(event => registerGenericEventListener(EVENT_TILES_UPDATED, event))
   onLoadMore?.forEach(event => registerGenericEventListener(EVENT_LOAD_MORE, event))
   onProductActionClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_ACTION_CLICK, event))
+  onProductHideIconClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_HIDE_ICON_CLICK, event))
   onExpandedTileImageLoad?.forEach(event => registerGenericEventListener(EVENT_EXPANDED_TILE_IMAGE_LOAD, event))
   onExpandedTileOpen?.forEach(event => registerGenericEventListener(EVENT_EXPANDED_TILE_OPEN, event))
   onExpandedTileClose?.forEach(event => registerGenericEventListener(EVENT_EXPANDED_TILE_CLOSE, event))
