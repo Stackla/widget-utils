@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.51
+
+### Patch Changes
+
+- 5907290: Auto play IG video for story expanded tile
+
 ## 0.1.50
 
 ### Patch Changes
