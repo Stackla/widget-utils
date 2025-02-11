@@ -29,4 +29,11 @@ export function pauseTiktokVideo(frameWindow: Window) {
  */
 export function postTiktokMessage(frameWindow: Window, type: TiktokMessageType, value?: number) {
   frameWindow.postMessage({ type, value, "x-tiktok-player": true }, "https://www.tiktok.com")
+
+  // Fallback logic to handle when TikTok player is not ready yet
+  window.addEventListener("message", event => {
+    if (event.data.type === "onPlayerReady" && event.data["x-tiktok-player"]) {
+      frameWindow.postMessage({ type, value, "x-tiktok-player": true }, "https://www.tiktok.com")
+    }
+  })
 }

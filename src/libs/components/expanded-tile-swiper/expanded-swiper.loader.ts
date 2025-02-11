@@ -149,10 +149,10 @@ function initalizeStoryExpandedTile(
           storyAutoplayProgress(swiper, percentage)
         },
         navigationNext: async (swiper: Swiper) => {
-          await controlVideoPlayback(swiper)
+          await controlVideoPlaybackForStory(swiper)
         },
         navigationPrev: async (swiper: Swiper) => {
-          await controlVideoPlayback(swiper)
+          await controlVideoPlaybackForStory(swiper)
         }
       }
     },
@@ -278,6 +278,24 @@ async function controlVideoPlayback(swiper: Swiper) {
 }
 
 /**
+ * For story widget
+ * Play/Pause the video/audio attached to the slide on navigation where the element is a media element (video/youtube/tiktok)
+ * @param { Swiper } swiper - the swiper element
+ */
+async function controlVideoPlaybackForStory(swiper: Swiper) {
+  const activeElement = getSwiperVideoElement(swiper, swiper.realIndex, true)
+  const previousElement = getSwiperVideoElement(swiper, swiper.previousIndex, true)
+
+  if (activeElement) {
+    await triggerPlay(activeElement)
+  }
+
+  if (previousElement) {
+    await triggerPause(previousElement)
+  }
+}
+
+/**
  * Trigger media play for different media element sources ("video", "youtube", "tiktok")
  *
  * @param elementData - the media container element and the source
@@ -350,9 +368,10 @@ function triggerPause(elementData?: SwiperVideoElementData) {
  *
  * @param { Swiper } swiper - the swiper element
  * @param { number } index - index of the slide to be returned
+ * @param { number } isStory - if it is story widget
  * @returns the video/iframe element or undefined if the element at index is not a video/audio
  */
-function getSwiperVideoElement(swiper: Swiper, index: number): SwiperVideoElementData | undefined {
+function getSwiperVideoElement(swiper: Swiper, index: number, isStory = false): SwiperVideoElementData | undefined {
   const element = swiper.slides[index]
   const tileId = element.getAttribute("data-id")
   const youtubeId = element.getAttribute("data-yt-id")
@@ -383,7 +402,10 @@ function getSwiperVideoElement(swiper: Swiper, index: number): SwiperVideoElemen
     }
   }
 
-  const videoElement = element.querySelector<HTMLVideoElement>(".panel .panel-left .video-content-wrapper video")
+  const videoElement = element.querySelector<HTMLVideoElement>(
+    `${isStory ? "" : " .panel .panel-left"} .video-content-wrapper video`
+  )
+
   if (videoElement) {
     return { element: videoElement, source: "video" }
   }
