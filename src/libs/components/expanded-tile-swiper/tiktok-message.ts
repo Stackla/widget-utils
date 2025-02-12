@@ -21,6 +21,14 @@ export function pauseTiktokVideo(frameWindow: Window) {
   postTiktokMessage(frameWindow, "seekTo", 0)
 }
 
+export function muteTiktokVideo(frameWindow: Window) {
+  postTiktokMessage(frameWindow, "mute")
+}
+
+export function unMuteTiktokVideo(frameWindow: Window) {
+  postTiktokMessage(frameWindow, "unMute")
+}
+
 /**
  *
  * @param { Window } frameWindow - tiktok frame contentWindow

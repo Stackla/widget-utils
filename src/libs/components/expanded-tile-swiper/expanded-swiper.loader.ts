@@ -10,7 +10,7 @@ import {
 } from "../../extensions/swiper/swiper.extension"
 import { waitForElm } from "../../widget.features"
 import { type Swiper } from "swiper"
-import { pauseTiktokVideo, playTiktokVideo } from "./tiktok-message"
+import { muteTiktokVideo, pauseTiktokVideo, playTiktokVideo, unMuteTiktokVideo } from "./tiktok-message"
 import { ISdk, SwiperData } from "../../../types"
 import { EVENT_LOAD_MORE } from "../../../events"
 import { getExpandedSlides } from "./base.template"
@@ -21,6 +21,8 @@ type YoutubeContentWindow = Window & {
   play: () => void
   pause: () => void
   reset: () => void
+  mute: () => void
+  unMute: () => void
 }
 
 type YoutubeIframeElementType = HTMLIFrameElement & {
@@ -203,7 +205,26 @@ function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
     volumeCtrl.classList.add("hidden")
     muteCtrl?.classList.remove("hidden")
     updateSwiperInstance("expanded", (swiperData: SwiperData) => {
-      swiperData.muted = false
+      swiperData.muted = true
+    })
+
+    const videoEles = tileWrapper.querySelectorAll("video")
+    videoEles.forEach(ele => {
+      ele.muted = true
+    })
+
+    const iFramePlayers = tileWrapper.querySelectorAll<YoutubeIframeElementType>(`iframe.video-content`)
+    iFramePlayers.forEach(iFramePlayer => {
+      const iFramePlayerId = iFramePlayer.getAttribute("id")
+      if (iFramePlayerId) {
+        if (iFramePlayerId.includes("yt-frame")) {
+          const iFramePlayerWindow = iFramePlayer.contentWindow
+          iFramePlayerWindow.mute()
+        } else if (iFramePlayerId.includes("tiktok-frame")) {
+          const iFramePlayerWindow = iFramePlayer.contentWindow
+          muteTiktokVideo(iFramePlayerWindow)
+        }
+      }
     })
   })
 
@@ -211,7 +232,26 @@ function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
     muteCtrl.classList.add("hidden")
     volumeCtrl?.classList.remove("hidden")
     updateSwiperInstance("expanded", (swiperData: SwiperData) => {
-      swiperData.muted = true
+      swiperData.muted = false
+    })
+
+    const videoEles = tileWrapper.querySelectorAll("video")
+    videoEles.forEach(ele => {
+      ele.muted = false
+    })
+
+    const iFramePlayers = tileWrapper.querySelectorAll<YoutubeIframeElementType>(`iframe.video-content`)
+    iFramePlayers.forEach(iFramePlayer => {
+      const iFramePlayerId = iFramePlayer.getAttribute("id")
+      if (iFramePlayerId) {
+        if (iFramePlayerId.includes("yt-frame")) {
+          const iFramePlayerWindow = iFramePlayer.contentWindow
+          iFramePlayerWindow.unMute()
+        } else if (iFramePlayerId.includes("tiktok-frame")) {
+          const iFramePlayerWindow = iFramePlayer.contentWindow
+          unMuteTiktokVideo(iFramePlayerWindow)
+        }
+      }
     })
   })
 
@@ -314,16 +354,31 @@ async function triggerPlay(elementData?: SwiperVideoElementData) {
     case "video": {
       const videoElement = elementData.element as HTMLVideoElement
       await videoElement.play()
+      if (window.ugc.swiperContainer["expanded"]?.muted) {
+        videoElement.muted = true
+      } else {
+        videoElement.muted = false
+      }
       break
     }
     case "youtube": {
       const YoutubeContentWindow = elementData.element as YoutubeContentWindow
       await YoutubeContentWindow.play()
+      if (window.ugc.swiperContainer["expanded"]?.muted) {
+        YoutubeContentWindow.mute()
+      } else {
+        YoutubeContentWindow.unMute()
+      }
       break
     }
     case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
       await playTiktokVideo(tiktokFrameWindow)
+      if (window.ugc.swiperContainer["expanded"]?.muted) {
+        await muteTiktokVideo(tiktokFrameWindow)
+      } else {
+        await unMuteTiktokVideo(tiktokFrameWindow)
+      }
       break
     }
     default:
