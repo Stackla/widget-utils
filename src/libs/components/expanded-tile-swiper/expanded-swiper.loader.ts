@@ -153,6 +153,9 @@ function initalizeStoryExpandedTile(
         },
         navigationPrev: async (swiper: Swiper) => {
           await controlVideoPlaybackForStory(swiper)
+        },
+        autoplay: async (swiper: Swiper) => {
+          await controlVideoPlaybackForStory(swiper)
         }
       }
     },
