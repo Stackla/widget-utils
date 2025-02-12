@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.54
+
+### Patch Changes
+
+- 392a875: remove throw error from video element
+
 ## 0.1.53
 
 ### Patch Changes
