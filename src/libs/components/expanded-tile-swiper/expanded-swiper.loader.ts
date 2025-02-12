@@ -412,8 +412,6 @@ function getSwiperVideoElement(swiper: Swiper, index: number, isStory = false): 
   if (videoElement) {
     return { element: videoElement, source: "video" }
   }
-
-  throw new Error(`Failed to find video element for tile ${tileId} ${sdk.tiles.tiles[tileId].media}`)
 }
 
 /**
