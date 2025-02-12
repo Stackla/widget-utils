@@ -95,6 +95,14 @@ export function loadYoutubePlayerAPI(playerId: string, videoId: string) {
   function reset() {
     player?.seekTo(0, false)
   }
+  
+   function mute() {
+    player?.mute()
+  }
+
+  function unMute() {
+    player?.unMute()
+  }
 
   function play() {
     if (!player) {
