@@ -63,6 +63,7 @@ export function TikTokTemplate({ tile }: { tile: Tile }) {
     <iframe
       id={`tiktok-frame-${tile.id}-${tiktokId}`}
       loading="lazy"
+      tileid={tile.id}
       class="video-content"
       frameborder="0"
       allowfullscreen
