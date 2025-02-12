@@ -412,6 +412,8 @@ function getSwiperVideoElement(swiper: Swiper, index: number, isStory = false): 
   if (videoElement) {
     return { element: videoElement, source: "video" }
   }
+
+  return undefined
 }
 
 /**
