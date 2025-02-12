@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.53
+
+### Patch Changes
+
+- e17fda1: audoplay video from swiper autoslide
+
 ## 0.1.52
 
 ### Patch Changes
