@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.56
+
+### Patch Changes
+
+- 3a1b6f6: global mute unmute videos
+
 ## 0.1.55
 
 ### Patch Changes
