@@ -12,6 +12,7 @@ export function EmbedYoutube({ tileId, videoId }: EmbedYoutubeProps) {
     <iframe
       loading="lazy"
       id={`yt-frame-${tileId}-${videoId}`}
+      tileid={tileId}
       class="video-content"
       height="360px"
       width="480px"
