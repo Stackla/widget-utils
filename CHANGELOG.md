@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.55
+
+### Patch Changes
+
+- 027ae64: fix facebook video player
+
 ## 0.1.54
 
 ### Patch Changes
