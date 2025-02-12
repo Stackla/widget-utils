@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.52
+
+### Patch Changes
+
+- 0698495: add tileid to video player
+
 ## 0.1.51
 
 ### Patch Changes
