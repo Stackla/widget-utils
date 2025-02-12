@@ -135,7 +135,10 @@ export function SourceVideoContent({ tile, parent }: { tile: Tile; parent?: stri
 
   if (tile.source === "facebook") {
     const videoUrlPattern = /videos\/(\d)+?/
-    if (!tile.video_files?.length || !videoUrlPattern.test(tile.video_files[0].url)) {
+    if (
+      (!tile.video_files?.length || !videoUrlPattern.test(tile.video_files[0].url)) &&
+      !tile.video?.standard_resolution
+    ) {
       return <VideoErrorFallbackTemplate tile={tile} parent={parent} defaultHidden={false} />
     }
   }
