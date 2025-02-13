@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.57
+
+### Patch Changes
+
+- 0937c15: --story-expanded-display-bottom-section css based on setting
+
 ## 0.1.56
 
 ### Patch Changes
