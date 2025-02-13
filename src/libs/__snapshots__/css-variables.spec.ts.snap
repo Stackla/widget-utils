@@ -30,6 +30,7 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --inline-tile-margin: 10px;
 --tags-display-inline: none;
 --tags-display-expanded: none;
+--story-expanded-display-bottom-section: 10px;
 --shopspots-display-inline: none;
 --shopspots-display-expanded: none;
 --timephrase-display-inline: flex;
