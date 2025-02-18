@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.58
+
+### Patch Changes
+
+- 02ed335: Update close icon svg file.
+
 ## 0.1.57
 
 ### Patch Changes
