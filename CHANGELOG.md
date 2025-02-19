@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.59
+
+### Patch Changes
+
+- ff44a36: fix --shopspot-icon
+
 ## 0.1.58
 
 ### Patch Changes
