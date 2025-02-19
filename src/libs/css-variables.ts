@@ -88,7 +88,7 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--text-tile-font-color": `#${text_tile_font_color}`,
     "--show-caption-inline": `${show_caption_inline ? "block" : "none"}`,
     "--show-caption-inline-webkit": `${show_caption_inline ? "-webkit-box" : "none"}`,
-    "--shopspot-icon": shopspot_icon ? shopspot_icon : `#000`,
+    "--shopspot-icon": shopspot_icon ? `url(${shopspot_icon})` : `#000`,
     "--tags-gap": `4px`,
     "--cta-button-font-color": `#${cta_btn_font_color}`,
     "--cta-button-font-size": `${cta_btn_font_size}px`,
