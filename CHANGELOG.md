@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.60
+
+### Patch Changes
+
+- 3da76dc: Add Support for Carousel tiles grouping
+
 ## 0.1.59
 
 ### Patch Changes
