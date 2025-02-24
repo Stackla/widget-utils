@@ -76,6 +76,7 @@ export interface ExpandedTileOptions {
   show_votes: boolean
   show_cross_sellers: boolean
   show_add_to_cart: boolean
+  show_carousel_grouping: boolean
 }
 
 export interface InlineTileOptions {
