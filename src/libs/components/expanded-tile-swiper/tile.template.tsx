@@ -4,10 +4,18 @@ import { VideoContainer, VideoErrorFallbackTemplate } from "./video.templates"
 import { ExpandedTileProps, ShopspotProps } from "./types"
 
 export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
-  const { show_shopspots, show_products, show_tags, show_sharing, show_caption, show_timestamp } =
-    sdk.getExpandedTileConfig()
+  const {
+    show_shopspots,
+    show_products,
+    show_tags,
+    show_sharing,
+    show_caption,
+    show_timestamp,
+    show_carousel_grouping
+  } = sdk.getExpandedTileConfig()
 
   const shopspotEnabled = sdk.isComponentLoaded("shopspots") && show_shopspots && !!tile.hotspots?.length
+  const cauroselGroupingEnabled = sdk.isComponentLoaded("carousel-grouping") && show_carousel_grouping
   const productsEnabled = sdk.isComponentLoaded("products") && show_products && !!tile.tags_extended?.length
   const tagsEnabled = show_tags
   const sharingToolsEnabled = show_sharing
@@ -27,7 +35,13 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
                   <VideoErrorFallbackTemplate tile={tile} />
                 </>
               ) : tile.media === "image" ? (
-                <ImageTemplate tile={tile} image={tile.image} shopspotEnabled={shopspotEnabled} parent={parent} />
+                <ImageTemplate
+                  tile={tile}
+                  image={tile.image}
+                  shopspotEnabled={shopspotEnabled}
+                  cauroselGroupingEnabled={cauroselGroupingEnabled}
+                  parent={parent}
+                />
               ) : tile.media === "text" ? (
                 <span class="content-text">{tile.message}</span>
               ) : tile.media === "html" ? (
@@ -107,11 +121,13 @@ export function ImageTemplate({
   tile,
   image,
   shopspotEnabled = false,
+  cauroselGroupingEnabled = false,
   parent
 }: {
   tile: Tile
   image: string
   shopspotEnabled?: boolean
+  cauroselGroupingEnabled?: boolean
   parent?: string
 }) {
   return image ? (
@@ -123,7 +139,11 @@ export function ImageTemplate({
         ) : (
           <></>
         )}
-        <img class="image-element" src={image} loading="lazy" alt={tile.description || "Image"} />
+        {cauroselGroupingEnabled ? (
+          <carousel-grouping parent={parent} tile-id={tile.id} mode="expanded" />
+        ) : (
+          <img class="image-element" src={image} loading="lazy" alt={tile.description || "Image"} />
+        )}
       </div>
     </>
   ) : (
