@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.62
+
+### Patch Changes
+
+- a312888: UGC-19258: add Carousel tiles grouping template
+
 ## 0.1.61
 
 ### Patch Changes
