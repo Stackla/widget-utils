@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.61
+
+### Patch Changes
+
+- ed2ba53: add Carousel tiles grouping template
+
 ## 0.1.60
 
 ### Patch Changes
