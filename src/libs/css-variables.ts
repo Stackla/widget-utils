@@ -75,7 +75,7 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--text-tile-background": `#${text_tile_background}`,
     "--shopspot-btn-background": `#${shopspot_btn_background}`,
     "--cta-button-background-color": `#${cta_btn_background}`,
-    "--tile-tag-background": `#bcbbbc`,
+    "--tile-tag-background": `#D6D4D5`,
     "--text-tile-link-color": `#${text_tile_link_color}`,
     "--text-tile-user-handle-font-color": `#${text_tile_user_handle_font_color}`,
     "--shopspot-btn-font-color": `#${shopspot_btn_font_color}`,

@@ -6,7 +6,7 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --text-tile-background: #000000;
 --shopspot-btn-background: #ff00ff;
 --cta-button-background-color: #000000;
---tile-tag-background: #bcbbbc;
+--tile-tag-background: #D6D4D5;
 --text-tile-link-color: #ff0000;
 --text-tile-user-handle-font-color: #00ff00;
 --shopspot-btn-font-color: #00ffff;
