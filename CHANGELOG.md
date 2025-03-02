@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.63
+
+### Patch Changes
+
+- 057831b: update color for public tags as per design.
+
 ## 0.1.62
 
 ### Patch Changes
