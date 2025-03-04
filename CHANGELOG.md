@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.64
+
+### Patch Changes
+
+- 90c1512: enable touch to swipe feature
+
 ## 0.1.63
 
 ### Patch Changes
