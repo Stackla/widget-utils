@@ -98,6 +98,7 @@ export function initializeSwiper(swiperProps: SwiperProps) {
       prevEl: prev
     },
     resizeObserver: true,
+    touchEventsTarget: "container",
     ...paramsOverrides
   })
 
