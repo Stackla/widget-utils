@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.65
+
+### Patch Changes
+
+- 625b69b: add --tile-width css variable
+
 ## 0.1.64
 
 ### Patch Changes
