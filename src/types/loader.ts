@@ -62,6 +62,14 @@ export interface Features {
     large: string
   }
   /**
+   * @description Modify default tile width settings
+   */
+  tileWidthSettings?: {
+    small: string
+    medium: string
+    large: string
+  }
+  /**
    * @description Add css variables to the placement
    */
   cssVariables?: Record<string, string>

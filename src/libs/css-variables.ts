@@ -19,11 +19,34 @@ export function getTileSize(settings?: Features["tileSizeSettings"]) {
   return tileSizes[inline_tile_size]
 }
 
+export function getTileWidth(settings?: Features["tileWidthSettings"]) {
+  const style = sdk.getStyleConfig()
+  const { inline_tile_size } = style
+
+  const tileWidths: { [key: string]: string } = {
+    small: settings?.small ?? "116.5px",
+    medium: settings?.medium ?? "158px",
+    large: settings?.large ?? "229px"
+  }
+
+  if (!inline_tile_size) {
+    return tileWidths["medium"]
+  }
+
+  return tileWidths[inline_tile_size]
+}
+
 export function getTileSizeByWidget(tileSizeSettings?: Features["tileSizeSettings"]) {
   const sizeWithUnit = getTileSize(tileSizeSettings)
   const sizeUnitless = sizeWithUnit.replace("px", "")
   return { "--tile-size": sizeWithUnit, "--tile-size-unitless": sizeUnitless }
 }
+
+export function getTileWidthByWidget(tileWidthSettings?: Features["tileWidthSettings"]) {
+  const tileWidth = getTileWidth(tileWidthSettings)
+  return { "--tile-width": tileWidth }
+}
+
 export function trimHashValuesFromObject(obj: Style): Record<keyof Style, string> {
   return Object.entries(obj).reduce((acc: Record<string, string>, [key, value]) => {
     acc[key] = typeof value === "string" && value.startsWith("#") ? value.replace("#", "") : value
@@ -36,7 +59,7 @@ export function trimHashValuesFromObject(obj: Style): Record<keyof Style, string
  * @params tileSizeSettings - Custom tile size settings, small, medium, large
  */
 export default function getCSSVariables(features?: Partial<Features>): string {
-  const { tileSizeSettings, cssVariables } = features || {}
+  const { tileSizeSettings, cssVariables, tileWidthSettings } = features || {}
   const styles = sdk.getStyleConfig()
   const inlineTileSettings = sdk.getInlineTileConfig()
   const {
@@ -94,6 +117,7 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--cta-button-font-size": `${cta_btn_font_size}px`,
     "--expanded-tile-border-radius": `${expanded_tile_border_radius}px`,
     ...getTileSizeByWidget(tileSizeSettings),
+    ...getTileWidthByWidget(tileWidthSettings),
     "--inline-tile-border-radius": `${inline_tile_border_radius}px`,
     "--inline-tile-margin": `${margin}px`,
     "--tags-display-inline": `${show_tags_inline ? "flex" : "none"}`,
