@@ -26,6 +26,7 @@ exports[`Widget Functions getCSSVariables should return the correct CSS variable
 --expanded-tile-border-radius: 5px;
 --tile-size: 265.5px;
 --tile-size-unitless: 265.5;
+--tile-width: 158px;
 --inline-tile-border-radius: undefinedpx;
 --inline-tile-margin: 10px;
 --tags-display-inline: none;
