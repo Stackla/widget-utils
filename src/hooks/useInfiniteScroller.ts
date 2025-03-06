@@ -16,28 +16,46 @@ function exceedsBoundaries(sdk: ISdk, windowInstance: Window) {
 
   const lastTilePosition = lastTile.getBoundingClientRect().top + lastTile.offsetHeight
 
-  return lastTilePosition <= windowInstance.innerHeight + 100
+  return lastTilePosition <= windowInstance.innerHeight + 200
 }
 
 function useInfiniteScroller(
   sdk: ISdk,
-  windowInstance: Window = window,
+  _windowInstance: Window,
   onLoadMore: () => void = () => {
     sdk.triggerEvent(EVENT_LOAD_MORE)
   }
 ) {
-  function onScroll() {
-    if (windowInstance.scrollLocked) return
-    windowInstance.scrollLocked = true
+  const sentinel = document.createElement("div")
+  let isIntersecting = false
 
-    if (exceedsBoundaries(sdk, windowInstance)) {
-      onLoadMore()
+  sentinel.className = "sentinel"
+  sentinel.style.height = "1px"
+  sdk.querySelector("#nosto-ugc-container").appendChild(sentinel)
+
+  const observer = new IntersectionObserver(
+    entries => {
+      const entry = entries[0]
+
+      if (entry.isIntersecting) {
+        isIntersecting = true
+        onLoadMore()
+
+        setTimeout(() => {
+          if (isIntersecting) {
+            onLoadMore()
+          }
+        }, 1000)
+      } else {
+        isIntersecting = false
+      }
+    },
+    {
+      root: null,
+      threshold: 0.8
     }
-
-    windowInstance.scrollLocked = false
-  }
-
-  windowInstance.addEventListener("scroll", onScroll)
+  )
+  observer.observe(sentinel)
 }
 
 export default useInfiniteScroller

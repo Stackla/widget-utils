@@ -1,4 +1,7 @@
+import { ISdk } from "src/types"
 import { LoadMoreTemplate as template } from "./load-more.template"
+
+declare const sdk: ISdk
 
 export default class LoadMoreComponent extends HTMLElement {
   constructor() {
@@ -6,7 +9,9 @@ export default class LoadMoreComponent extends HTMLElement {
   }
 
   connectedCallback() {
-    this.appendChild(template())
+    if (sdk.getStyleConfig().load_more_type === "button") {
+      this.appendChild(template())
+    }
   }
 
   disconnectedCallback() {
