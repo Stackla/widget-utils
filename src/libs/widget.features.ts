@@ -208,14 +208,12 @@ export function addLoadMoreButtonFeature() {
 
       break
     case "scroll":
-      disableLoadMoreButtonIfExists()
-
       sdk.addEventListener(EVENT_TILES_UPDATED, () => {
         const loadMoreLoader = getLoadMoreLoader()
         loadMoreLoader.classList.add("hidden")
       })
 
-      useInfiniteScroller(sdk, window, loadMoreWrappedWithEasedLoader)
+      useInfiniteScroller(sdk, window)
       break
     case "static":
       disableLoadMoreLoaderIfExists()
@@ -247,27 +245,12 @@ export function disableLoadMoreLoaderIfExists() {
   getLoadMoreLoader().classList.add("hidden")
 }
 
-export function hideAllTilesAfterNTiles(numberTiles: number) {
-  const tiles = sdk.querySelectorAll(".ugc-tile")
-
-  if (!tiles) {
-    throw new Error("Failed to find tiles")
-  }
-
-  tiles.forEach((tile, index) => {
-    if (index >= numberTiles) {
-      tile.classList.add("hidden")
-    }
-  })
-}
-
 export function addTilesPerPageFeature() {
   const { enable_custom_tiles_per_page, tiles_per_page } = sdk.getStyleConfig()
 
   if (enable_custom_tiles_per_page && tiles_per_page) {
     // FIXME: Make tiles_per_page number across the board
     sdk.tiles.setVisibleTilesCount(parseInt(tiles_per_page))
-    hideAllTilesAfterNTiles(parseInt(tiles_per_page))
   } else {
     sdk.tiles.setVisibleTilesCount(40)
   }
