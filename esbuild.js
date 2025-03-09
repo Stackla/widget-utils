@@ -27,5 +27,6 @@ build({
 build({
   ...defaultConfig,
   bundle: true,
-  outdir: "dist/esm/bundle"
+  outdir: "dist/esm/bundle",
+  minify: true
 }).catch(() => process.exit(1))

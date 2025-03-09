@@ -17,8 +17,8 @@
       "require": "./dist/cjs/index.js"
     },
     "./bundle": {
-      "import": "./dist/esm/bundle.js",
-      "types": "./dist/esm/bundle.d.ts"
+      "import": "./dist/esm/bundle/index.js",
+      "types": "./dist/esm/bundle/index.d.ts"
     },
     "./jsx": {
       "import": "./dist/esm/libs/jsx-html.js",
