@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.66
+
+### Patch Changes
+
+- c897f8b: Add support for bundled mode
+
 ## 0.1.65
 
 ### Patch Changes
