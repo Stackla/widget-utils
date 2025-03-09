@@ -22,3 +22,11 @@ build({
   outdir: "dist/cjs",
   treeShaking: process.env.NODE_ENV === "development"
 }).catch(() => process.exit(1))
+
+// Build bundled package
+build({
+  ...defaultConfig,
+  bundle: true,
+  outdir: "dist/esm/bundle",
+  minify: true
+}).catch(() => process.exit(1))
