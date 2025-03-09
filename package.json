@@ -16,6 +16,10 @@
       "types": "./dist/esm/index.d.ts",
       "require": "./dist/cjs/index.js"
     },
+    "./bundle": {
+      "import": "./dist/esm/bundle.js",
+      "types": "./dist/esm/bundle.d.ts"
+    },
     "./jsx": {
       "import": "./dist/esm/libs/jsx-html.js",
       "types": "./dist/esm/libs/jsx-html.d.ts",
