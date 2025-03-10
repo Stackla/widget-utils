@@ -83,7 +83,6 @@ async function loadFeatures<C>(settings: EnforcedWidgetSettings<C>) {
   const {
     showTitle,
     preloadImages,
-    disableWidgetIfNotEnabled,
     addNewTilesAutomatically,
     handleLoadMore,
     limitTilesPerPage,
