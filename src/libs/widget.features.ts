@@ -14,7 +14,6 @@ import {
   registerProductsUpdatedListener
 } from "../"
 import { loadExpandSettingComponents } from "./widget.components"
-import { isEnabled } from "./widget.layout"
 import { useInfiniteScroller } from "../hooks"
 
 import {
@@ -103,10 +102,6 @@ export function addAutoAddTileFeature() {
 
 // TODO - Move to ugc-widgets
 export function loadWidgetIsEnabled() {
-  if (isEnabled()) {
-    return true
-  }
-
   const ugcContainer = sdk.querySelector("#nosto-ugc-container")
 
   if (!ugcContainer) {
