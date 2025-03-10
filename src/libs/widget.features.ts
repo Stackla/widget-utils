@@ -100,19 +100,6 @@ export function addAutoAddTileFeature() {
   }
 }
 
-// TODO - Move to ugc-widgets
-export function loadWidgetIsEnabled() {
-  const ugcContainer = sdk.querySelector("#nosto-ugc-container")
-
-  if (!ugcContainer) {
-    throw new Error("Failed to find Nosto UGC container")
-  }
-
-  ugcContainer.style.display = "none"
-
-  throw new Error("Widget is not enabled")
-}
-
 export function loadExpandedTileFeature() {
   const widgetContainer = sdk.getStyleConfig()
   const { click_through_url } = widgetContainer
