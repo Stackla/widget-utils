@@ -3,8 +3,7 @@ import {
   addLoadMoreButtonFeature,
   addTilesPerPageFeature,
   loadExpandedTileFeature,
-  loadTitle,
-  loadWidgetIsEnabled
+  loadTitle
 } from "./libs/widget.features"
 import { addCSSVariablesToPlacement } from "./libs/widget.layout"
 import getCSSVariables from "./libs/css-variables"
@@ -106,10 +105,6 @@ async function loadFeatures<C>(settings: EnforcedWidgetSettings<C>) {
     sdk.addLoadedComponents(["tile-content", "timephrase", "tags", "share-menu"])
   } else if (loadTimephrase) {
     sdk.addLoadedComponents(["timephrase"])
-  }
-
-  if (disableWidgetIfNotEnabled) {
-    loadWidgetIsEnabled()
   }
 
   if (showTitle) {
