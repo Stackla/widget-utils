@@ -52,11 +52,10 @@ async function retrieveWidgetVersionFromServer(widgetId: string, environment: En
 }
 
 export async function embed<T extends ShadowRoot | HTMLElement>(options: EmbedOptions<T>) {
-  const { environment = "production", widgetId, root, version, dataProperties } = options
+  const { environment, widgetId, root, version, dataProperties } = options
 
   try {
     const widgetVersion = version ?? (await retrieveWidgetVersionFromServer(widgetId, environment))
-
     switch (widgetVersion) {
       case 2:
         window.stackWidgetDomain = getLegacyWidgetDomain(environment)
