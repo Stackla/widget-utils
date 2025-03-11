@@ -34,6 +34,44 @@ describe("load embed code", () => {
     expect(createdDiv.innerHTML).toContain("var t, el = d.scripts[d.scripts.length - 1].previousElementSibling;")
   })
 
+  it("should test staging for v2", async () => {
+    fetchMock.mockIf(REQUEST_URL, async () => {
+      return JSON.stringify({ version: 2 })
+    })
+
+    const createdDiv = document.createElement("div")
+    await embed({
+      widgetId: "123",
+      root: createdDiv,
+      dataProperties: {
+        foo: "bar",
+        baz: 123
+      },
+      environment: "staging"
+    })
+
+    expect(window.stackWidgetDomain).toBe("widgetapp.teaser.stackla.com")
+  })
+
+  it("should test production for v2", async () => {
+    fetchMock.mockIf(REQUEST_URL, async () => {
+      return JSON.stringify({ version: 2 })
+    })
+
+    const createdDiv = document.createElement("div")
+    await embed({
+      widgetId: "123",
+      root: createdDiv,
+      dataProperties: {
+        foo: "bar",
+        baz: 123
+      },
+      environment: "production"
+    })
+
+    expect(window.stackWidgetDomain).toBe("widgetapp.stackla.com")
+  })
+
   it("should return the correct embed code for v3", async () => {
     fetchMock.mockIf(REQUEST_URL, async () => {
       return JSON.stringify({ version: 3 })
