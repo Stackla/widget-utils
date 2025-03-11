@@ -8,3 +8,4 @@ export const PRODUCTION_DATA_URL = "https://widget-data.stackla.com"
 export const PRODUCTION_UI_URL = "https://widget-ui.stackla.com"
 
 export const STAGING_LEGACY_WIDGET_DOMAIN = "widgetapp.teaser.stackla.com"
+export const PRODUCTION_LEGACY_WIDGET_DOMAIN = "widgetapp.stackla.com"

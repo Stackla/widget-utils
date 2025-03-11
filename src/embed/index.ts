@@ -1,4 +1,9 @@
-import { STAGING_DATA_URL, PRODUCTION_DATA_URL, STAGING_LEGACY_WIDGET_DOMAIN } from "../constants"
+import {
+  STAGING_DATA_URL,
+  PRODUCTION_DATA_URL,
+  STAGING_LEGACY_WIDGET_DOMAIN,
+  PRODUCTION_LEGACY_WIDGET_DOMAIN
+} from "../constants"
 import { getWidgetV2EmbedCode, invokeV2Javascript } from "./v2"
 import { getWidgetV3EmbedCode, invokeV3Javascript } from "./v3"
 
@@ -26,6 +31,15 @@ export function getWidgetDataUrl(env: Environment) {
   }
 }
 
+export function getLegacyWidgetDomain(env: Environment) {
+  switch (env) {
+    case "staging":
+      return STAGING_LEGACY_WIDGET_DOMAIN
+    case "production":
+      return PRODUCTION_LEGACY_WIDGET_DOMAIN
+  }
+}
+
 function getRequestUrl(widgetId: string, environment: Environment) {
   return `${getWidgetDataUrl(environment)}/widgets/${widgetId}/version`
 }
@@ -38,14 +52,13 @@ async function retrieveWidgetVersionFromServer(widgetId: string, environment: En
 }
 
 export async function embed<T extends ShadowRoot | HTMLElement>(options: EmbedOptions<T>) {
-  const { environment = "production", widgetId, root, version, dataProperties } = options
+  const { environment, widgetId, root, version, dataProperties } = options
 
   try {
     const widgetVersion = version ?? (await retrieveWidgetVersionFromServer(widgetId, environment))
-
     switch (widgetVersion) {
       case 2:
-        window.stackWidgetDomain = STAGING_LEGACY_WIDGET_DOMAIN
+        window.stackWidgetDomain = getLegacyWidgetDomain(environment)
         dataProperties["hash"] = widgetId
         root.innerHTML += getWidgetV2EmbedCode(dataProperties)
         invokeV2Javascript(environment, root)
