@@ -104,6 +104,10 @@ function initalizeExpandedTile(initialTileId: string, widgetSelector: HTMLElemen
   })
 }
 
+function pauseAllVideos() {
+  sdk.querySelectorAll<HTMLVideoElement>("video").forEach(video => video.pause())
+}
+
 function initalizeStoryExpandedTile(
   initialTileId: string,
   widgetSelector: HTMLElement,
@@ -151,9 +155,12 @@ function initalizeStoryExpandedTile(
           storyAutoplayProgress(swiper, percentage)
         },
         navigationNext: async (swiper: Swiper) => {
+          // TODO: Pause only last video
+          pauseAllVideos()
           await controlVideoPlaybackForStory(swiper)
         },
         navigationPrev: async (swiper: Swiper) => {
+          pauseAllVideos()
           await controlVideoPlaybackForStory(swiper)
         },
         autoplay: async (swiper: Swiper) => {
