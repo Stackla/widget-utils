@@ -1,4 +1,9 @@
-import { STAGING_DATA_URL, PRODUCTION_DATA_URL, STAGING_LEGACY_WIDGET_DOMAIN } from "../constants"
+import {
+  STAGING_DATA_URL,
+  PRODUCTION_DATA_URL,
+  STAGING_LEGACY_WIDGET_DOMAIN,
+  PRODUCTION_LEGACY_WIDGET_DOMAIN
+} from "../constants"
 import { getWidgetV2EmbedCode, invokeV2Javascript } from "./v2"
 import { getWidgetV3EmbedCode, invokeV3Javascript } from "./v3"
 
@@ -23,6 +28,15 @@ export function getWidgetDataUrl(env: Environment) {
       return STAGING_DATA_URL
     case "production":
       return PRODUCTION_DATA_URL
+  }
+}
+
+export function getLegacyWidgetDomain(env: Environment) {
+  switch (env) {
+    case "staging":
+      return STAGING_LEGACY_WIDGET_DOMAIN
+    case "production":
+      return PRODUCTION_LEGACY_WIDGET_DOMAIN
   }
 }
 
