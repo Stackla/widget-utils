@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.67
+
+### Patch Changes
+
+- 22b1f32: Fixup issues around domain resolution
+
 ## 0.1.66
 
 ### Patch Changes
