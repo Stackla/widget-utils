@@ -59,7 +59,7 @@ export async function embed<T extends ShadowRoot | HTMLElement>(options: EmbedOp
 
     switch (widgetVersion) {
       case 2:
-        window.stackWidgetDomain = STAGING_LEGACY_WIDGET_DOMAIN
+        window.stackWidgetDomain = getLegacyWidgetDomain(environment)
         dataProperties["hash"] = widgetId
         root.innerHTML += getWidgetV2EmbedCode(dataProperties)
         invokeV2Javascript(environment, root)
