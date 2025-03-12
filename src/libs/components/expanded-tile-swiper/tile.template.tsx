@@ -15,7 +15,7 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
   } = sdk.getExpandedTileConfig()
 
   const shopspotEnabled = sdk.isComponentLoaded("shopspots") && show_shopspots && !!tile.hotspots?.length
-  const tileHasCarouselItems = tile.carousel !== undefined
+  const tileHasCarouselItems = tile.instagram_media_type === 'CAROUSEL_ALBUM';
   const carouselGroupingEnabled =
     sdk.isComponentLoaded("carousel-grouping") && show_carousel_grouping && tileHasCarouselItems
   const productsEnabled = sdk.isComponentLoaded("products") && show_products && !!tile.tags_extended?.length
