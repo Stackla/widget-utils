@@ -174,7 +174,7 @@ describe("Widget Functions", () => {
         type: "",
         widget_height: "",
         widget_loading_image: "",
-        unavailable_products_behaviour: "",
+        unavailable_products_behaviour: "always_show",
         dynamic_filter: "",
         dynamic_filter_fallback: {
           category: false,
