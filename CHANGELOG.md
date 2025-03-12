@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.68
+
+### Patch Changes
+
+- eb1dfbb: Export sdk, move bundle for embedding
+
 ## 0.1.67
 
 ### Patch Changes
