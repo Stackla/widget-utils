@@ -15,7 +15,9 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
   } = sdk.getExpandedTileConfig()
 
   const shopspotEnabled = sdk.isComponentLoaded("shopspots") && show_shopspots && !!tile.hotspots?.length
-  const cauroselGroupingEnabled = sdk.isComponentLoaded("carousel-grouping") && show_carousel_grouping
+  const tileHasCarouselItems = tile.carousel !== undefined
+  const carouselGroupingEnabled =
+    sdk.isComponentLoaded("carousel-grouping") && show_carousel_grouping && tileHasCarouselItems
   const productsEnabled = sdk.isComponentLoaded("products") && show_products && !!tile.tags_extended?.length
   const tagsEnabled = show_tags
   const sharingToolsEnabled = show_sharing
@@ -39,7 +41,7 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
                   tile={tile}
                   image={tile.image}
                   shopspotEnabled={shopspotEnabled}
-                  cauroselGroupingEnabled={cauroselGroupingEnabled}
+                  carouselGroupingEnabled={carouselGroupingEnabled}
                   parent={parent}
                 />
               ) : tile.media === "text" ? (
@@ -121,13 +123,13 @@ export function ImageTemplate({
   tile,
   image,
   shopspotEnabled = false,
-  cauroselGroupingEnabled = false,
+  carouselGroupingEnabled = false,
   parent
 }: {
   tile: Tile
   image: string
   shopspotEnabled?: boolean
-  cauroselGroupingEnabled?: boolean
+  carouselGroupingEnabled?: boolean
   parent?: string
 }) {
   return image ? (
@@ -139,7 +141,7 @@ export function ImageTemplate({
         ) : (
           <></>
         )}
-        {cauroselGroupingEnabled ? (
+        {carouselGroupingEnabled ? (
           <carousel-grouping parent={parent} tile-id={tile.id} mode="expanded" />
         ) : (
           <img class="image-element" src={image} loading="lazy" alt={tile.description || "Image"} />
