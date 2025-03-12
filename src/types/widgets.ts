@@ -163,7 +163,7 @@ export interface Style {
   widget_background: string
   widget_height?: string
   widget_loading_image?: string
-  unavailable_products_behaviour?: string
+  unavailable_products_behaviour?: "always_show" | "always_hide" | "hide_if_all_unavailable"
   dynamic_filter?: string
   dynamic_filter_fallback?: DynamicFilterFallback
   inline_tile_size: string
