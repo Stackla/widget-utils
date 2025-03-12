@@ -1,3 +1,4 @@
+const sdk = typeof import ("./types").ISdk
 const swiper = typeof import("swiper").Swiper
 
 interface Window {
@@ -7,9 +8,13 @@ interface Window {
     libs: {
       Swiper: swiper
     }
-    swiperContainer: Record<string, Swiper>
+    swiperContainer: Record<string, Swiper>,
+    getWidgetBySelector: (selector: string) => {
+      sdk: sdk
+    }
   },
-  stackWidgetDomain: string
+  stackWidgetDomain: string,
+  
 }
 
 declare module "*.scss" {
