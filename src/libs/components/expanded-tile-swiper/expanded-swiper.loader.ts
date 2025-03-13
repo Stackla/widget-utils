@@ -14,6 +14,7 @@ import { muteTiktokVideo, pauseTiktokVideo, playTiktokVideo, unMuteTiktokVideo }
 import { ISdk, SwiperData } from "../../../types"
 import { EVENT_LOAD_MORE } from "../../../events"
 import { getExpandedSlides } from "./base.template"
+import { InvalidMediaError } from "./invalid-media.error"
 
 declare const sdk: ISdk
 
@@ -303,20 +304,29 @@ async function playMediaOnLoad() {
   }
 }
 
+function getVideoFromSlide(swiper: Swiper, index: number, isStory = false) {
+  try {
+    return getSwiperVideoElement(swiper, index, isStory)
+  } catch (error) {
+    if (!(error instanceof InvalidMediaError)) throw error
+  }
+  return undefined
+}
+
 /**
  * Play/Pause the video/audio attached to the slide on navigation where the element is a media element (video/youtube/tiktok)
  * @param { Swiper } swiper - the swiper element
  */
 async function controlVideoPlayback(swiper: Swiper) {
-  const activeElement = getSwiperVideoElement(swiper, swiper.realIndex)
-  const previousElement = getSwiperVideoElement(swiper, swiper.previousIndex)
+  const activeElement: SwiperVideoElementData | undefined = getVideoFromSlide(swiper, swiper.realIndex)
+  const previousElement: SwiperVideoElementData | undefined = getVideoFromSlide(swiper, swiper.previousIndex)
 
   if (activeElement) {
-    await triggerPlay(activeElement)
+    triggerPlay(activeElement)
   }
 
   if (previousElement) {
-    await triggerPause(previousElement)
+    triggerPause(previousElement)
   }
 }
 
@@ -326,15 +336,15 @@ async function controlVideoPlayback(swiper: Swiper) {
  * @param { Swiper } swiper - the swiper element
  */
 async function controlVideoPlaybackForStory(swiper: Swiper) {
-  const activeElement = getSwiperVideoElement(swiper, swiper.realIndex, true)
-  const previousElement = getSwiperVideoElement(swiper, swiper.previousIndex, true)
+  const activeElement: SwiperVideoElementData | undefined = getVideoFromSlide(swiper, swiper.realIndex, true)
+  const previousElement: SwiperVideoElementData | undefined = getVideoFromSlide(swiper, swiper.previousIndex, true)
 
   if (activeElement) {
-    await triggerPlay(activeElement)
+    triggerPlay(activeElement)
   }
 
   if (previousElement) {
-    await triggerPause(previousElement)
+    triggerPause(previousElement)
   }
 }
 
