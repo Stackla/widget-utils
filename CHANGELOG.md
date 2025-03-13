@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.69
+
+### Patch Changes
+
+- 92bd143: Fix video sound playing issue when navigating to next slide.
+
 ## 0.1.68
 
 ### Patch Changes
