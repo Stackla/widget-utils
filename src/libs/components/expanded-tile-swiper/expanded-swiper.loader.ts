@@ -105,21 +105,6 @@ function initalizeExpandedTile(initialTileId: string, widgetSelector: HTMLElemen
   })
 }
 
-function pauseAllVideos() {
-  const videos = sdk.querySelectorAll<HTMLVideoElement>("video")
-  if (videos) {
-    videos.forEach(video => video.pause())
-  }
-}
-
-async function handleNavigation(swiper: Swiper) {
-  pauseAllVideos()
-  if (swiper.isEnd || swiper.isBeginning) {
-    return
-  }
-  await controlVideoPlaybackForStory(swiper)
-}
-
 function initalizeStoryExpandedTile(
   initialTileId: string,
   widgetSelector: HTMLElement,
@@ -167,10 +152,10 @@ function initalizeStoryExpandedTile(
           storyAutoplayProgress(swiper, percentage)
         },
         navigationNext: async (swiper: Swiper) => {
-          await handleNavigation(swiper)
+          await controlVideoPlaybackForStory(swiper)
         },
         navigationPrev: async (swiper: Swiper) => {
-          await handleNavigation(swiper)
+          await controlVideoPlaybackForStory(swiper)
         },
         autoplay: async (swiper: Swiper) => {
           await controlVideoPlaybackForStory(swiper)
