@@ -471,6 +471,25 @@ function getSwiperVideoElement(swiper: Swiper, index: number, isStory = false): 
   return undefined
 }
 
+function createOverlayDiv() {
+  const overlayDiv = document.createElement("div")
+  overlayDiv.classList.add("ugc-expanded-tile-overlay")
+
+  const style = {
+    width: "100vw",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.9)",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+
+  Object.assign(overlayDiv.style, style)
+
+  return overlayDiv
+}
+
 /**
  * Triggered when an inline tile is clicked
  * Adds background overlay for expanded tile and initializes swiper for expanded tile
@@ -491,6 +510,9 @@ export function onTileExpand(tileId: string) {
   }
 
   expandedTile.parentElement!.classList.add("expanded-tile-overlay")
+
+  const overlayDiv = createOverlayDiv()
+  body?.appendChild(overlayDiv)
 
   waitForElm(expandedTile, [".swiper-expanded"], () => {
     const tileElement = expandedTile.shadowRoot?.querySelector(`.swiper-slide[data-id="${tileId}"]`)

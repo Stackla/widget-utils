@@ -4,6 +4,7 @@ import { ITilesService } from "../services/tiles.service"
 import { IEventService } from "../services/event.service"
 import { EventMapping, EventName } from "../../events"
 import { ClaimConfig, ExpandedTileOptions, InlineTileOptions, Style, WidgetOptions, WidgetResponse } from "../widgets"
+import { Tile } from "./tile"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Template<C> = (sdk: ISdk, component?: C) => string | HTMLElement
@@ -36,12 +37,13 @@ export interface ISdk {
   addCSSImportUrl(url: string): Promise<void>
   addCSSToComponent(css: string, componentName: string): void
   addTemplateToComponent<C>(template: Template<C>, componentName: string): void
-  setState(key: string, value: unknown): void
-  getState(key: string): unknown
+  setState<T>(key: string, value: T): void
+  getState<T>(key: string): T
   getNodeId(): string
   loadTemplate(templateType: string): Promise<void>
   getExpandedTileConfig(): ExpandedTileOptions
   getInlineTileConfig(): InlineTileOptions
   getClaimTileConfig(): ClaimConfig
   getStyleConfig(): Style
+  waitForTile(tileId: string, counter?: number): Promise<Tile | undefined>
 }
