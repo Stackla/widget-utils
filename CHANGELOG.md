@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.75
+
+### Patch Changes
+
+- 6b45676: Improve embedding
+
 ## 0.1.73
 
 ### Patch Changes
