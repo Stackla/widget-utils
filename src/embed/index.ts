@@ -51,6 +51,10 @@ async function retrieveWidgetVersionFromServer(widgetId: string, environment: En
   return json.version
 }
 
+function injectHTML(root: HTMLElement | ShadowRoot, html: string) {
+  root.appendChild(document.createRange().createContextualFragment(html))
+}
+
 export async function embed<T extends ShadowRoot | HTMLElement>(options: EmbedOptions<T>) {
   const { environment, widgetId, root, version, dataProperties } = options
 
@@ -60,13 +64,13 @@ export async function embed<T extends ShadowRoot | HTMLElement>(options: EmbedOp
       case 2:
         window.stackWidgetDomain = getLegacyWidgetDomain(environment)
         dataProperties["hash"] = widgetId
-        root.innerHTML += getWidgetV2EmbedCode(dataProperties)
+        injectHTML(root, getWidgetV2EmbedCode(dataProperties))
         invokeV2Javascript(environment, root)
         break
       case 3:
         dataProperties["wid"] = widgetId
-        root.innerHTML += getWidgetV3EmbedCode(dataProperties)
-        invokeV3Javascript(environment, root)
+        injectHTML(root, getWidgetV3EmbedCode(dataProperties))
+        await invokeV3Javascript(environment)
         break
       default:
         throw new Error(`No widget code accessible with version ${widgetVersion}`)
