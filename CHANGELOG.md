@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.71
+
+### Patch Changes
+
+- 345b84b: Add missing methods
+
 ## 0.1.70
 
 ### Patch Changes
