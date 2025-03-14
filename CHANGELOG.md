@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.72
+
+### Patch Changes
+
+- 2e544b8: Update hotspot definition
+
 ## 0.1.71
 
 ### Patch Changes
