@@ -136,3 +136,7 @@ export type Hotspot = {
   tag: TagExtended
   coords: number[]
 } & TagExtended
+
+export type Product = TagExtended & {
+  type: "product"
+}

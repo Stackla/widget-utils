@@ -1,4 +1,4 @@
-import { Hotspot, TagExtended, Tile } from "../core/tile"
+import { Product, TagExtended, Tile, Hotspot } from "../core/tile"
 import { IBaseService } from "./base.service"
 
 export interface ITilesService extends IBaseService {
@@ -29,11 +29,13 @@ export interface ITilesService extends IBaseService {
   getPage(): number
   setTile(tile: Tile): void
   getTile(tileId?: string): Tile | undefined
-  getProductById(productId: string): TagExtended
-  getSelectedProduct(): TagExtended
+  getProductById(productId: string): Product
+  getSelectedProduct(): Product
   setSelectedProductId(productId: string): void
-  addProducts(products: TagExtended[]): void
+  addProducts(products: Product[]): void
   getShopspotsFromTile(tileId?: string): Promise<Hotspot[]>
   waitForTile(tileId: string, counter?: number): Promise<Tile | undefined>
-  getFirstProductInTile(tileId: string): TagExtended
+  getFirstProductInTile(tileId: string): Product
+  getProductTagsFromTile(tileId: string): Product[]
+  getTagsExtendedFromTile(tileId: string): TagExtended[]
 }
