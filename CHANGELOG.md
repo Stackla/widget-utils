@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.73
+
+### Patch Changes
+
+- 486977e: Improve product type
+
 ## 0.1.72
 
 ### Patch Changes
