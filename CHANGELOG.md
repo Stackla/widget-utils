@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.70
+
+### Patch Changes
+
+- 5c80c2f: Add missing methods in sdk
+
 ## 0.1.69
 
 ### Patch Changes
