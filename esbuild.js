@@ -26,6 +26,7 @@ build({
 // Build bundled package
 build({
   ...defaultConfig,
+  entryPoints: [path.resolve(__dirname, "src/embed/index.ts")],
   bundle: true,
   outdir: "dist/esm/bundle",
   minify: true

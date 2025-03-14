@@ -290,3 +290,19 @@ export function waitForElements(
     subtree: true
   })
 }
+
+export function getSdk() {
+  if (sdk) {
+    return sdk
+  }
+
+  const firstChild = document.querySelector("#ugc-widget")?.firstChild as HTMLElement
+  const tagName = firstChild?.tagName
+  const widget = window.ugc.getWidgetBySelector(tagName)
+
+  if (!widget) {
+    throw new Error(`Failed to load SDK, widget not found ${tagName}`)
+  }
+
+  return widget.sdk
+}
