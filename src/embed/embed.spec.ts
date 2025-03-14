@@ -90,7 +90,7 @@ describe("load embed code", () => {
     })
 
     expect(createdDiv.innerHTML).toContain(getWidgetV3EmbedCode({ foo: "bar", baz: 123, wid: "123" }))
-    expect(createdDiv.innerHTML).toContain(`const widget = await import('https://widget-ui.stackla.com/core.esm.js');`)
+    expect(createdDiv.innerHTML).toContain(`<div id="ugc-widget" data-foo="bar" data-baz="123" data-wid="123"></div>`)
   })
 
   it("should throw an error if the version is not supported", async () => {
@@ -129,7 +129,7 @@ describe("load embed code", () => {
 
     expect(fetchMock).not.toHaveBeenCalled()
     expect(createdDiv.innerHTML).toContain(getWidgetV3EmbedCode({ foo: "bar", baz: 123, wid: "123" }))
-    expect(createdDiv.innerHTML).toContain("const widget = await import('https://widget-ui.stackla.com/core.esm.js');")
+    expect(createdDiv.innerHTML).toContain('<div id="ugc-widget" data-foo="bar" data-baz="123" data-wid="123"></div>')
   })
 
   it("should test param string method", async () => {

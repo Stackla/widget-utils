@@ -18,16 +18,9 @@ const getWidgetV3EmbedCode = (data: Record<string, string | boolean | number>) =
   return `<div id="ugc-widget"${dataParams}></div>`
 }
 
-const invokeV3Javascript = (environment: Environment, root: HTMLElement | ShadowRoot) => {
-  const invocationScript = document.createElement("script")
-  invocationScript.type = "module"
-  invocationScript.textContent = `
-    (async () => {
-      const widget = await import('${getUrlByEnv(environment)}/core.esm.js');
-      widget.init();
-    })();
-  `
-  root.appendChild(invocationScript)
+const invokeV3Javascript = async (environment: Environment) => {
+  const widget = await import(`${getUrlByEnv(environment)}/core.esm.js`)
+  widget.init()
 }
 
 export { getWidgetV3EmbedCode, invokeV3Javascript }
