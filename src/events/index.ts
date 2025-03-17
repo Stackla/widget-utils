@@ -106,11 +106,12 @@ export const allEvents = [
   EVENT_TILE_BG_IMG_RENDER_COMPLETE,
   EVENT_SHARE_MENU_OPENED,
   EVENT_SHARE_MENU_CLOSED,
-  EVENT_TAGS_LOADED,
-  EVENT_PRODUCT_NAVIGATION
+  EVENT_TAGS_LOADED
 ]
 
-export type EventName = (typeof allEvents)[number]
+export type AdvancedEventNames = [`${typeof EVENT_PRODUCT_NAVIGATION}:${string}`]
+
+export type EventName = (typeof allEvents)[number] | AdvancedEventNames[number]
 
 export type EventMapping = Record<EventName, CustomEvent | Event>
 
