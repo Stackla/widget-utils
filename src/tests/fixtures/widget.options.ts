@@ -23,7 +23,7 @@ export default {
       show_votes: true,
       show_cross_sellers: true,
       show_add_to_cart: true,
-      show_carousel_grouping: true
+      show_carousel_grouping: false
     },
     tile_options: {
       show_comments: true,
