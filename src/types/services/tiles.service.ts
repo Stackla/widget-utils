@@ -35,7 +35,10 @@ export interface ITilesService extends IBaseService {
   addProducts(products: Product[]): void
   getShopspotsFromTile(tileId?: string): Promise<Hotspot[]>
   waitForTile(tileId: string, counter?: number): Promise<Tile | undefined>
-  getFirstProductInTile(tileId: string): Product
-  getProductTagsFromTile(tileId: string): Product[]
-  getTagsExtendedFromTile(tileId: string): TagExtended[]
+  getFirstProductInTile(tile: Tile): Product
+  getProductTagsFromTile(tile: Tile): Product[]
+  getTagsExtendedFromTile(tile: Tile): TagExtended[]
+  getIndexOfProductInTile(tile: Tile, productId: string): number
+  getPreviousProductInTile(tile: Tile): Product | undefined
+  getNextProductInTile(tile: Tile): Product | undefined
 }
