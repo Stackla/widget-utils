@@ -55,6 +55,7 @@ export const EVENT_TILE_BG_IMG_RENDER_COMPLETE = "tileBgImgRenderComplete"
 export const EVENT_SHARE_MENU_OPENED = "shareMenuOpened"
 export const EVENT_SHARE_MENU_CLOSED = "shareMenuClosed"
 export const EVENT_TAGS_LOADED = "tagsLoaded"
+export const EVENT_PRODUCT_NAVIGATION = "productNavigation"
 
 export const allEvents = [
   EVENT_PRODUCT_ACTION_CLICK,
@@ -108,7 +109,9 @@ export const allEvents = [
   EVENT_TAGS_LOADED
 ]
 
-export type EventName = (typeof allEvents)[number]
+export type AdvancedEventNames = [`${typeof EVENT_PRODUCT_NAVIGATION}:${string}`]
+
+export type EventName = (typeof allEvents)[number] | AdvancedEventNames[number]
 
 export type EventMapping = Record<EventName, CustomEvent | Event>
 

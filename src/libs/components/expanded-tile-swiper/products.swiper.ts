@@ -1,4 +1,8 @@
+import { EVENT_PRODUCT_NAVIGATION } from "../../../events"
+import { Sdk } from "../../../types"
 import { initializeSwiper } from "../../extensions/swiper/swiper.extension"
+
+declare const sdk: Sdk
 
 export function loadProductsSwiper(tileId: string, target: HTMLElement) {
   if (target) {
@@ -20,6 +24,16 @@ export function loadProductsSwiper(tileId: string, target: HTMLElement) {
           on: {
             beforeInit: swiper => {
               swiper.slideToLoop(0, 0, false)
+            },
+            navigationNext: () => {
+              sdk.triggerEvent(`${EVENT_PRODUCT_NAVIGATION}:${tileId}`, {
+                direction: "next"
+              })
+            },
+            navigationPrev: () => {
+              sdk.triggerEvent(`${EVENT_PRODUCT_NAVIGATION}:${tileId}`, {
+                direction: "previous"
+              })
             }
           }
         }
