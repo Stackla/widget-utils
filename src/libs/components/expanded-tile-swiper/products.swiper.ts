@@ -1,3 +1,4 @@
+import type { Swiper } from "swiper/types"
 import { EVENT_PRODUCT_NAVIGATION } from "../../../events"
 import { Sdk } from "../../../types"
 import { initializeSwiper } from "../../extensions/swiper/swiper.extension"
@@ -22,18 +23,17 @@ export function loadProductsSwiper(tileId: string, target: HTMLElement) {
           },
           grabCursor: false,
           on: {
-            beforeInit: swiper => {
-              swiper.slideToLoop(0, 0, false)
-            },
             navigationNext: () => {
               sdk.triggerEvent(`${EVENT_PRODUCT_NAVIGATION}:${tileId}`, {
                 direction: "next"
               })
             },
-            navigationPrev: () => {
+            navigationPrev: (swiper: Swiper) => {
               sdk.triggerEvent(`${EVENT_PRODUCT_NAVIGATION}:${tileId}`, {
                 direction: "previous"
               })
+
+              swiper.update()
             }
           }
         }

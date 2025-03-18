@@ -1,5 +1,5 @@
 import { ISdk } from "../"
-import { EVENT_LOAD_MORE } from "../events"
+import { EVENT_LOAD_MORE, EVENT_TILES_DEPLETED } from "../events"
 
 function useInfiniteScroller(
   sdk: ISdk,
@@ -38,6 +38,10 @@ function useInfiniteScroller(
     }
   )
   observer.observe(sentinel)
+
+  sdk.addEventListener(EVENT_TILES_DEPLETED, () => {
+    observer.disconnect()
+  })
 }
 
 export default useInfiniteScroller

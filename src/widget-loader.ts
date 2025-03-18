@@ -1,7 +1,6 @@
 import {
   addAutoAddTileFeature,
   addLoadMoreButtonFeature,
-  addTilesPerPageFeature,
   loadExpandedTileFeature,
   loadTitle
 } from "./libs/widget.features"
@@ -58,7 +57,6 @@ function mergeSettingsWithDefaults<C>(settings?: MyWidgetSettings<C>): EnforcedW
       disableWidgetIfNotEnabled: true,
       addNewTilesAutomatically: true,
       handleLoadMore: true,
-      limitTilesPerPage: true,
       hideBrokenImages: true,
       loadExpandedTileSlider: true,
       loadTileContent: true,
@@ -85,7 +83,6 @@ async function loadFeatures<C>(settings: EnforcedWidgetSettings<C>) {
     preloadImages,
     addNewTilesAutomatically,
     handleLoadMore,
-    limitTilesPerPage,
     hideBrokenImages,
     loadTileContent,
     loadTimephrase
@@ -121,10 +118,6 @@ async function loadFeatures<C>(settings: EnforcedWidgetSettings<C>) {
     addLoadMoreButtonFeature()
   }
 
-  if (limitTilesPerPage) {
-    addTilesPerPageFeature()
-  }
-
   return settings
 }
 
@@ -147,7 +140,6 @@ export function initialiseFeatures<C>(settings: MyWidgetSettings<C>) {
       disableWidgetIfNotEnabled: true,
       addNewTilesAutomatically: true,
       handleLoadMore: true,
-      limitTilesPerPage: true,
       hideBrokenImages: true,
       loadExpandedTileSlider: true,
       loadTileContent: true,
