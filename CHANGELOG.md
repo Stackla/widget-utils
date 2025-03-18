@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.77
+
+### Patch Changes
+
+- 9c0775c: Add depleted tile logic
+
 ## 0.1.76
 
 ### Patch Changes
