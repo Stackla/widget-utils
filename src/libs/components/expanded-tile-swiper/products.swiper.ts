@@ -14,8 +14,6 @@ export function loadProductsSwiper(tileId: string, target: HTMLElement) {
         id: `expanded-product-recs-${tileId}`,
         mode: "expanded-product-recs",
         widgetSelector: swiperCrossSell,
-        prevButton: "swiper-exp-product-recs-button-prev",
-        nextButton: "swiper-exp-product-recs-button-next",
         paramsOverrides: {
           slidesPerView: "auto",
           mousewheel: {
