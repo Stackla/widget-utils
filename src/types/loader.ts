@@ -29,11 +29,6 @@ export interface Features {
    */
   handleLoadMore: boolean
   /**
-   * @description Limit the number of tiles per page
-   * @default true
-   */
-  limitTilesPerPage: boolean
-  /**
    * @description Hide broken images
    * @default true
    */
