@@ -9,7 +9,6 @@ export interface ITilesService extends IBaseService {
   selectedProductId?: string
   hideBrokenTiles: boolean
   preloadImages: boolean
-
   loadTilesUntilVisibleTilesCount(): Promise<void>
   getTotalTilesCount(): number
   enableAutoAddNewTiles(): void
@@ -21,24 +20,24 @@ export interface ITilesService extends IBaseService {
   hasMoreTiles(): boolean
   getLoadedTilesCount(): number
   getVisibleTilesInDomCount(): number
-  searchTiles(query: string): Promise<Tile[]>
+  searchTiles(query: string, clearExistingTiles: boolean): Promise<Tile[] | undefined>
   fetchAllTiles(): Promise<Tile[]>
   fetchTile(tileId: string): Promise<Tile>
-  fetchTiles(page?: number, limit?: number): Promise<void>
+  fetchTiles(page?: number, limit?: number): Promise<Tile[] | undefined>
   setMediaType(mediaType: string): void
   getPage(): number
   setTile(tile: Tile): void
   getTile(tileId?: string): Tile | undefined
-  getProductById(productId: string): Product
-  getSelectedProduct(): Product
+  getProductById(productId: string): Product | undefined
+  getSelectedProduct(): Product | undefined
   setSelectedProductId(productId: string): void
   addProducts(products: Product[]): void
   getShopspotsFromTile(tileId?: string): Promise<Hotspot[]>
   waitForTile(tileId: string, counter?: number): Promise<Tile | undefined>
-  getFirstProductInTile(tile: Tile): Product
+  getFirstProductInTile(tile: Tile): Product | undefined
   getProductTagsFromTile(tile: Tile): Product[]
   getTagsExtendedFromTile(tile: Tile): TagExtended[]
-  getIndexOfProductInTile(tile: Tile, productId: string): number
-  getPreviousProductInTile(tile: Tile): Product | undefined
-  getNextProductInTile(tile: Tile): Product | undefined
+  getIndexOfProductInTile?(tile: Tile, productId: string): number
+  getPreviousProductInTile?(tile: Tile): Product | undefined
+  getNextProductInTile?(tile: Tile): Product | undefined
 }
