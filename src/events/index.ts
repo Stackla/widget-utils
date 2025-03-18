@@ -56,6 +56,7 @@ export const EVENT_SHARE_MENU_OPENED = "shareMenuOpened"
 export const EVENT_SHARE_MENU_CLOSED = "shareMenuClosed"
 export const EVENT_TAGS_LOADED = "tagsLoaded"
 export const EVENT_PRODUCT_NAVIGATION = "productNavigation"
+export const EVENT_TILES_DEPLETED = "tilesDepleted"
 
 export const allEvents = [
   EVENT_PRODUCT_ACTION_CLICK,
@@ -106,7 +107,8 @@ export const allEvents = [
   EVENT_TILE_BG_IMG_RENDER_COMPLETE,
   EVENT_SHARE_MENU_OPENED,
   EVENT_SHARE_MENU_CLOSED,
-  EVENT_TAGS_LOADED
+  EVENT_TAGS_LOADED,
+  EVENT_TILES_DEPLETED
 ]
 
 export type AdvancedEventNames = [`${typeof EVENT_PRODUCT_NAVIGATION}:${string}`]

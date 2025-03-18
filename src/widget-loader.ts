@@ -1,7 +1,6 @@
 import {
   addAutoAddTileFeature,
   addLoadMoreButtonFeature,
-  addTilesPerPageFeature,
   loadExpandedTileFeature,
   loadTitle
 } from "./libs/widget.features"
@@ -119,10 +118,6 @@ async function loadFeatures<C>(settings: EnforcedWidgetSettings<C>) {
   if (handleLoadMore) {
     await import("./libs/components/load-more")
     addLoadMoreButtonFeature()
-  }
-
-  if (limitTilesPerPage) {
-    addTilesPerPageFeature()
   }
 
   return settings

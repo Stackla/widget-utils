@@ -11,7 +11,8 @@ import {
   registerTileExpandListener,
   type ISdk,
   type Tile,
-  registerProductsUpdatedListener
+  registerProductsUpdatedListener,
+  EVENT_TILES_DEPLETED
 } from "../"
 import { loadExpandSettingComponents } from "./widget.components"
 import { useInfiniteScroller } from "../hooks"
@@ -188,6 +189,11 @@ export function addLoadMoreButtonFeature() {
         loadMoreButton.classList.remove("hidden")
       })
 
+      sdk.addEventListener(EVENT_TILES_DEPLETED, () => {
+        disableLoadMoreButtonIfExists()
+        disableLoadMoreLoaderIfExists()
+      })
+
       break
     case "scroll":
       sdk.addEventListener(EVENT_TILES_UPDATED, () => {
@@ -225,17 +231,6 @@ export function disableLoadMoreButtonIfExists() {
 
 export function disableLoadMoreLoaderIfExists() {
   getLoadMoreLoader().classList.add("hidden")
-}
-
-export function addTilesPerPageFeature() {
-  const { enable_custom_tiles_per_page, tiles_per_page } = sdk.getStyleConfig()
-
-  if (enable_custom_tiles_per_page && tiles_per_page) {
-    // FIXME: Make tiles_per_page number across the board
-    sdk.tiles.setVisibleTilesCount(parseInt(tiles_per_page))
-  } else {
-    sdk.tiles.setVisibleTilesCount(40)
-  }
 }
 
 export function loadTitle() {
