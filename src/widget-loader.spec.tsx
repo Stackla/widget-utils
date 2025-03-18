@@ -25,7 +25,6 @@ const settings: EnforcedWidgetSettings<unknown> = {
     disableWidgetIfNotEnabled: true,
     addNewTilesAutomatically: true,
     handleLoadMore: true,
-    limitTilesPerPage: true,
     hideBrokenImages: true,
     loadExpandedTileSlider: true,
     loadTileContent: true,
