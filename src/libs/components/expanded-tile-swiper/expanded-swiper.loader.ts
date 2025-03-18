@@ -500,7 +500,11 @@ export function onTileExpand(tileId: string) {
     body.style.overflow = "hidden"
   }
 
-  expandedTile.parentElement!.classList.add("expanded-tile-overlay")
+  const overlay: HTMLDialogElement = expandedTile.parentElement as HTMLDialogElement
+
+  overlay.showModal()
+  overlay.classList.add("expanded-tile-overlay")
+
   waitForElm(expandedTile, [".swiper-expanded"], () => {
     const tileElement = expandedTile.shadowRoot?.querySelector(`.swiper-slide[data-id="${tileId}"]`)
     const youtubeId = tileElement?.getAttribute("data-yt-id")
@@ -728,7 +732,9 @@ export function onTileClosed() {
     throw new Error("The expanded tile element not found")
   }
 
-  expandedTile.parentElement!.classList.remove("expanded-tile-overlay")
+  const overlay: HTMLDialogElement = expandedTile.parentElement as HTMLDialogElement
+  overlay.close()
+  overlay.classList.remove("expanded-tile-overlay")
 
   const body = document.querySelector("body")
 
