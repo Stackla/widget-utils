@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.76
+
+### Patch Changes
+
+- 665426e: Enhance product navigation
+
 ## 0.1.75
 
 ### Patch Changes
