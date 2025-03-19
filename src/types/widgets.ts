@@ -50,8 +50,9 @@ export type WidgetOptions = {
   filter_name?: string
   type?: Type
   enable_old_widget_styling?: boolean
-  style: Style
-  config: Config
+  // Blank Canvas means that some of the options are not set
+  style?: Style
+  config?: Config
   google_ads?: GoogleAdsConfig
 }
 
