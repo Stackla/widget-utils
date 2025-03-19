@@ -18,6 +18,7 @@ export function loadProductsSwiper(tileId: string, target: HTMLElement) {
         nextButton: "swiper-exp-product-recs-button-next",
         paramsOverrides: {
           slidesPerView: "auto",
+          spaceBetween: 2,
           mousewheel: {
             enabled: false
           },
