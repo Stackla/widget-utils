@@ -1,6 +1,6 @@
 import { ISdk } from "src/types"
 import { LoadMoreTemplate as template } from "./load-more.template"
-import { EVENT_TILES_DEPLETED } from "src/events"
+import { EVENT_TILES_DEPLETED } from "../../../events"
 
 declare const sdk: ISdk
 
