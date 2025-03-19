@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.81
+
+### Patch Changes
+
+- 61ba5b2: Fix up style and config types
+
 ## 0.1.80
 
 ### Patch Changes
