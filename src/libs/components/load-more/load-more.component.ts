@@ -1,5 +1,6 @@
 import { ISdk } from "src/types"
 import { LoadMoreTemplate as template } from "./load-more.template"
+import { EVENT_TILES_DEPLETED } from "src/events"
 
 declare const sdk: ISdk
 
@@ -11,6 +12,10 @@ export default class LoadMoreComponent extends HTMLElement {
   connectedCallback() {
     if (sdk.getStyleConfig().load_more_type === "button") {
       this.appendChild(template())
+
+      sdk.addEventListener(EVENT_TILES_DEPLETED, () => {
+        this.replaceChildren()
+      })
     }
   }
 
