@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.80
+
+### Patch Changes
+
+- 1ea1637: remove navigation buttons on product swiper
+
 ## 0.1.79
 
 ### Patch Changes
