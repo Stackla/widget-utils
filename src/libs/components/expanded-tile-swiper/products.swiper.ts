@@ -16,6 +16,7 @@ export function loadProductsSwiper(tileId: string, target: HTMLElement) {
         widgetSelector: swiperCrossSell,
         paramsOverrides: {
           slidesPerView: "auto",
+          spaceBetween: 2,
           mousewheel: {
             enabled: false
           },
