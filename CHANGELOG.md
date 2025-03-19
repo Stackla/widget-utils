@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.79
+
+### Patch Changes
+
+- 49d9c79: add spaceBetween to product swiper
+
 ## 0.1.78
 
 ### Patch Changes
