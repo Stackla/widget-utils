@@ -174,7 +174,7 @@ function addConfigStyles<C>(settings: EnforcedWidgetSettings<C>) {
   const { style } = settings.config
 
   if (style) {
-    sdk.placement.updateWidgetStyle(style)
+    sdk.updateWidgetStyle(style)
   }
 }
 
@@ -182,7 +182,7 @@ function addConfigExpandedTileSettings<C>(settings: EnforcedWidgetSettings<C>) {
   const { expandedTile } = settings.config
 
   if (expandedTile) {
-    sdk.placement.updateExpandedTileOptions(expandedTile)
+    sdk.updateExpandedTileOptions(expandedTile)
   }
 }
 
@@ -190,7 +190,7 @@ function addConfigInlineTileSettings<C>(settings: EnforcedWidgetSettings<C>) {
   const { inlineTile } = settings.config
 
   if (inlineTile) {
-    sdk.placement.updateInlineTileOptions(inlineTile)
+    sdk.updateInlineTileOptions(inlineTile)
   }
 }
 

@@ -46,4 +46,7 @@ export interface ISdk {
   getClaimTileConfig(): ClaimConfig
   getStyleConfig(): Style
   waitForTile(tileId: string, counter?: number): Promise<Tile | undefined>
+  updateWidgetStyle(mutatedStyle: Partial<Style>): void
+  updateInlineTileOptions(mutatedInlineTileOptions: Partial<InlineTileOptions>): void
+  updateExpandedTileOptions(mutatedExpandedTileOptions: Partial<ExpandedTileOptions>): void
 }
