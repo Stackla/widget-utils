@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.88
+
+### Patch Changes
+
+- d99fb45: Add missing promise
+
 ## 0.1.87
 
 ### Patch Changes
