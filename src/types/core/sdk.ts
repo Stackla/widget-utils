@@ -4,7 +4,7 @@ import { ITilesService } from "../services/tiles.service"
 import { IEventService } from "../services/event.service"
 import { EventMapping, EventName } from "../../events"
 import { ClaimConfig, ExpandedTileOptions, InlineTileOptions, Style, WidgetOptions, WidgetResponse } from "../widgets"
-import { Tile } from "./tile"
+import { Product, Tile } from "./tile"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Template<C> = (sdk: ISdk, component?: C) => string | HTMLElement
@@ -14,7 +14,6 @@ export interface ISdk {
   placement: IPlacement
   events: IEventService
   tiles: ITilesService
-
   querySelector<T extends Element = HTMLElement>(selector: string): T
   querySelectorAll<T extends Element = HTMLElement>(selector: string): NodeListOf<T>
   getEmittedEvents(): EventName[]
@@ -49,4 +48,19 @@ export interface ISdk {
   updateWidgetStyle(mutatedStyle: Partial<Style>): void
   updateInlineTileOptions(mutatedInlineTileOptions: Partial<InlineTileOptions>): void
   updateExpandedTileOptions(mutatedExpandedTileOptions: Partial<ExpandedTileOptions>): void
+  setHideBrokenTiles(hideBrokenTiles: boolean): void
+  setPreloadImages(preloadImages: boolean): void
+  setMediaType(mediaType: "video" | "image"): void
+  getWidgetId(): string
+  getTiles(): Tile[]
+  getTile(): Tile | null
+  enableAutoAddNewTiles(): void
+  getShadowRoot(): ShadowRoot
+  getTileById(tileId: string): Tile | undefined
+  getElement: () => HTMLElement
+  setVisibleTilesCount(visibleTilesCount: number): void
+  loadTilesUntilVisibleTilesCount(): Promise<void>
+  hasMoreTiles(): boolean
+  getSelectedProduct(): Product | undefined
+  searchTiles(query: string, clearExistingTiles: boolean): void
 }

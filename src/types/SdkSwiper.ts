@@ -17,7 +17,7 @@ export type SwiperProps = {
    * @description
    * Adds support for additional slides that appear when load more is invoked. Note: not all sliders require this, especially if static.
    */
-  getSliderTemplate?: (tiles: Record<string, Tile>) => JSX.Element[]
+  getSliderTemplate?: (tiles: Tile[]) => JSX.Element[]
 }
 
 export type SwiperData = {

@@ -541,7 +541,7 @@ export function registerDefaultClickEvents() {
       throw new Error("Failed to find tile data ID")
     }
 
-    const url = sdk.tiles.getTile(tileDataId)?.original_url
+    const url = sdk.getTileById(tileDataId)?.original_url
 
     if (!url) {
       console.warn("Failed to find tile URL", tile)

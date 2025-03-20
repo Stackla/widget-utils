@@ -448,7 +448,13 @@ function getSwiperVideoElement(swiper: Swiper, index: number, isStory = false): 
     throw new Error(`Failed to find tile id for the slide at index ${index}`)
   }
 
-  const media = sdk.tiles.tiles[tileId].media
+  const tile = sdk.getTileById(tileId)
+
+  if (!tile) {
+    console.warn(`Failed to find tile data for tile id ${tileId}`)
+  }
+
+  const media = tile?.media
 
   if (media !== "video" && media !== "short") {
     return undefined

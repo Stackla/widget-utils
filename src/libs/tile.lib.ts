@@ -1,10 +1,8 @@
-import type { ISdk, Tile } from "../"
+import type { ISdk } from "../"
 
 declare const sdk: ISdk
 
 export function handleTileClick(e: Event, widgetUrl: string) {
-  const ugcTiles = sdk.tiles.tiles
-
   const clickedElement = e.target as HTMLElement
   const clickedTile = clickedElement.closest(".ugc-tile")
 
@@ -18,7 +16,12 @@ export function handleTileClick(e: Event, widgetUrl: string) {
     throw new Error("Failed to find tile ID")
   }
 
-  const tileData: Tile = ugcTiles[tileId]
+  const tileData = sdk.getTileById(tileId)
+
+  if (!tileData) {
+    console.warn("Failed to find tile data in handleTileClick")
+    return
+  }
 
   const tileLink = widgetUrl || tileData.original_url || tileData.original_link
 

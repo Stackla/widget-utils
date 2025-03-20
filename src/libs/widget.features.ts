@@ -64,7 +64,7 @@ export const arrowClickListener = (e: Event) => {
 
   const type = target.classList.contains("tile-arrows-left") ? "previous" : "next"
 
-  const currentTile = sdk.tiles.getTile()
+  const currentTile = sdk.getTile()
 
   if (!currentTile) {
     throw new Error("Failed to find current tile")
@@ -80,12 +80,12 @@ export const arrowClickListener = (e: Event) => {
 
   const tileId = getNextNavigatedTile(currentTile, tilesAsHtmlArray, type)
 
-  const tilesStore: Tile[] = Object.values(sdk.tiles.tiles)
+  const tilesStore: Tile[] = sdk.getTiles()
 
   const tileData = {
     tileData: tilesStore.find(tile => tile.id === tileId),
-    widgetId: sdk.placement.getWidgetId(),
-    filterId: sdk.placement.getWidgetContainer().widgetOptions?.filter_id
+    widgetId: sdk.getWidgetId(),
+    filterId: sdk.getWidgetContainer().widgetOptions?.filter_id
   }
 
   sdk.triggerEvent(EVENT_EXPANDED_TILE_CLOSE)
@@ -97,7 +97,7 @@ export function addAutoAddTileFeature() {
 
   // FIXME: Make auto_refresh boolean across the board
   if (Boolean(auto_refresh) === true) {
-    sdk.tiles.enableAutoAddNewTiles()
+    sdk.enableAutoAddNewTiles()
   }
 }
 
@@ -127,13 +127,7 @@ function loadMore() {
 
   window.__isLoading = true
 
-  const loadMoreButton = getLoadMoreButton()
-
   sdk.triggerEvent(EVENT_LOAD_MORE)
-
-  if (!sdk.tiles.hasMorePages()) {
-    loadMoreButton.classList.add("hidden")
-  }
 
   setTimeout(() => {
     window.__isLoading = false
@@ -210,11 +204,6 @@ export function addLoadMoreButtonFeature() {
     default:
       throw new Error("Invalid load more type")
   }
-
-  if (!sdk.tiles.hasMorePages()) {
-    disableLoadMoreButtonIfExists()
-    disableLoadMoreLoaderIfExists()
-  }
 }
 
 export function attachLoadMoreButtonListener() {
@@ -235,7 +224,7 @@ export function disableLoadMoreLoaderIfExists() {
 
 export function loadTitle() {
   const widgetTitle = document.createElement("p")
-  const widgetContainer = sdk.placement.getWidgetContainer()
+  const widgetContainer = sdk.getWidgetContainer()
   const title = widgetContainer.title
 
   if (title) {

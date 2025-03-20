@@ -24,7 +24,7 @@ export function enableTileImages(wrapper: HTMLElement) {
 }
 
 export function loadAllUnloadedTiles() {
-  const tileWrapper = sdk.placement.querySelector(".ugc-tiles")
+  const tileWrapper = sdk.querySelector(".ugc-tiles")
   if (tileWrapper) {
     enableTileImages(tileWrapper)
   }
