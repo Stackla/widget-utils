@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.82
+
+### Patch Changes
+
+- c61df92: Updating config types
+
 ## 0.1.81
 
 ### Patch Changes
