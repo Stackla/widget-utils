@@ -56,6 +56,6 @@ export interface ISdk {
   searchTiles(query: string, clearExistingTiles: boolean): void
   openExpandedTiles(tileId: string): void
   closeExpandedTiles(): void
-  getShopspotsFromTile(tileId: string): Hotspot[]
+  getShopspotsFromTile(tileId: string): Promise<Hotspot[]>
   getFirstProductInTile(tile: Tile): Product | undefined
 }
