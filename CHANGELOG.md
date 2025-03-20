@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.83
+
+### Patch Changes
+
+- e8e81f6: Improve sdk, add more methods
+
 ## 0.1.82
 
 ### Patch Changes
