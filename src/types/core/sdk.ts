@@ -57,4 +57,5 @@ export interface ISdk {
   openExpandedTiles(tileId: string): void
   closeExpandedTiles(): void
   getShopspotsFromTile(tileId: string): Hotspot[]
+  getFirstProductInTile(tile: Tile): Product | undefined
 }
