@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.86
+
+### Patch Changes
+
+- 4e9e50b: Add missing getShopspots method
+
 ## 0.1.85
 
 ### Patch Changes
