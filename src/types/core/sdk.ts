@@ -1,19 +1,10 @@
-import { IWidgetService } from "../services/widget.service"
-import { IPlacement } from "./placement"
-import { ITilesService } from "../services/tiles.service"
-import { IEventService } from "../services/event.service"
 import { EventMapping, EventName } from "../../events"
 import { ClaimConfig, ExpandedTileOptions, InlineTileOptions, Style, WidgetOptions, WidgetResponse } from "../widgets"
 import { Product, Tile } from "./tile"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Template<C> = (sdk: ISdk, component?: C) => string | HTMLElement
 
 export interface ISdk {
-  widget: IWidgetService
-  placement: IPlacement
-  events: IEventService
-  tiles: ITilesService
   querySelector<T extends Element = HTMLElement>(selector: string): T
   querySelectorAll<T extends Element = HTMLElement>(selector: string): NodeListOf<T>
   getEmittedEvents(): EventName[]
