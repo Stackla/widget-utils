@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.84
+
+### Patch Changes
+
+- 9c0f6b4: Update expanded tiles method
+
 ## 0.1.83
 
 ### Patch Changes
