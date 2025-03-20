@@ -54,4 +54,6 @@ export interface ISdk {
   hasMoreTiles(): boolean
   getSelectedProduct(): Product | undefined
   searchTiles(query: string, clearExistingTiles: boolean): void
+  openExpandedTiles(tileId: string): void
+  closeExpandedTiles(): void
 }
