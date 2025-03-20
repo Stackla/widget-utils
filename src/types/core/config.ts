@@ -1,11 +1,4 @@
-import {
-  Config,
-  ExpandedTileOptions,
-  InlineTileOptions,
-  Style,
-  WidgetOptions,
-  WidgetResponse
-} from "@stackla/widget-utils"
+import { Config, ExpandedTileOptions, InlineTileOptions, Style, WidgetOptions, WidgetResponse } from "../../"
 
 export interface OptionsWithDefaults {
   style: Style
