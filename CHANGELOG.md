@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.87
+
+### Patch Changes
+
+- 063da8b: Add new type
+
 ## 0.1.86
 
 ### Patch Changes
