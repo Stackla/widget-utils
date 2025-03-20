@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.85
+
+### Patch Changes
+
+- f491390: Update getTile type
+
 ## 0.1.84
 
 ### Patch Changes
