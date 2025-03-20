@@ -3,7 +3,7 @@ import { IUgcComponent } from "../components/ugc.component"
 import { ITilesService } from "../services/tiles.service"
 import { IEventService } from "../services/event.service"
 import { Template } from "../"
-import { Config, ExpandedTileOptions, Style, WidgetOptions, WidgetResponse } from "../widgets"
+import { WidgetResponse } from "../widgets"
 
 export interface IPlacement {
   readonly selector: string
@@ -26,11 +26,6 @@ export interface IPlacement {
   getWidgetId(): string
   getNodeName(): string
   getWidgetContainer(): WidgetResponse
-  updateWidgetOptionsProperties(mutatedWidgetOptions: Partial<WidgetOptions>): void
-  updateWidgetStyle(mutatedStyle: Partial<Style>): void
-  updateExpandedTileOptions(mutatedExpandedTileOptions: Partial<ExpandedTileOptions>): void
-  updateWidgetConfig(mutatedConfig: Partial<Config>): void
-  updateInlineTileOptions(mutatedInlineTileOptions: Partial<ExpandedTileOptions>): void
   updateFilterId(filterId: string): void
   getPluginsSettings(): Record<string, { config: Record<string, never> }>
   getElement(): HTMLElement
