@@ -88,8 +88,8 @@ async function loadFeatures<C>(settings: EnforcedWidgetSettings<C>) {
     loadTimephrase
   } = settings.features
 
-  sdk.tiles.preloadImages = preloadImages
-  sdk.tiles.hideBrokenTiles = hideBrokenImages
+  sdk.setPreloadImages(preloadImages)
+  sdk.setHideBrokenTiles(hideBrokenImages)
 
   const { show_shopspots: showShopspotsInline } = sdk.getInlineTileConfig()
 
@@ -198,7 +198,7 @@ function addConfigFilter<C>(settings: EnforcedWidgetSettings<C>) {
   const { filter } = settings.config
 
   if (filter && filter.media) {
-    sdk.tiles.setMediaType(filter.media)
+    sdk.setMediaType(filter.media)
   }
 }
 

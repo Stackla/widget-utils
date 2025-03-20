@@ -11,7 +11,7 @@ export type LookupAttr = {
   value: string
 }
 
-function addTilesUpdatedListener(id: string, getSlides?: (tiles: Record<string, Tile>) => JSX.Element[]) {
+function addTilesUpdatedListener(id: string, getSlides?: (tiles: Tile[]) => JSX.Element[]) {
   const swiper = getInstance(id)
 
   sdk.addEventListener(EVENT_TILES_UPDATED, event => {

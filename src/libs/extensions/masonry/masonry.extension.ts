@@ -10,21 +10,21 @@ export function handleTileImageRendered(tileId?: string) {
     return
   }
 
-  const gridItemElement = sdk.placement.getShadowRoot().querySelector(`.grid-item[data-id*="${tileId}"]`)
+  const gridItemElement = sdk.getShadowRoot().querySelector(`.grid-item[data-id*="${tileId}"]`)
   const tileLoadingElement = gridItemElement?.querySelector(".tile-loading.loading")
   tileLoadingElement?.classList.remove("loading")
 }
 
 export function handleAllTileImageRendered() {
-  const tileLoadingElements = sdk.placement.getShadowRoot().querySelectorAll(".grid-item .tile-loading.loading")
+  const tileLoadingElements = sdk.getShadowRoot().querySelectorAll(".grid-item .tile-loading.loading")
   tileLoadingElements?.forEach(element => element.classList.remove("loading"))
 
-  const loadMoreHiddenElement = sdk.placement.getShadowRoot().querySelector("#buttons > #load-more.hidden")
+  const loadMoreHiddenElement = sdk.getShadowRoot().querySelector("#buttons > #load-more.hidden")
   loadMoreHiddenElement?.classList.remove(".hidden")
 }
 
 function getGridItemRowIds() {
-  const gridItems = sdk.placement.getShadowRoot().querySelectorAll(".grid-item:not(hidden)[row-id]")
+  const gridItems = sdk.getShadowRoot().querySelectorAll(".grid-item:not(hidden)[row-id]")
   const allRowIds = Array.from(gridItems)
     .map(item => item.getAttribute("row-id"))
     .filter(rowIdString => rowIdString && !Number.isNaN(+rowIdString))
@@ -53,9 +53,7 @@ export function handleTileImageError(tileWithError: HTMLElement) {
 
   const rowIdSelectors = uniqueRowIds.filter(rowId => rowId >= errorTileRowId).map(matched => `[row-id="${matched}"]`)
 
-  const matchedGridItems = Array.from(
-    sdk.placement.getShadowRoot().querySelectorAll<HTMLElement>(`.grid-item:is(${rowIdSelectors})`)
-  )
+  const matchedGridItems = Array.from(sdk.querySelectorAll<HTMLElement>(`.grid-item:is(${rowIdSelectors})`))
 
   resizeTiles(matchedGridItems)
 }

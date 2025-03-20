@@ -4,8 +4,8 @@ import { createElement } from "../../"
 
 declare const sdk: ISdk
 
-export function getExpandedSlides(tiles = sdk.tiles.tiles) {
-  return Object.values(tiles).map(tile => (
+export function getExpandedSlides(tiles = sdk.getTiles()) {
+  return tiles.map(tile => (
     <div
       class="ugc-tile swiper-slide"
       data-id={tile.id}

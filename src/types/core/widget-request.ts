@@ -62,7 +62,7 @@ export default interface IWidgetRequest {
   geohash?: string
   tile_id?: string
   style?: string
-  media?: string
+  media?: "image" | "video"
   exclude?: boolean
   status?: string
   filter?: string
