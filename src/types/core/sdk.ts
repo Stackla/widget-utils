@@ -44,7 +44,7 @@ export interface ISdk {
   setMediaType(mediaType: "video" | "image"): void
   getWidgetId(): string
   getTiles(): Tile[]
-  getTile(): Tile | null
+  getTile(): Tile | undefined
   enableAutoAddNewTiles(): void
   getShadowRoot(): ShadowRoot
   getTileById(tileId: string): Tile | undefined
