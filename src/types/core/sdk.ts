@@ -33,7 +33,7 @@ export interface ISdk {
   loadTemplate(templateType: string): Promise<void>
   getExpandedTileConfig(): ExpandedTileOptions
   getInlineTileConfig(): InlineTileOptions
-  getClaimTileConfig(): ClaimConfig
+  getClaimTileConfig(): ClaimConfig | undefined
   getStyleConfig(): Style
   waitForTile(tileId: string, counter?: number): Promise<Tile | undefined>
   updateWidgetStyle(mutatedStyle: Partial<Style>): void
@@ -48,7 +48,7 @@ export interface ISdk {
   enableAutoAddNewTiles(): void
   getShadowRoot(): ShadowRoot
   getTileById(tileId: string): Tile | undefined
-  getElement: () => HTMLElement
+  getElement: () => HTMLElement | undefined
   setVisibleTilesCount(visibleTilesCount: number): void
   loadTilesUntilVisibleTilesCount(): Promise<void>
   hasMoreTiles(): boolean
