@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.90
+
+### Patch Changes
+
+- 8484ad9: Fix element type
+
 ## 0.1.89
 
 ### Patch Changes
