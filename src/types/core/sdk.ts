@@ -29,7 +29,7 @@ export interface ISdk {
   addTemplateToComponent<C>(template: Template<C>, componentName: string): void
   setState<T>(key: string, value: T): void
   getState<T>(key: string): T
-  getNodeId(): string
+  getNodeId(): string | undefined
   loadTemplate(templateType: string): Promise<void>
   getExpandedTileConfig(): ExpandedTileOptions
   getInlineTileConfig(): InlineTileOptions
