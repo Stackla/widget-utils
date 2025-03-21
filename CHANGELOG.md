@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.89
+
+### Patch Changes
+
+- 57fd2c5: Fix type node
+
 ## 0.1.88
 
 ### Patch Changes
