@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.92
+
+### Patch Changes
+
+- 8154a02: Add pagination method
+
 ## 0.1.91
 
 ### Patch Changes
