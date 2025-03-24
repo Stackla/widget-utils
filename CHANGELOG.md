@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.91
+
+### Patch Changes
+
+- e80fe7a: Add CarouselChildren type
+
 ## 0.1.90
 
 ### Patch Changes
