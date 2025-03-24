@@ -58,4 +58,5 @@ export interface ISdk {
   closeExpandedTiles(): void
   getShopspotsFromTile(tileId: string): Promise<Hotspot[]>
   getFirstProductInTile(tile: Tile): Product | undefined
+  isPaginationEnabled(): boolean
 }
