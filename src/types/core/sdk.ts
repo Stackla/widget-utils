@@ -59,4 +59,5 @@ export interface ISdk {
   getShopspotsFromTile(tileId: string): Promise<Hotspot[]>
   getFirstProductInTile(tile: Tile): Product | undefined
   isPaginationEnabled(): boolean
+  isScrollWidget(): boolean
 }
