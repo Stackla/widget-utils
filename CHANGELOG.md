@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.93
+
+### Patch Changes
+
+- 56db15b: update Tile type
+
 ## 0.1.92
 
 ### Patch Changes
