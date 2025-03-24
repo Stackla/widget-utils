@@ -121,6 +121,11 @@ export type Tile = {
   title: string
   full_embed_html: string
   attrs: string[]
+  image_thumbnail_url?: string
+  image_l?: string
+  image_s?: string
+  instagram_id?: string
+  instagram_media_type?: string
   carousel_children?: CarouselChildren[]
   [key: string]: undefined | object | null | string | string[] | number | number[] | boolean | TagExtended[]
 }
