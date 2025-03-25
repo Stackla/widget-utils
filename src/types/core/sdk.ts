@@ -60,4 +60,5 @@ export interface ISdk {
   getFirstProductInTile(tile: Tile): Product | undefined
   isPaginationEnabled(): boolean
   isScrollWidget(): boolean
+  getProductTagsFromTile(tile: Tile): Product[]
 }
