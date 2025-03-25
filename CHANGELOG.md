@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.94
+
+### Patch Changes
+
+- 9d107d9: getProductTagsFromTile type
+
 ## 0.1.93
 
 ### Patch Changes
