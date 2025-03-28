@@ -1,5 +1,12 @@
 # @stackla/widget-utils
 
+## 0.1.95
+
+### Patch Changes
+
+- 96bc60c: Fixup invocation of v2 js
+- 96bc60c: Add support for product_link_attribute
+
 ## 0.1.94
 
 ### Patch Changes
