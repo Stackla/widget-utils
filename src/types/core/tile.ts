@@ -114,14 +114,14 @@ export type Tile = {
   terms: string[]
   updated_at: number
   user: string
-  video: Video
+  video?: Video
   video_files: VideoFile[]
   original_image_url: string
   embed_url: string
   youtube_id: string
   title: string
   full_embed_html: string
-  attrs: string[]
+  attrs?: string[]
   image_thumbnail_url?: string
   image_l?: string
   image_s?: string
@@ -136,8 +136,8 @@ export type CarouselChild = {
   id: string
   media: string
   carousel: number
-  video: Video
-  image: string
+  video?: Video
+  image?: string
   image_thumbnail_url?: string
   image_l?: string
   image_s?: string
