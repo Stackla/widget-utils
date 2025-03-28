@@ -38,6 +38,10 @@ export function UgcVideoTemplate({ tile }: { tile: Tile }) {
 }
 
 export function TwitterTemplate({ tile }: { tile: Tile }) {
+  if (!tile.video) {
+    return <VideoErrorFallbackTemplate tile={tile} defaultHidden={false} />
+  }
+
   const { standard_resolution } = tile.video
 
   return (

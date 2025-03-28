@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`load embed code should return the correct embed code for v2 1`] = `
+"
+    <!-- Nosto Widget Embed Code (start) -->
+    <div class="stackla-widget" style="width: 100%; overflow: hidden;" data-foo="bar" data-baz="123" data-hash="123"></div>
+    <!-- Nosto Widget Embed Code (end) -->
+    "
+`;

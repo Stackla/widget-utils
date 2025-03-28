@@ -77,6 +77,7 @@ export interface TagExtended {
   ugc_update_required_created_at?: string
   updated_at?: string
   variant?: Variant[]
+  product_link_attribute?: string
 }
 
 export type Tile = {
@@ -113,30 +114,30 @@ export type Tile = {
   terms: string[]
   updated_at: number
   user: string
-  video: Video
+  video?: Video
   video_files: VideoFile[]
   original_image_url: string
   embed_url: string
   youtube_id: string
   title: string
   full_embed_html: string
-  attrs: string[]
+  attrs?: string[]
   image_thumbnail_url?: string
   image_l?: string
   image_s?: string
   instagram_id?: string
   instagram_media_type?: string
-  carousel_children?: CarouselChildren[]
+  carousel_children?: CarouselChild[]
   [key: string]: undefined | object | null | string | string[] | number | number[] | boolean | TagExtended[]
 }
 
-export type CarouselChildren = {
+export type CarouselChild = {
   _id?: { $id: string }
   id: string
   media: string
   carousel: number
-  video: Video
-  image: string
+  video?: Video
+  image?: string
   image_thumbnail_url?: string
   image_l?: string
   image_s?: string
