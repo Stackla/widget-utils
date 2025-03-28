@@ -22,20 +22,14 @@ const getWidgetV2EmbedCode = (data: Record<string, string | boolean | number>) =
     `
 }
 
-const invokeV2Javascript = (environment: Environment, root: HTMLElement | ShadowRoot) => {
-  const invocationScript = document.createElement("script")
-  invocationScript.textContent = `
-    (function (d, id) {
-        var t, el = d.scripts[d.scripts.length - 1].previousElementSibling;
-        if (el) el.dataset.initTimestamp = (new Date()).getTime();
-        if (d.getElementById(id)) return;
-        t = d.createElement('script');
-        t.src = '${getUrlByEnv(environment)}/media/js/widget/fluid-embed.min.js';
-        t.id = id;
-        (d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(t);
-    }(document, 'stackla-widget-js'));`
-
-  root.appendChild(invocationScript)
+const invokeV2Javascript = (environment: Environment) => {
+  ;(function (d, id) {
+    const el = d.scripts[d.scripts.length - 1].previousElementSibling as HTMLDivElement
+    if (el) el.dataset.initTimestamp = new Date().getTime().toString()
+    const t = d.createElement("script")
+    t.src = `${getUrlByEnv(environment)}/media/js/widget/fluid-embed.min.js`
+    t.id = id
+    ;(d.getElementsByTagName("head")[0] || d.getElementsByTagName("body")[0]).appendChild(t)
+  })(document, "stackla-widget-js")
 }
-
 export { getWidgetV2EmbedCode, invokeV2Javascript }

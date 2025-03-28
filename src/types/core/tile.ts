@@ -77,6 +77,7 @@ export interface TagExtended {
   ugc_update_required_created_at?: string
   updated_at?: string
   variant?: Variant[]
+  product_link_attribute?: string
 }
 
 export type Tile = {
@@ -126,11 +127,11 @@ export type Tile = {
   image_s?: string
   instagram_id?: string
   instagram_media_type?: string
-  carousel_children?: CarouselChildren[]
+  carousel_children?: CarouselChild[]
   [key: string]: undefined | object | null | string | string[] | number | number[] | boolean | TagExtended[]
 }
 
-export type CarouselChildren = {
+export type CarouselChild = {
   _id?: { $id: string }
   id: string
   media: string
