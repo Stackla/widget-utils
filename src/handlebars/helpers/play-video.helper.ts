@@ -1,5 +1,4 @@
 import Handlebars from "handlebars"
-import _ from "lodash"
 
 export function createVideoTag(attributes: string, videoLink: string) {
   return `<video ${attributes} preload="metadata" class="video-content" loading="lazy" controls autoplay muted loop>
@@ -25,7 +24,7 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
         break
       }
       case "youtube": {
-        const youtubeEmbedUrl = _.get(tile, "embed_url", "")
+        const youtubeEmbedUrl = tile.embed_url ?? ""
         const youtubeVideoLink = `//www.youtube.com/embed/${youtubeEmbedUrl}?autoplay=1&mute=1&playlist=${youtubeEmbedUrl}&loop=1`
         videoTag =
           `<iframe` +
