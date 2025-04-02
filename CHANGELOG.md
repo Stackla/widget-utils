@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.97
+
+### Patch Changes
+
+- 9d96437: Export content wrapper to content grouping template
+
 ## 0.1.96
 
 ### Patch Changes
