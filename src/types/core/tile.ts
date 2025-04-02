@@ -158,7 +158,7 @@ export type Hotspot = {
   product_link_attribute: string
   tag: TagExtended
   coords: number[]
-} & TagExtended
+}
 
 export type Product = TagExtended & {
   type: "product"
