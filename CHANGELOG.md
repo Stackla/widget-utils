@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.96
+
+### Patch Changes
+
+- caa621d: Fix product selection issue on Expanded Tile.
+
 ## 0.1.95
 
 ### Patch Changes
