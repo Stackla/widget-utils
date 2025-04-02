@@ -146,7 +146,9 @@ export function ImageTemplate({
         {carouselGroupingEnabled ? (
           <carousel-grouping parent={parent} tile-id={tile.id} mode="expanded" />
         ) : (
-          <img class="image-element" src={image} loading="lazy" alt={tile.description || "Image"} />
+          <a href={tile.original_url} target="_blank">
+            <img class="image-element" src={image} loading="lazy" alt={tile.description || "Image"} />
+          </a>
         )}
       </div>
     </>
