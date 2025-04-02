@@ -1,5 +1,8 @@
-import { Tile, createElement } from "../../../"
+import { ISdk, Tile, createElement } from "../../../"
 import { EmbedYoutube, ImageTemplate } from "../../components"
+
+declare const sdk: ISdk
+
 function getVideoData(tile: Tile) {
   if (tile.video_files?.length) {
     return tile.video_files[0]
@@ -17,7 +20,7 @@ function getVideoData(tile: Tile) {
   throw new Error("Failed to find video data")
 }
 
-export function UgcVideoTemplate({ tile }: { tile: Tile }) {
+export function UgcVideoTemplate({ tile, onLoad }: { tile: Tile; onLoad: () => void }) {
   const { url, width, height, mime } = getVideoData(tile)
 
   return (
@@ -31,13 +34,19 @@ export function UgcVideoTemplate({ tile }: { tile: Tile }) {
       controls
       preload="none"
       playsinline="playsinline"
-      oncanplay="this.muted=true; this.style.display='flex';">
+      oncanplay={() => {
+        // @ts-expect-error - this
+        this.muted = true
+        // @ts-expect-error - this
+        this.style.display = "flex"
+        onLoad()
+      }}>
       <source src={url} width={width.toString()} height={height.toString()} type={mime} />
     </video>
   )
 }
 
-export function TwitterTemplate({ tile }: { tile: Tile }) {
+export function TwitterTemplate({ tile, onLoad }: { tile: Tile; onLoad: () => void }) {
   if (!tile.video) {
     return <VideoErrorFallbackTemplate tile={tile} defaultHidden={false} />
   }
@@ -54,13 +63,19 @@ export function TwitterTemplate({ tile }: { tile: Tile }) {
       controls
       preload="none"
       playsinline="playsinline"
-      oncanplay="this.muted=true; this.style.display='flex';">
+      oncanplay={() => {
+        // @ts-expect-error - this
+        this.muted = true
+        // @ts-expect-error - this
+        this.style.display = "flex"
+        onLoad()
+      }}>
       <source src={standard_resolution.url} />
     </video>
   )
 }
 
-export function TikTokTemplate({ tile }: { tile: Tile }) {
+export function TikTokTemplate({ tile, onLoad }: { tile: Tile; onLoad?: () => void }) {
   const tiktokId = tile.tiktok_id
 
   return (
@@ -72,13 +87,14 @@ export function TikTokTemplate({ tile }: { tile: Tile }) {
       frameborder="0"
       allowfullscreen
       height="100%"
+      onload={onLoad}
       allow="autoplay" // refer https://developer.chrome.com/blog/autoplay/
       src={`https://www.tiktok.com/player/v1/${tiktokId}?rel=0`}
     />
   )
 }
 
-export function FacebookFallbackTemplate({ tile }: { tile: Tile }) {
+export function FacebookFallbackTemplate({ tile, onLoad }: { tile: Tile; onLoad?: () => void }) {
   const embedBlock = (
     <div class="fb-content-wrapper">
       <div id="fb-root"></div>
@@ -98,7 +114,13 @@ export function FacebookFallbackTemplate({ tile }: { tile: Tile }) {
     </div>
   )
   return (
-    <iframe loading="lazy" class="video-content" frameborder="0" allowfullscreen srcdoc={embedBlock.innerHTML}></iframe>
+    <iframe
+      onload={onLoad}
+      loading="lazy"
+      class="video-content"
+      frameborder="0"
+      allowfullscreen
+      srcdoc={embedBlock.innerHTML}></iframe>
   )
 }
 
@@ -126,15 +148,15 @@ export function VideoErrorFallbackTemplate({
   )
 }
 
-export function SourceVideoContent({ tile, parent }: { tile: Tile; parent?: string }) {
+export function SourceVideoContent({ tile, parent, onLoad }: { tile: Tile; parent?: string; onLoad: () => void }) {
   // handle unplayable tiktok source
   // TODO handle vide_source "tiktok"
   if (tile.source === "tiktok" || tile.video_source === "tiktok") {
-    return <TikTokTemplate tile={tile} />
+    return <TikTokTemplate tile={tile} onLoad={onLoad} />
   }
 
   if (tile.source === "youtube" && tile.youtube_id) {
-    return <EmbedYoutube tileId={tile.id} videoId={tile.youtube_id} />
+    return <EmbedYoutube tileId={tile.id} videoId={tile.youtube_id} onLoad={onLoad} />
   }
 
   if (tile.source === "facebook") {
@@ -148,21 +170,35 @@ export function SourceVideoContent({ tile, parent }: { tile: Tile; parent?: stri
   }
 
   if (tile.source === "twitter") {
-    return <TwitterTemplate tile={tile} />
+    return <TwitterTemplate tile={tile} onLoad={onLoad} />
   }
 
   if (tile.video_files?.length || (tile.video && tile.video.standard_resolution)) {
-    return <UgcVideoTemplate tile={tile} />
+    return <UgcVideoTemplate tile={tile} onLoad={onLoad} />
   }
 
-  return <FacebookFallbackTemplate tile={tile} />
+  return <FacebookFallbackTemplate tile={tile} onLoad={onLoad} />
 }
 
 export function VideoContainer({ tile, parent }: { tile: Tile; parent?: string }) {
   return (
     <div class="video-content-wrapper">
-      <div class="image-filler" style={{ "background-image": `url('${tile.original_image_url}')` }}></div>
-      <SourceVideoContent tile={tile} parent={parent} />
+      <a href={tile.original_url} target="_blank">
+        <div
+          data-tile-id={tile.id}
+          class="image-filler"
+          style={{ "background-image": `url('${tile.original_image_url}')` }}></div>
+      </a>
+      <SourceVideoContent
+        onLoad={() => {
+          const imageFiller = sdk.querySelector(`.image-filler[data-tile-id="${tile.id}"]`)
+          if (imageFiller) {
+            imageFiller.classList.add("blurred")
+          }
+        }}
+        tile={tile}
+        parent={parent}
+      />
     </div>
   )
 }

@@ -28,6 +28,7 @@ export interface ISdk {
   addCSSToComponent(css: string, componentName: string): void
   addTemplateToComponent<C>(template: Template<C>, componentName: string): void
   setState<T>(key: string, value: T): void
+  setTile(tile: Tile): void
   getState<T>(key: string): T
   getNodeId(): string | undefined
   loadTemplate(templateType: string): Promise<void>

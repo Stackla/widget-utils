@@ -3,9 +3,10 @@ import { createElement } from "../../"
 export type EmbedYoutubeProps = {
   tileId: string
   videoId: string
+  onLoad?: () => void
 }
 
-export function EmbedYoutube({ tileId, videoId }: EmbedYoutubeProps) {
+export function EmbedYoutube({ tileId, videoId, onLoad }: EmbedYoutubeProps) {
   const contentElement = loadYoutubeIframeContent(tileId, videoId)
 
   return (
@@ -18,6 +19,7 @@ export function EmbedYoutube({ tileId, videoId }: EmbedYoutubeProps) {
       width="480px"
       frameborder="0"
       enablejsapi="1"
+      onload={onLoad}
       srcdoc={contentElement.innerHTML}></iframe>
   )
 }
