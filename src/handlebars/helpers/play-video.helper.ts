@@ -33,7 +33,7 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
         break
       }
       default: {
-        const videoUrl = _.get(tile, "video.standard_resolution.url")
+        const videoUrl = tile?.video?.standard_resolution.url ?? ""
         const escapedUrl = hbs.escapeExpression(videoUrl)
         const widthHeightAttributes = buildWidthHeightAttributes(escapedWidth, escapedHeight)
 
