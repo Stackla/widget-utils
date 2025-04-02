@@ -11,7 +11,7 @@ export function getExpandedSlides(tiles = sdk.getTiles()) {
       data-id={tile.id}
       data-yt-id={tile.youtube_id || ""}
       data-tiktok-id={tile.tiktok_id || ""}>
-      <ExpandedTile sdk={sdk} tile={tile} />
+      <ExpandedTile tile={tile} />
     </div>
   ))
 }
