@@ -34,11 +34,10 @@ export function UgcVideoTemplate({ tile, onLoad }: { tile: Tile; onLoad: () => v
       controls
       preload="none"
       playsinline="playsinline"
-      oncanplay={() => {
-        // @ts-expect-error - this
-        this.muted = true
-        // @ts-expect-error - this
-        this.style.display = "flex"
+      oncanplay={(event: Event) => {
+        const videoElement = event.target as HTMLVideoElement
+        videoElement.muted = true
+        videoElement.style.display = "flex"
         onLoad()
       }}>
       <source src={url} width={width.toString()} height={height.toString()} type={mime} />
@@ -63,11 +62,10 @@ export function TwitterTemplate({ tile, onLoad }: { tile: Tile; onLoad: () => vo
       controls
       preload="none"
       playsinline="playsinline"
-      oncanplay={() => {
-        // @ts-expect-error - this
-        this.muted = true
-        // @ts-expect-error - this
-        this.style.display = "flex"
+      oncanplay={(event: Event) => {
+        const videoElement = event.target as HTMLVideoElement
+        videoElement.muted = true
+        videoElement.style.display = "flex"
         onLoad()
       }}>
       <source src={standard_resolution.url} />

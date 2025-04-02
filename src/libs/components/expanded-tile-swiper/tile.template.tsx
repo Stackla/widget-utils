@@ -134,18 +134,21 @@ export function ImageTemplate({
 }) {
   return image ? (
     <>
-      {shopspotEnabled ? (
-        <ShopSpotTemplate shopspotEnabled={shopspotEnabled} parent={parent} tileId={tile.id} />
-      ) : (
-        <></>
-      )}
-      {carouselGroupingEnabled ? (
-        <carousel-grouping parent={parent} tile-id={tile.id} mode="expanded" />
-      ) : (
-        <a href={tile.original_url} target="_blank">
-          <div class="image-filler" style={{ "background-image": `url('${image}')` }}></div>
-        </a>
-      )}
+      <a href={tile.original_url} target="_blank">
+        <div class="image-filler blurred" style={{ "background-image": `url('${image}')` }}></div>
+      </a>
+      <div class="image">
+        {shopspotEnabled ? (
+          <ShopSpotTemplate shopspotEnabled={shopspotEnabled} parent={parent} tileId={tile.id} />
+        ) : (
+          <></>
+        )}
+        {carouselGroupingEnabled ? (
+          <carousel-grouping parent={parent} tile-id={tile.id} mode="expanded" />
+        ) : (
+          <img class="image-element" src={image} loading="lazy" alt={tile.description || "Image"} />
+        )}
+      </div>
     </>
   ) : (
     <></>
