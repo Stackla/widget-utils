@@ -1,20 +1,38 @@
-import { Tile } from "../../../"
+import { ISdk, Tile } from "../../../"
 import { createElement, createFragment } from "../../"
 import { VideoContainer, VideoErrorFallbackTemplate } from "./video.templates"
-import { ExpandedTileProps, ShopspotProps } from "./types"
+import { ExpandedTileProps, ShopspotProps, ContentWrapperProps } from "./types"
 
-export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
-  const {
-    show_shopspots,
-    show_products,
-    show_tags,
-    show_sharing,
-    show_caption,
-    show_timestamp,
-    show_carousel_grouping
-  } = sdk.getExpandedTileConfig()
+declare const sdk: ISdk
+
+export function ContentWrapper({ tile, parent }: ContentWrapperProps) {
+  const { show_shopspots } = sdk.getExpandedTileConfig()
 
   const shopspotEnabled = sdk.isComponentLoaded("shopspots") && show_shopspots && !!tile.hotspots?.length
+
+  switch (tile.media) {
+    case "video":
+      return (
+        <>
+          <VideoContainer tile={tile} parent={parent} />
+          <VideoErrorFallbackTemplate tile={tile} />
+        </>
+      )
+    case "image":
+      return <ImageTemplate tile={tile} image={tile.image} shopspotEnabled={shopspotEnabled} parent={parent} />
+    case "text":
+      return <span class="content-text">{tile.message}</span>
+    case "html":
+      return <span class="content-html">{tile.html}</span>
+    default:
+      return <></>
+  }
+}
+
+export function ExpandedTile({ tile }: ExpandedTileProps) {
+  const { show_products, show_tags, show_sharing, show_caption, show_timestamp, show_carousel_grouping } =
+    sdk.getExpandedTileConfig()
+
   const tileHasCarouselItems = tile.instagram_media_type === "CAROUSEL_ALBUM"
   const carouselGroupingEnabled =
     sdk.isComponentLoaded("carousel-grouping") && show_carousel_grouping && tileHasCarouselItems
@@ -31,25 +49,10 @@ export function ExpandedTile({ sdk, tile }: ExpandedTileProps) {
           <IconSection tile={tile} productsEnabled={productsEnabled} />
           <div class="image-wrapper">
             <div class="image-wrapper-inner">
-              {tile.media === "video" ? (
-                <>
-                  <VideoContainer tile={tile} parent={parent} />
-                  <VideoErrorFallbackTemplate tile={tile} />
-                </>
-              ) : tile.media === "image" ? (
-                <ImageTemplate
-                  tile={tile}
-                  image={tile.image}
-                  shopspotEnabled={shopspotEnabled}
-                  carouselGroupingEnabled={carouselGroupingEnabled}
-                  parent={parent}
-                />
-              ) : tile.media === "text" ? (
-                <span class="content-text">{tile.message}</span>
-              ) : tile.media === "html" ? (
-                <span class="content-html">{tile.html}</span>
+              {carouselGroupingEnabled ? (
+                <carousel-grouping parent={parent} tile={tile} tile-id={tile.id} mode="expanded" />
               ) : (
-                <></>
+                <ContentWrapper tile={tile} parent={parent} />
               )}
             </div>
           </div>
@@ -123,13 +126,11 @@ export function ImageTemplate({
   tile,
   image,
   shopspotEnabled = false,
-  carouselGroupingEnabled = false,
   parent
 }: {
   tile: Tile
   image: string
   shopspotEnabled?: boolean
-  carouselGroupingEnabled?: boolean
   parent?: string
 }) {
   return image ? (
@@ -143,13 +144,9 @@ export function ImageTemplate({
         ) : (
           <></>
         )}
-        {carouselGroupingEnabled ? (
-          <carousel-grouping parent={parent} tile-id={tile.id} mode="expanded" />
-        ) : (
-          <a href={tile.original_url} target="_blank">
-            <img class="image-element" src={image} loading="lazy" alt={tile.description || "Image"} />
-          </a>
-        )}
+        <a href={tile.original_url} target="_blank">
+          <img class="image-element" src={image} loading="lazy" alt={tile.description || "Image"} />
+        </a>
       </div>
     </>
   ) : (
