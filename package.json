@@ -126,5 +126,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "handlebars": "^4.7.8"
+  }
 }
