@@ -16,6 +16,11 @@
       "types": "./dist/esm/index.d.ts",
       "require": "./dist/cjs/index.js"
     },
+    "./handlebars": {
+      "import": "./dist/esm/handlebars/index.js",
+      "types": "./dist/esm/handlebars/index.d.ts",
+      "require": "./dist/cjs/handlebars/index.js"
+    },
     "./bundle": {
       "import": "./dist/esm/bundle/index.js",
       "types": "./dist/esm/bundle/index.d.ts"
@@ -126,5 +131,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "handlebars": "^4.7.8"
+  }
 }
