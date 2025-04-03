@@ -22,7 +22,7 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
         videoTag =
           `<iframe` +
           buildWidthHeightAttributes(escapedWidth, escapedHeight) +
-          ` loading="lazy" onload="this.parentElement.parentElement.parentElement.style.display='flex';" class="video-content" allowfullscreen src="${videoLink}"></iframe>`
+          ` loading="eager" onload="this.parentElement.parentElement.parentElement.style.display='flex';" class="video-content" allowfullscreen src="${videoLink}"></iframe>`
         break
       }
       case "youtube": {
