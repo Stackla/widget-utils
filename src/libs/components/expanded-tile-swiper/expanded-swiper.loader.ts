@@ -15,7 +15,6 @@ import { EVENT_LOAD_MORE } from "../../../events"
 import { getExpandedSlides } from "./base.template"
 import {
   controlVideoPlayback,
-  controlVideoPlaybackForStory,
   setupTikTokPlayerReadyEvent,
   setupVideoEvents,
   setupYoutubeEvents,
@@ -141,7 +140,7 @@ function initalizeStoryExpandedTile(
           swiperStoryNavigationHandler(swiper)
         },
         autoplay: async (swiper: Swiper) => {
-          await controlVideoPlaybackForStory(swiper)
+          await controlVideoPlayback(swiper)
         }
       }
     },
@@ -159,7 +158,7 @@ async function swiperStoryNavigationHandler(swiper: Swiper) {
     throw Error("Tile is not found in next slide from swiper")
   }
   sdk.setTile(tile)
-  await controlVideoPlaybackForStory(swiper)
+  await controlVideoPlayback(swiper)
 }
 
 async function swiperNavigationHandler(swiper: Swiper) {

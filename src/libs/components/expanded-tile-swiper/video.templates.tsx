@@ -3,6 +3,8 @@ import { EmbedYoutube, ImageTemplate } from "../../components"
 
 declare const sdk: ISdk
 
+type OnLoad = (event: Event) => void
+
 function getVideoData(tile: Tile) {
   if (tile.video_files?.length) {
     return tile.video_files[0]
@@ -20,7 +22,7 @@ function getVideoData(tile: Tile) {
   throw new Error("Failed to find video data")
 }
 
-export function UgcVideoTemplate({ tile, onLoad }: { tile: Tile; onLoad: () => void }) {
+export function UgcVideoTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad }) {
   const { url, width, height, mime } = getVideoData(tile)
 
   return (
@@ -37,15 +39,14 @@ export function UgcVideoTemplate({ tile, onLoad }: { tile: Tile; onLoad: () => v
       oncanplay={(event: Event) => {
         const videoElement = event.target as HTMLVideoElement
         videoElement.muted = true
-        videoElement.style.display = "flex"
-        onLoad()
+        onLoad(event)
       }}>
       <source src={url} width={width.toString()} height={height.toString()} type={mime} />
     </video>
   )
 }
 
-export function TwitterTemplate({ tile, onLoad }: { tile: Tile; onLoad: () => void }) {
+export function TwitterTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad }) {
   if (!tile.video) {
     return <VideoErrorFallbackTemplate tile={tile} defaultHidden={false} />
   }
@@ -66,18 +67,21 @@ export function TwitterTemplate({ tile, onLoad }: { tile: Tile; onLoad: () => vo
         const videoElement = event.target as HTMLVideoElement
         videoElement.muted = true
         videoElement.style.display = "flex"
-        onLoad()
+        onLoad(event)
       }}>
       <source src={standard_resolution.url} />
     </video>
   )
 }
 
-export function TikTokTemplate({ tile, onLoad }: { tile: Tile; onLoad?: () => void }) {
+export function TikTokTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad }) {
   const tiktokId = tile.tiktok_id
 
   return (
     <iframe
+      style={{
+        display: "none"
+      }}
       id={`tiktok-frame-${tile.id}-${tiktokId}`}
       loading="lazy"
       tileid={tile.id}
@@ -92,7 +96,7 @@ export function TikTokTemplate({ tile, onLoad }: { tile: Tile; onLoad?: () => vo
   )
 }
 
-export function FacebookFallbackTemplate({ tile, onLoad }: { tile: Tile; onLoad?: () => void }) {
+export function FacebookFallbackTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad }) {
   const embedBlock = (
     <div class="fb-content-wrapper">
       <div id="fb-root"></div>
@@ -113,6 +117,9 @@ export function FacebookFallbackTemplate({ tile, onLoad }: { tile: Tile; onLoad?
   )
   return (
     <iframe
+      style={{
+        display: "none"
+      }}
       onload={onLoad}
       loading="lazy"
       class="video-content"
@@ -146,7 +153,7 @@ export function VideoErrorFallbackTemplate({
   )
 }
 
-export function SourceVideoContent({ tile, parent, onLoad }: { tile: Tile; parent?: string; onLoad: () => void }) {
+export function SourceVideoContent({ tile, parent, onLoad }: { tile: Tile; parent?: string; onLoad: OnLoad }) {
   // handle unplayable tiktok source
   // TODO handle vide_source "tiktok"
   if (tile.source === "tiktok" || tile.video_source === "tiktok") {
@@ -188,11 +195,14 @@ export function VideoContainer({ tile, parent }: { tile: Tile; parent?: string }
           style={{ "background-image": `url('${tile.original_image_url}')` }}></div>
       </a>
       <SourceVideoContent
-        onLoad={() => {
+        onLoad={(event: Event) => {
           const imageFiller = sdk.querySelector(`.image-filler[data-tile-id="${tile.id}"]`)
           if (imageFiller) {
             imageFiller.classList.add("blurred")
           }
+
+          const videoElement = event.target as HTMLVideoElement
+          videoElement.style.display = "inherit"
         }}
         tile={tile}
         parent={parent}

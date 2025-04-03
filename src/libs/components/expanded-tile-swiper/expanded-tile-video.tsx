@@ -50,29 +50,11 @@ export async function controlVideoPlayback(swiper: Swiper) {
   const previousElement = getSwiperVideoElement(swiper, swiper.previousIndex)
 
   if (activeElement) {
-    await triggerPlay(activeElement)
+    triggerPlay(activeElement)
   }
 
   if (previousElement) {
-    await triggerPause(previousElement)
-  }
-}
-
-/**
- * For story widget
- * Play/Pause the video/audio attached to the slide on navigation where the element is a media element (video/youtube/tiktok)
- * @param { Swiper } swiper - the swiper element
- */
-export async function controlVideoPlaybackForStory(swiper: Swiper) {
-  const activeElement = getSwiperVideoElement(swiper, swiper.realIndex, true)
-  const previousElement = getSwiperVideoElement(swiper, swiper.previousIndex, true)
-
-  if (activeElement) {
-    await triggerPlay(activeElement)
-  }
-
-  if (previousElement) {
-    await triggerPause(previousElement)
+    triggerPause(previousElement)
   }
 }
 
@@ -83,7 +65,7 @@ export async function controlVideoPlaybackForStory(swiper: Swiper) {
  * @param elementData.element - the container element of the media (video tag or iframe.contentWindow)
  * @param elementData.source - the media source (video for custom video source, youtube/tiktok)
  */
-export async function triggerPlay(elementData?: SwiperVideoElementData) {
+export function triggerPlay(elementData?: SwiperVideoElementData) {
   if (!elementData) {
     return
   }
@@ -91,7 +73,7 @@ export async function triggerPlay(elementData?: SwiperVideoElementData) {
   switch (elementData.source) {
     case "video": {
       const videoElement = elementData.element as HTMLVideoElement
-      await videoElement.play()
+      videoElement.play()
       if (window.ugc.swiperContainer["expanded"]?.muted) {
         videoElement.muted = true
       } else {
@@ -101,7 +83,7 @@ export async function triggerPlay(elementData?: SwiperVideoElementData) {
     }
     case "youtube": {
       const YoutubeContentWindow = elementData.element as YoutubeContentWindow
-      await YoutubeContentWindow.play()
+      YoutubeContentWindow.play()
       if (window.ugc.swiperContainer["expanded"]?.muted) {
         YoutubeContentWindow.mute()
       } else {
@@ -111,11 +93,11 @@ export async function triggerPlay(elementData?: SwiperVideoElementData) {
     }
     case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
-      await playTiktokVideo(tiktokFrameWindow)
+      playTiktokVideo(tiktokFrameWindow)
       if (window.ugc.swiperContainer["expanded"]?.muted) {
-        await muteTiktokVideo(tiktokFrameWindow)
+        muteTiktokVideo(tiktokFrameWindow)
       } else {
-        await unMuteTiktokVideo(tiktokFrameWindow)
+        unMuteTiktokVideo(tiktokFrameWindow)
       }
       break
     }
