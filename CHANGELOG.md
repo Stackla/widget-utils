@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.99
+
+### Patch Changes
+
+- 1b713f0: Include hbs
+
 ## 0.1.98
 
 ### Patch Changes
