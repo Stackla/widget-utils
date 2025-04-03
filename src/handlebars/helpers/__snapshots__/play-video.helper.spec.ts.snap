@@ -1,27 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`loadPlayVideoHelper should escape the URL, width and height to prevent XSS 1`] = `
-"<video  width="100&quot; onClick&#x3D;&quot;alert(1)" preload="metadata" class="video-content" loading="lazy" controls autoplay muted loop>
+"<video  width="100&quot; onClick&#x3D;&quot;alert(1)" preload="metadata" class="video-content" loading="lazy"  
+  oncanplaythrough="this.muted=true;this.style.display='flex';this.parentElement.parentElement.parentElement.style.display='flex';" 
+  controls autoplay muted loop>
   <source src="https://example.com/&lt;script&gt;alert(1)&lt;/script&gt;.mp4#t=0.1" type="video/mp4">
   </video>"
 `;
 
 exports[`loadPlayVideoHelper should generate a video tag with url, width and height 1`] = `
-"<video  width="100%" height="100%" preload="metadata" class="video-content" loading="lazy" controls autoplay muted loop>
+"<video  width="100%" height="100%" preload="metadata" class="video-content" loading="lazy"  
+  oncanplaythrough="this.muted=true;this.style.display='flex';this.parentElement.parentElement.parentElement.style.display='flex';" 
+  controls autoplay muted loop>
   <source src="https://example.com/video.mp4#t=0.1" type="video/mp4">
   </video>"
 `;
 
-exports[`loadPlayVideoHelper should generate a video with embedly html 1`] = `"<iframe width="100%" height="100%" loading="lazy" class="video-content" allowfullscreen src="https://www.tiktok.com/player/v1/7226405581324651819?autoplay=1&loop=1"></iframe>"`;
+exports[`loadPlayVideoHelper should generate a video with embedly html 1`] = `"<iframe width="100%" height="100%" loading="lazy" onload="this.parentElement.parentElement.parentElement.style.display='flex';" class="video-content" allowfullscreen src="https://www.tiktok.com/player/v1/7226405581324651819?autoplay=1&loop=1"></iframe>"`;
 
 exports[`loadPlayVideoHelper should handle undefined width and height gracefully 1`] = `
-"<video  preload="metadata" class="video-content" loading="lazy" controls autoplay muted loop>
+"<video  preload="metadata" class="video-content" loading="lazy"  
+  oncanplaythrough="this.muted=true;this.style.display='flex';this.parentElement.parentElement.parentElement.style.display='flex';" 
+  controls autoplay muted loop>
   <source src="https://example.com/video.mp4#t=0.1" type="video/mp4">
   </video>"
 `;
 
 exports[`loadPlayVideoHelper should return an empty string if URL is null or undefined 1`] = `
-"<video  preload="metadata" class="video-content" loading="lazy" controls autoplay muted loop>
+"<video  preload="metadata" class="video-content" loading="lazy"  
+  oncanplaythrough="this.muted=true;this.style.display='flex';this.parentElement.parentElement.parentElement.style.display='flex';" 
+  controls autoplay muted loop>
   <source src="#t=0.1" type="video/mp4">
   </video>"
 `;

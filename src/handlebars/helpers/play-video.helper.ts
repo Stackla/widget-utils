@@ -1,7 +1,9 @@
 import Handlebars from "handlebars"
 
 export function createVideoTag(attributes: string, videoLink: string) {
-  return `<video ${attributes} preload="metadata" class="video-content" loading="lazy" controls autoplay muted loop>
+  return `<video ${attributes} preload="metadata" class="video-content" loading="lazy"  
+  oncanplaythrough="this.muted=true;this.style.display='flex';this.parentElement.parentElement.parentElement.style.display='flex';" 
+  controls autoplay muted loop>
   <source src="${videoLink + "#t=0.1"}" type="video/mp4">
   </video>`
 }
@@ -20,7 +22,7 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
         videoTag =
           `<iframe` +
           buildWidthHeightAttributes(escapedWidth, escapedHeight) +
-          ` loading="lazy" class="video-content" allowfullscreen src="${videoLink}"></iframe>`
+          ` loading="lazy" onload="this.parentElement.parentElement.parentElement.style.display='flex';" class="video-content" allowfullscreen src="${videoLink}"></iframe>`
         break
       }
       case "youtube": {
@@ -29,15 +31,15 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
         videoTag =
           `<iframe` +
           buildWidthHeightAttributes(escapedWidth, escapedHeight) +
-          ` loading="lazy" class="video-content" allowfullscreen src="${youtubeVideoLink}"></iframe>`
+          ` loading="eager" onload="this.parentElement.parentElement.parentElement.style.display='flex';" class="video-content" allowfullscreen src="${youtubeVideoLink}"></iframe>`
         break
       }
       default: {
         const videoUrl = tile?.video?.standard_resolution.url ?? ""
-        const escapedUrl = hbs.escapeExpression(videoUrl)
+        const escapedVideoUrl = hbs.escapeExpression(videoUrl)
         const widthHeightAttributes = buildWidthHeightAttributes(escapedWidth, escapedHeight)
 
-        videoTag = createVideoTag(widthHeightAttributes, escapedUrl)
+        videoTag = createVideoTag(widthHeightAttributes, escapedVideoUrl)
       }
     }
 
