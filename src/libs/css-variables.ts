@@ -93,6 +93,7 @@ export default function getCSSVariables(features?: Partial<Features>): string {
 
   const mutatedCssVariables: { [key: string]: string } = {
     ...cssVariables,
+    "--image-position": `top`,
     "--widget-background": `#${widget_background}`,
     "--inline-tile-background": `#${text_tile_background}`,
     "--text-tile-background": `#${text_tile_background}`,
