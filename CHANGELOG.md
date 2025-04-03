@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.0
+
+### Minor Changes
+
+- 30dbff1: Improve video helper
+
 ## 0.1.100
 
 ### Patch Changes
