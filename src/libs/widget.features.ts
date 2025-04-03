@@ -150,21 +150,9 @@ const getLoadMoreButton = () => {
   return loadMoreButton
 }
 
-const getLoadMoreLoader = () => {
-  const loadMoreLoader = sdk.querySelector("#load-more-loader")
-
-  if (!loadMoreLoader) {
-    throw new Error("Failed to find load more loader")
-  }
-
-  return loadMoreLoader
-}
-
 const loadMoreWrappedWithEasedLoader = () => {
   const loadMoreButton = getLoadMoreButton()
   loadMoreButton.classList.add("hidden")
-  const loadMoreLoader = getLoadMoreLoader()
-  loadMoreLoader.classList.remove("hidden")
   loadMore()
 }
 
@@ -177,28 +165,19 @@ export function addLoadMoreButtonFeature() {
       attachLoadMoreButtonListener()
 
       sdk.addEventListener(EVENT_TILES_UPDATED, () => {
-        const loadMoreLoader = getLoadMoreLoader()
         const loadMoreButton = getLoadMoreButton()
-        loadMoreLoader.classList.add("hidden")
         loadMoreButton.classList.remove("hidden")
       })
 
       sdk.addEventListener(EVENT_TILES_DEPLETED, () => {
         disableLoadMoreButtonIfExists()
-        disableLoadMoreLoaderIfExists()
       })
 
       break
     case "scroll":
-      sdk.addEventListener(EVENT_TILES_UPDATED, () => {
-        const loadMoreLoader = getLoadMoreLoader()
-        loadMoreLoader.classList.add("hidden")
-      })
-
       useInfiniteScroller(sdk, window)
       break
     case "static":
-      disableLoadMoreLoaderIfExists()
       disableLoadMoreButtonIfExists()
       break
     default:
@@ -216,10 +195,6 @@ export function disableLoadMoreButtonIfExists() {
   const loadMoreButton = getLoadMoreButton()
 
   loadMoreButton.classList.add("hidden")
-}
-
-export function disableLoadMoreLoaderIfExists() {
-  getLoadMoreLoader().classList.add("hidden")
 }
 
 export function loadTitle() {

@@ -1,7 +1,7 @@
 import Handlebars from "handlebars"
 
 export function createVideoTag(attributes: string, videoLink: string) {
-  return `<video ${attributes} preload="metadata" class="video-content" loading="lazy"  
+  return `<video style="display:none;" ${attributes} preload="metadata" class="video-content" loading="lazy"  
   oncanplaythrough="this.muted=true;this.style.display='flex';this.parentElement.parentElement.parentElement.style.display='flex';" 
   controls autoplay muted loop>
   <source src="${videoLink + "#t=0.1"}" type="video/mp4">
