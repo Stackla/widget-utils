@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.1.100
+
+### Patch Changes
+
+- 3a0785d: Improve video loading
+
 ## 0.1.99
 
 ### Patch Changes
