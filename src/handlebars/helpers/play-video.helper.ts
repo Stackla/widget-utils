@@ -1,8 +1,20 @@
 import Handlebars from "handlebars"
 
-export function createVideoTag(attributes: string, videoLink: string) {
-  return `<video style="display:none;" ${attributes} preload="metadata" class="video-content" loading="lazy"  
-  oncanplaythrough="this.muted=true;this.style.display='flex';this.parentElement.parentElement.parentElement.style.display='flex';" 
+function getImageTag(imageLink: string) {
+  return `<img class='fallback-image' src="${imageLink}" loading="lazy" width="120"/>`
+}
+
+function getManipulateFunctionString() {
+  return `this.removeAttribute('controls'); 
+  this.parentElement.parentElement.querySelector('.icon-play').style.display='none';
+  this.muted=true; 
+  this.parentElement.querySelector('.fallback-image').style.display='none'; this.style.display='flex';
+  this.parentElement.parentElement.parentElement.style.display='flex';`
+}
+
+export function createVideoTag(attributes: string, videoLink: string, imageLink: string) {
+  return `${getImageTag(imageLink)}<video style="display:none;" ${attributes} preload="metadata" class="video-content" loading="lazy"  
+  oncanplaythrough="${getManipulateFunctionString()}" 
   controls autoplay muted loop>
   <source src="${videoLink + "#t=0.1"}" type="video/mp4">
   </video>`
@@ -14,24 +26,25 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
     const escapedWidth = typeof width === "string" ? hbs.escapeExpression(width) : ""
     const escapedHeight = typeof height === "string" ? hbs.escapeExpression(height) : ""
     const source = tile.source
+    const imageTag = getImageTag(tile.image)
 
     switch (source) {
       case "tiktok": {
         const tiktokId = tile.original_url.split("/")[5].split("?")[0]
         const videoLink = `https://www.tiktok.com/player/v1/${tiktokId}?autoplay=1&loop=1`
         videoTag =
-          `<iframe` +
+          `${imageTag}<iframe` +
           buildWidthHeightAttributes(escapedWidth, escapedHeight) +
-          ` loading="lazy" onload="this.parentElement.parentElement.parentElement.style.display='flex';" class="video-content" allowfullscreen src="${videoLink}"></iframe>`
+          ` loading="lazy" onload="${getManipulateFunctionString()}" class="video-content" allowfullscreen src="${videoLink}"></iframe>`
         break
       }
       case "youtube": {
         const youtubeEmbedUrl = tile.embed_url ?? ""
         const youtubeVideoLink = `//www.youtube.com/embed/${youtubeEmbedUrl}?autoplay=1&mute=1&playlist=${youtubeEmbedUrl}&loop=1`
         videoTag =
-          `<iframe` +
+          `${imageTag}<iframe` +
           buildWidthHeightAttributes(escapedWidth, escapedHeight) +
-          ` loading="eager" onload="this.parentElement.parentElement.parentElement.style.display='flex';" class="video-content" allowfullscreen src="${youtubeVideoLink}"></iframe>`
+          ` loading="eager" onload="${getManipulateFunctionString()}" class="video-content" allowfullscreen src="${youtubeVideoLink}"></iframe>`
         break
       }
       default: {
@@ -39,7 +52,7 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
         const escapedVideoUrl = hbs.escapeExpression(videoUrl)
         const widthHeightAttributes = buildWidthHeightAttributes(escapedWidth, escapedHeight)
 
-        videoTag = createVideoTag(widthHeightAttributes, escapedVideoUrl)
+        videoTag = createVideoTag(widthHeightAttributes, escapedVideoUrl, tile.image)
       }
     }
 
