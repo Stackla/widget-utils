@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Widget Functions getCSSVariables should return the correct CSS variables 1`] = `
-"--widget-background: #ffffff;
+"--image-position: top;
+--widget-background: #ffffff;
 --inline-tile-background: #000000;
 --text-tile-background: #000000;
 --shopspot-btn-background: #ff00ff;

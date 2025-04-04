@@ -3,7 +3,7 @@ import { createElement } from "../../"
 export type EmbedYoutubeProps = {
   tileId: string
   videoId: string
-  onLoad?: () => void
+  onLoad?: (event: Event) => void
 }
 
 export function EmbedYoutube({ tileId, videoId, onLoad }: EmbedYoutubeProps) {

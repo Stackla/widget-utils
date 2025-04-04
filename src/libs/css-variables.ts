@@ -93,6 +93,7 @@ export default function getCSSVariables(features?: Partial<Features>): string {
 
   const mutatedCssVariables: { [key: string]: string } = {
     ...cssVariables,
+    "--image-position": `top`,
     "--widget-background": `#${widget_background}`,
     "--inline-tile-background": `#${text_tile_background}`,
     "--text-tile-background": `#${text_tile_background}`,
@@ -122,7 +123,7 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--inline-tile-margin": `${margin}px`,
     "--tags-display-inline": `${show_tags_inline ? "flex" : "none"}`,
     "--tags-display-expanded": `${show_tags_expanded ? "flex" : "none"}`,
-    "--story-expanded-display-bottom-section": `${show_tags_expanded ? "34px" : "10px"}`,
+    "--story-expanded-display-bottom-section": `${show_tags_expanded ? "10px" : "10px"}`,
     "--shopspots-display-inline": `${show_shopspots_inline ? "block" : "none"}`,
     "--shopspots-display-expanded": `${show_shopspots_expanded ? "block" : "none"}`,
     "--timephrase-display-inline": `${show_timestamp_inline ? "flex" : "none"}`,
