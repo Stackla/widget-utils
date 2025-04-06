@@ -5,10 +5,16 @@ import { ExpandedTileProps, ShopspotProps, ContentWrapperProps } from "./types"
 
 declare const sdk: ISdk
 
-export function ContentWrapper({ tile, parent }: ContentWrapperProps) {
+export function ContentWrapper({ id, parent }: ContentWrapperProps) {
   const { show_shopspots } = sdk.getExpandedTileConfig()
+  const tile = sdk.getTileById(id)
 
-  const shopspotEnabled = sdk.isComponentLoaded("shopspots") && show_shopspots && !!tile.hotspots?.length
+  if (!tile) {
+    console.warn("Tile not found in ContentWrapper", id)
+    return <></>
+  }
+
+  const shopspotEnabled = sdk.isComponentLoaded("shopspots") && show_shopspots && !!tile?.hotspots?.length
 
   switch (tile.media) {
     case "video":
@@ -50,9 +56,9 @@ export function ExpandedTile({ tile }: ExpandedTileProps) {
           <div class="image-wrapper">
             <div class="image-wrapper-inner">
               {carouselGroupingEnabled ? (
-                <carousel-grouping parent={parent} tile={tile} tile-id={tile.id} mode="expanded" />
+                <carousel-grouping parent={parent} tile-id={tile.id} mode="expanded" />
               ) : (
-                <ContentWrapper tile={tile} parent={parent} />
+                <ContentWrapper id={tile.id} parent={parent} />
               )}
             </div>
           </div>
