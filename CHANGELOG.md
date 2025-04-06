@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.1
+
+### Patch Changes
+
+- a4d336b: Fix image fallback issue
+
 ## 0.2.0
 
 ### Minor Changes
