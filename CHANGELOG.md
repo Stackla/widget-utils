@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.2
+
+### Patch Changes
+
+- a4ed12e: pass tile id instead of tile object to Content Wrapper
+
 ## 0.2.1
 
 ### Patch Changes
