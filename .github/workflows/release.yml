@@ -26,6 +26,7 @@ jobs:
       group: releases
       cancel-in-progress: true
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
