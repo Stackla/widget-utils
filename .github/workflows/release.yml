@@ -47,3 +47,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           GITHUB_REGISTRY_TOKEN: ${{ secrets.STACKLA_BOT_GITHUB_TOKEN }}
+      - uses: ./.github/workflows/s3
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          stage: ${{ inputs.environment }}
+          sentry-auth-token: ${{ secrets.SENTRY_AUTH_TOKEN }}
