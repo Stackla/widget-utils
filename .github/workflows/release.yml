@@ -19,6 +19,7 @@ on:
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.STACKLA_BOT_GITHUB_TOKEN }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
 
 jobs:
   release:
