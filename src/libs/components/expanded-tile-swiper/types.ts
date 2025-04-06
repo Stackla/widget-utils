@@ -11,6 +11,6 @@ export type ShopspotProps = {
 }
 
 export type ContentWrapperProps = {
-  tile: Tile
+  id: string
   parent?: string
 }
