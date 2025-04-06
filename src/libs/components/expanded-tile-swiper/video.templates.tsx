@@ -137,7 +137,7 @@ export function VideoErrorFallbackTemplate({
   parent?: string
   defaultHidden?: boolean
 }) {
-  const originalImageUrl = tile.original_image_url as string
+  const originalImageUrl = tile.image
   const fallbackCss = `video-fallback-content${defaultHidden ? " hidden" : ""}`
 
   return (
@@ -189,10 +189,7 @@ export function VideoContainer({ tile, parent }: { tile: Tile; parent?: string }
   return (
     <div class="video-content-wrapper">
       <a href={tile.original_url} target="_blank">
-        <div
-          data-tile-id={tile.id}
-          class="image-filler"
-          style={{ "background-image": `url('${tile.original_image_url}')` }}></div>
+        <div data-tile-id={tile.id} class="image-filler" style={{ "background-image": `url('${tile.image}')` }}></div>
       </a>
       <SourceVideoContent
         onLoad={(event: Event) => {
