@@ -20,7 +20,7 @@ export function ContentWrapper({ id, parent }: ContentWrapperProps) {
     case "video":
       return (
         <>
-          <VideoContainer tile={tile} parent={parent} />
+          <VideoContainer shopspotEnabled={shopspotEnabled} tile={tile} parent={parent} />
           <VideoErrorFallbackTemplate tile={tile} />
         </>
       )

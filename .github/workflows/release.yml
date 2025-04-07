@@ -26,15 +26,20 @@ jobs:
       group: releases
       cancel-in-progress: true
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 20
+      - uses: ./.github/workflows/aws
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
       - name: Build & Release
         run: |
           npm install
           npm run build
+          aws s3 sync dist/ s3://ugc-nextgen-widgets-ap-southeast-2/templates/utils/${{ inputs.environment }}/ --delete
           npx changeset version
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

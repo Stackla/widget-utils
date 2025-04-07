@@ -1,5 +1,5 @@
-import { ISdk, Tile, createElement } from "../../../"
-import { EmbedYoutube, ImageTemplate } from "../../components"
+import { ISdk, Tile, createElement, createFragment } from "../../../"
+import { EmbedYoutube, ImageTemplate, ShopSpotTemplate } from "../../components"
 
 declare const sdk: ISdk
 
@@ -185,17 +185,49 @@ export function SourceVideoContent({ tile, parent, onLoad }: { tile: Tile; paren
   return <FacebookFallbackTemplate tile={tile} onLoad={onLoad} />
 }
 
-export function VideoContainer({ tile, parent }: { tile: Tile; parent?: string }) {
+export function VideoContainer({
+  tile,
+  parent,
+  shopspotEnabled
+}: {
+  tile: Tile
+  parent?: string
+  shopspotEnabled: boolean
+}) {
   return (
     <div class="video-content-wrapper">
+      <div class="center-section">
+        <div class="play-icon"></div>
+      </div>
       <a href={tile.original_url} target="_blank">
-        <div data-tile-id={tile.id} class="image-filler" style={{ "background-image": `url('${tile.image}')` }}></div>
+        <div class="image-filler blurred" style={{ "background-image": `url('${tile.image}')` }}></div>
       </a>
+      <div class="image">
+        {shopspotEnabled ? (
+          <ShopSpotTemplate shopspotEnabled={shopspotEnabled} parent={parent} tileId={tile.id} />
+        ) : (
+          <></>
+        )}
+        <a href={tile.original_url} target="_blank">
+          <img
+            class="image-element"
+            data-tile-id={tile.id}
+            src={tile.image}
+            loading="lazy"
+            alt={tile.description || "Image"}
+          />
+        </a>
+      </div>
       <SourceVideoContent
         onLoad={(event: Event) => {
-          const imageFiller = sdk.querySelector(`.image-filler[data-tile-id="${tile.id}"]`)
-          if (imageFiller) {
-            imageFiller.classList.add("blurred")
+          const image = sdk.querySelector(`.image-element[data-tile-id="${tile.id}"]`)
+          if (image) {
+            image.style.display = "none"
+          }
+
+          const arrowIcon = sdk.querySelector(".play-icon")
+          if (arrowIcon) {
+            arrowIcon.style.display = "none"
           }
 
           const videoElement = event.target as HTMLVideoElement
