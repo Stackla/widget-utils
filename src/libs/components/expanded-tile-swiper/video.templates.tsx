@@ -197,10 +197,10 @@ export function VideoContainer({
   return (
     <div class="video-content-wrapper">
       <div class="center-section">
-        <div class="play-icon"></div>
+        <div data-tile-id={tile.id} class="play-icon"></div>
       </div>
       <a href={tile.original_url} target="_blank">
-        <div class="image-filler blurred" style={{ "background-image": `url('${tile.image}')` }}></div>
+        <div class="image-filler" style={{ "background-image": `url('${tile.image}')` }}></div>
       </a>
       <div class="image">
         {shopspotEnabled ? (
@@ -208,24 +208,15 @@ export function VideoContainer({
         ) : (
           <></>
         )}
-        <a href={tile.original_url} target="_blank">
-          <img
-            class="image-element"
-            data-tile-id={tile.id}
-            src={tile.image}
-            loading="lazy"
-            alt={tile.description || "Image"}
-          />
-        </a>
       </div>
       <SourceVideoContent
         onLoad={(event: Event) => {
-          const image = sdk.querySelector(`.image-element[data-tile-id="${tile.id}"]`)
-          if (image) {
-            image.style.display = "none"
+          const imageFiller = sdk.querySelector(`.image-filler[data-tile-id="${tile.id}"]`)
+          if (imageFiller) {
+            imageFiller.classList.add("blurred")
           }
 
-          const arrowIcon = sdk.querySelector(".play-icon")
+          const arrowIcon = sdk.querySelector(`.play-icon[data-tile-id="${tile.id}"]`)
           if (arrowIcon) {
             arrowIcon.style.display = "none"
           }
