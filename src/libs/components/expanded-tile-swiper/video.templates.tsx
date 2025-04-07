@@ -200,7 +200,7 @@ export function VideoContainer({
         <div data-tile-id={tile.id} class="play-icon"></div>
       </div>
       <a href={tile.original_url} target="_blank">
-        <div class="image-filler" style={{ "background-image": `url('${tile.image}')` }}></div>
+        <div data-tile-id={tile.id} class="image-filler" style={{ "background-image": `url('${tile.image}')` }}></div>
       </a>
       <div class="image">
         {shopspotEnabled ? (
