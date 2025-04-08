@@ -92,6 +92,7 @@ export function initializeSwiper(swiperProps: SwiperProps) {
     mousewheel: {
       enabled: false
     },
+    touchStartPreventDefault: false,
     navigation: {
       enabled: !!(prev && next),
       nextEl: next,
