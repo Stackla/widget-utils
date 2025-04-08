@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.3
+
+### Patch Changes
+
+- 2fdbb40: Add getContentTagsFromTile()
+
 ## 0.2.2
 
 ### Patch Changes
