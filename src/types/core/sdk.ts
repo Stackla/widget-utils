@@ -1,6 +1,6 @@
 import { EventMapping, EventName } from "../../events"
 import { ClaimConfig, ExpandedTileOptions, InlineTileOptions, Style, WidgetOptions, WidgetResponse } from "../widgets"
-import { Hotspot, Product, Tile } from "./tile"
+import { Content, Hotspot, Product, Tile } from "./tile"
 
 export type Template<C> = (sdk: ISdk, component?: C) => string | HTMLElement
 
@@ -62,4 +62,5 @@ export interface ISdk {
   isPaginationEnabled(): boolean
   isScrollWidget(): boolean
   getProductTagsFromTile(tile: Tile): Product[]
+  getContentTagsFromTile(tile: Tile): Content[]
 }

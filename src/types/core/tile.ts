@@ -163,3 +163,7 @@ export type Hotspot = {
 export type Product = TagExtended & {
   type: "product"
 }
+
+export type Content = TagExtended & {
+  type: "content"
+}
