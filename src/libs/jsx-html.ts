@@ -1,4 +1,5 @@
 import { MaybeArray } from "../types"
+import sanitizeHtml from "sanitize-html"
 
 // remaps entries in GlobalEventHandlersEventMap to their respective React style event handlers
 type GlobalEventHandlersMapping = {
@@ -60,6 +61,10 @@ function applyProperties(element: HTMLElement, props: Props) {
       element.addEventListener(key.slice(2).toLowerCase(), value)
     } else if (key === "style") {
       Object.assign(element.style, value)
+    } else if (key === "dangerouslySetInnerHTML") {
+      // @ts-expect-error __html is a valid property
+      const sanitizedValue = sanitizeHtml(value.__html)
+      element.innerHTML = sanitizedValue
     } else {
       const normKey = aliases[key] ?? key
       element.setAttribute(normKey, String(value))

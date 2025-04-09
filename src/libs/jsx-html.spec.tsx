@@ -96,4 +96,9 @@ describe("JSX mapping", () => {
     expect(span.outerHTML).toEqual("<span><span>Hello</span><span>World</span><span>!</span></span>")
     expect(span.children.length).toEqual(3)
   })
+
+  it("handles dangerouslySetInnerHTML", () => {
+    const element = <div dangerouslySetInnerHTML={{ __html: "<span>Hello</span>" }} />
+    expect(element.outerHTML).toEqual("<div><span>Hello</span></div>")
+  })
 })
