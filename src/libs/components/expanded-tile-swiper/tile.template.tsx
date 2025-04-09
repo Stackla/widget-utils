@@ -56,7 +56,7 @@ export function ExpandedTile({ tile }: ExpandedTileProps) {
           <div class="image-wrapper">
             <div class="image-wrapper-inner">
               {carouselGroupingEnabled && tile.carousel_children && tile.carousel_children.length > 0 ? (
-                <carousel-grouping parent={parent} tile-id={tile.id} mode="expanded" />
+                <carousel-grouping parent={parent} tile-id={tile.id} mode="expanded" navigation-arrows="true" />
               ) : (
                 <ContentWrapper id={tile.id} parent={parent} />
               )}
