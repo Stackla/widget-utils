@@ -94,7 +94,7 @@ export default [
       {
         id: 41,
         stack_id: 1451,
-        type: "product",
+        type: "content",
         tag: "Kathmandu 1",
         tag_sanitized: null,
         slug: "kathmandu1",
