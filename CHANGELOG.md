@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.4
+
+### Patch Changes
+
+- 71a5cef: Add support for innerhtml
+
 ## 0.2.3
 
 ### Patch Changes
