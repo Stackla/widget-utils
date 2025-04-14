@@ -19,21 +19,25 @@ export function getTileSize(settings?: Features["tileSizeSettings"]) {
   return tileSizes[inline_tile_size]
 }
 
+export function getTileWidthBySizeString(sizeString: string, fallbacks?: Features["tileWidthSettings"]) {
+  const tileSizes: { [key: string]: string } = {
+    small: fallbacks?.small ?? "116.5px",
+    medium: fallbacks?.medium ?? "158px",
+    large: fallbacks?.large ?? "229px"
+  }
+
+  return tileSizes[sizeString]
+}
+
 export function getTileWidth(settings?: Features["tileWidthSettings"]) {
   const style = sdk.getStyleConfig()
   const { inline_tile_size } = style
 
-  const tileWidths: { [key: string]: string } = {
-    small: settings?.small ?? "116.5px",
-    medium: settings?.medium ?? "158px",
-    large: settings?.large ?? "229px"
-  }
-
   if (!inline_tile_size) {
-    return tileWidths["medium"]
+    return getTileWidthBySizeString("medium")
   }
 
-  return tileWidths[inline_tile_size]
+  return getTileWidthBySizeString(inline_tile_size, settings)
 }
 
 export function getTileSizeByWidget(tileSizeSettings?: Features["tileSizeSettings"]) {
