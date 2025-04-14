@@ -23,7 +23,6 @@ function getManipulateFunctionString() {
 }
 
 export function createVideoTag(
-  attributes: string,
   tile: Tile,
   variant: "dark" | "light",
   context: string,
@@ -32,7 +31,7 @@ export function createVideoTag(
   const videoUrl = tile?.video?.standard_resolution.url ?? ""
   const escapedVideoUrl = Handlebars.escapeExpression(videoUrl)
 
-  return `${getImageTag(tile, variant, context, navigationArrows)}<video style="display:none;" ${attributes} preload="metadata" class="video-content" loading="lazy"  
+  return `${getImageTag(tile, variant, context, navigationArrows)}<video style="display:none;" reload="metadata" class="video-content" loading="lazy"  
   oncanplaythrough="${getManipulateFunctionString()}" 
   controls autoplay muted loop>
   <source src="${escapedVideoUrl + "#t=0.1"}" type="video/mp4">
@@ -43,8 +42,6 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
   hbs.registerHelper("playVideo", function (tile, options) {
     const { variant = "dark", context = "unknown", navigationArrows = "true" } = options
     let videoTag = ""
-    const escapedWidth = ""
-    const escapedHeight = ""
     const source = tile.source
     const imageTag = getImageTag(tile, variant, context, navigationArrows)
 
@@ -54,7 +51,6 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
         const videoLink = `https://www.tiktok.com/player/v1/${tiktokId}?autoplay=1&loop=1`
         videoTag =
           `${imageTag}<iframe` +
-          buildWidthHeightAttributes(escapedWidth, escapedHeight) +
           ` loading="lazy" onload="${getManipulateFunctionString()}" class="video-content" allowfullscreen src="${videoLink}"></iframe>`
         break
       }
@@ -63,21 +59,14 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
         const youtubeVideoLink = `//www.youtube.com/embed/${youtubeEmbedUrl}?autoplay=1&mute=1&playlist=${youtubeEmbedUrl}&loop=1`
         videoTag =
           `${imageTag}<iframe` +
-          buildWidthHeightAttributes(escapedWidth, escapedHeight) +
           ` loading="eager" onload="${getManipulateFunctionString()}" class="video-content" allowfullscreen src="${youtubeVideoLink}"></iframe>`
         break
       }
       default: {
-        const widthHeightAttributes = buildWidthHeightAttributes(escapedWidth, escapedHeight)
-
-        videoTag = createVideoTag(widthHeightAttributes, tile, variant, context, navigationArrows)
+        videoTag = createVideoTag(tile, variant, context, navigationArrows)
       }
     }
 
     return new hbs.SafeString(videoTag)
   })
-}
-
-function buildWidthHeightAttributes(width: string, height: string) {
-  return `${width ? ` width="${width}"` : ""}${height ? ` height="${height}"` : ""}`
 }
