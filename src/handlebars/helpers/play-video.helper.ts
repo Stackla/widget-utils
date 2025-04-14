@@ -1,9 +1,13 @@
 import Handlebars from "handlebars"
+import { getIcons } from "./load-icons.helper"
+import { Tile } from "../../types"
 
-function getImageTag(imageLink: string, tileId: string) {
+function getImageTag(tile: Tile, variant: "dark" | "light", context: string, navigationArrows: "true" | "false") {
+  const { id, image } = tile
+
   return `
-  <div class="icon-play"></div>
-  <img class='fallback-image' tile-id="${tileId}" src="${imageLink}" loading="lazy" width="120"/>
+  ${getIcons(tile, variant, context, navigationArrows)}
+  <img class='fallback-image' tile-id="${id}" src="${image}" loading="lazy" width="120"/>
   `
 }
 
@@ -12,25 +16,34 @@ function getManipulateFunctionString() {
   this.muted=true; 
   this.parentElement.querySelector('.fallback-image').style.display='none'; 
   this.style.display='flex';
-  this.parentElement.parentElement.querySelector('.icon-play').style.display='none';
+  this.parentElement.parentElement.parentElement.querySelectorAll('.icon-play').forEach((el) => {
+    el.style.display='none';
+  });
   `
 }
 
-export function createVideoTag(attributes: string, videoLink: string, imageLink: string, tileId: string) {
-  return `${getImageTag(imageLink, tileId)}<video style="display:none;" ${attributes} preload="metadata" class="video-content" loading="lazy"  
+export function createVideoTag(
+  tile: Tile,
+  variant: "dark" | "light",
+  context: string,
+  navigationArrows: "true" | "false"
+) {
+  const videoUrl = tile?.video?.standard_resolution.url ?? ""
+  const escapedVideoUrl = Handlebars.escapeExpression(videoUrl)
+
+  return `${getImageTag(tile, variant, context, navigationArrows)}<video style="display:none;" reload="metadata" class="video-content" loading="lazy"  
   oncanplaythrough="${getManipulateFunctionString()}" 
   controls autoplay muted loop>
-  <source src="${videoLink + "#t=0.1"}" type="video/mp4">
+  <source src="${escapedVideoUrl + "#t=0.1"}" type="video/mp4">
   </video>`
 }
 
 export function loadPlayVideoHelper(hbs: typeof Handlebars) {
-  hbs.registerHelper("playVideo", function (tile, width, height) {
+  hbs.registerHelper("playVideo", function (tile, options) {
+    const { variant = "dark", context = "unknown", navigationArrows = "true" } = options
     let videoTag = ""
-    const escapedWidth = typeof width === "string" ? hbs.escapeExpression(width) : ""
-    const escapedHeight = typeof height === "string" ? hbs.escapeExpression(height) : ""
     const source = tile.source
-    const imageTag = getImageTag(tile.image, tile.id)
+    const imageTag = getImageTag(tile, variant, context, navigationArrows)
 
     switch (source) {
       case "tiktok": {
@@ -38,7 +51,6 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
         const videoLink = `https://www.tiktok.com/player/v1/${tiktokId}?autoplay=1&loop=1`
         videoTag =
           `${imageTag}<iframe` +
-          buildWidthHeightAttributes(escapedWidth, escapedHeight) +
           ` loading="lazy" onload="${getManipulateFunctionString()}" class="video-content" allowfullscreen src="${videoLink}"></iframe>`
         break
       }
@@ -47,23 +59,14 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
         const youtubeVideoLink = `//www.youtube.com/embed/${youtubeEmbedUrl}?autoplay=1&mute=1&playlist=${youtubeEmbedUrl}&loop=1`
         videoTag =
           `${imageTag}<iframe` +
-          buildWidthHeightAttributes(escapedWidth, escapedHeight) +
           ` loading="eager" onload="${getManipulateFunctionString()}" class="video-content" allowfullscreen src="${youtubeVideoLink}"></iframe>`
         break
       }
       default: {
-        const videoUrl = tile?.video?.standard_resolution.url ?? ""
-        const escapedVideoUrl = hbs.escapeExpression(videoUrl)
-        const widthHeightAttributes = buildWidthHeightAttributes(escapedWidth, escapedHeight)
-
-        videoTag = createVideoTag(widthHeightAttributes, escapedVideoUrl, tile.image, tile.id)
+        videoTag = createVideoTag(tile, variant, context, navigationArrows)
       }
     }
 
     return new hbs.SafeString(videoTag)
   })
-}
-
-function buildWidthHeightAttributes(width: string, height: string) {
-  return `${width ? ` width="${width}"` : ""}${height ? ` height="${height}"` : ""}`
 }
