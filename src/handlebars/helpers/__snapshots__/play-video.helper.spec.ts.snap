@@ -6,8 +6,8 @@ exports[`loadPlayVideoHelper should escape the URL, width and height to prevent 
   <video style="display:none;"  width="100&quot; onClick&#x3D;&quot;alert(1)" preload="metadata" class="video-content" loading="lazy"  
   oncanplaythrough="this.removeAttribute('controls'); 
   this.muted=true; 
-  this.parentElement.querySelector('.fallback-image').style.display='none'; this.style.display='flex';
-  this.parentElement.parentElement.parentElement.style.display='inherit';
+  this.parentElement.querySelector('.fallback-image').style.display='none'; 
+  this.style.display='flex';
   this.parentElement.parentElement.querySelector('.icon-play').style.display='none';
   " 
   controls autoplay muted loop>
@@ -21,8 +21,8 @@ exports[`loadPlayVideoHelper should generate a video tag with url, width and hei
   <video style="display:none;"  width="100%" height="100%" preload="metadata" class="video-content" loading="lazy"  
   oncanplaythrough="this.removeAttribute('controls'); 
   this.muted=true; 
-  this.parentElement.querySelector('.fallback-image').style.display='none'; this.style.display='flex';
-  this.parentElement.parentElement.parentElement.style.display='inherit';
+  this.parentElement.querySelector('.fallback-image').style.display='none'; 
+  this.style.display='flex';
   this.parentElement.parentElement.querySelector('.icon-play').style.display='none';
   " 
   controls autoplay muted loop>
@@ -35,8 +35,8 @@ exports[`loadPlayVideoHelper should generate a video with embedly html 1`] = `
   <img class='fallback-image' tile-id="undefined" src="undefined" loading="lazy" width="120"/>
   <iframe width="100%" height="100%" loading="lazy" onload="this.removeAttribute('controls'); 
   this.muted=true; 
-  this.parentElement.querySelector('.fallback-image').style.display='none'; this.style.display='flex';
-  this.parentElement.parentElement.parentElement.style.display='inherit';
+  this.parentElement.querySelector('.fallback-image').style.display='none'; 
+  this.style.display='flex';
   this.parentElement.parentElement.querySelector('.icon-play').style.display='none';
   " class="video-content" allowfullscreen src="https://www.tiktok.com/player/v1/7226405581324651819?autoplay=1&loop=1"></iframe>"
 `;
@@ -47,8 +47,8 @@ exports[`loadPlayVideoHelper should handle undefined width and height gracefully
   <video style="display:none;"  preload="metadata" class="video-content" loading="lazy"  
   oncanplaythrough="this.removeAttribute('controls'); 
   this.muted=true; 
-  this.parentElement.querySelector('.fallback-image').style.display='none'; this.style.display='flex';
-  this.parentElement.parentElement.parentElement.style.display='inherit';
+  this.parentElement.querySelector('.fallback-image').style.display='none'; 
+  this.style.display='flex';
   this.parentElement.parentElement.querySelector('.icon-play').style.display='none';
   " 
   controls autoplay muted loop>
@@ -62,8 +62,8 @@ exports[`loadPlayVideoHelper should return an empty string if URL is null or und
   <video style="display:none;"  preload="metadata" class="video-content" loading="lazy"  
   oncanplaythrough="this.removeAttribute('controls'); 
   this.muted=true; 
-  this.parentElement.querySelector('.fallback-image').style.display='none'; this.style.display='flex';
-  this.parentElement.parentElement.parentElement.style.display='inherit';
+  this.parentElement.querySelector('.fallback-image').style.display='none'; 
+  this.style.display='flex';
   this.parentElement.parentElement.querySelector('.icon-play').style.display='none';
   " 
   controls autoplay muted loop>
