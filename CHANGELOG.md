@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.8
+
+### Patch Changes
+
+- 17aad12: Add icons to play video hbs
+
 ## 0.2.7
 
 ### Patch Changes
