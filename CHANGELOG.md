@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.5
+
+### Patch Changes
+
+- bcf59d1: Include play button and id in video fallbacks
+
 ## 0.2.4
 
 ### Patch Changes
