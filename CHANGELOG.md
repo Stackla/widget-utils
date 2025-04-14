@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.6
+
+### Patch Changes
+
+- 36d9878: Fixup inheritance
+
 ## 0.2.5
 
 ### Patch Changes
