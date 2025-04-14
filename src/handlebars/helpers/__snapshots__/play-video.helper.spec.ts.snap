@@ -1,7 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`loadPlayVideoHelper should escape the URL, width and height to prevent XSS 1`] = `
-"<div class="icon-play"></div>
+"<div class="icon-section">
+        <div class="top-section">
+            
+            
+        </div>
+        <div class="center-section">
+            
+        </div>
+        <div class="bottom-section">
+            <tile-tags tile-id="undefined" variant="dark" mode="swiper" context="unknown" navigation-arrows="true"></tile-tags>
+            <div class="network-icon icon-instagram"></div>
+            <shopspot-icon tile-id=undefined />
+        </div>
+    </div>
   <img class='fallback-image' tile-id="undefined" src="undefined" loading="lazy" width="120"/>
   <video style="display:none;"  width="100&quot; onClick&#x3D;&quot;alert(1)" preload="metadata" class="video-content" loading="lazy"  
   oncanplaythrough="this.removeAttribute('controls'); 
@@ -16,7 +29,20 @@ exports[`loadPlayVideoHelper should escape the URL, width and height to prevent 
 `;
 
 exports[`loadPlayVideoHelper should generate a video tag with url, width and height 1`] = `
-"<div class="icon-play"></div>
+"<div class="icon-section">
+        <div class="top-section">
+            
+            
+        </div>
+        <div class="center-section">
+            
+        </div>
+        <div class="bottom-section">
+            <tile-tags tile-id="undefined" variant="[object Object]" mode="swiper" context="unknown" navigation-arrows="true"></tile-tags>
+            <div class="network-icon icon-instagram"></div>
+            <shopspot-icon tile-id=undefined />
+        </div>
+    </div>
   <img class='fallback-image' tile-id="undefined" src="undefined" loading="lazy" width="120"/>
   <video style="display:none;"  width="100%" height="100%" preload="metadata" class="video-content" loading="lazy"  
   oncanplaythrough="this.removeAttribute('controls'); 
@@ -31,7 +57,20 @@ exports[`loadPlayVideoHelper should generate a video tag with url, width and hei
 `;
 
 exports[`loadPlayVideoHelper should generate a video with embedly html 1`] = `
-"<div class="icon-play"></div>
+"<div class="icon-section">
+        <div class="top-section">
+            
+            
+        </div>
+        <div class="center-section">
+            
+        </div>
+        <div class="bottom-section">
+            <tile-tags tile-id="undefined" variant="[object Object]" mode="swiper" context="unknown" navigation-arrows="true"></tile-tags>
+            <div class="network-icon icon-tiktok"></div>
+            <shopspot-icon tile-id=undefined />
+        </div>
+    </div>
   <img class='fallback-image' tile-id="undefined" src="undefined" loading="lazy" width="120"/>
   <iframe width="100%" height="100%" loading="lazy" onload="this.removeAttribute('controls'); 
   this.muted=true; 
@@ -42,7 +81,20 @@ exports[`loadPlayVideoHelper should generate a video with embedly html 1`] = `
 `;
 
 exports[`loadPlayVideoHelper should handle undefined width and height gracefully 1`] = `
-"<div class="icon-play"></div>
+"<div class="icon-section">
+        <div class="top-section">
+            
+            
+        </div>
+        <div class="center-section">
+            
+        </div>
+        <div class="bottom-section">
+            <tile-tags tile-id="undefined" variant="dark" mode="swiper" context="unknown" navigation-arrows="true"></tile-tags>
+            <div class="network-icon icon-instagram"></div>
+            <shopspot-icon tile-id=undefined />
+        </div>
+    </div>
   <img class='fallback-image' tile-id="undefined" src="undefined" loading="lazy" width="120"/>
   <video style="display:none;"  preload="metadata" class="video-content" loading="lazy"  
   oncanplaythrough="this.removeAttribute('controls'); 
@@ -57,7 +109,20 @@ exports[`loadPlayVideoHelper should handle undefined width and height gracefully
 `;
 
 exports[`loadPlayVideoHelper should return an empty string if URL is null or undefined 1`] = `
-"<div class="icon-play"></div>
+"<div class="icon-section">
+        <div class="top-section">
+            
+            
+        </div>
+        <div class="center-section">
+            
+        </div>
+        <div class="bottom-section">
+            <tile-tags tile-id="undefined" variant="dark" mode="swiper" context="unknown" navigation-arrows="true"></tile-tags>
+            <div class="network-icon icon-instagram"></div>
+            <shopspot-icon tile-id=undefined />
+        </div>
+    </div>
   <img class='fallback-image' tile-id="undefined" src="undefined" loading="lazy" width="120"/>
   <video style="display:none;"  preload="metadata" class="video-content" loading="lazy"  
   oncanplaythrough="this.removeAttribute('controls'); 
