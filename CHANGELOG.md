@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.7
+
+### Patch Changes
+
+- 8eeeafa: Fixup video loading
+
 ## 0.2.6
 
 ### Patch Changes
