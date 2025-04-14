@@ -17,7 +17,7 @@ export function getIcons(tile: Tile, variant = "dark", context = "", navigationA
         <div class="bottom-section">
             <tile-tags tile-id="${tile.id}" variant="${variant}" mode="swiper" context="${context}" navigation-arrows="${navigationArrows}"></tile-tags>
             <div class="network-icon icon-${tile.source}"></div>
-            <shopspot-icon tile-id=${tile.id} />
+            <shopspot-icon tile-id="${tile.id}" />
         </div>
     </div>`
 }

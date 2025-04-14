@@ -12,7 +12,7 @@ exports[`loadPlayVideoHelper should escape the URL, width and height to prevent 
         <div class="bottom-section">
             <tile-tags tile-id="undefined" variant="dark" mode="swiper" context="unknown" navigation-arrows="true"></tile-tags>
             <div class="network-icon icon-instagram"></div>
-            <shopspot-icon tile-id=undefined />
+            <shopspot-icon tile-id="undefined" />
         </div>
     </div>
   <img class='fallback-image' tile-id="undefined" src="undefined" loading="lazy" width="120"/>
@@ -42,7 +42,7 @@ exports[`loadPlayVideoHelper should generate a video tag with url, width and hei
         <div class="bottom-section">
             <tile-tags tile-id="undefined" variant="dark" mode="swiper" context="unknown" navigation-arrows="true"></tile-tags>
             <div class="network-icon icon-instagram"></div>
-            <shopspot-icon tile-id=undefined />
+            <shopspot-icon tile-id="undefined" />
         </div>
     </div>
   <img class='fallback-image' tile-id="undefined" src="undefined" loading="lazy" width="120"/>
@@ -72,7 +72,7 @@ exports[`loadPlayVideoHelper should generate a video with embedly html 1`] = `
         <div class="bottom-section">
             <tile-tags tile-id="undefined" variant="dark" mode="swiper" context="unknown" navigation-arrows="true"></tile-tags>
             <div class="network-icon icon-tiktok"></div>
-            <shopspot-icon tile-id=undefined />
+            <shopspot-icon tile-id="undefined" />
         </div>
     </div>
   <img class='fallback-image' tile-id="undefined" src="undefined" loading="lazy" width="120"/>
@@ -98,7 +98,7 @@ exports[`loadPlayVideoHelper should handle undefined width and height gracefully
         <div class="bottom-section">
             <tile-tags tile-id="undefined" variant="dark" mode="swiper" context="unknown" navigation-arrows="true"></tile-tags>
             <div class="network-icon icon-instagram"></div>
-            <shopspot-icon tile-id=undefined />
+            <shopspot-icon tile-id="undefined" />
         </div>
     </div>
   <img class='fallback-image' tile-id="undefined" src="undefined" loading="lazy" width="120"/>
@@ -128,7 +128,7 @@ exports[`loadPlayVideoHelper should return an empty string if URL is null or und
         <div class="bottom-section">
             <tile-tags tile-id="undefined" variant="dark" mode="swiper" context="unknown" navigation-arrows="true"></tile-tags>
             <div class="network-icon icon-instagram"></div>
-            <shopspot-icon tile-id=undefined />
+            <shopspot-icon tile-id="undefined" />
         </div>
     </div>
   <img class='fallback-image' tile-id="undefined" src="undefined" loading="lazy" width="120"/>
