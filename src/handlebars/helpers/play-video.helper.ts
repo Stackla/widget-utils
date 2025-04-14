@@ -11,7 +11,7 @@ function getManipulateFunctionString() {
   return `this.removeAttribute('controls'); 
   this.muted=true; 
   this.parentElement.querySelector('.fallback-image').style.display='none'; this.style.display='flex';
-  this.parentElement.parentElement.parentElement.style.display='flex';
+  this.parentElement.parentElement.parentElement.style.display='inherit';
   this.parentElement.parentElement.querySelector('.icon-play').style.display='none';
   `
 }
