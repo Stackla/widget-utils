@@ -37,7 +37,7 @@ export async function playMediaOnLoad() {
   const swiper = getInstance("expanded")
   if (swiper) {
     const activeElementData = getSwiperVideoElement(swiper, swiper.realIndex)
-    await triggerPlay(activeElementData)
+    triggerPlay(activeElementData)
   }
 }
 
@@ -67,6 +67,7 @@ export async function controlVideoPlayback(swiper: Swiper) {
  */
 export function triggerPlay(elementData?: SwiperVideoElementData) {
   if (!elementData) {
+    console.warn("elementData is required")
     return
   }
 

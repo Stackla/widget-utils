@@ -133,35 +133,16 @@ function initalizeStoryExpandedTile(
         autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
           storyAutoplayProgress(swiper, percentage)
         },
-        navigationNext: async (swiper: Swiper) => {
-          swiperStoryNavigationHandler(swiper)
-        },
-        navigationPrev: async (swiper: Swiper) => {
-          swiperStoryNavigationHandler(swiper)
-        },
-        autoplay: async (swiper: Swiper) => {
-          await controlVideoPlayback(swiper)
-        }
+        slideChange: swiperNavigationHandler,
+        autoplay: swiperNavigationHandler
       }
     },
     getSliderTemplate: getExpandedSlides
   })
 }
 
-async function swiperStoryNavigationHandler(swiper: Swiper) {
-  const tileId = getTileIdFromSlide(swiper, swiper.realIndex)
-  if (!tileId) {
-    throw Error("Tile ID is not found in next slide from swiper")
-  }
-  const tile = sdk.getTileById(tileId)
-  if (!tile) {
-    throw Error("Tile is not found in next slide from swiper")
-  }
-  sdk.setTile(tile)
-  await controlVideoPlayback(swiper)
-}
-
 async function swiperNavigationHandler(swiper: Swiper) {
+  controlVideoPlayback(swiper)
   const tileId = getTileIdFromSlide(swiper, swiper.realIndex)
   if (!tileId) {
     throw Error("Tile ID is not found in next slide from swiper")
@@ -171,7 +152,6 @@ async function swiperNavigationHandler(swiper: Swiper) {
     throw Error("Tile is not found in next slide from swiper")
   }
   sdk.setTile(tile)
-  controlVideoPlayback(swiper)
 }
 
 function storyAutoplayProgress(swiper: Swiper, progress: number) {
