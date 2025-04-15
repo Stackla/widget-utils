@@ -48,7 +48,7 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
     switch (source) {
       case "tiktok": {
         const tiktokId = tile.original_url.split("/")[5].split("?")[0]
-        const videoLink = `https://www.tiktok.com/player/v1/${tiktokId}?autoplay=1&loop=1`
+        const videoLink = `https://www.tiktok.com/player/v1/${tiktokId}?autoplay=1&loop=1&controls=0`
         videoTag =
           `${imageTag}<iframe` +
           ` loading="lazy" onload="${getManipulateFunctionString()}" class="video-content" allowfullscreen src="${videoLink}"></iframe>`
@@ -56,7 +56,7 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
       }
       case "youtube": {
         const youtubeEmbedUrl = tile.embed_url ?? ""
-        const youtubeVideoLink = `//www.youtube.com/embed/${youtubeEmbedUrl}?autoplay=1&mute=1&playlist=${youtubeEmbedUrl}&loop=1`
+        const youtubeVideoLink = `//www.youtube.com/embed/${youtubeEmbedUrl}?autoplay=1&mute=1&playlist=${youtubeEmbedUrl}&loop=1&controls=0`
         videoTag =
           `${imageTag}<iframe` +
           ` loading="eager" onload="${getManipulateFunctionString()}" class="video-content" allowfullscreen src="${youtubeVideoLink}"></iframe>`
