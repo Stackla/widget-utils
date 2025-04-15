@@ -141,19 +141,6 @@ function initalizeStoryExpandedTile(
   })
 }
 
-async function swiperStoryNavigationHandler(swiper: Swiper) {
-  controlVideoPlayback(swiper)
-  const tileId = getTileIdFromSlide(swiper, swiper.realIndex)
-  if (!tileId) {
-    throw Error("Tile ID is not found in next slide from swiper")
-  }
-  const tile = sdk.getTileById(tileId)
-  if (!tile) {
-    throw Error("Tile is not found in next slide from swiper")
-  }
-  sdk.setTile(tile)
-}
-
 async function swiperNavigationHandler(swiper: Swiper) {
   controlVideoPlayback(swiper)
   const tileId = getTileIdFromSlide(swiper, swiper.realIndex)
