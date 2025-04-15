@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.9
+
+### Patch Changes
+
+- 57162ca: Remove controls
+
 ## 0.2.8
 
 ### Patch Changes
