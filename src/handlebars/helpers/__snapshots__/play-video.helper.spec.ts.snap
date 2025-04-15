@@ -83,7 +83,7 @@ exports[`loadPlayVideoHelper should generate a video with embedly html 1`] = `
   this.parentElement.parentElement.parentElement.querySelectorAll('.icon-play').forEach((el) => {
     el.style.display='none';
   });
-  " class="video-content" allowfullscreen src="https://www.tiktok.com/player/v1/7226405581324651819?autoplay=1&loop=1"></iframe>"
+  " class="video-content" allowfullscreen src="https://www.tiktok.com/player/v1/7226405581324651819?autoplay=1&loop=1&controls=0"></iframe>"
 `;
 
 exports[`loadPlayVideoHelper should handle undefined width and height gracefully 1`] = `
