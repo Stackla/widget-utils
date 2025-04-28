@@ -1,12 +1,11 @@
+import type { Environment } from "."
 import { STAGING_UI_URL, PRODUCTION_UI_URL } from "../constants"
-import { Environment } from "."
 import { generateDataHTMLStringByParams } from "./embed.params"
 
 const getUrlByEnv = (environment: Environment) => {
   switch (environment) {
     case "staging":
       return STAGING_UI_URL
-    case "production":
     default:
       return PRODUCTION_UI_URL
   }
