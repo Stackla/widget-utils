@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.10
+
+### Patch Changes
+
+- ac75463: Fixup prod issues
+
 ## 0.2.9
 
 ### Patch Changes
