@@ -26,7 +26,7 @@ export function getWidgetDataUrl(env: Environment) {
   switch (env) {
     case "staging":
       return STAGING_DATA_URL
-    case "production":
+    default:
       return PRODUCTION_DATA_URL
   }
 }
@@ -35,7 +35,7 @@ export function getLegacyWidgetDomain(env: Environment) {
   switch (env) {
     case "staging":
       return STAGING_LEGACY_WIDGET_DOMAIN
-    case "production":
+    default:
       return PRODUCTION_LEGACY_WIDGET_DOMAIN
   }
 }
@@ -63,12 +63,12 @@ export async function embed<T extends ShadowRoot | HTMLElement>(options: EmbedOp
     switch (widgetVersion) {
       case 2:
         window.stackWidgetDomain = getLegacyWidgetDomain(environment)
-        dataProperties["hash"] = widgetId
+        dataProperties.hash = widgetId
         injectHTML(root, getWidgetV2EmbedCode(dataProperties))
         invokeV2Javascript(environment)
         break
       case 3:
-        dataProperties["wid"] = widgetId
+        dataProperties.wid = widgetId
         injectHTML(root, getWidgetV3EmbedCode(dataProperties))
         await invokeV3Javascript(environment)
         break
