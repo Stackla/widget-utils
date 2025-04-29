@@ -1,5 +1,4 @@
-import { MaybeArray } from "../types"
-import sanitizeHtml from "sanitize-html"
+import type { MaybeArray } from "../types"
 
 // remaps entries in GlobalEventHandlersEventMap to their respective React style event handlers
 type GlobalEventHandlersMapping = {
@@ -51,6 +50,28 @@ export function createFragment(arg: { children: Children } | null): DocumentFrag
   return fragment
 }
 
+function sanitizeHtmlBasic(input: string): string {
+  const tempDiv = document.createElement("div")
+  tempDiv.innerHTML = input
+
+  // Remove all script and style tags
+  const scripts = tempDiv.querySelectorAll("script, style")
+  scripts.forEach(el => el.remove())
+
+  // Remove event handlers and dangerous attributes
+  const allElements = tempDiv.querySelectorAll("*")
+  for (const el of allElements) {
+    for (const attr of Array.from(el.attributes)) {
+      const name = attr.name.toLowerCase()
+      if (name.startsWith("on") || name === "srcdoc" || (name === "href" && attr.value.startsWith("javascript:"))) {
+        el.removeAttribute(attr.name)
+      }
+    }
+  }
+
+  return tempDiv.innerHTML
+}
+
 function isEventListener(key: string, value: unknown): value is EventListener {
   return key.startsWith("on") && typeof value === "function"
 }
@@ -62,8 +83,8 @@ function applyProperties(element: HTMLElement, props: Props) {
     } else if (key === "style") {
       Object.assign(element.style, value)
     } else if (key === "dangerouslySetInnerHTML") {
-      // @ts-expect-error __html is a valid property
-      const sanitizedValue = sanitizeHtml(value.__html)
+      const htmlValue = value as { __html: string }
+      const sanitizedValue = sanitizeHtmlBasic(htmlValue.__html)
       element.innerHTML = sanitizedValue
     } else {
       const normKey = aliases[key] ?? key
