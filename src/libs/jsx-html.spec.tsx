@@ -100,5 +100,9 @@ describe("JSX mapping", () => {
   it("handles dangerouslySetInnerHTML", () => {
     const element = <div dangerouslySetInnerHTML={{ __html: "<span>Hello</span>" }} />
     expect(element.outerHTML).toEqual("<div><span>Hello</span></div>")
+
+    // malicious payload
+    const element2 = <div dangerouslySetInnerHTML={{ __html: "<script>alert('XSS')</script>" }} />
+    expect(element2.outerHTML).toEqual("<div></div>")
   })
 })
