@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.11
+
+### Patch Changes
+
+- 338a45f: Improve package size
+
 ## 0.2.10
 
 ### Patch Changes
