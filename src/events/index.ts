@@ -3,8 +3,8 @@ import { ISdk, EnforcedWidgetSettings } from "../types"
 
 declare const sdk: ISdk
 
-export type Callback = (args: unknown) => void | Promise<void>
-export type EventCallback = (event: Event) => void | Promise<void>
+export type Callback = <T = unknown>(args: T) => void | Promise<void>
+export type EventCallback = <T = Event>(event: T) => void | Promise<void>
 
 export const EVENT_PRODUCT_ACTION_CLICK = "productActionClick"
 export const EVENT_PRODUCT_HIDE_ICON_CLICK = "productHideIconClick"
