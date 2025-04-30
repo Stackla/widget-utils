@@ -3,7 +3,6 @@ import { ISdk, EnforcedWidgetSettings } from "../types"
 
 declare const sdk: ISdk
 
-export type Callback = (...args: unknown[]) => void | Promise<void>
 export type EventCallback = (event: CustomEvent) => void | Promise<void>
 
 export const EVENT_PRODUCT_ACTION_CLICK = "productActionClick"
@@ -175,7 +174,7 @@ export const callbackDefaults = {
 /**
  * Interface representing various callback events.
  */
-export type Callbacks = Record<keyof typeof callbackDefaults, Callback[]>
+export type Callbacks = Record<keyof typeof callbackDefaults, EventCallback[]>
 
 /**
  * Registers event listeners for the widget.
@@ -186,7 +185,6 @@ export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
     onLoad,
     onTileExpand,
     onTileClose,
-    onTileRendered,
     onCrossSellersRendered,
     onTilesUpdated,
     onWidgetInitComplete,
@@ -237,11 +235,11 @@ export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
   onLoad?.forEach(event => registerGenericEventListener(EVENT_LOAD, event))
   onTileExpand?.forEach(event => registerGenericEventListener(EVENT_TILE_EXPAND_RENDERED, event))
   onTileClose?.forEach(event => registerGenericEventListener(EVENT_EXPANDED_TILE_CLOSE, event))
-  onTileRendered?.forEach(event => registerTileExpandListener(event))
   onCrossSellersRendered?.forEach(event => registerGenericEventListener(EVENT_CROSS_SELLERS_LOADED, event))
   onWidgetInitComplete?.forEach(event => registerGenericEventListener(EVENT_WIDGET_INIT_COMPLETE, event))
   onTileBgImgRenderComplete?.forEach(event => registerGenericEventListener(EVENT_TILE_BG_IMG_RENDER_COMPLETE, event))
   onTileBgImageError?.forEach(event => registerGenericEventListener(EVENT_TILE_BG_IMG_ERROR, event))
+  // @ts-expect-error Event is not compatible with resize fn
   onResize?.forEach(event => window.addEventListener("resize", event))
   onTilesUpdated?.forEach(event => registerGenericEventListener(EVENT_TILES_UPDATED, event))
   onLoadMore?.forEach(event => registerGenericEventListener(EVENT_LOAD_MORE, event))
@@ -292,6 +290,13 @@ export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
   onShareMenuClosed?.forEach(event => registerGenericEventListener(EVENT_SHARE_MENU_CLOSED, event))
 }
 
+export function registerTileExpandListener(fn: (tileId: string) => void = () => {}) {
+  sdk.addEventListener(EVENT_TILE_EXPAND, (event: CustomEvent) => {
+    const tileId = event.detail.data.tileId as string
+    fn(tileId)
+  })
+}
+
 export function registerDefaultClickEvents() {
   const tiles = sdk.querySelectorAll(".ugc-tile")
 
@@ -319,13 +324,6 @@ export function registerDefaultClickEvents() {
   })
 }
 
-export function registerTileExpandListener(fn: (tileId: string) => void = () => {}) {
-  sdk.addEventListener(EVENT_TILE_EXPAND, (event: CustomEvent) => {
-    const tileId = event.detail.data.tileId as string
-    fn(tileId)
-  })
-}
-
 export function registerCrossSellersLoadListener(fn: (tileId: string, target: HTMLElement) => void = () => {}) {
   sdk.addEventListener(EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED, (event: Event) => {
     const customEvent = event as CustomEvent
@@ -335,7 +333,7 @@ export function registerCrossSellersLoadListener(fn: (tileId: string, target: HT
   })
 }
 
-export function registerGenericEventListener(eventName: EventName, fn: Callback | EventCallback) {
+export function registerGenericEventListener(eventName: EventName, fn: EventCallback) {
   sdk.addEventListener(eventName, fn)
 }
 
