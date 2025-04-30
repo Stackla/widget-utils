@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.12
+
+### Patch Changes
+
+- ca63fd2: Add onMouseLeave event
+
 ## 0.2.11
 
 ### Patch Changes
