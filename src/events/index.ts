@@ -3,8 +3,8 @@ import { ISdk, EnforcedWidgetSettings } from "../types"
 
 declare const sdk: ISdk
 
-export type Callback = <T = unknown>(args: T) => void | Promise<void>
-export type EventCallback = <T = Event>(event: T) => void | Promise<void>
+export type Callback = (...args: unknown[]) => void | Promise<void>
+export type EventCallback = (event: CustomEvent) => void | Promise<void>
 
 export const EVENT_PRODUCT_ACTION_CLICK = "productActionClick"
 export const EVENT_PRODUCT_HIDE_ICON_CLICK = "productHideIconClick"
@@ -57,6 +57,7 @@ export const EVENT_SHARE_MENU_CLOSED = "shareMenuClosed"
 export const EVENT_TAGS_LOADED = "tagsLoaded"
 export const EVENT_PRODUCT_NAVIGATION = "productNavigation"
 export const EVENT_TILES_DEPLETED = "tilesDepleted"
+export const EVENT_MOUSE_LEAVE = "mouseLeave"
 
 export const allEvents = [
   EVENT_PRODUCT_ACTION_CLICK,
@@ -108,14 +109,15 @@ export const allEvents = [
   EVENT_SHARE_MENU_OPENED,
   EVENT_SHARE_MENU_CLOSED,
   EVENT_TAGS_LOADED,
-  EVENT_TILES_DEPLETED
+  EVENT_TILES_DEPLETED,
+  EVENT_MOUSE_LEAVE
 ]
 
 export type AdvancedEventNames = [`${typeof EVENT_PRODUCT_NAVIGATION}:${string}`]
 
 export type EventName = (typeof allEvents)[number] | AdvancedEventNames[number]
 
-export type EventMapping = Record<EventName, CustomEvent | Event>
+export type EventMapping = Record<EventName, CustomEvent>
 
 export const callbackDefaults = {
   onResize: [],
@@ -147,6 +149,7 @@ export const callbackDefaults = {
   onLike: [],
   onDislike: [],
   onHover: [],
+  onMouseLeave: [],
   onProductClick: [],
   onProductPinClick: [],
   onProductUserClick: [],
@@ -172,245 +175,7 @@ export const callbackDefaults = {
 /**
  * Interface representing various callback events.
  */
-export interface Callbacks extends Record<EventName, Callback[]> {
-  /**
-   * Called when the window is resized.
-   */
-  onResize: Callback[]
-
-  /**
-   * Called when the widget is loaded.
-   */
-  onLoad: Callback[]
-
-  /**
-   * Called when a tile is expanded.
-   */
-  onTileExpand: Callback[]
-
-  /**
-   * Called when a tile is closed.
-   */
-  onTileClose: Callback[]
-
-  /**
-   * Called when a tile is rendered.
-   */
-  onTileRendered: Callback[]
-
-  /**
-   * Called when tiles are updated.
-   */
-  onTilesUpdated: Callback[]
-
-  /**
-   * Called when cross-sellers are rendered.
-   */
-  onCrossSellersRendered: Callback[]
-
-  /**
-   * Called when the widget initialization is complete.
-   */
-  onWidgetInitComplete: Callback[]
-
-  /**
-   * Called when the background image of a tile is rendered.
-   */
-  onTileBgImgRenderComplete: Callback[]
-  /**
-   * Called when a product action is clicked.
-   */
-  onProductActionClick: Callback[]
-  /**
-   * Called when a product hide icon is clicked.
-   */
-  onProductHideIconClick: Callback[]
-
-  /**
-   * Called when an expanded tile image is loaded.
-   */
-  onExpandedTileImageLoad: Callback[]
-
-  /**
-   * Called when an expanded tile is opened.
-   */
-  onExpandedTileOpen: Callback[]
-
-  /**
-   * Called when an expanded tile is closed.
-   */
-  onExpandedTileClose: Callback[]
-
-  /**
-   * Called before an expanded tile image is resized.
-   */
-  onBeforeExpandedTileImageResize: Callback[]
-
-  /**
-   * Called before an expanded tile is closed.
-   */
-  onBeforeExpandedTileClose: Callback[]
-
-  /**
-   * Called before an expanded tile is opened.
-   */
-  onBeforeExpandedTileOpen: Callback[]
-
-  /**
-   * Called when a shopspot flyout is expanded.
-   */
-  onShopspotFlyoutExpand: Callback[]
-
-  /**
-   * Called when a shopspot is toggled.
-   */
-  onShopspotToggle: Callback[]
-
-  /**
-   * Called when a shopspot is opened.
-   */
-  onShopspotOpen: Callback[]
-
-  /**
-   * Called when a shopspot action is clicked.
-   */
-  onShopspotActionClick: Callback[]
-
-  /**
-   * Called when a user clicks.
-   */
-  onUserClick: Callback[]
-
-  /**
-   * Called when a share button is clicked.
-   */
-  onShareClick: Callback[]
-
-  /**
-   * Called when an impression is made.
-   */
-  onImpression: Callback[]
-
-  /**
-   * Called when the load more button is clicked.
-   */
-  onLoadMore: Callback[]
-
-  /**
-   * Called when a like button is clicked.
-   */
-  onLike: Callback[]
-
-  /**
-   * Called when a dislike button is clicked.
-   */
-  onDislike: Callback[]
-
-  /**
-   * Called when an element is hovered over.
-   */
-  onHover: Callback[]
-
-  /**
-   * Called when a product is clicked.
-   */
-  onProductClick: Callback[]
-
-  /**
-   * Called when a product pin is clicked.
-   */
-  onProductPinClick: Callback[]
-
-  /**
-   * Called when a product user is clicked.
-   */
-  onProductUserClick: Callback[]
-
-  /**
-   * Called when a shopspot flyout is triggered.
-   */
-  onShopspotFlyout: Callback[]
-
-  /**
-   * Called when tile metadata is loaded.
-   */
-  onTileMetadataLoaded: Callback[]
-
-  /**
-   * Called when tile data is set.
-   */
-  onTileDataSet: Callback[]
-
-  /**
-   * Called when server side rendered HTML is appended to the page.
-   */
-  onHtmlRendered: Callback[]
-
-  /**
-   * Called when user's JavaScript is rendered.
-   */
-  onJsRendered: Callback[]
-
-  /**
-   * Called when global variables are loaded.
-   */
-  onGlobalsLoaded: Callback[]
-
-  /**
-   * Called when a product page is loaded.
-   */
-  onProductPageLoaded: Callback[]
-
-  /**
-   * Called when products are updated.
-   */
-  onProductsUpdated: Callback[]
-
-  /**
-   * Called when adding to cart fails.
-   */
-  onAddToCartFailed: Callback[]
-
-  /**
-   * Called when an email tile is loaded.
-   */
-  onEmailTileLoad: Callback[]
-
-  /**
-   * Called when an email tile is clicked.
-   */
-  onEmailTileClick: Callback[]
-
-  /**
-   * Called when a like button is clicked.
-   */
-  onLikeClick: Callback[]
-
-  /**
-   * Called when a dislike button is clicked.
-   */
-  onDislikeClick: Callback[]
-
-  /**
-   * Called when product recommendations are rendered on an expanded tile.
-   */
-  onTileExpandProductRecsRendered: Callback[]
-
-  /**
-   * Called when cross-sellers are rendered on an expanded tile.
-   */
-  onTileExpandCrossSellersRendered: Callback[]
-
-  /**
-   * Called when a shared menu is opened
-   */
-  onShareMenuOpened: Callback[]
-
-  /**
-   * Called when a shared menu is closed
-   */
-  onShareMenuClosed: Callback[]
-}
+export type Callbacks = Record<keyof typeof callbackDefaults, Callback[]>
 
 /**
  * Registers event listeners for the widget.
@@ -555,9 +320,8 @@ export function registerDefaultClickEvents() {
 }
 
 export function registerTileExpandListener(fn: (tileId: string) => void = () => {}) {
-  sdk.addEventListener(EVENT_TILE_EXPAND, (event: Event) => {
-    const customEvent = event as CustomEvent
-    const tileId = customEvent.detail.data.tileId as string
+  sdk.addEventListener(EVENT_TILE_EXPAND, (event: CustomEvent) => {
+    const tileId = event.detail.data.tileId as string
     fn(tileId)
   })
 }
