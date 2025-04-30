@@ -229,7 +229,8 @@ export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
     onTileExpandProductRecsRendered,
     onTileExpandCrossSellersRendered,
     onShareMenuOpened,
-    onShareMenuClosed
+    onShareMenuClosed,
+    onMouseLeave
   } = settings.callbacks
 
   onLoad?.forEach(event => registerGenericEventListener(EVENT_LOAD, event))
@@ -288,6 +289,7 @@ export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
   )
   onShareMenuOpened?.forEach(event => registerGenericEventListener(EVENT_SHARE_MENU_OPENED, event))
   onShareMenuClosed?.forEach(event => registerGenericEventListener(EVENT_SHARE_MENU_CLOSED, event))
+  onMouseLeave?.forEach(event => registerGenericEventListener(EVENT_MOUSE_LEAVE, event))
 }
 
 export function registerTileExpandListener(fn: (tileId: string) => void = () => {}) {
