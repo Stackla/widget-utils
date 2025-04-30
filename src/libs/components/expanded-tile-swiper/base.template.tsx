@@ -26,10 +26,14 @@ export function ExpandedTiles(sdk: ISdk) {
 
   return (
     <div class="expanded-tile-wrapper" variation="default">
-      <a class="exit" href="#">
-        <span class="widget-icon close-white"></span>
-      </a>
-      <BackArrowIcon />
+      <div class="expanded-tile-header">
+        <a class="exit" href="#">
+          <span class="widget-icon close-white"></span>
+        </a>
+        <a class="back" href="#">
+          <span class="widget-icon back-arrow"></span>
+        </a>
+      </div>
       <div class="swiper swiper-expanded">{getExpandedTiles()}</div>
       <div
         class="swiper-expanded-button-prev swiper-button-prev btn-lg"
@@ -42,13 +46,5 @@ export function ExpandedTiles(sdk: ISdk) {
         <span class="chevron-right" alt="Next arrow" />
       </div>
     </div>
-  )
-}
-
-function BackArrowIcon() {
-  return (
-    <a class="back" href="#">
-      <span class="widget-icon back-arrow"></span>
-    </a>
   )
 }
