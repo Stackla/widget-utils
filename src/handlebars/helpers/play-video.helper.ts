@@ -2,11 +2,11 @@ import Handlebars from "handlebars"
 import { getIcons } from "./load-icons.helper"
 import { Tile } from "../../types"
 
-function getImageTag(tile: Tile, variant: "dark" | "light", context: string, navigationArrows: "true" | "false") {
+function getImageTag(tile: Tile) {
   const { id, image } = tile
 
   return `
-  ${getIcons(tile, variant, context, navigationArrows)}
+  ${getIcons(tile)}
   <img class='fallback-image' tile-id="${id}" src="${image}" loading="lazy" width="120"/>
   `
 }
@@ -22,16 +22,11 @@ function getManipulateFunctionString() {
   `
 }
 
-export function createVideoTag(
-  tile: Tile,
-  variant: "dark" | "light",
-  context: string,
-  navigationArrows: "true" | "false"
-) {
+export function createVideoTag(tile: Tile) {
   const videoUrl = tile?.video?.standard_resolution.url ?? ""
   const escapedVideoUrl = Handlebars.escapeExpression(videoUrl)
 
-  return `${getImageTag(tile, variant, context, navigationArrows)}<video style="display:none;" reload="metadata" class="video-content" loading="lazy"  
+  return `${getImageTag(tile)}<video style="display:none;" reload="metadata" class="video-content" loading="lazy"  
   oncanplaythrough="${getManipulateFunctionString()}" 
   controls autoplay muted loop>
   <source src="${escapedVideoUrl + "#t=0.1"}" type="video/mp4">
@@ -39,11 +34,10 @@ export function createVideoTag(
 }
 
 export function loadPlayVideoHelper(hbs: typeof Handlebars) {
-  hbs.registerHelper("playVideo", function (tile, options) {
-    const { variant = "dark", context = "unknown", navigationArrows = "true" } = options
+  hbs.registerHelper("playVideo", function (tile) {
     let videoTag = ""
     const source = tile.source
-    const imageTag = getImageTag(tile, variant, context, navigationArrows)
+    const imageTag = getImageTag(tile)
 
     switch (source) {
       case "tiktok": {
@@ -63,7 +57,7 @@ export function loadPlayVideoHelper(hbs: typeof Handlebars) {
         break
       }
       default: {
-        videoTag = createVideoTag(tile, variant, context, navigationArrows)
+        videoTag = createVideoTag(tile)
       }
     }
 
