@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.13
+
+### Patch Changes
+
+- 0d5b7fe: Remove dupldate tags from video tile.
+
 ## 0.2.12
 
 ### Patch Changes
