@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.14
+
+### Patch Changes
+
+- 22c14b3: Fixup encode bugs
+
 ## 0.2.13
 
 ### Patch Changes
