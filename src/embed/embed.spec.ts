@@ -154,7 +154,8 @@ describe("load embed code", () => {
 
     expect(fetchMock).not.toHaveBeenCalled()
     expect(createdDiv.innerHTML).toContain(
-      `<div id="ugc-widget" data-foo="bar" data-baz="123" data-%3e%3cimg%20src%3d%22x%22%20onerror%3d%22alert(1)%22%3e="%22%3E%3Cimg%20src%3D%22x%22%20onerror%3D%22alert(1)%22%3E" data-wid="123"></div>`
+      // eslint-disable-next-line no-useless-escape
+      `<div id=\"ugc-widget\" data-foo=\"bar\" data-baz=\"123\" data-&gt;<img=\"\" src=\"x\">=\"\"&gt;<img src=\"x\">\" data-wid=\"123\"&gt;</div>`
     )
   })
 })

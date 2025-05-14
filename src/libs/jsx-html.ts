@@ -50,7 +50,7 @@ export function createFragment(arg: { children: Children } | null): DocumentFrag
   return fragment
 }
 
-function sanitizeHtmlBasic(input: string): string {
+export function sanitizeHtmlBasic(input: string): string {
   const tempDiv = document.createElement("div")
   tempDiv.innerHTML = input
 
