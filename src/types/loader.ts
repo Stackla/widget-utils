@@ -1,6 +1,7 @@
 import IWidgetRequest from "./core/widget-request"
 import { Callbacks } from "../events"
 import { ExpandedTileOptions, InlineTileOptions, Style, Template } from "./"
+import { IFontFace } from "src/fonts"
 
 export interface Features {
   /**
@@ -92,6 +93,7 @@ interface WidgetConfig {
   expandedTile: Partial<ExpandedTileOptions>
   inlineTile: Partial<InlineTileOptions>
   filter: Partial<IWidgetRequest>
+  fonts?: IFontFace[]
 }
 
 type Templates<C> = Record<string, CustomTemplate<C>>
