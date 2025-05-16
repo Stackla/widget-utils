@@ -63,4 +63,5 @@ export interface ISdk {
   isScrollWidget(): boolean
   getProductTagsFromTile(tile: Tile): Product[]
   getContentTagsFromTile(tile: Tile): Content[]
+  loadMore(): Promise<void>
 }

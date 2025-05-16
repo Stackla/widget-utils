@@ -1,5 +1,4 @@
 import {
-  EVENT_LOAD_MORE,
   EVENT_TILE_EXPAND,
   EVENT_TILE_EXPAND_RENDERED,
   EVENT_TILES_UPDATED,
@@ -127,7 +126,7 @@ function loadMore() {
 
   window.__isLoading = true
 
-  sdk.triggerEvent(EVENT_LOAD_MORE)
+  sdk.loadMore()
 
   setTimeout(() => {
     window.__isLoading = false
