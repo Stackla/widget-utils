@@ -127,7 +127,7 @@ function loadMore() {
 
   window.__isLoading = true
 
-  sdk.triggerEvent(EVENT_LOAD_MORE)
+  sdk.loadMore()
 
   setTimeout(() => {
     window.__isLoading = false
