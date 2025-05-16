@@ -1,4 +1,5 @@
 import { callbackDefaults } from "./events"
+import { injectFontFaces } from "./fonts"
 import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 import { EnforcedWidgetSettings } from "./types"
 import { loadTemplates } from "./widget-loader"
@@ -129,5 +130,37 @@ describe("loadTemplates", () => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     expect(sdk.addTemplateToComponent).toHaveBeenCalledWith(expect.any(Function), "shopspots")
+  })
+
+  it("should inject fonts when provided in config", () => {
+    const mutatedSettings = {
+      ...settings,
+      config: {
+        fonts: [
+          {
+            fontFamily: "Arial",
+            fontWeight: "400",
+            fontStyle: "normal",
+            src: [
+              {
+                url: "https://example.com/font.woff2",
+                format: "woff2"
+              }
+            ]
+          }
+        ]
+      }
+    }
+
+    injectFontFaces(document.head, mutatedSettings.config.fonts)
+
+    expect(document.head.querySelector("style")).toBeTruthy()
+    expect(document.head.querySelector("style")?.innerHTML).toContain("font-family: Arial")
+    expect(document.head.querySelector("style")?.innerHTML).toContain(
+      'src: url("https://example.com/font.woff2") format("woff2")'
+    )
+    expect(document.head.querySelector("style")?.innerHTML).toContain("font-weight: 400")
+    expect(document.head.querySelector("style")?.innerHTML).toContain("font-style: normal")
+    expect(document.head.querySelector("style")?.innerHTML).not.toContain("font-display")
   })
 })

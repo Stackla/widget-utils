@@ -15,6 +15,7 @@ import {
 import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 import { callbackDefaults, loadListeners } from "./events"
 import { EnforcedWidgetSettings, MyWidgetSettings } from "./types/loader"
+import { injectFontFaces } from "./fonts"
 
 declare const sdk: ISdk
 
@@ -213,4 +214,6 @@ export function loadWidget<C>(settings?: MyWidgetSettings<C>) {
   loadFeatures(settingsWithDefaults)
   loadExtensions(settingsWithDefaults)
   loadListeners<C>(settingsWithDefaults)
+  injectFontFaces(document.head, settings?.config?.fonts)
+  injectFontFaces(sdk.getShadowRoot(), settings?.config?.fonts)
 }
