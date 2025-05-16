@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.15
+
+### Patch Changes
+
+- 5dbef02: add font management support
+
 ## 0.2.14
 
 ### Patch Changes
