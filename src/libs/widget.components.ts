@@ -9,8 +9,6 @@ export function loadExpandSettingComponents() {
     sdk.addLoadedComponents(["shopspots"])
   }
 
-  sdk.addLoadedComponents(["expanded-tile"])
-
   if (show_carousel_grouping) {
     sdk.addLoadedComponents(["carousel-grouping"])
   }
