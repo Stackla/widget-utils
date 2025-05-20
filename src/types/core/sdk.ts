@@ -64,4 +64,5 @@ export interface ISdk {
   getProductTagsFromTile(tile: Tile): Product[]
   getContentTagsFromTile(tile: Tile): Content[]
   loadMore(): Promise<void>
+  getProductTagById(productId: string): Product | undefined
 }
