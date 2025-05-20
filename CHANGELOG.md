@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.17
+
+### Patch Changes
+
+- b257f2e: Add getCustomTemplate method
+
 ## 0.2.16
 
 ### Patch Changes
