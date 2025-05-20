@@ -19,7 +19,7 @@ jest.mock("./libs/components/expanded-tile-swiper", () => ({
   loadExpandedTileTemplates: jest.fn()
 }))
 
-const settings: EnforcedWidgetSettings<unknown> = {
+const settings: EnforcedWidgetSettings = {
   features: {
     showTitle: true,
     preloadImages: true,

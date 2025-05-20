@@ -180,7 +180,7 @@ export type Callbacks = Record<keyof typeof callbackDefaults, EventCallback[]>
  * Registers event listeners for the widget.
  * @param settings
  */
-export function loadListeners<C>(settings: EnforcedWidgetSettings<C>) {
+export function loadListeners(settings: EnforcedWidgetSettings) {
   const {
     onLoad,
     onTileExpand,
