@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.16
+
+### Patch Changes
+
+- 4f2f658: Add support for get product tag by id
+
 ## 0.2.15
 
 ### Patch Changes
