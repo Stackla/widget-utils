@@ -103,7 +103,9 @@ export function initializeSwiper(swiperProps: SwiperProps) {
     ...paramsOverrides
   })
 
-  addTilesUpdatedListener(id, getSliderTemplate)
+  if (!sdk.getCustomTemplate("expanded-tiles")) {
+    addTilesUpdatedListener(id, getSliderTemplate)
+  }
 }
 
 export function refreshSwiper(id: string) {

@@ -46,7 +46,7 @@ export interface IPlacement {
   hasSharedStyles(componentName: string): boolean
   setSharedCssCustomStyles(key: string, content: string, componentNames: string[]): void
   getSharedCssStyleSheets(componentName: string): CSSStyleSheet[]
-  getCustomTemplate<C>(component: string): Template<C>
-  setCustomTemplate<C>(component: string, template: Template<C>): void
+  getCustomTemplate(component: string): Template
+  setCustomTemplate(component: string, template: Template): void
   injectStaticComponentStyle(name: string, styles: string): void
 }

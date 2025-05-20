@@ -84,8 +84,8 @@ interface Extensions {
   masonry: boolean
 }
 
-interface CustomTemplate<C> {
-  template?: Template<C>
+interface CustomTemplate {
+  template?: Template
 }
 
 interface WidgetConfig {
@@ -96,17 +96,17 @@ interface WidgetConfig {
   fonts?: IFontFace[]
 }
 
-type Templates<C> = Record<string, CustomTemplate<C>>
+type Templates = Record<string, CustomTemplate>
 
-export interface MyWidgetSettings<C> {
+export interface MyWidgetSettings {
   features?: Partial<Features>
   callbacks?: Partial<Callbacks>
   extensions?: Partial<Extensions>
-  templates?: Partial<Templates<C>>
+  templates?: Partial<Templates>
   config?: Partial<WidgetConfig>
 }
 
-export interface EnforcedWidgetSettings<C> extends Required<MyWidgetSettings<C>> {
+export interface EnforcedWidgetSettings extends Required<MyWidgetSettings> {
   features: Features
   callbacks: Callbacks
   extensions: Extensions

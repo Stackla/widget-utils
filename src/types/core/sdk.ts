@@ -1,8 +1,11 @@
 import { EventMapping, EventName } from "../../events"
+import { Sdk } from "../types"
 import { ClaimConfig, ExpandedTileOptions, InlineTileOptions, Style, WidgetOptions, WidgetResponse } from "../widgets"
 import { Content, Hotspot, Product, Tile } from "./tile"
 
-export type Template<C> = (sdk: ISdk, component?: C) => string | HTMLElement
+type HTMLResult = string | HTMLElement
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Template = (sdk: Sdk, component: any) => HTMLResult
 
 export interface ISdk {
   querySelector<T extends Element = HTMLElement>(selector: string): T
@@ -26,7 +29,7 @@ export interface ISdk {
   addSharedCssCustomStyles(key: string, content: string, componentNames: string[]): void
   addCSSImportUrl(url: string): Promise<void>
   addCSSToComponent(css: string, componentName: string): void
-  addTemplateToComponent<C>(template: Template<C>, componentName: string): void
+  addTemplateToComponent(template: Template, componentName: string): void
   setState<T>(key: string, value: T): void
   setTile(tile: Tile): void
   getState<T>(key: string): T
@@ -65,4 +68,5 @@ export interface ISdk {
   getContentTagsFromTile(tile: Tile): Content[]
   loadMore(): Promise<void>
   getProductTagById(productId: string): Product | undefined
+  getCustomTemplate(component: string): Template | undefined
 }

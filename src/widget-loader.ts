@@ -19,7 +19,7 @@ import { injectFontFaces } from "./fonts"
 
 declare const sdk: ISdk
 
-function loadMasonryCallbacks<C>(settings: EnforcedWidgetSettings<C>) {
+function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
   const tilesUpdatedObserver = new MutationObserver(() => {
     renderMasonryLayout()
   })
@@ -50,7 +50,7 @@ function loadMasonryCallbacks<C>(settings: EnforcedWidgetSettings<C>) {
   return settings
 }
 
-function mergeSettingsWithDefaults<C>(settings?: MyWidgetSettings<C>): EnforcedWidgetSettings<C> {
+function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetSettings {
   return {
     features: {
       showTitle: true,
@@ -78,7 +78,7 @@ function mergeSettingsWithDefaults<C>(settings?: MyWidgetSettings<C>): EnforcedW
   }
 }
 
-async function loadFeatures<C>(settings: EnforcedWidgetSettings<C>) {
+async function loadFeatures(settings: EnforcedWidgetSettings) {
   const {
     showTitle,
     preloadImages,
@@ -122,7 +122,7 @@ async function loadFeatures<C>(settings: EnforcedWidgetSettings<C>) {
   return settings
 }
 
-function loadExtensions<C>(settings: EnforcedWidgetSettings<C>) {
+function loadExtensions(settings: EnforcedWidgetSettings) {
   const { extensions } = settings
 
   if (extensions?.masonry) {
@@ -133,7 +133,7 @@ function loadExtensions<C>(settings: EnforcedWidgetSettings<C>) {
   return settings
 }
 
-export function initialiseFeatures<C>(settings: MyWidgetSettings<C>) {
+export function initialiseFeatures(settings: MyWidgetSettings) {
   if (Object.keys(settings.features ?? {}).length === 0) {
     settings.features = {
       showTitle: true,
@@ -151,7 +151,7 @@ export function initialiseFeatures<C>(settings: MyWidgetSettings<C>) {
   return settings
 }
 
-export function loadTemplates<C>(settings: EnforcedWidgetSettings<C>) {
+export function loadTemplates(settings: EnforcedWidgetSettings) {
   if (settings.features.loadExpandedTileSlider) {
     loadExpandedTileTemplates(settings.templates["expanded-tiles"]?.template ? false : true)
   }
@@ -171,7 +171,7 @@ export function loadTemplates<C>(settings: EnforcedWidgetSettings<C>) {
   }
 }
 
-function addConfigStyles<C>(settings: EnforcedWidgetSettings<C>) {
+function addConfigStyles(settings: EnforcedWidgetSettings) {
   const { style } = settings.config
 
   if (style) {
@@ -179,7 +179,7 @@ function addConfigStyles<C>(settings: EnforcedWidgetSettings<C>) {
   }
 }
 
-function addConfigExpandedTileSettings<C>(settings: EnforcedWidgetSettings<C>) {
+function addConfigExpandedTileSettings(settings: EnforcedWidgetSettings) {
   const { expandedTile } = settings.config
 
   if (expandedTile) {
@@ -187,7 +187,7 @@ function addConfigExpandedTileSettings<C>(settings: EnforcedWidgetSettings<C>) {
   }
 }
 
-function addConfigInlineTileSettings<C>(settings: EnforcedWidgetSettings<C>) {
+function addConfigInlineTileSettings(settings: EnforcedWidgetSettings) {
   const { inlineTile } = settings.config
 
   if (inlineTile) {
@@ -195,7 +195,7 @@ function addConfigInlineTileSettings<C>(settings: EnforcedWidgetSettings<C>) {
   }
 }
 
-function addConfigFilter<C>(settings: EnforcedWidgetSettings<C>) {
+function addConfigFilter(settings: EnforcedWidgetSettings) {
   const { filter } = settings.config
 
   if (filter && filter.media) {
@@ -203,7 +203,7 @@ function addConfigFilter<C>(settings: EnforcedWidgetSettings<C>) {
   }
 }
 
-export function loadWidget<C>(settings?: MyWidgetSettings<C>) {
+export function loadWidget(settings?: MyWidgetSettings) {
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
   addConfigStyles(settingsWithDefaults)
   addConfigExpandedTileSettings(settingsWithDefaults)
@@ -213,7 +213,7 @@ export function loadWidget<C>(settings?: MyWidgetSettings<C>) {
   loadTemplates(settingsWithDefaults)
   loadFeatures(settingsWithDefaults)
   loadExtensions(settingsWithDefaults)
-  loadListeners<C>(settingsWithDefaults)
+  loadListeners(settingsWithDefaults)
   injectFontFaces(document.head, settings?.config?.fonts)
   injectFontFaces(sdk.getShadowRoot(), settings?.config?.fonts)
 }
