@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.18
+
+### Patch Changes
+
+- 596f2cd: Export expanded tile template
+
 ## 0.2.17
 
 ### Patch Changes
