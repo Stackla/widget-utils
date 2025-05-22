@@ -1,6 +1,5 @@
 import { callbackDefaults } from "./events"
 import { injectFontFaces } from "./fonts"
-import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 import { EnforcedWidgetSettings } from "./types"
 import { loadTemplates } from "./widget-loader"
 
@@ -15,10 +14,6 @@ const sdk = {
 // @ts-expect-error globals
 global.sdk = sdk
 
-jest.mock("./libs/components/expanded-tile-swiper", () => ({
-  loadExpandedTileTemplates: jest.fn()
-}))
-
 const settings: EnforcedWidgetSettings = {
   features: {
     showTitle: true,
@@ -27,7 +22,6 @@ const settings: EnforcedWidgetSettings = {
     addNewTilesAutomatically: true,
     handleLoadMore: true,
     hideBrokenImages: true,
-    loadExpandedTileSlider: true,
     loadTileContent: true,
     loadTimephrase: true
   },
@@ -52,26 +46,6 @@ const settings: EnforcedWidgetSettings = {
 describe("loadTemplates", () => {
   beforeEach(() => {
     jest.clearAllMocks() // Clear mocks before each test
-  })
-
-  it("should call loadExpandedTileTemplates when loadExpandedTileSlider is true", () => {
-    loadTemplates(settings)
-
-    expect(loadExpandedTileTemplates).toHaveBeenCalled()
-  })
-
-  it("should not call loadExpandedTileTemplates when loadExpandedTileSlider is false", () => {
-    const mutatedSettings = {
-      ...settings,
-      features: {
-        ...settings.features,
-        loadExpandedTileSlider: false
-      }
-    }
-
-    loadTemplates(mutatedSettings)
-
-    expect(loadExpandedTileTemplates).not.toHaveBeenCalled()
   })
 
   it("should not add templates if settings.templates is empty or undefined", () => {
