@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.19
+
+### Patch Changes
+
+- 912bdc8: Add tag group to sdk
+
 ## 0.2.18
 
 ### Patch Changes
