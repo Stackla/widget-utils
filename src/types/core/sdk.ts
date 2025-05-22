@@ -8,8 +8,8 @@ type HTMLResult = string | HTMLElement
 export type Template = (sdk: Sdk, component: any) => HTMLResult
 
 export interface ISdk {
-  querySelector<T extends Element = HTMLElement>(selector: string): T
-  querySelectorAll<T extends Element = HTMLElement>(selector: string): NodeListOf<T>
+  querySelector: <T extends Element = HTMLElement>(selector: string) => T | null | undefined
+  querySelectorAll: <T extends Element = HTMLElement>(selector: string) => NodeListOf<T> | undefined
   getEmittedEvents(): EventName[]
   getRegisteredEvents(): EventName[]
   addEventListener<T extends EventName>(
@@ -69,4 +69,5 @@ export interface ISdk {
   loadMore(): Promise<void>
   getProductTagById(productId: string): Product | undefined
   getCustomTemplate(component: string): Template | undefined
+  getTagGroup(): string | undefined
 }
