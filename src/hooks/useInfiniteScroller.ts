@@ -13,7 +13,15 @@ function useInfiniteScroller(
 
   sentinel.className = "sentinel"
   sentinel.style.height = "1px"
-  sdk.querySelector("#nosto-ugc-container").appendChild(sentinel)
+
+  const ugcContainer = sdk.querySelector("#nosto-ugc-container")
+
+  if (!ugcContainer) {
+    console.error("Nosto UGC container not found")
+    return
+  }
+
+  ugcContainer.appendChild(sentinel)
 
   const observer = new IntersectionObserver(
     entries => {

@@ -53,7 +53,7 @@ export function handleTileImageError(tileWithError: HTMLElement) {
 
   const rowIdSelectors = uniqueRowIds.filter(rowId => rowId >= errorTileRowId).map(matched => `[row-id="${matched}"]`)
 
-  const matchedGridItems = Array.from(sdk.querySelectorAll<HTMLElement>(`.grid-item:is(${rowIdSelectors})`))
+  const matchedGridItems = Array.from(sdk.querySelectorAll<HTMLElement>(`.grid-item:is(${rowIdSelectors})`) ?? [])
 
   resizeTiles(matchedGridItems)
 }

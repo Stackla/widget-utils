@@ -367,6 +367,11 @@ export function reduceBackgroundControlsVisibility(sourceId: string) {
 
   const expandedTilesElement = sdk.querySelector("expanded-tiles")
 
+  if (!expandedTilesElement) {
+    console.warn("Expanded tiles element not found")
+    return
+  }
+
   const wrapper = expandedTilesElement.querySelector<HTMLElement>(".expanded-tile-wrapper")
 
   if (!wrapper) {
@@ -394,6 +399,11 @@ export function resetBackgroundControlsVisibility(sourceId: string) {
   }
 
   const expandedTilesElement = sdk.querySelector("expanded-tiles")
+
+  if (!expandedTilesElement) {
+    console.warn("Expanded tiles element not found")
+    return
+  }
 
   const wrapper = expandedTilesElement.querySelector<HTMLElement>(".expanded-tile-wrapper")
 

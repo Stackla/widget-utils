@@ -40,6 +40,12 @@ function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
   })
 
   const grid = sdk.querySelector(".grid")
+
+  if (!grid) {
+    console.error("Grid element not found")
+    return settings
+  }
+
   const observer = new ResizeObserver(() => {
     renderMasonryLayout()
   })
