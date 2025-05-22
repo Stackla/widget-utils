@@ -109,7 +109,7 @@ export function FacebookFallbackTemplate({ tile, onLoad }: { tile: Tile; onLoad:
       <div class="fb-video" data-href={tile.original_link} data-width="500" data-show-text="false">
         <blockquote cite={tile.original_link} class="fb-xfbml-parse-ignore">
           <a href={tile.original_link}></a>
-          <p></p>Posted by <a href={`https://www.facebook.com/$${tile.source_user_id}`}>{tile.name}</a> on
+          <p></p>Posted by <a href={`https://www.facebook.com/${tile.source_user_id}`}>{tile.name}</a> on
           {tile.time_ago}
         </blockquote>
       </div>
@@ -171,6 +171,8 @@ export function SourceVideoContent({ tile, parent, onLoad }: { tile: Tile; paren
       !tile.video?.standard_resolution
     ) {
       return <VideoErrorFallbackTemplate tile={tile} parent={parent} defaultHidden={false} />
+    } else {
+      return <FacebookFallbackTemplate tile={tile} onLoad={onLoad} />
     }
   }
 
@@ -182,7 +184,7 @@ export function SourceVideoContent({ tile, parent, onLoad }: { tile: Tile; paren
     return <UgcVideoTemplate tile={tile} onLoad={onLoad} />
   }
 
-  return <FacebookFallbackTemplate tile={tile} onLoad={onLoad} />
+  return <></>
 }
 
 export function VideoContainer({
