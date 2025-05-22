@@ -12,7 +12,6 @@ import {
   handleAllTileImageRendered,
   renderMasonryLayout
 } from "./libs/extensions/masonry/masonry.extension"
-import { loadExpandedTileTemplates } from "./libs/components/expanded-tile-swiper"
 import { callbackDefaults, loadListeners } from "./events"
 import { EnforcedWidgetSettings, MyWidgetSettings } from "./types/loader"
 import { injectFontFaces } from "./fonts"
@@ -59,7 +58,6 @@ function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetS
       addNewTilesAutomatically: true,
       handleLoadMore: true,
       hideBrokenImages: true,
-      loadExpandedTileSlider: true,
       loadTileContent: true,
       loadTimephrase: true,
       ...settings?.features
@@ -142,7 +140,6 @@ export function initialiseFeatures(settings: MyWidgetSettings) {
       addNewTilesAutomatically: true,
       handleLoadMore: true,
       hideBrokenImages: true,
-      loadExpandedTileSlider: true,
       loadTileContent: true,
       loadTimephrase: true
     }
@@ -152,10 +149,6 @@ export function initialiseFeatures(settings: MyWidgetSettings) {
 }
 
 export function loadTemplates(settings: EnforcedWidgetSettings) {
-  if (settings.features.loadExpandedTileSlider) {
-    loadExpandedTileTemplates(settings.templates["expanded-tiles"]?.template ? false : true)
-  }
-
   if (settings.templates && Object.keys(settings.templates).length) {
     Object.entries(settings.templates).forEach(([key, customTemplate]) => {
       if (!customTemplate) {

@@ -35,11 +35,6 @@ export interface Features {
    */
   hideBrokenImages: boolean
   /**
-   * @description Load the expanded tile slider
-   * @default true
-   */
-  loadExpandedTileSlider: boolean
-  /**
    * @description Load the tile content web component
    * @default true
    */
