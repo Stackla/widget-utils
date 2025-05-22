@@ -69,4 +69,5 @@ export interface ISdk {
   loadMore(): Promise<void>
   getProductTagById(productId: string): Product | undefined
   getCustomTemplate(component: string): Template | undefined
+  getTagGroup(): string | undefined
 }
