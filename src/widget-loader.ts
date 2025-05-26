@@ -204,6 +204,9 @@ function addConfigFilter(settings: EnforcedWidgetSettings) {
 
 export function loadWidget(settings?: MyWidgetSettings) {
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
+
+  sdk.storeWidgetTemplateSettings(settingsWithDefaults)
+
   addConfigStyles(settingsWithDefaults)
   addConfigExpandedTileSettings(settingsWithDefaults)
   addConfigInlineTileSettings(settingsWithDefaults)
