@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.20
+
+### Patch Changes
+
+- 4bc474e: Add support for template setting storage, and expanded tile direction
+
 ## 0.2.19
 
 ### Patch Changes
