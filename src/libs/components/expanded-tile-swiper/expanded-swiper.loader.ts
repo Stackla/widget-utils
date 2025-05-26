@@ -110,8 +110,6 @@ function initalizeExpandedTile(settings: ExpandedTileSettings) {
 function initalizeStoryExpandedTile(settings: ExpandedTileSettings) {
   const { initialTileId, widgetSelector, expandedTileWrapper, lookupAttr, direction } = settings
 
-  console.log("direction", direction)
-
   initializeSwiper({
     id: "expanded",
     widgetSelector,
