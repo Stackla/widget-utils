@@ -29,6 +29,7 @@ interface ExpandedTileSettings {
   widgetSelector: HTMLElement
   expandedTileWrapper: Element
   direction?: "horizontal" | "vertical"
+  loop?: boolean
 }
 
 /**
@@ -61,7 +62,8 @@ function initializeSwiperForExpandedTiles(paritalSettings: Partial<ExpandedTileS
     widgetSelector,
     expandedTileWrapper,
     lookupAttr,
-    direction: paritalSettings.direction || "horizontal"
+    direction: paritalSettings.direction || "horizontal",
+    loop: paritalSettings.loop || false
   }
 
   if (isStory) {
@@ -81,7 +83,7 @@ function initalizeExpandedTile(settings: ExpandedTileSettings) {
     nextButton: "swiper-expanded-button-next",
     paramsOverrides: {
       direction: direction,
-      loop: false,
+      loop: settings.loop || false,
       slidesPerView: 1,
       autoHeight: true,
       keyboard: {
@@ -343,7 +345,8 @@ export function onTileExpand(tileId: string) {
       const settings = {
         initialTileId: tileId,
         lookupAttr: lookupYtAttr,
-        direction: expandedTileSettings?.slide_direction
+        direction: expandedTileSettings?.slide_direction,
+        loop: expandedTileSettings?.loop
       }
       initializeSwiperForExpandedTiles(settings)
     } else if (tiktokId) {
@@ -351,13 +354,15 @@ export function onTileExpand(tileId: string) {
       const settings = {
         initialTileId: tileId,
         lookupAttr: lookupTiktokAttr,
-        direction: expandedTileSettings?.slide_direction
+        direction: expandedTileSettings?.slide_direction,
+        loop: expandedTileSettings?.loop
       }
       initializeSwiperForExpandedTiles(settings)
     } else {
       const settings = {
         initialTileId: tileId,
-        direction: expandedTileSettings?.slide_direction
+        direction: expandedTileSettings?.slide_direction,
+        loop: expandedTileSettings?.loop
       }
       initializeSwiperForExpandedTiles(settings)
     }
