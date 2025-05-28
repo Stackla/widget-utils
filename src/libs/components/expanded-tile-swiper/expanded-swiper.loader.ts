@@ -119,7 +119,8 @@ function initalizeStoryExpandedTile(settings: ExpandedTileSettings) {
     prevButton: "swiper-expanded-button-prev",
     nextButton: "swiper-expanded-button-next",
     paramsOverrides: {
-      slidesPerView: "auto",
+      loop: settings.loop || false,
+      slidesPerView: 1,
       autoHeight: true,
       autoplay: {
         delay: 5000
