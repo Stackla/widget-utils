@@ -17,9 +17,11 @@ const getWidgetV3EmbedCode = (data: Record<string, string | boolean | number>) =
   return `<div id="ugc-widget"${dataParams}></div>`
 }
 
-const invokeV3Javascript = async (environment: Environment) => {
+const invokeV3Javascript = async (environment: Environment, widgetId: string) => {
   const widget = await import(`${getUrlByEnv(environment)}/core.esm.js`)
-  widget.init()
+  widget.init({
+    wid: widgetId
+  })
 }
 
 export { getWidgetV3EmbedCode, invokeV3Javascript }
