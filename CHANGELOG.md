@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.21
+
+### Patch Changes
+
+- 6fbf935: Fixup bug around missing wid
+
 ## 0.2.20
 
 ### Patch Changes
