@@ -1,3 +1,4 @@
+import { ISdk } from "../types"
 import getCSSVariables, { getTileSizeByWidget, trimHashValuesFromObject } from "./css-variables"
 
 // Mock sdk object globally
@@ -5,7 +6,7 @@ const sdk = {
   getStyleConfig: jest.fn(),
   getInlineTileConfig: jest.fn(),
   getExpandedTileConfig: jest.fn()
-}
+} as unknown as ISdk
 
 // @ts-expect-error global properties are not typed
 global.sdk = sdk
@@ -14,26 +15,31 @@ describe("Widget Functions", () => {
   // Tests for getTileSizeByWidget
   describe("getTileSizeByWidget", () => {
     it("should return medium size when inline_tile_size is not defined", () => {
+      // @ts-expect-error Mocking the sdk.getStyleConfig method
       sdk.getStyleConfig.mockReturnValue({})
 
-      const result = getTileSizeByWidget()
+      const result = getTileSizeByWidget(sdk)
       expect(result).toEqual({ "--tile-size": "265.5px", "--tile-size-unitless": "265.5" })
     })
 
     it("should return correct tile size based on inline_tile_size", () => {
+      // @ts-expect-error Mocking the sdk.getStyleConfig method
       sdk.getStyleConfig.mockReturnValue({ inline_tile_size: "small" })
-      expect(getTileSizeByWidget()).toEqual({ "--tile-size": "173px", "--tile-size-unitless": "173" })
+      expect(getTileSizeByWidget(sdk)).toEqual({ "--tile-size": "173px", "--tile-size-unitless": "173" })
 
+      // @ts-expect-error Mocking the sdk.getStyleConfig method
       sdk.getStyleConfig.mockReturnValue({ inline_tile_size: "medium" })
-      expect(getTileSizeByWidget()).toEqual({ "--tile-size": "265.5px", "--tile-size-unitless": "265.5" })
+      expect(getTileSizeByWidget(sdk)).toEqual({ "--tile-size": "265.5px", "--tile-size-unitless": "265.5" })
 
+      // @ts-expect-error Mocking the sdk.getStyleConfig method
       sdk.getStyleConfig.mockReturnValue({ inline_tile_size: "large" })
-      expect(getTileSizeByWidget()).toEqual({ "--tile-size": "400px", "--tile-size-unitless": "400" })
+      expect(getTileSizeByWidget(sdk)).toEqual({ "--tile-size": "400px", "--tile-size-unitless": "400" })
     })
   })
   // Tests for getCSSVariables
   describe("getCSSVariables", () => {
     it("should return the correct CSS variables", () => {
+      // @ts-expect-error Mocking the sdk.getStyleConfig method
       sdk.getStyleConfig.mockReturnValue({
         widget_background: "ffffff",
         text_tile_background: "000000",
@@ -55,21 +61,24 @@ describe("Widget Functions", () => {
         tile_tag_background: "D6D4D5"
       })
 
+      // @ts-expect-error Mocking the sdk.getInlineTileConfig method
       sdk.getInlineTileConfig.mockReturnValue({
         show_timestamp: true,
         show_caption: false
       })
 
+      // @ts-expect-error Mocking the sdk.getExpandedTileConfig method
       sdk.getExpandedTileConfig.mockReturnValue({
         show_tags: false
       })
 
       // Check if the generated CSS variables match the snapshot
-      const cssVariables = getCSSVariables()
+      const cssVariables = getCSSVariables(sdk)
       expect(cssVariables).toMatchSnapshot()
     })
 
     it("should return correct sizes with custom tile size settings", () => {
+      // @ts-expect-error Mocking the sdk.getStyleConfig method
       sdk.getStyleConfig.mockReturnValue({})
       const tileSizeSettings = {
         tileSizeSettings: {
@@ -79,7 +88,7 @@ describe("Widget Functions", () => {
         }
       }
 
-      const result = getCSSVariables(tileSizeSettings)
+      const result = getCSSVariables(sdk, tileSizeSettings)
       expect(result).toContain("--tile-size: 200px;")
     })
 

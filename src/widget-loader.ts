@@ -1,9 +1,4 @@
-import {
-  addAutoAddTileFeature,
-  addLoadMoreButtonFeature,
-  loadExpandedTileFeature,
-  loadTitle
-} from "./libs/widget.features"
+import { addAutoAddTileFeature, loadExpandedTileFeature, loadTitle } from "./libs/widget.features"
 import { addCSSVariablesToPlacement } from "./libs/widget.layout"
 import getCSSVariables from "./libs/css-variables"
 import { ISdk } from "./types"
@@ -16,11 +11,9 @@ import { callbackDefaults, loadListeners } from "./events"
 import { EnforcedWidgetSettings, MyWidgetSettings } from "./types/loader"
 import { injectFontFaces } from "./fonts"
 
-declare const sdk: ISdk
-
-function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
+function loadMasonryCallbacks(sdk: ISdk, settings: EnforcedWidgetSettings) {
   const tilesUpdatedObserver = new MutationObserver(() => {
-    renderMasonryLayout()
+    renderMasonryLayout(sdk)
   })
 
   tilesUpdatedObserver.observe(sdk.querySelector(".ugc-tiles")!, {
@@ -29,14 +22,14 @@ function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
   })
 
   settings.callbacks.onTileBgImgRenderComplete.push(() => {
-    handleAllTileImageRendered()
-    setTimeout(handleAllTileImageRendered, 1000)
+    handleAllTileImageRendered(sdk)
+    setTimeout(() => handleAllTileImageRendered(sdk), 1000)
   })
 
   settings.callbacks.onTileBgImageError.push(event => {
-    const customEvent = event as CustomEvent
+    const customEvent = event
     const tileWithError = customEvent.detail.data.target as HTMLElement
-    handleTileImageError(tileWithError)
+    handleTileImageError(sdk, tileWithError)
   })
 
   const grid = sdk.querySelector(".grid")
@@ -47,7 +40,7 @@ function loadMasonryCallbacks(settings: EnforcedWidgetSettings) {
   }
 
   const observer = new ResizeObserver(() => {
-    renderMasonryLayout()
+    renderMasonryLayout(sdk)
   })
 
   observer.observe(grid)
@@ -82,7 +75,7 @@ function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetS
   }
 }
 
-async function loadFeatures(settings: EnforcedWidgetSettings) {
+async function loadFeatures(sdk: ISdk, settings: EnforcedWidgetSettings) {
   const {
     showTitle,
     preloadImages,
@@ -109,29 +102,28 @@ async function loadFeatures(settings: EnforcedWidgetSettings) {
   }
 
   if (showTitle) {
-    loadTitle()
+    loadTitle(sdk)
   }
 
-  loadExpandedTileFeature()
+  loadExpandedTileFeature(sdk)
 
   if (addNewTilesAutomatically) {
-    addAutoAddTileFeature()
+    addAutoAddTileFeature(sdk)
   }
 
   if (handleLoadMore) {
-    await import("./libs/components/load-more")
-    addLoadMoreButtonFeature()
+    sdk.addLoadedComponents(["load-more"])
   }
 
   return settings
 }
 
-function loadExtensions(settings: EnforcedWidgetSettings) {
+function loadExtensions(sdk: ISdk, settings: EnforcedWidgetSettings) {
   const { extensions } = settings
 
   if (extensions?.masonry) {
-    settings = loadMasonryCallbacks(settings)
-    renderMasonryLayout()
+    settings = loadMasonryCallbacks(sdk, settings)
+    renderMasonryLayout(sdk)
   }
 
   return settings
@@ -154,7 +146,7 @@ export function initialiseFeatures(settings: MyWidgetSettings) {
   return settings
 }
 
-export function loadTemplates(settings: EnforcedWidgetSettings) {
+export function loadTemplates(sdk: ISdk, settings: EnforcedWidgetSettings) {
   if (settings.templates && Object.keys(settings.templates).length) {
     Object.entries(settings.templates).forEach(([key, customTemplate]) => {
       if (!customTemplate) {
@@ -170,7 +162,7 @@ export function loadTemplates(settings: EnforcedWidgetSettings) {
   }
 }
 
-function addConfigStyles(settings: EnforcedWidgetSettings) {
+function addConfigStyles(sdk: ISdk, settings: EnforcedWidgetSettings) {
   const { style } = settings.config
 
   if (style) {
@@ -178,7 +170,7 @@ function addConfigStyles(settings: EnforcedWidgetSettings) {
   }
 }
 
-function addConfigExpandedTileSettings(settings: EnforcedWidgetSettings) {
+function addConfigExpandedTileSettings(sdk: ISdk, settings: EnforcedWidgetSettings) {
   const { expandedTile } = settings.config
 
   if (expandedTile) {
@@ -186,7 +178,7 @@ function addConfigExpandedTileSettings(settings: EnforcedWidgetSettings) {
   }
 }
 
-function addConfigInlineTileSettings(settings: EnforcedWidgetSettings) {
+function addConfigInlineTileSettings(sdk: ISdk, settings: EnforcedWidgetSettings) {
   const { inlineTile } = settings.config
 
   if (inlineTile) {
@@ -194,7 +186,7 @@ function addConfigInlineTileSettings(settings: EnforcedWidgetSettings) {
   }
 }
 
-function addConfigFilter(settings: EnforcedWidgetSettings) {
+function addConfigFilter(sdk: ISdk, settings: EnforcedWidgetSettings) {
   const { filter } = settings.config
 
   if (filter && filter.media) {
@@ -202,20 +194,20 @@ function addConfigFilter(settings: EnforcedWidgetSettings) {
   }
 }
 
-export function loadWidget(settings?: MyWidgetSettings) {
+export function loadWidget(sdk: ISdk, settings?: MyWidgetSettings) {
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
 
   sdk.storeWidgetTemplateSettings(settingsWithDefaults)
 
-  addConfigStyles(settingsWithDefaults)
-  addConfigExpandedTileSettings(settingsWithDefaults)
-  addConfigInlineTileSettings(settingsWithDefaults)
-  addCSSVariablesToPlacement(getCSSVariables(settings?.features))
-  addConfigFilter(settingsWithDefaults)
-  loadTemplates(settingsWithDefaults)
-  loadFeatures(settingsWithDefaults)
-  loadExtensions(settingsWithDefaults)
-  loadListeners(settingsWithDefaults)
+  addConfigStyles(sdk, settingsWithDefaults)
+  addConfigExpandedTileSettings(sdk, settingsWithDefaults)
+  addConfigInlineTileSettings(sdk, settingsWithDefaults)
+  addCSSVariablesToPlacement(sdk, getCSSVariables(sdk, settings?.features))
+  addConfigFilter(sdk, settingsWithDefaults)
+  loadTemplates(sdk, settingsWithDefaults)
+  loadFeatures(sdk, settingsWithDefaults)
+  loadExtensions(sdk, settingsWithDefaults)
+  loadListeners(sdk, settingsWithDefaults)
   injectFontFaces(document.head, settings?.config?.fonts)
   injectFontFaces(sdk.getShadowRoot(), settings?.config?.fonts)
 }

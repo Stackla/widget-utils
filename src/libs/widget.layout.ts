@@ -1,7 +1,6 @@
 import type { ISdk } from "../"
 
-declare const sdk: ISdk
-export function addCSSVariablesToPlacement(cssVariables: string) {
+export function addCSSVariablesToPlacement(sdk: ISdk, cssVariables: string) {
   const shadowRoot = sdk.getShadowRoot()
   const style = document.createElement("style")
   style.innerHTML = `

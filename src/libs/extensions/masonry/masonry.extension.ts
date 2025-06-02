@@ -1,11 +1,9 @@
 import { ISdk } from "../../.."
 
-declare const sdk: ISdk
-
 let screenWidth = 0
 let previousWidthHandled = 0
 
-export function handleTileImageRendered(tileId?: string) {
+export function handleTileImageRendered(sdk: ISdk, tileId?: string) {
   if (!tileId) {
     return
   }
@@ -15,7 +13,7 @@ export function handleTileImageRendered(tileId?: string) {
   tileLoadingElement?.classList.remove("loading")
 }
 
-export function handleAllTileImageRendered() {
+export function handleAllTileImageRendered(sdk: ISdk) {
   const tileLoadingElements = sdk.getShadowRoot().querySelectorAll(".grid-item .tile-loading.loading")
   tileLoadingElements?.forEach(element => element.classList.remove("loading"))
 
@@ -23,7 +21,7 @@ export function handleAllTileImageRendered() {
   loadMoreHiddenElement?.classList.remove(".hidden")
 }
 
-function getGridItemRowIds() {
+function getGridItemRowIds(sdk: ISdk) {
   const gridItems = sdk.getShadowRoot().querySelectorAll(".grid-item:not(hidden)[row-id]")
   const allRowIds = Array.from(gridItems)
     .map(item => item.getAttribute("row-id"))
@@ -33,7 +31,7 @@ function getGridItemRowIds() {
   return [...new Set(allRowIds)]
 }
 
-export function handleTileImageError(tileWithError: HTMLElement) {
+export function handleTileImageError(sdk: ISdk, tileWithError: HTMLElement) {
   const errorTileRowIdString = tileWithError.getAttribute("row-id")
 
   tileWithError.classList.remove("grid-item")
@@ -49,7 +47,7 @@ export function handleTileImageError(tileWithError: HTMLElement) {
   }
 
   const errorTileRowId = +errorTileRowIdString
-  const uniqueRowIds = getGridItemRowIds()
+  const uniqueRowIds = getGridItemRowIds(sdk)
 
   const rowIdSelectors = uniqueRowIds.filter(rowId => rowId >= errorTileRowId).map(matched => `[row-id="${matched}"]`)
 
@@ -58,7 +56,7 @@ export function handleTileImageError(tileWithError: HTMLElement) {
   resizeTiles(matchedGridItems)
 }
 
-export function renderMasonryLayout(reset = false, resize = false) {
+export function renderMasonryLayout(sdk: ISdk, reset = false, resize = false) {
   if (resize || reset) {
     screenWidth = 0
   }

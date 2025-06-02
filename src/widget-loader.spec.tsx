@@ -1,6 +1,6 @@
 import { callbackDefaults } from "./events"
 import { injectFontFaces } from "./fonts"
-import { EnforcedWidgetSettings } from "./types"
+import { EnforcedWidgetSettings, ISdk } from "./types"
 import { loadTemplates } from "./widget-loader"
 
 const sdk = {
@@ -9,7 +9,7 @@ const sdk = {
     getWidgetId: jest.fn().mockReturnValue("widget-id"),
     injectStaticComponentStyle: jest.fn()
   }
-}
+} as unknown as ISdk
 
 // @ts-expect-error globals
 global.sdk = sdk
@@ -54,7 +54,7 @@ describe("loadTemplates", () => {
       templates: {}
     }
 
-    loadTemplates(mutatedSettings)
+    loadTemplates(sdk, mutatedSettings)
     expect(sdk.addTemplateToComponent).not.toHaveBeenCalled()
   })
 
@@ -74,7 +74,7 @@ describe("loadTemplates", () => {
       }
     }
 
-    loadTemplates(mutatedSettings)
+    loadTemplates(sdk, mutatedSettings)
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     expect(sdk.addTemplateToComponent).toHaveBeenCalledWith(expect.any(Function), "shopspots")
@@ -100,7 +100,7 @@ describe("loadTemplates", () => {
       }
     }
 
-    loadTemplates(mutatedSettings)
+    loadTemplates(sdk, mutatedSettings)
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     expect(sdk.addTemplateToComponent).toHaveBeenCalledWith(expect.any(Function), "shopspots")

@@ -1,8 +1,6 @@
 import type { Features, ISdk, Style } from "../types"
 
-declare const sdk: ISdk
-
-export function getTileSize(settings?: Features["tileSizeSettings"]) {
+export function getTileSize(sdk: ISdk, settings?: Features["tileSizeSettings"]) {
   const style = sdk.getStyleConfig()
   const { inline_tile_size } = style
 
@@ -29,7 +27,7 @@ export function getTileWidthBySizeString(sizeString: string, fallbacks?: Feature
   return tileSizes[sizeString]
 }
 
-export function getTileWidth(settings?: Features["tileWidthSettings"]) {
+export function getTileWidth(sdk: ISdk, settings?: Features["tileWidthSettings"]) {
   const style = sdk.getStyleConfig()
   const { inline_tile_size } = style
 
@@ -40,14 +38,14 @@ export function getTileWidth(settings?: Features["tileWidthSettings"]) {
   return getTileWidthBySizeString(inline_tile_size, settings)
 }
 
-export function getTileSizeByWidget(tileSizeSettings?: Features["tileSizeSettings"]) {
-  const sizeWithUnit = getTileSize(tileSizeSettings)
+export function getTileSizeByWidget(sdk: ISdk, tileSizeSettings?: Features["tileSizeSettings"]) {
+  const sizeWithUnit = getTileSize(sdk, tileSizeSettings)
   const sizeUnitless = sizeWithUnit.replace("px", "")
   return { "--tile-size": sizeWithUnit, "--tile-size-unitless": sizeUnitless }
 }
 
-export function getTileWidthByWidget(tileWidthSettings?: Features["tileWidthSettings"]) {
-  const tileWidth = getTileWidth(tileWidthSettings)
+export function getTileWidthByWidget(sdk: ISdk, tileWidthSettings?: Features["tileWidthSettings"]) {
+  const tileWidth = getTileWidth(sdk, tileWidthSettings)
   return { "--tile-width": tileWidth }
 }
 
@@ -62,7 +60,7 @@ export function trimHashValuesFromObject(obj: Style): Record<keyof Style, string
  * @description Get the CSS variables for the widget
  * @params tileSizeSettings - Custom tile size settings, small, medium, large
  */
-export default function getCSSVariables(features?: Partial<Features>): string {
+export default function getCSSVariables(sdk: ISdk, features?: Partial<Features>): string {
   const { tileSizeSettings, cssVariables, tileWidthSettings } = features || {}
   const styles = sdk.getStyleConfig()
   const inlineTileSettings = sdk.getInlineTileConfig()
@@ -121,8 +119,8 @@ export default function getCSSVariables(features?: Partial<Features>): string {
     "--cta-button-font-color": `#${cta_btn_font_color}`,
     "--cta-button-font-size": `${cta_btn_font_size}px`,
     "--expanded-tile-border-radius": `${expanded_tile_border_radius}px`,
-    ...getTileSizeByWidget(tileSizeSettings),
-    ...getTileWidthByWidget(tileWidthSettings),
+    ...getTileSizeByWidget(sdk, tileSizeSettings),
+    ...getTileWidthByWidget(sdk, tileWidthSettings),
     "--inline-tile-border-radius": `${inline_tile_border_radius}px`,
     "--inline-tile-margin": `${margin}px`,
     "--tags-display-inline": `${show_tags_inline ? "flex" : "none"}`,

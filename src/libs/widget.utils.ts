@@ -1,8 +1,6 @@
 import { ISdk } from "../"
 
-declare const sdk: ISdk
-
-export function waitForElement(selector: string, timeout: number = 5000): Promise<Element> {
+export function waitForElement(sdk: ISdk, selector: string, timeout: number = 5000): Promise<Element> {
   return new Promise((resolve, reject) => {
     const interval = 100
     const endTime = Date.now() + timeout

@@ -3,9 +3,7 @@ import { createElement, createFragment } from "../../"
 import { VideoContainer, VideoErrorFallbackTemplate } from "./video.templates"
 import { ExpandedTileProps, ShopspotProps, ContentWrapperProps } from "./types"
 
-declare const sdk: ISdk
-
-export function ContentWrapper({ id, parent }: ContentWrapperProps) {
+export function ContentWrapper({ sdk, id }: ContentWrapperProps) {
   const { show_shopspots } = sdk.getExpandedTileConfig()
   const tile = sdk.getTileById(id)
 
@@ -20,12 +18,12 @@ export function ContentWrapper({ id, parent }: ContentWrapperProps) {
     case "video":
       return (
         <>
-          <VideoContainer shopspotEnabled={shopspotEnabled} tile={tile} parent={parent} />
-          <VideoErrorFallbackTemplate tile={tile} />
+          <VideoContainer sdk={sdk} shopspotEnabled={shopspotEnabled} tile={tile} />
+          <VideoErrorFallbackTemplate sdk={sdk} tile={tile} />
         </>
       )
     case "image":
-      return <ImageTemplate tile={tile} image={tile.image} shopspotEnabled={shopspotEnabled} parent={parent} />
+      return <ImageTemplate sdk={sdk} tile={tile} image={tile.image} shopspotEnabled={shopspotEnabled} />
     case "text":
       return <span class="content-text">{tile.message}</span>
     case "html":
@@ -35,7 +33,7 @@ export function ContentWrapper({ id, parent }: ContentWrapperProps) {
   }
 }
 
-export function ExpandedTile({ tile }: ExpandedTileProps) {
+export function ExpandedTile({ tile, sdk }: ExpandedTileProps) {
   const { show_products, show_tags, show_sharing, show_caption, show_timestamp, show_carousel_grouping } =
     sdk.getExpandedTileConfig()
 
@@ -46,8 +44,6 @@ export function ExpandedTile({ tile }: ExpandedTileProps) {
   const tagsEnabled = show_tags
   const sharingToolsEnabled = show_sharing
 
-  const parent = sdk.getNodeId()
-
   return (
     <>
       <div class="panel">
@@ -56,9 +52,9 @@ export function ExpandedTile({ tile }: ExpandedTileProps) {
           <div class="image-wrapper">
             <div class="image-wrapper-inner">
               {carouselGroupingEnabled && tile.carousel_children && tile.carousel_children.length > 1 ? (
-                <carousel-grouping parent={parent} tile-id={tile.id} mode="expanded" />
+                <carousel-grouping tile-id={tile.id} mode="expanded" />
               ) : (
-                <ContentWrapper id={tile.id} parent={parent} />
+                <ContentWrapper sdk={sdk} id={tile.id} />
               )}
             </div>
           </div>
@@ -68,17 +64,24 @@ export function ExpandedTile({ tile }: ExpandedTileProps) {
             <div class="content-wrapper">
               <div class="content-inner-wrapper">
                 <tile-content
+                  widgetId={sdk.getWidgetId()}
                   tileId={tile.id}
                   render-share-menu={sharingToolsEnabled}
                   render-caption={show_caption}
                   render-timephrase={show_timestamp}
                 />
                 {tagsEnabled && (
-                  <tile-tags tile-id={tile.id} mode="swiper" context="expanded" navigation-arrows="true" />
+                  <tile-tags
+                    widgetId={sdk.getWidgetId()}
+                    tile-id={tile.id}
+                    mode="swiper"
+                    context="expanded"
+                    navigation-arrows="true"
+                  />
                 )}
                 {productsEnabled && (
                   <>
-                    <ugc-products parent={parent} tile-id={tile.id} />
+                    <ugc-products widgetId={sdk.getWidgetId()} tile-id={tile.id} />
                   </>
                 )}
               </div>
@@ -118,10 +121,10 @@ export function IconSection({ tile, productsEnabled }: { tile: Tile; productsEna
   )
 }
 
-export function ShopSpotTemplate({ shopspotEnabled, parent, tileId }: ShopspotProps) {
+export function ShopSpotTemplate({ shopspotEnabled, tileId, sdk }: ShopspotProps) {
   return shopspotEnabled ? (
     <>
-      <shopspot-icon parent={parent} mode="expanded" tile-id={tileId} />
+      <shopspot-icon widgetId={sdk.getWidgetId()} mode="expanded" tile-id={tileId} />
     </>
   ) : (
     <></>
@@ -132,12 +135,12 @@ export function ImageTemplate({
   tile,
   image,
   shopspotEnabled = false,
-  parent
+  sdk
 }: {
   tile: Tile
   image: string
   shopspotEnabled?: boolean
-  parent?: string
+  sdk: ISdk
 }) {
   return image ? (
     <>
@@ -145,11 +148,7 @@ export function ImageTemplate({
         <div class="image-filler blurred" style={{ "background-image": `url('${image}')` }}></div>
       </a>
       <div class="image">
-        {shopspotEnabled ? (
-          <ShopSpotTemplate shopspotEnabled={shopspotEnabled} parent={parent} tileId={tile.id} />
-        ) : (
-          <></>
-        )}
+        {shopspotEnabled ? <ShopSpotTemplate sdk={sdk} shopspotEnabled={shopspotEnabled} tileId={tile.id} /> : <></>}
         <a href={tile.original_url} target="_blank">
           <img class="image-element" src={image} loading="lazy" alt={tile.description || "Image"} />
         </a>

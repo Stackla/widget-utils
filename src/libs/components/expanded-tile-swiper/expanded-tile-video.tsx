@@ -1,11 +1,9 @@
 import { type Swiper } from "swiper"
 import { getTileIdFromSlide, isActiveTile } from "./expanded-swiper.loader"
 import { getInstance } from "../../extensions/swiper"
-import { LookupAttr } from "../../extensions/swiper/swiper.extension"
+import { getSwiperContainer, LookupAttr } from "../../extensions/swiper/swiper.extension"
 import { ISdk } from "../../../types"
 import { playTiktokVideo, muteTiktokVideo, unMuteTiktokVideo, pauseTiktokVideo } from "./tiktok-message"
-
-declare const sdk: ISdk
 
 type YoutubeContentWindow = Window & {
   play: () => void
@@ -33,11 +31,11 @@ let tiktokDefaultPlayed = false
 /**
  * Play the video/audio attached to the slide on load where the element is a media element (video/youtube/tiktok)
  */
-export async function playMediaOnLoad() {
-  const swiper = getInstance("expanded")
+export async function playMediaOnLoad(sdk: ISdk) {
+  const swiper = getInstance(sdk, `expanded`)
   if (swiper) {
-    const activeElementData = getSwiperVideoElement(swiper, swiper.realIndex)
-    triggerPlay(activeElementData)
+    const activeElementData = getSwiperVideoElement(sdk, swiper, swiper.realIndex)
+    triggerPlay(sdk, activeElementData)
   }
 }
 
@@ -45,12 +43,12 @@ export async function playMediaOnLoad() {
  * Play/Pause the video/audio attached to the slide on navigation where the element is a media element (video/youtube/tiktok)
  * @param { Swiper } swiper - the swiper element
  */
-export async function controlVideoPlayback(swiper: Swiper) {
-  const activeElement = getSwiperVideoElement(swiper, swiper.realIndex)
-  const previousElement = getSwiperVideoElement(swiper, swiper.previousIndex)
+export async function controlVideoPlayback(sdk: ISdk, swiper: Swiper) {
+  const activeElement = getSwiperVideoElement(sdk, swiper, swiper.realIndex)
+  const previousElement = getSwiperVideoElement(sdk, swiper, swiper.previousIndex)
 
   if (activeElement) {
-    triggerPlay(activeElement)
+    triggerPlay(sdk, activeElement)
   }
 
   if (previousElement) {
@@ -65,17 +63,19 @@ export async function controlVideoPlayback(swiper: Swiper) {
  * @param elementData.element - the container element of the media (video tag or iframe.contentWindow)
  * @param elementData.source - the media source (video for custom video source, youtube/tiktok)
  */
-export function triggerPlay(elementData?: SwiperVideoElementData) {
+export function triggerPlay(sdk: ISdk, elementData?: SwiperVideoElementData) {
   if (!elementData) {
     console.warn("elementData is required")
     return
   }
 
+  const swiperExpandedId = `expanded`
+
   switch (elementData.source) {
     case "video": {
       const videoElement = elementData.element as HTMLVideoElement
       videoElement.play()
-      if (window.ugc.swiperContainer["expanded"]?.muted) {
+      if (getSwiperContainer(sdk, swiperExpandedId)?.muted) {
         videoElement.muted = true
       } else {
         videoElement.muted = false
@@ -85,7 +85,7 @@ export function triggerPlay(elementData?: SwiperVideoElementData) {
     case "youtube": {
       const YoutubeContentWindow = elementData.element as YoutubeContentWindow
       YoutubeContentWindow.play()
-      if (window.ugc.swiperContainer["expanded"]?.muted) {
+      if (getSwiperContainer(sdk, swiperExpandedId)?.muted) {
         YoutubeContentWindow.mute()
       } else {
         YoutubeContentWindow.unMute()
@@ -95,7 +95,7 @@ export function triggerPlay(elementData?: SwiperVideoElementData) {
     case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
       playTiktokVideo(tiktokFrameWindow)
-      if (window.ugc.swiperContainer["expanded"]?.muted) {
+      if (getSwiperContainer(sdk, swiperExpandedId)?.muted) {
         muteTiktokVideo(tiktokFrameWindow)
       } else {
         unMuteTiktokVideo(tiktokFrameWindow)
@@ -150,6 +150,7 @@ export function triggerPause(elementData?: SwiperVideoElementData) {
  * @returns the video/iframe element or undefined if the element at index is not a video/audio
  */
 export function getSwiperVideoElement(
+  sdk: ISdk,
   swiper: Swiper,
   index: number,
   isStory = false
@@ -207,14 +208,14 @@ export function getSwiperVideoElement(
  * @param { Element } tile - the tile element
  * @param { HTMLElement } widgetSelector - the container of swiper element
  */
-export function setupYoutubeEvents(tile: Element, widgetSelector: HTMLElement) {
+export function setupYoutubeEvents(sdk: ISdk, tile: Element, widgetSelector: HTMLElement) {
   const tileId = tile.getAttribute("data-id")
   const youtubeId = tile.getAttribute("data-yt-id")
 
   if (youtubeId && tileId) {
     const youtubeFrame = tile.querySelector<HTMLIFrameElement>(`iframe#yt-frame-${tileId}-${youtubeId}`)
     youtubeFrame?.addEventListener("load", () => {
-      playActiveMediaTileOnLoad(tile, widgetSelector, { name: "data-yt-id", value: youtubeId })
+      playActiveMediaTileOnLoad(sdk, tile, widgetSelector, { name: "data-yt-id", value: youtubeId })
     })
     youtubeFrame?.addEventListener("yt-video-error", () => {
       youtubeFrame.closest(".video-content-wrapper")?.classList.add("hidden")
@@ -227,7 +228,7 @@ export function setupYoutubeEvents(tile: Element, widgetSelector: HTMLElement) {
  * Setup tiktok player events using window.postMessage api
  * All media are paused by defult and only the media in the active slide is played
  */
-export function setupTikTokPlayerReadyEvent() {
+export function setupTikTokPlayerReadyEvent(sdk: ISdk) {
   tiktokDefaultPlayed = false
   window.onmessage = (
     event: MessageEvent<{
@@ -242,7 +243,7 @@ export function setupTikTokPlayerReadyEvent() {
 
       if (!tiktokDefaultPlayed) {
         tiktokDefaultPlayed = true
-        setTimeout(() => playMediaOnLoad(), 300)
+        setTimeout(() => playMediaOnLoad(sdk), 300)
       }
     }
   }
@@ -257,9 +258,14 @@ export function setupTikTokPlayerReadyEvent() {
  * @param { LookupAttr.name } lookupAttr.name - name of the attribute for e.g. data-yt-id or data-tiktok-id
  * @param { LookupAttr.value } lookupAttr.value - required value of the attribute
  */
-export function playActiveMediaTileOnLoad(tile: Element, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
-  if (isActiveTile(tile, widgetSelector, lookupAttr)) {
-    playMediaOnLoad()
+export function playActiveMediaTileOnLoad(
+  sdk: ISdk,
+  tile: Element,
+  widgetSelector: HTMLElement,
+  lookupAttr?: LookupAttr
+) {
+  if (isActiveTile(sdk, tile, widgetSelector, lookupAttr)) {
+    playMediaOnLoad(sdk)
   }
 }
 
@@ -269,11 +275,11 @@ export function playActiveMediaTileOnLoad(tile: Element, widgetSelector: HTMLEle
  * @param { Element } tile - the tile element
  * @param { HTMLElement } widgetSelector - the container of swiper element
  */
-export function setupVideoEvents(tile: Element, widgetSelector: HTMLElement) {
+export function setupVideoEvents(sdk: ISdk, tile: Element, widgetSelector: HTMLElement) {
   const videoSourceElement = tile.querySelector<HTMLVideoElement>("video.video-content > source")
   if (videoSourceElement) {
     videoSourceElement.addEventListener("load", () => {
-      playActiveMediaTileOnLoad(tile, widgetSelector)
+      playActiveMediaTileOnLoad(sdk, tile, widgetSelector)
     })
     videoSourceElement.addEventListener("error", () => {
       videoSourceElement.closest(".video-content-wrapper")?.classList.add("hidden")

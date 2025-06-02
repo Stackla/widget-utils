@@ -1,7 +1,5 @@
 import { ISdk } from "../../../"
 
-declare const sdk: ISdk
-
 function enableTileContent(slide: HTMLElement) {
   slide.querySelector(".tile-loading")?.classList.add("hidden")
   slide.querySelector(".icon-section.hidden")?.classList.remove("hidden")
@@ -23,7 +21,7 @@ export function enableTileImages(wrapper: HTMLElement) {
   elements.forEach(element => enableTileImage(element))
 }
 
-export function loadAllUnloadedTiles() {
+export function loadAllUnloadedTiles(sdk: ISdk) {
   const tileWrapper = sdk.querySelector(".ugc-tiles")
   if (tileWrapper) {
     enableTileImages(tileWrapper)

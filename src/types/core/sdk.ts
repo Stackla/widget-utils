@@ -71,6 +71,7 @@ export interface ISdk {
   getProductTagById(productId: string): Product | undefined
   getCustomTemplate(component: string): Template | undefined
   getTagGroup(): string | undefined
+  getExpandedTiles(): HTMLElement
   storeWidgetTemplateSettings: (settings: MyWidgetSettings) => void
   getWidgetTemplateSettings: () => MyWidgetSettings
 }

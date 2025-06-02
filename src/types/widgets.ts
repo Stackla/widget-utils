@@ -15,6 +15,7 @@ export type SharedWidgetOptions = {
 }
 
 export type WidgetOptions = {
+  wid: string
   id?: number
   widget_type_id?: number
   stack_id?: number

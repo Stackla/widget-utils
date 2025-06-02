@@ -18,10 +18,14 @@ describe("Handlebars Rendering Tests", () => {
 
   describe("renderTemplateWithPartials", () => {
     it("should register partials correctly and return the Handlebars instance", () => {
-      const hbs = renderTemplateWithPartials(Handlebars.create(), {
-        name: "tpl-tile",
-        template: tileTemplate
-      })
+      const hbs = renderTemplateWithPartials(
+        Handlebars.create(),
+        {
+          name: "tpl-tile",
+          template: tileTemplate
+        },
+        "unknown"
+      )
 
       const compiledTemplate = hbs.compile("{{> tpl-tile}}")
       const result = compiledTemplate({

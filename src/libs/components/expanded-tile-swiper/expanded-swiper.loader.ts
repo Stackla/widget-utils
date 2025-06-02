@@ -21,8 +21,6 @@ import {
   YoutubeIframeElementType
 } from "./expanded-tile-video"
 
-declare const sdk: ISdk
-
 interface ExpandedTileSettings {
   initialTileId?: string
   lookupAttr?: LookupAttr
@@ -39,8 +37,8 @@ interface ExpandedTileSettings {
  * @param { LookupAttr.name } lookupAttr.name - name of the attribute for e.g. data-yt-id or data-tiktok-id
  * @param { LookupAttr.value } lookupAttr.value - required value of the attribute
  */
-function initializeSwiperForExpandedTiles(paritalSettings: Partial<ExpandedTileSettings>) {
-  const expandedTile = sdk.querySelector("expanded-tiles")
+function initializeSwiperForExpandedTiles(sdk: ISdk, paritalSettings: Partial<ExpandedTileSettings>) {
+  const expandedTile = sdk.getExpandedTiles()
   const expandedTileWrapper = expandedTile?.querySelector(".expanded-tile-wrapper")
 
   if (!expandedTile || !expandedTileWrapper) {
@@ -65,22 +63,21 @@ function initializeSwiperForExpandedTiles(paritalSettings: Partial<ExpandedTileS
   }
 
   if (isStory) {
-    initalizeStoryExpandedTile(settings)
+    initalizeStoryExpandedTile(sdk, settings)
   } else {
-    initalizeExpandedTile(settings)
+    initalizeExpandedTile(sdk, settings)
   }
 }
 
-function initalizeExpandedTile(settings: ExpandedTileSettings) {
-  const { initialTileId, widgetSelector, lookupAttr, direction } = settings
-  initializeSwiper({
+function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
+  initializeSwiper(sdk, {
     id: "expanded",
-    widgetSelector,
+    widgetSelector: settings.widgetSelector,
     mode: "expanded",
     prevButton: "swiper-expanded-button-prev",
     nextButton: "swiper-expanded-button-next",
     paramsOverrides: {
-      direction: direction,
+      direction: settings.direction,
       loop: false,
       slidesPerView: 1,
       autoHeight: true,
@@ -93,24 +90,25 @@ function initalizeExpandedTile(settings: ExpandedTileSettings) {
           sdk.triggerEvent(EVENT_LOAD_MORE)
         },
         beforeInit: (swiper: Swiper) => {
-          const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId, lookupAttr) : 0
+          const tileIndex = settings.initialTileId
+            ? getSwiperIndexforTile(settings.widgetSelector, settings.initialTileId, settings.lookupAttr)
+            : 0
           swiper.slideToLoop(tileIndex, 0, false)
         },
         autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
           storyAutoplayProgress(swiper, percentage)
         },
-        navigationNext: swiperNavigationHandler,
-        navigationPrev: swiperNavigationHandler
+        navigationNext: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
+        navigationPrev: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper)
       }
     },
     getSliderTemplate: getExpandedSlides
   })
 }
 
-function initalizeStoryExpandedTile(settings: ExpandedTileSettings) {
+function initalizeStoryExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
   const { initialTileId, widgetSelector, expandedTileWrapper, lookupAttr, direction } = settings
-
-  initializeSwiper({
+  initializeSwiper(sdk, {
     id: "expanded",
     widgetSelector,
     mode: "expanded",
@@ -146,21 +144,21 @@ function initalizeStoryExpandedTile(settings: ExpandedTileSettings) {
           sdk.triggerEvent(EVENT_LOAD_MORE)
         },
         afterInit: (swiper: Swiper) => {
-          registerStoryControls(expandedTileWrapper, swiper)
+          registerStoryControls(sdk, expandedTileWrapper, swiper)
         },
         autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
           storyAutoplayProgress(swiper, percentage)
         },
-        slideChange: swiperNavigationHandler,
-        autoplay: swiperNavigationHandler
+        slideChange: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
+        autoplay: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper)
       }
     },
     getSliderTemplate: getExpandedSlides
   })
 }
 
-async function swiperNavigationHandler(swiper: Swiper) {
-  controlVideoPlayback(swiper)
+async function swiperNavigationHandler(sdk: ISdk, swiper: Swiper) {
+  controlVideoPlayback(sdk, swiper)
   const tileId = getTileIdFromSlide(swiper, swiper.realIndex)
   if (!tileId) {
     throw Error("Tile ID is not found in next slide from swiper")
@@ -183,7 +181,7 @@ function storyAutoplayProgress(swiper: Swiper, progress: number) {
   progressLine.style.width = `${100 - Math.round(progress * 100)}%`
 }
 
-function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
+function registerStoryControls(sdk: ISdk, tileWrapper: Element, swiper: Swiper) {
   const storyCtrls = tileWrapper.querySelector(".story-controls")
 
   if (!storyCtrls) {
@@ -211,7 +209,7 @@ function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
   volumeCtrl?.addEventListener("click", () => {
     volumeCtrl.classList.add("hidden")
     muteCtrl?.classList.remove("hidden")
-    updateSwiperInstance("expanded", (swiperData: SwiperData) => {
+    updateSwiperInstance(sdk, "expanded", (swiperData: SwiperData) => {
       swiperData.muted = true
     })
 
@@ -238,7 +236,7 @@ function registerStoryControls(tileWrapper: Element, swiper: Swiper) {
   muteCtrl?.addEventListener("click", () => {
     muteCtrl.classList.add("hidden")
     volumeCtrl?.classList.remove("hidden")
-    updateSwiperInstance("expanded", (swiperData: SwiperData) => {
+    updateSwiperInstance(sdk, "expanded", (swiperData: SwiperData) => {
       swiperData.muted = false
     })
 
@@ -314,14 +312,9 @@ export function getTileIdFromSlide(swiper: Swiper, index: number) {
  *
  * @param { string } tileId - the id of clicked inline tile and the tile that will be displayed on expanded tile load
  */
-export function onTileExpand(tileId: string) {
+export function onTileExpand(sdk: ISdk, tileId: string) {
   const expandedTileSettings = sdk.getWidgetTemplateSettings().config?.expandedTile
-  const expandedTile = sdk.querySelector("expanded-tiles")
-
-  if (!expandedTile) {
-    throw new Error("The expanded tile element not found")
-  }
-
+  const expandedTile = sdk.getExpandedTiles()
   const body = document.querySelector("body")
 
   if (body) {
@@ -345,7 +338,7 @@ export function onTileExpand(tileId: string) {
         lookupAttr: lookupYtAttr,
         direction: expandedTileSettings?.slide_direction
       }
-      initializeSwiperForExpandedTiles(settings)
+      initializeSwiperForExpandedTiles(sdk, settings)
     } else if (tiktokId) {
       const lookupTiktokAttr: LookupAttr = { name: "data-tiktok-id", value: tiktokId }
       const settings = {
@@ -353,13 +346,13 @@ export function onTileExpand(tileId: string) {
         lookupAttr: lookupTiktokAttr,
         direction: expandedTileSettings?.slide_direction
       }
-      initializeSwiperForExpandedTiles(settings)
+      initializeSwiperForExpandedTiles(sdk, settings)
     } else {
       const settings = {
         initialTileId: tileId,
         direction: expandedTileSettings?.slide_direction
       }
-      initializeSwiperForExpandedTiles(settings)
+      initializeSwiperForExpandedTiles(sdk, settings)
     }
   })
 }
@@ -368,13 +361,10 @@ export function onTileExpand(tileId: string) {
  * Triggered after all slides in expanded tiles are loaded
  * Setup onload and onerror events for media sources (video/youtube/tiktok)
  */
-export function onTileRendered() {
-  const expandedTilesElement = sdk.querySelector("expanded-tiles")
-
-  if (!expandedTilesElement) {
-    throw new Error("Expanded tiles element not found")
-  }
-
+export function onTileRendered(event: CustomEvent) {
+  const widgetSelectorId = event.detail.widgetSelector as string
+  const sdk = window.ugc.getWidgetBySelector(widgetSelectorId).sdk as ISdk
+  const expandedTilesElement = sdk.getExpandedTiles()
   const tiles = expandedTilesElement.querySelectorAll(".swiper-slide")
 
   const widgetSelector = expandedTilesElement.querySelector<HTMLElement>(".swiper-expanded")
@@ -383,30 +373,24 @@ export function onTileRendered() {
     throw new Error("Widget selector for expanded tile (swiper-expanded) is not found")
   }
 
-  setupTikTokPlayerReadyEvent()
+  setupTikTokPlayerReadyEvent(sdk)
 
   tiles?.forEach(tile => {
-    setupVideoEvents(tile, widgetSelector)
-    setupYoutubeEvents(tile, widgetSelector)
+    setupVideoEvents(sdk, tile, widgetSelector)
+    setupYoutubeEvents(sdk, tile, widgetSelector)
   })
 }
 
 /**
  * Reduces visibility of swiper controls when share menu is opened
  */
-export function reduceBackgroundControlsVisibility(sourceId: string) {
-  if (!isValidEventSource(sourceId)) {
+export function reduceBackgroundControlsVisibility(sdk: ISdk, sourceId: string) {
+  if (!isValidEventSource(sdk, sourceId)) {
     return
   }
 
-  const expandedTilesElement = sdk.querySelector("expanded-tiles")
-
-  if (!expandedTilesElement) {
-    console.warn("Expanded tiles element not found")
-    return
-  }
-
-  const wrapper = expandedTilesElement.querySelector<HTMLElement>(".expanded-tile-wrapper")
+  const expandedTile = sdk.getExpandedTiles()
+  const wrapper = expandedTile.querySelector<HTMLElement>(".expanded-tile-wrapper")
 
   if (!wrapper) {
     return
@@ -427,19 +411,13 @@ export function reduceBackgroundControlsVisibility(sourceId: string) {
 /**
  * Resets visibility of swiper controls when share menu is closed
  */
-export function resetBackgroundControlsVisibility(sourceId: string) {
-  if (!isValidEventSource(sourceId)) {
+export function resetBackgroundControlsVisibility(sdk: ISdk, sourceId: string) {
+  if (!isValidEventSource(sdk, sourceId)) {
     return
   }
 
-  const expandedTilesElement = sdk.querySelector("expanded-tiles")
-
-  if (!expandedTilesElement) {
-    console.warn("Expanded tiles element not found")
-    return
-  }
-
-  const wrapper = expandedTilesElement.querySelector<HTMLElement>(".expanded-tile-wrapper")
+  const expandedTile = sdk.getExpandedTiles()
+  const wrapper = expandedTile.querySelector<HTMLElement>(".expanded-tile-wrapper")
 
   if (!wrapper) {
     return
@@ -464,8 +442,8 @@ export function resetBackgroundControlsVisibility(sourceId: string) {
  * @param { string } sourceId - an event identifier. usually a tileId or a combinations of ids
  * @returns
  */
-function isValidEventSource(sourceId: string) {
-  const activeSlideElement = getActiveSlideElement("expanded")
+function isValidEventSource(sdk: ISdk, sourceId: string) {
+  const activeSlideElement = getActiveSlideElement(sdk, "expanded")
   return activeSlideElement?.getAttribute("data-id") === sourceId
 }
 
@@ -479,30 +457,28 @@ function isValidEventSource(sourceId: string) {
  * @param { LookupAttr.value } lookupAttr.value - required value of the attribute
  * @returns true if the supplied tile element is the currently displayed element. false, otherwise.
  */
-export function isActiveTile(tile: Element, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
+export function isActiveTile(sdk: ISdk, tile: Element, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
   const tileId = tile.getAttribute("data-id")
 
   if (lookupAttr) {
     const originalLookupAttrValue = tile.getAttribute(lookupAttr.name)
-    const activeSwiperElement = getActiveSlideElement("expanded")
+    const activeSwiperElement = getActiveSlideElement(sdk, "expanded")
     const activeElementTileId = activeSwiperElement?.getAttribute("data-id")
     const activeElementLookupAttrValue = activeSwiperElement?.getAttribute(lookupAttr.name)
     return originalLookupAttrValue === activeElementLookupAttrValue && tileId === activeElementTileId
   }
   const tileIndex = tileId ? getSwiperIndexforTile(widgetSelector, tileId, lookupAttr) : 0
-  return getActiveSlide("expanded") === tileIndex
+  return getActiveSlide(sdk, "expanded") === tileIndex
 }
 
 /**
  * Triggered when expanded tile is closed
  * Destroys swiper instance for expanded tile and removes background overlay
  */
-export function onTileClosed() {
-  const expandedTile = sdk.querySelector("expanded-tiles")
-
-  if (!expandedTile) {
-    throw new Error("The expanded tile element not found")
-  }
+export function onTileClosed(event: CustomEvent) {
+  const widgetSelectorId = event.detail.widgetSelector as string
+  const sdk = window.ugc.getWidgetBySelector(widgetSelectorId).sdk as ISdk
+  const expandedTile = sdk.getExpandedTiles()
 
   const overlay: HTMLDialogElement = expandedTile.parentElement as HTMLDialogElement
   overlay.close()
@@ -514,5 +490,5 @@ export function onTileClosed() {
     body.style.overflow = "auto"
   }
 
-  destroySwiper("expanded")
+  destroySwiper(sdk, "expanded")
 }

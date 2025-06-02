@@ -21,12 +21,16 @@ export async function renderHTMLWithTemplates(
   tiles: Tile[],
   options: WidgetOptions
 ) {
-  loadHelpers(Handlebars)
+  loadHelpers(Handlebars, options.wid)
 
-  const hbs = await renderTemplateWithPartials(Handlebars.create(), {
-    name: "tpl-tile",
-    template: tileTemplate
-  })
+  const hbs = await renderTemplateWithPartials(
+    Handlebars.create(),
+    {
+      name: "tpl-tile",
+      template: tileTemplate
+    },
+    options.wid
+  )
 
   const handlebarsTemplate = hbs.compile(layoutTemplate)
   return handlebarsTemplate({
@@ -35,40 +39,50 @@ export async function renderHTMLWithTemplates(
   })
 }
 
-export async function renderTilesWithTemplate(tileTemplate: string, tiles: Tile[], options: WidgetOptions) {
-  loadHelpers(Handlebars)
+export async function renderTilesWithTemplate(
+  tileTemplate: string,
+  tiles: Tile[],
+  options: WidgetOptions & {
+    wid: string
+  }
+) {
+  loadHelpers(Handlebars, options.wid)
 
   const hbs = await renderTemplateWithPartials(Handlebars.create(), {
     name: "tpl-tile",
     template: tileTemplate
   })
-
   const handlebarsTemplate = hbs.compile(tileTemplate)
 
   return tiles.map(tile =>
     handlebarsTemplate({
       ...tile,
+      wid: options.wid,
       options
     })
   )
 }
 
-export function renderTemplateWithPartials(hbs: typeof Handlebars, partial: HandlebarsPartial) {
-  loadHelpers(hbs)
+export function renderTemplateWithPartials(
+  hbs: typeof Handlebars,
+  partial: HandlebarsPartial,
+  widgetId: string = "unknown"
+) {
+  loadHelpers(hbs, widgetId)
   hbs.registerPartial(partial.name, partial.template)
 
   return hbs
 }
 
-export function loadHelpers(hbs: typeof Handlebars) {
+export function loadHelpers(hbs: typeof Handlebars, widgetId: string) {
   loadIfEqualsHelper(hbs)
   loadLazyHelper(hbs)
   loadJoinHelper(hbs)
   loadTileHelper(hbs)
   loadIfAutoPlayVideoHelper(hbs)
-  loadPlayVideoHelper(hbs)
+  loadPlayVideoHelper(hbs, widgetId)
   loadIfShortVideoHelper(hbs)
   loadIfHasProductTags(hbs)
   loadIfHasPublicTags(hbs)
-  loadIconsHelper(hbs)
+  loadIconsHelper(hbs, widgetId)
 }
