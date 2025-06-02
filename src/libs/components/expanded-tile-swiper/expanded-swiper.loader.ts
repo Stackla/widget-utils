@@ -21,6 +21,7 @@ import {
   YoutubeIframeElementType
 } from "./expanded-tile-video"
 
+
 /**
  * Initialize/re-initialize swiper for loading expanded tiles
  *
@@ -44,6 +45,16 @@ function initializeSwiperForExpandedTiles(sdk: ISdk, initialTileId: string, look
 
   const isStory = expandedTileWrapper.getAttribute("variation") === "story"
 
+  const { initialTileId, lookupAttr } = paritalSettings
+
+  const settings: ExpandedTileSettings = {
+    initialTileId,
+    widgetSelector,
+    expandedTileWrapper,
+    lookupAttr,
+    direction: paritalSettings.direction || "horizontal"
+  }
+
   if (isStory) {
     initalizeStoryExpandedTile(sdk, initialTileId, widgetSelector, expandedTileWrapper, lookupAttr)
   } else {
@@ -59,6 +70,7 @@ function initalizeExpandedTile(sdk: ISdk, initialTileId: string, widgetSelector:
     prevButton: "swiper-expanded-button-prev",
     nextButton: "swiper-expanded-button-next",
     paramsOverrides: {
+      direction: direction,
       loop: false,
       slidesPerView: 1,
       autoHeight: true,
@@ -104,6 +116,7 @@ function initalizeStoryExpandedTile(
       autoplay: {
         delay: 5000
       },
+      direction: direction || "horizontal",
       centeredSlides: true,
       effect: "coverflow",
       coverflowEffect: {
@@ -312,6 +325,7 @@ export function onTileExpand(sdk: ISdk, tileId: string) {
     const tileElement = expandedTile.shadowRoot?.querySelector(`.swiper-slide[data-id="${tileId}"]`)
     const youtubeId = tileElement?.getAttribute("data-yt-id")
     const tiktokId = tileElement?.getAttribute("data-tiktok-id")
+
     if (youtubeId) {
       const lookupYtAttr: LookupAttr = { name: "data-yt-id", value: youtubeId }
       initializeSwiperForExpandedTiles(sdk, tileId, lookupYtAttr)

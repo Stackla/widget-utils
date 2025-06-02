@@ -70,7 +70,7 @@ export async function embed<T extends ShadowRoot | HTMLElement>(options: EmbedOp
       case 3:
         dataProperties.wid = widgetId
         injectHTML(root, getWidgetV3EmbedCode(dataProperties))
-        await invokeV3Javascript(environment)
+        await invokeV3Javascript(environment, widgetId)
         break
       default:
         throw new Error(`No widget code accessible with version ${widgetVersion}`)
