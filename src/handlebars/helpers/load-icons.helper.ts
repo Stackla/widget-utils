@@ -1,7 +1,7 @@
 import Handlebars from "handlebars"
 import { TagExtended, Tile } from "../../types"
 
-export function getIcons(tile: Tile) {
+export function getIcons(tile: Tile, widgetId: string) {
   const hasInstagramReel = tile.attrs && tile.attrs.includes("instagram.reel")
   const hasProductTags =
     tile.tags_extended && tile.tags_extended.filter((tag: TagExtended) => tag.type === "product").length > 0
@@ -16,13 +16,13 @@ export function getIcons(tile: Tile) {
         </div>
         <div class="bottom-section">
             <div class="network-icon icon-${tile.source}"></div>
-            <shopspot-icon tile-id="${tile.id}" />
+            <shopspot-icon widgetId="${widgetId}" tile-id="${tile.id}" />
         </div>
     </div>`
 }
 
-export function loadIconsHelper(hbs: typeof Handlebars) {
+export function loadIconsHelper(hbs: typeof Handlebars, widgetId: string) {
   hbs.registerHelper("loadIcons", function (tile) {
-    return new hbs.SafeString(getIcons(tile))
+    return new hbs.SafeString(getIcons(tile, widgetId))
   })
 }

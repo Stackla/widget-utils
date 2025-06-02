@@ -3,7 +3,7 @@ import { loadPlayVideoHelper } from "./play-video.helper"
 
 describe("loadPlayVideoHelper", () => {
   beforeAll(() => {
-    loadPlayVideoHelper(Handlebars)
+    loadPlayVideoHelper(Handlebars, "unknown")
   })
 
   it("should generate a video tag with url, width and height", () => {

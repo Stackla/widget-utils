@@ -25,7 +25,7 @@ function getHelpers() {
 
 describe("loadJoinHelper", () => {
   beforeAll(() => {
-    loadHelpers(Handlebars)
+    loadHelpers(Handlebars, "unknown")
   })
 
   it("all helpers should be loaded", () => {

@@ -4,7 +4,7 @@ import { TagExtended } from "../../types"
 
 describe("loadIconsHelper", () => {
   beforeAll(() => {
-    loadIconsHelper(Handlebars)
+    loadIconsHelper(Handlebars, "unknown")
   })
 
   it("should generate HTML with Instagram reel icon and product tags", () => {
