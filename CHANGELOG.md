@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.26
+
+### Patch Changes
+
+- 9774b74: Bump
+
 ## 0.2.22
 
 ### Patch Changes
