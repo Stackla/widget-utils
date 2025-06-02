@@ -21,6 +21,13 @@ import {
   YoutubeIframeElementType
 } from "./expanded-tile-video"
 
+interface ExpandedTileSettings {
+  initialTileId?: string
+  lookupAttr?: LookupAttr
+  widgetSelector: HTMLElement
+  expandedTileWrapper: Element
+  direction?: "horizontal" | "vertical"
+}
 
 /**
  * Initialize/re-initialize swiper for loading expanded tiles
@@ -30,7 +37,7 @@ import {
  * @param { LookupAttr.name } lookupAttr.name - name of the attribute for e.g. data-yt-id or data-tiktok-id
  * @param { LookupAttr.value } lookupAttr.value - required value of the attribute
  */
-function initializeSwiperForExpandedTiles(sdk: ISdk, initialTileId: string, lookupAttr?: LookupAttr) {
+function initializeSwiperForExpandedTiles(sdk: ISdk, paritalSettings: Partial<ExpandedTileSettings>) {
   const expandedTile = sdk.getExpandedTiles()
   const expandedTileWrapper = expandedTile?.querySelector(".expanded-tile-wrapper")
 
@@ -56,21 +63,21 @@ function initializeSwiperForExpandedTiles(sdk: ISdk, initialTileId: string, look
   }
 
   if (isStory) {
-    initalizeStoryExpandedTile(sdk, initialTileId, widgetSelector, expandedTileWrapper, lookupAttr)
+    initalizeStoryExpandedTile(sdk, settings)
   } else {
-    initalizeExpandedTile(sdk, initialTileId, widgetSelector, lookupAttr)
+    initalizeExpandedTile(sdk, settings)
   }
 }
 
-function initalizeExpandedTile(sdk: ISdk, initialTileId: string, widgetSelector: HTMLElement, lookupAttr?: LookupAttr) {
+function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
   initializeSwiper(sdk, {
     id: "expanded",
-    widgetSelector,
+    widgetSelector: settings.widgetSelector,
     mode: "expanded",
     prevButton: "swiper-expanded-button-prev",
     nextButton: "swiper-expanded-button-next",
     paramsOverrides: {
-      direction: direction,
+      direction: settings.direction,
       loop: false,
       slidesPerView: 1,
       autoHeight: true,
@@ -83,7 +90,9 @@ function initalizeExpandedTile(sdk: ISdk, initialTileId: string, widgetSelector:
           sdk.triggerEvent(EVENT_LOAD_MORE)
         },
         beforeInit: (swiper: Swiper) => {
-          const tileIndex = initialTileId ? getSwiperIndexforTile(widgetSelector, initialTileId, lookupAttr) : 0
+          const tileIndex = settings.initialTileId
+            ? getSwiperIndexforTile(settings.widgetSelector, settings.initialTileId, settings.lookupAttr)
+            : 0
           swiper.slideToLoop(tileIndex, 0, false)
         },
         autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
@@ -97,13 +106,8 @@ function initalizeExpandedTile(sdk: ISdk, initialTileId: string, widgetSelector:
   })
 }
 
-function initalizeStoryExpandedTile(
-  sdk: ISdk,
-  initialTileId: string,
-  widgetSelector: HTMLElement,
-  expandedTileWrapper: Element,
-  lookupAttr?: LookupAttr
-) {
+function initalizeStoryExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
+  const { initialTileId, widgetSelector, expandedTileWrapper, lookupAttr, direction } = settings
   initializeSwiper(sdk, {
     id: "expanded",
     widgetSelector,
@@ -309,6 +313,7 @@ export function getTileIdFromSlide(swiper: Swiper, index: number) {
  * @param { string } tileId - the id of clicked inline tile and the tile that will be displayed on expanded tile load
  */
 export function onTileExpand(sdk: ISdk, tileId: string) {
+  const expandedTileSettings = sdk.getWidgetTemplateSettings().config?.expandedTile
   const expandedTile = sdk.getExpandedTiles()
   const body = document.querySelector("body")
 
@@ -328,12 +333,26 @@ export function onTileExpand(sdk: ISdk, tileId: string) {
 
     if (youtubeId) {
       const lookupYtAttr: LookupAttr = { name: "data-yt-id", value: youtubeId }
-      initializeSwiperForExpandedTiles(sdk, tileId, lookupYtAttr)
+      const settings = {
+        initialTileId: tileId,
+        lookupAttr: lookupYtAttr,
+        direction: expandedTileSettings?.slide_direction
+      }
+      initializeSwiperForExpandedTiles(sdk, settings)
     } else if (tiktokId) {
       const lookupTiktokAttr: LookupAttr = { name: "data-tiktok-id", value: tiktokId }
-      initializeSwiperForExpandedTiles(sdk, tileId, lookupTiktokAttr)
+      const settings = {
+        initialTileId: tileId,
+        lookupAttr: lookupTiktokAttr,
+        direction: expandedTileSettings?.slide_direction
+      }
+      initializeSwiperForExpandedTiles(sdk, settings)
     } else {
-      initializeSwiperForExpandedTiles(sdk, tileId)
+      const settings = {
+        initialTileId: tileId,
+        direction: expandedTileSettings?.slide_direction
+      }
+      initializeSwiperForExpandedTiles(sdk, settings)
     }
   })
 }
