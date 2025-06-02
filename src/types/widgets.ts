@@ -80,6 +80,7 @@ export interface ExpandedTileOptions {
   show_cross_sellers: boolean
   show_add_to_cart: boolean
   show_carousel_grouping: boolean
+  slide_direction?: "horizontal" | "vertical"
 }
 
 export interface InlineTileOptions {

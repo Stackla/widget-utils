@@ -1,4 +1,5 @@
 import { EventMapping, EventName } from "../../events"
+import { MyWidgetSettings } from "../loader"
 import { Sdk } from "../types"
 import { ClaimConfig, ExpandedTileOptions, InlineTileOptions, Style, WidgetOptions, WidgetResponse } from "../widgets"
 import { Content, Hotspot, Product, Tile } from "./tile"
@@ -71,4 +72,6 @@ export interface ISdk {
   getCustomTemplate(component: string): Template | undefined
   getTagGroup(): string | undefined
   getExpandedTiles(): HTMLElement
+  storeWidgetTemplateSettings: (settings: MyWidgetSettings) => void
+  getWidgetTemplateSettings: () => MyWidgetSettings
 }
