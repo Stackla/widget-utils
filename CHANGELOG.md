@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.2.22
+
+### Patch Changes
+
+- cdff9c1: Isolate sdk
+
 ## 0.2.21
 
 ### Patch Changes
