@@ -35,19 +35,25 @@ export async function renderHTMLWithTemplates(
   })
 }
 
-export async function renderTilesWithTemplate(tileTemplate: string, tiles: Tile[], options: WidgetOptions) {
+export async function renderTilesWithTemplate(
+  tileTemplate: string,
+  tiles: Tile[],
+  options: WidgetOptions & {
+    wid: string
+  }
+) {
   loadHelpers(Handlebars)
 
   const hbs = await renderTemplateWithPartials(Handlebars.create(), {
     name: "tpl-tile",
     template: tileTemplate
   })
-
   const handlebarsTemplate = hbs.compile(tileTemplate)
 
   return tiles.map(tile =>
     handlebarsTemplate({
       ...tile,
+      wid: options.wid,
       options
     })
   )

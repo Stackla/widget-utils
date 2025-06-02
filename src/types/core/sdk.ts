@@ -70,4 +70,5 @@ export interface ISdk {
   getProductTagById(productId: string): Product | undefined
   getCustomTemplate(component: string): Template | undefined
   getTagGroup(): string | undefined
+  getExpandedTiles(): HTMLElement
 }

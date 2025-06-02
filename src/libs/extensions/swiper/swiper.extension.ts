@@ -1,28 +1,28 @@
 import { EVENT_TILES_UPDATED } from "../../../events"
-import { Sdk, Tile } from "../../../types"
+import { ISdk, Tile } from "../../../types"
 import { SwiperData, SwiperProps } from "../../../types/SdkSwiper"
 import { Autoplay, EffectCoverflow, Keyboard, Manipulation, Mousewheel, Navigation, Pagination } from "swiper/modules"
 import { loadAllUnloadedTiles } from "./loader.extension"
-
-declare const sdk: Sdk
 
 export type LookupAttr = {
   name: string
   value: string
 }
 
-function addTilesUpdatedListener(id: string, getSlides?: (tiles: Tile[]) => JSX.Element[]) {
-  const swiper = getInstance(id)
+function addTilesUpdatedListener(sdk: ISdk, id: string, getSlides?: (sdk: ISdk, tiles: Tile[]) => JSX.Element[]) {
+  const swiper = getInstance(sdk, id)
 
   sdk.addEventListener(EVENT_TILES_UPDATED, event => {
     if (event instanceof CustomEvent) {
       const tiles = event.detail.data.tiles
       if (getSlides) {
-        getSlides(tiles).forEach(slide => swiper?.appendSlide(slide))
+        getSlides(sdk, tiles).forEach(
+          slide => swiper && typeof swiper.appendSlide == "function" && swiper.appendSlide(slide)
+        )
         swiper?.update()
       }
 
-      loadAllUnloadedTiles()
+      loadAllUnloadedTiles(sdk)
     }
   })
 
@@ -42,17 +42,17 @@ function addTilesUpdatedListener(id: string, getSlides?: (tiles: Tile[]) => JSX.
   })
 }
 
-export function initializeSwiper(swiperProps: SwiperProps) {
+export function initializeSwiper(sdk: ISdk, swiperProps: SwiperProps) {
   // check if constructor is available
   if (!window.ugc.libs.Swiper) {
     console.warn("Swiper library not found. Retrying in 100ms")
-    setTimeout(() => initializeSwiper(swiperProps), 100)
+    setTimeout(() => initializeSwiper(sdk, swiperProps), 100)
     return
   }
 
   if (!window.ugc.libs.Swiper.prototype) {
     console.warn("Swiper library cant be initialised. Retrying in 100ms")
-    setTimeout(() => initializeSwiper(swiperProps), 100)
+    setTimeout(() => initializeSwiper(sdk, swiperProps), 100)
   }
 
   window.ugc.swiperContainer = window.ugc?.swiperContainer ?? {}
@@ -62,24 +62,26 @@ export function initializeSwiper(swiperProps: SwiperProps) {
   const prev = prevButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${prevButton}`) : undefined
   const next = nextButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${nextButton}`) : undefined
 
-  if (!window.ugc.swiperContainer[id]) {
-    window.ugc.swiperContainer[id] = { ...(window.ugc.swiperContainer ?? {}) }
+  const mutatedId = getMutatedId(sdk, id)
+
+  if (!window.ugc.swiperContainer[mutatedId]) {
+    window.ugc.swiperContainer[mutatedId] = { ...(window.ugc.swiperContainer ?? {}) }
   }
 
-  const swiperInstance = window.ugc.swiperContainer[id]?.instance
+  const swiperInstance = window.ugc.swiperContainer[mutatedId]?.instance
 
   if (swiperInstance) {
     if (!swiperInstance.params?.enabled) {
-      enableSwiper(id)
+      enableSwiper(sdk, mutatedId)
       return
     }
     // re-initialize
     swiperInstance.destroy(true)
   } else {
-    window.ugc.swiperContainer[id] = { pageIndex: 1 }
+    window.ugc.swiperContainer[mutatedId] = { pageIndex: 1 }
   }
 
-  window.ugc.swiperContainer[id]!.instance = new window.ugc.libs.Swiper(widgetSelector, {
+  window.ugc.swiperContainer[mutatedId]!.instance = new window.ugc.libs.Swiper(widgetSelector, {
     modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow, Pagination],
     spaceBetween: 10,
     observer: true,
@@ -103,13 +105,14 @@ export function initializeSwiper(swiperProps: SwiperProps) {
   })
 
   if (!sdk.getCustomTemplate("expanded-tiles")) {
-    addTilesUpdatedListener(id, getSliderTemplate)
+    addTilesUpdatedListener(sdk, id, getSliderTemplate)
   }
 }
 
-export function refreshSwiper(id: string) {
-  if (window.ugc.swiperContainer[id]?.instance) {
-    window.ugc.swiperContainer[id].instance.update()
+export function refreshSwiper(sdk: ISdk, id: string) {
+  const instance = getSwiperInstance(sdk, id)
+  if (instance) {
+    instance.update()
   }
 }
 
@@ -127,59 +130,97 @@ export function getSwiperIndexforTile(swiperSelector: HTMLElement, tileId: strin
   return index < 0 ? 0 : index
 }
 
-export function disableSwiper(id: string) {
-  window.ugc.swiperContainer[id]?.instance?.disable()
+export function getSwiperInstance(sdk: ISdk, id: string) {
+  const container = getSwiperContainer(sdk, id)
+  if (container && container.instance) {
+    return container.instance
+  }
+
+  console.error(`Swiper instance for id ${id} not found`)
+  return null
 }
 
-export function enableSwiper(id: string) {
-  window.ugc.swiperContainer[id]?.instance?.enable()
+export function disableSwiper(sdk: ISdk, id: string) {
+  getSwiperInstance(sdk, id)?.disable()
 }
 
-export function destroySwiper(id: string) {
-  if (window.ugc.swiperContainer[id]?.instance) {
-    window.ugc.swiperContainer[id].instance.destroy(true, true)
-    delete window.ugc.swiperContainer[id]
+export function enableSwiper(sdk: ISdk, id: string) {
+  getSwiperInstance(sdk, id)?.enable()
+}
+
+export function getMutatedId(sdk: ISdk, id: string) {
+  return `${id}-wid-${sdk.getWidgetId()}`
+}
+
+export function destroySwiper(sdk: ISdk, id: string) {
+  const mutatedId = getMutatedId(sdk, id)
+  if (getSwiperInstance(sdk, id)) {
+    getSwiperInstance(sdk, id).destroy(true, true)
+    delete window.ugc.swiperContainer[mutatedId]
   }
 }
 
-export function getClickedIndex(id: string) {
-  if (window.ugc.swiperContainer[id]?.instance) {
-    const clickedSlide = window.ugc.swiperContainer[id].instance.clickedSlide
+export function getClickedIndex(sdk: ISdk, id: string) {
+  const instance = getInstance(sdk, id)
+  if (instance) {
+    const clickedSlide = instance.clickedSlide
     const indexFromAttribute = clickedSlide.getAttribute("data-swiper-slide-index")
     return indexFromAttribute && !Number.isNaN(parseInt(indexFromAttribute))
       ? parseInt(indexFromAttribute)
-      : window.ugc.swiperContainer[id].instance.clickedIndex
+      : instance.clickedIndex
   }
+
+  console.error(`Swiper instance for id ${id} not found`)
+
   return 0
 }
 
-export function getInstance(id: string) {
-  return window.ugc.swiperContainer[id]?.instance
-}
+export function getInstance(sdk: ISdk, id: string) {
+  const container = getSwiperContainer(sdk, id)
+  const instance = container.instance
 
-export function getActiveSlide(id: string) {
-  return window.ugc.swiperContainer[id]?.instance?.realIndex || 0
-}
-
-export function getActiveSlideElement(id: string) {
-  return window.ugc.swiperContainer[id]?.instance?.slides[getActiveSlide(id) || 0]
-}
-
-export function isSwiperLoading(id: string) {
-  if (window.ugc.swiperContainer[id]) {
-    return window.ugc.swiperContainer[id].isLoading
+  if (instance) {
+    return instance
   }
-  return false
+
+  console.error(`Swiper instance for id ${id} not found`)
 }
 
-export function setSwiperLoadingStatus(id: string, isLoading: boolean) {
-  if (window.ugc.swiperContainer[id]) {
-    window.ugc.swiperContainer[id].isLoading = isLoading
+export function getActiveSlide(sdk: ISdk, id: string) {
+  return this.getInstance(sdk, id)?.realIndex || 0
+}
+
+export function getActiveSlideElement(sdk: ISdk, id: string) {
+  return getInstance(sdk, id)?.slides[getActiveSlide(sdk, id) || 0] || null
+}
+
+export function getSwiperContainer(sdk: ISdk, id: string) {
+  const mutatedId = `${id}-wid-${sdk.getWidgetId()}`
+  if (window.ugc.swiperContainer[mutatedId]) {
+    return window.ugc.swiperContainer[mutatedId]
+  }
+
+  console.error(`Swiper container for id ${mutatedId} not found`)
+  return null
+}
+
+export function isSwiperLoading(sdk: ISdk, id: string) {
+  return getSwiperContainer(sdk, id)?.isLoading || false
+}
+
+export function setSwiperLoadingStatus(sdk: ISdk, id: string, isLoading: boolean) {
+  if (getSwiperContainer(sdk, id)) {
+    getSwiperContainer(sdk, id).isLoading = isLoading
   }
 }
 
-export function updateSwiperInstance(id: string, updateProps: (swiperData: SwiperData) => void) {
-  if (window.ugc.swiperContainer[id] && window.ugc.swiperContainer[id].instance) {
-    updateProps(window.ugc.swiperContainer[id])
+export function updateSwiperInstance(sdk: ISdk, id: string, updateProps: (swiperData: SwiperData) => void) {
+  const container = getSwiperContainer(sdk, id)
+  if (container && container.instance) {
+    updateProps(container)
+    return
   }
+
+  console.error(`Swiper instance for id ${id} not found`)
+  return null
 }

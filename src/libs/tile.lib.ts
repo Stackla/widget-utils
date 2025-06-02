@@ -1,8 +1,6 @@
 import type { ISdk } from "../"
 
-declare const sdk: ISdk
-
-export function handleTileClick(e: Event, widgetUrl: string) {
+export function handleTileClick(sdk: ISdk, e: Event, widgetUrl: string) {
   const clickedElement = e.target as HTMLElement
   const clickedTile = clickedElement.closest(".ugc-tile")
 

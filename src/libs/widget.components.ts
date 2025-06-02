@@ -1,8 +1,6 @@
 import type { ISdk } from "../"
 
-declare const sdk: ISdk
-
-export function loadExpandSettingComponents() {
+export function loadExpandSettingComponents(sdk: ISdk) {
   const { show_shopspots, show_products, show_add_to_cart, show_carousel_grouping } = sdk.getExpandedTileConfig()
 
   if (show_shopspots) {

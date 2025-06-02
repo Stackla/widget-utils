@@ -1,6 +1,7 @@
 import { type Swiper } from "swiper"
 import { SwiperOptions } from "swiper/types"
 import { Tile } from "./core"
+import { ISdk } from "../types/core/sdk"
 
 export type SwiperType = Swiper
 
@@ -17,7 +18,7 @@ export type SwiperProps = {
    * @description
    * Adds support for additional slides that appear when load more is invoked. Note: not all sliders require this, especially if static.
    */
-  getSliderTemplate?: (tiles: Tile[]) => JSX.Element[]
+  getSliderTemplate?: (sdk: ISdk, tiles: Tile[]) => JSX.Element[]
 }
 
 export type SwiperData = {

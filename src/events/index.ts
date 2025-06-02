@@ -1,8 +1,6 @@
 import { handleTileClick } from "../libs/tile.lib"
 import { ISdk, EnforcedWidgetSettings } from "../types"
 
-declare const sdk: ISdk
-
 export type EventCallback = (event: CustomEvent) => void | Promise<void>
 
 export const EVENT_PRODUCT_ACTION_CLICK = "productActionClick"
@@ -180,7 +178,7 @@ export type Callbacks = Record<keyof typeof callbackDefaults, EventCallback[]>
  * Registers event listeners for the widget.
  * @param settings
  */
-export function loadListeners(settings: EnforcedWidgetSettings) {
+export function loadListeners(sdk: ISdk, settings: EnforcedWidgetSettings) {
   const {
     onLoad,
     onTileExpand,
@@ -233,73 +231,79 @@ export function loadListeners(settings: EnforcedWidgetSettings) {
     onMouseLeave
   } = settings.callbacks
 
-  onLoad?.forEach(event => registerGenericEventListener(EVENT_LOAD, event))
-  onTileExpand?.forEach(event => registerGenericEventListener(EVENT_TILE_EXPAND_RENDERED, event))
-  onTileClose?.forEach(event => registerGenericEventListener(EVENT_EXPANDED_TILE_CLOSE, event))
-  onCrossSellersRendered?.forEach(event => registerGenericEventListener(EVENT_CROSS_SELLERS_LOADED, event))
-  onWidgetInitComplete?.forEach(event => registerGenericEventListener(EVENT_WIDGET_INIT_COMPLETE, event))
-  onTileBgImgRenderComplete?.forEach(event => registerGenericEventListener(EVENT_TILE_BG_IMG_RENDER_COMPLETE, event))
-  onTileBgImageError?.forEach(event => registerGenericEventListener(EVENT_TILE_BG_IMG_ERROR, event))
+  onLoad?.forEach(event => registerGenericEventListener(sdk, EVENT_LOAD, event))
+  onTileExpand?.forEach(event => registerGenericEventListener(sdk, EVENT_TILE_EXPAND_RENDERED, event))
+  onTileClose?.forEach(event => registerGenericEventListener(sdk, EVENT_EXPANDED_TILE_CLOSE, event))
+  onCrossSellersRendered?.forEach(event => registerGenericEventListener(sdk, EVENT_CROSS_SELLERS_LOADED, event))
+  onWidgetInitComplete?.forEach(event => registerGenericEventListener(sdk, EVENT_WIDGET_INIT_COMPLETE, event))
+  onTileBgImgRenderComplete?.forEach(event =>
+    registerGenericEventListener(sdk, EVENT_TILE_BG_IMG_RENDER_COMPLETE, event)
+  )
+  onTileBgImageError?.forEach(event => registerGenericEventListener(sdk, EVENT_TILE_BG_IMG_ERROR, event))
   // @ts-expect-error Event is not compatible with resize fn
   onResize?.forEach(event => window.addEventListener("resize", event))
-  onTilesUpdated?.forEach(event => registerGenericEventListener(EVENT_TILES_UPDATED, event))
-  onLoadMore?.forEach(event => registerGenericEventListener(EVENT_LOAD_MORE, event))
-  onProductActionClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_ACTION_CLICK, event))
-  onProductHideIconClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_HIDE_ICON_CLICK, event))
-  onExpandedTileImageLoad?.forEach(event => registerGenericEventListener(EVENT_EXPANDED_TILE_IMAGE_LOAD, event))
-  onExpandedTileOpen?.forEach(event => registerGenericEventListener(EVENT_EXPANDED_TILE_OPEN, event))
-  onExpandedTileClose?.forEach(event => registerGenericEventListener(EVENT_EXPANDED_TILE_CLOSE, event))
+  onTilesUpdated?.forEach(event => registerGenericEventListener(sdk, EVENT_TILES_UPDATED, event))
+  onLoadMore?.forEach(event => registerGenericEventListener(sdk, EVENT_LOAD_MORE, event))
+  onProductActionClick?.forEach(event => registerGenericEventListener(sdk, EVENT_PRODUCT_ACTION_CLICK, event))
+  onProductHideIconClick?.forEach(event => registerGenericEventListener(sdk, EVENT_PRODUCT_HIDE_ICON_CLICK, event))
+  onExpandedTileImageLoad?.forEach(event => registerGenericEventListener(sdk, EVENT_EXPANDED_TILE_IMAGE_LOAD, event))
+  onExpandedTileOpen?.forEach(event => registerGenericEventListener(sdk, EVENT_EXPANDED_TILE_OPEN, event))
+  onExpandedTileClose?.forEach(event => registerGenericEventListener(sdk, EVENT_EXPANDED_TILE_CLOSE, event))
   onBeforeExpandedTileImageResize?.forEach(event =>
-    registerGenericEventListener(EVENT_BEFORE_EXPANDED_TILE_IMAGE_RESIZE, event)
+    registerGenericEventListener(sdk, EVENT_BEFORE_EXPANDED_TILE_IMAGE_RESIZE, event)
   )
-  onBeforeExpandedTileClose?.forEach(event => registerGenericEventListener(EVENT_BEFORE_EXPANDED_TILE_CLOSE, event))
-  onBeforeExpandedTileOpen?.forEach(event => registerGenericEventListener(EVENT_BEFORE_EVENT_EXPANDED_TILE_OPEN, event))
-  onShopspotFlyoutExpand?.forEach(event => registerGenericEventListener(EVENT_SHOPSPOT_FLYOUT_EXPAND, event))
-  onShopspotToggle?.forEach(event => registerGenericEventListener(EVENT_SHOPSPOT_TOGGLE, event))
-  onShopspotOpen?.forEach(event => registerGenericEventListener(EVENT_SHOPSPOT_OPEN, event))
-  onShopspotActionClick?.forEach(event => registerGenericEventListener(EVENT_SHOPSPOT_ACTION_CLICK, event))
-  onUserClick?.forEach(event => registerGenericEventListener(EVENT_USER_CLICK, event))
+  onBeforeExpandedTileClose?.forEach(event =>
+    registerGenericEventListener(sdk, EVENT_BEFORE_EXPANDED_TILE_CLOSE, event)
+  )
+  onBeforeExpandedTileOpen?.forEach(event =>
+    registerGenericEventListener(sdk, EVENT_BEFORE_EVENT_EXPANDED_TILE_OPEN, event)
+  )
+  onShopspotFlyoutExpand?.forEach(event => registerGenericEventListener(sdk, EVENT_SHOPSPOT_FLYOUT_EXPAND, event))
+  onShopspotToggle?.forEach(event => registerGenericEventListener(sdk, EVENT_SHOPSPOT_TOGGLE, event))
+  onShopspotOpen?.forEach(event => registerGenericEventListener(sdk, EVENT_SHOPSPOT_OPEN, event))
+  onShopspotActionClick?.forEach(event => registerGenericEventListener(sdk, EVENT_SHOPSPOT_ACTION_CLICK, event))
+  onUserClick?.forEach(event => registerGenericEventListener(sdk, EVENT_USER_CLICK, event))
   // TODO - Clean this with not required for GA
-  onShareClick?.forEach(event => registerGenericEventListener(EVENT_SHARE_CLICK, event))
-  onImpression?.forEach(event => registerGenericEventListener(EVENT_IMPRESSION, event))
-  onLike?.forEach(event => registerGenericEventListener(EVENT_LIKE, event))
-  onDislike?.forEach(event => registerGenericEventListener(EVENT_DISLIKE, event))
-  onHover?.forEach(event => registerGenericEventListener(EVENT_HOVER, event))
-  onProductClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_CLICK, event))
-  onProductPinClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_PINCLICK, event))
-  onProductUserClick?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_EVENT_USER_CLICK, event))
-  onShopspotFlyout?.forEach(event => registerGenericEventListener(EVENT_SHOPSPOT_FLYOUT, event))
-  onTileMetadataLoaded?.forEach(event => registerGenericEventListener(EVENT_TILE_METADATA_LOADED, event))
-  onTileDataSet?.forEach(event => registerGenericEventListener(EVENT_TILE_DATA_SET, event))
-  onHtmlRendered?.forEach(event => registerGenericEventListener(EVENT_HTML_RENDERED, event))
-  onJsRendered?.forEach(event => registerGenericEventListener(EVENT_JS_RENDERED, event))
-  onGlobalsLoaded?.forEach(event => registerGenericEventListener(EVENT_GLOBALS_LOADED, event))
-  onProductPageLoaded?.forEach(event => registerGenericEventListener(EVENT_PRODUCT_PAGE_LOADED, event))
-  onProductsUpdated?.forEach(event => registerGenericEventListener(EVENT_PRODUCTS_UPDATED, event))
-  onAddToCartFailed?.forEach(event => registerGenericEventListener(EVENT_ADD_TO_CART_FAILED, event))
-  onEmailTileLoad?.forEach(event => registerGenericEventListener(EMAIL_TILE_LOAD, event))
-  onEmailTileClick?.forEach(event => registerGenericEventListener(EMAIL_TILE_CLICK, event))
-  onLikeClick?.forEach(event => registerGenericEventListener(EVENT_LIKE_CLICK, event))
-  onDislikeClick?.forEach(event => registerGenericEventListener(EVENT_DISLIKE_CLICK, event))
+  onShareClick?.forEach(event => registerGenericEventListener(sdk, EVENT_SHARE_CLICK, event))
+  onImpression?.forEach(event => registerGenericEventListener(sdk, EVENT_IMPRESSION, event))
+  onLike?.forEach(event => registerGenericEventListener(sdk, EVENT_LIKE, event))
+  onDislike?.forEach(event => registerGenericEventListener(sdk, EVENT_DISLIKE, event))
+  onHover?.forEach(event => registerGenericEventListener(sdk, EVENT_HOVER, event))
+  onProductClick?.forEach(event => registerGenericEventListener(sdk, EVENT_PRODUCT_CLICK, event))
+  onProductPinClick?.forEach(event => registerGenericEventListener(sdk, EVENT_PRODUCT_PINCLICK, event))
+  onProductUserClick?.forEach(event => registerGenericEventListener(sdk, EVENT_PRODUCT_EVENT_USER_CLICK, event))
+  onShopspotFlyout?.forEach(event => registerGenericEventListener(sdk, EVENT_SHOPSPOT_FLYOUT, event))
+  onTileMetadataLoaded?.forEach(event => registerGenericEventListener(sdk, EVENT_TILE_METADATA_LOADED, event))
+  onTileDataSet?.forEach(event => registerGenericEventListener(sdk, EVENT_TILE_DATA_SET, event))
+  onHtmlRendered?.forEach(event => registerGenericEventListener(sdk, EVENT_HTML_RENDERED, event))
+  onJsRendered?.forEach(event => registerGenericEventListener(sdk, EVENT_JS_RENDERED, event))
+  onGlobalsLoaded?.forEach(event => registerGenericEventListener(sdk, EVENT_GLOBALS_LOADED, event))
+  onProductPageLoaded?.forEach(event => registerGenericEventListener(sdk, EVENT_PRODUCT_PAGE_LOADED, event))
+  onProductsUpdated?.forEach(event => registerGenericEventListener(sdk, EVENT_PRODUCTS_UPDATED, event))
+  onAddToCartFailed?.forEach(event => registerGenericEventListener(sdk, EVENT_ADD_TO_CART_FAILED, event))
+  onEmailTileLoad?.forEach(event => registerGenericEventListener(sdk, EMAIL_TILE_LOAD, event))
+  onEmailTileClick?.forEach(event => registerGenericEventListener(sdk, EMAIL_TILE_CLICK, event))
+  onLikeClick?.forEach(event => registerGenericEventListener(sdk, EVENT_LIKE_CLICK, event))
+  onDislikeClick?.forEach(event => registerGenericEventListener(sdk, EVENT_DISLIKE_CLICK, event))
   onTileExpandProductRecsRendered?.forEach(event =>
-    registerGenericEventListener(EVENT_TILE_EXPAND_PROD_RECS_RENDERED, event)
+    registerGenericEventListener(sdk, EVENT_TILE_EXPAND_PROD_RECS_RENDERED, event)
   )
   onTileExpandCrossSellersRendered?.forEach(event =>
-    registerGenericEventListener(EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED, event)
+    registerGenericEventListener(sdk, EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED, event)
   )
-  onShareMenuOpened?.forEach(event => registerGenericEventListener(EVENT_SHARE_MENU_OPENED, event))
-  onShareMenuClosed?.forEach(event => registerGenericEventListener(EVENT_SHARE_MENU_CLOSED, event))
-  onMouseLeave?.forEach(event => registerGenericEventListener(EVENT_MOUSE_LEAVE, event))
+  onShareMenuOpened?.forEach(event => registerGenericEventListener(sdk, EVENT_SHARE_MENU_OPENED, event))
+  onShareMenuClosed?.forEach(event => registerGenericEventListener(sdk, EVENT_SHARE_MENU_CLOSED, event))
+  onMouseLeave?.forEach(event => registerGenericEventListener(sdk, EVENT_MOUSE_LEAVE, event))
 }
 
-export function registerTileExpandListener(fn: (tileId: string) => void = () => {}) {
+export function registerTileExpandListener(sdk: ISdk, fn: (sdk: ISdk, tileId: string) => void = () => {}) {
   sdk.addEventListener(EVENT_TILE_EXPAND, (event: CustomEvent) => {
     const tileId = event.detail.data.tileId as string
-    fn(tileId)
+    fn(sdk, tileId)
   })
 }
 
-export function registerDefaultClickEvents() {
+export function registerDefaultClickEvents(sdk: ISdk) {
   const tiles = sdk.querySelectorAll(".ugc-tile")
 
   if (!tiles) {
@@ -321,12 +325,15 @@ export function registerDefaultClickEvents() {
     }
 
     tile.onclick = e => {
-      handleTileClick(e, url)
+      handleTileClick(sdk, e, url)
     }
   })
 }
 
-export function registerCrossSellersLoadListener(fn: (tileId: string, target: HTMLElement) => void = () => {}) {
+export function registerCrossSellersLoadListener(
+  sdk: ISdk,
+  fn: (tileId: string, target: HTMLElement) => void = () => {}
+) {
   sdk.addEventListener(EVENT_TILE_EXPAND_CROSS_SELLERS_RENDERED, (event: Event) => {
     const customEvent = event as CustomEvent
     const tileId = customEvent.detail.data as string
@@ -335,11 +342,11 @@ export function registerCrossSellersLoadListener(fn: (tileId: string, target: HT
   })
 }
 
-export function registerGenericEventListener(eventName: EventName, fn: EventCallback) {
+export function registerGenericEventListener(sdk: ISdk, eventName: EventName, fn: EventCallback) {
   sdk.addEventListener(eventName, fn)
 }
 
-export function registerShareMenuOpenedListener(fn: (tileId: string) => void = () => {}) {
+export function registerShareMenuOpenedListener(sdk: ISdk, fn: (tileId: string) => void = () => {}) {
   sdk.addEventListener(EVENT_SHARE_MENU_OPENED, (event: Event) => {
     const customEvent = event as CustomEvent
     const sourceId = customEvent.detail.sourceId as string
@@ -347,7 +354,7 @@ export function registerShareMenuOpenedListener(fn: (tileId: string) => void = (
   })
 }
 
-export function registerShareMenuClosedListener(fn: (tileId: string) => void = () => {}) {
+export function registerShareMenuClosedListener(sdk: ISdk, fn: (tileId: string) => void = () => {}) {
   sdk.addEventListener(EVENT_SHARE_MENU_CLOSED, (event: Event) => {
     const customEvent = event as CustomEvent
     const sourceId = customEvent.detail.sourceId as string
@@ -355,11 +362,14 @@ export function registerShareMenuClosedListener(fn: (tileId: string) => void = (
   })
 }
 
-export function registerProductsUpdatedListener(fn: (tileId: string, target: HTMLElement) => void = () => {}) {
-  sdk.addEventListener(EVENT_PRODUCTS_UPDATED, (event: Event) => {
+export function registerProductsUpdatedListener(
+  sdk: ISdk,
+  fn: (sdk: ISdk, tileId: string, target: HTMLElement) => void = () => {}
+) {
+  sdk.addEventListener(EVENT_PRODUCTS_UPDATED, (event: CustomEvent) => {
     const customEvent = event as CustomEvent
     const tileId = customEvent.detail.tileId as string
     const target = customEvent.detail.target as HTMLElement
-    fn(tileId, target)
+    fn(sdk, tileId, target)
   })
 }

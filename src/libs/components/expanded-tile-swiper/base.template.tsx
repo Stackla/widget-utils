@@ -1,23 +1,21 @@
-import type { ISdk } from "../../../"
+import type { ISdk, Tile } from "../../../"
 import { ExpandedTile } from "./tile.template"
 import { createElement } from "../../"
 
-declare const sdk: ISdk
-
-export function getExpandedSlides(tiles = sdk.getTiles()) {
+export function getExpandedSlides(sdk: ISdk, tiles: Tile[]) {
   return tiles.map(tile => (
     <div
       class="ugc-tile swiper-slide"
       data-id={tile.id}
       data-yt-id={tile.youtube_id || ""}
       data-tiktok-id={tile.tiktok_id || ""}>
-      <ExpandedTile tile={tile} />
+      <ExpandedTile tile={tile} sdk={sdk} />
     </div>
   ))
 }
 
-function getExpandedTiles() {
-  return <div class="swiper-wrapper ugc-tiles">{getExpandedSlides()}</div>
+function getExpandedTiles(sdk: ISdk) {
+  return <div class="swiper-wrapper ugc-tiles">{getExpandedSlides(sdk, sdk.getTiles())}</div>
 }
 
 export function ExpandedTiles(sdk: ISdk) {
@@ -27,14 +25,14 @@ export function ExpandedTiles(sdk: ISdk) {
   return (
     <div class="expanded-tile-wrapper" variation="default">
       <div class="expanded-tile-header">
-        <a class="exit" href="#">
+        <a class="exit" href="javascript:void(0);">
           <span class="widget-icon close-white"></span>
         </a>
-        <a class="back" href="#">
+        <a class="back" href="javascript:void(0);">
           <span class="widget-icon back-arrow"></span>
         </a>
       </div>
-      <div class="swiper swiper-expanded">{getExpandedTiles()}</div>
+      <div class="swiper swiper-expanded">{getExpandedTiles(sdk)}</div>
       <div
         class="swiper-expanded-button-prev swiper-button-prev btn-lg"
         style={{ display: navigationArrowsEnabled ? "flex" : "none" }}>

@@ -1,8 +1,6 @@
 import { ISdk, Tile, createElement, createFragment } from "../../../"
 import { EmbedYoutube, ImageTemplate, ShopSpotTemplate } from "../../components"
 
-declare const sdk: ISdk
-
 type OnLoad = (event: Event) => void
 
 function getVideoData(tile: Tile) {
@@ -46,9 +44,9 @@ export function UgcVideoTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad 
   )
 }
 
-export function TwitterTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad }) {
+export function TwitterTemplate({ tile, onLoad, sdk }: { tile: Tile; onLoad: OnLoad; sdk: ISdk }) {
   if (!tile.video) {
-    return <VideoErrorFallbackTemplate tile={tile} defaultHidden={false} />
+    return <VideoErrorFallbackTemplate tile={tile} defaultHidden={false} sdk={sdk} />
   }
 
   const { standard_resolution } = tile.video
@@ -131,11 +129,13 @@ export function FacebookFallbackTemplate({ tile, onLoad }: { tile: Tile; onLoad:
 
 export function VideoErrorFallbackTemplate({
   tile,
-  defaultHidden = true
+  defaultHidden = true,
+  sdk
 }: {
   tile: Tile
   parent?: string
   defaultHidden?: boolean
+  sdk: ISdk
 }) {
   const originalImageUrl = tile.image
   const fallbackCss = `video-fallback-content${defaultHidden ? " hidden" : ""}`
@@ -146,14 +146,14 @@ export function VideoErrorFallbackTemplate({
         <div class="play-icon"></div>
       </div>
       <a href={tile.original_url || tile.original_link} target="_blank">
-        <ImageTemplate image={originalImageUrl} tile={tile} />
+        <ImageTemplate sdk={sdk} image={originalImageUrl} tile={tile} />
         <div class="play-icon"></div>
       </a>
     </div>
   )
 }
 
-export function SourceVideoContent({ tile, parent, onLoad }: { tile: Tile; parent?: string; onLoad: OnLoad }) {
+export function SourceVideoContent({ tile, onLoad, sdk }: { tile: Tile; onLoad: OnLoad; sdk: ISdk }) {
   // handle unplayable tiktok source
   // TODO handle vide_source "tiktok"
   if (tile.source === "tiktok" || tile.video_source === "tiktok") {
@@ -170,14 +170,14 @@ export function SourceVideoContent({ tile, parent, onLoad }: { tile: Tile; paren
       (!tile.video_files?.length || !videoUrlPattern.test(tile.video_files[0].url)) &&
       !tile.video?.standard_resolution
     ) {
-      return <VideoErrorFallbackTemplate tile={tile} parent={parent} defaultHidden={false} />
+      return <VideoErrorFallbackTemplate sdk={sdk} tile={tile} defaultHidden={false} />
     } else {
       return <FacebookFallbackTemplate tile={tile} onLoad={onLoad} />
     }
   }
 
   if (tile.source === "twitter") {
-    return <TwitterTemplate tile={tile} onLoad={onLoad} />
+    return <TwitterTemplate sdk={sdk} tile={tile} onLoad={onLoad} />
   }
 
   if (tile.video_files?.length || (tile.video && tile.video.standard_resolution)) {
@@ -187,15 +187,7 @@ export function SourceVideoContent({ tile, parent, onLoad }: { tile: Tile; paren
   return <></>
 }
 
-export function VideoContainer({
-  tile,
-  parent,
-  shopspotEnabled
-}: {
-  tile: Tile
-  parent?: string
-  shopspotEnabled: boolean
-}) {
+export function VideoContainer({ tile, shopspotEnabled, sdk }: { tile: Tile; shopspotEnabled: boolean; sdk: ISdk }) {
   return (
     <div class="video-content-wrapper">
       <div class="center-section">
@@ -205,13 +197,10 @@ export function VideoContainer({
         <div data-tile-id={tile.id} class="image-filler" style={{ "background-image": `url('${tile.image}')` }}></div>
       </a>
       <div class="image">
-        {shopspotEnabled ? (
-          <ShopSpotTemplate shopspotEnabled={shopspotEnabled} parent={parent} tileId={tile.id} />
-        ) : (
-          <></>
-        )}
+        {shopspotEnabled ? <ShopSpotTemplate sdk={sdk} shopspotEnabled={shopspotEnabled} tileId={tile.id} /> : <></>}
       </div>
       <SourceVideoContent
+        sdk={sdk}
         onLoad={(event: Event) => {
           const imageFiller = sdk.querySelector(`.image-filler[data-tile-id="${tile.id}"]`)
           if (imageFiller) {
@@ -227,7 +216,6 @@ export function VideoContainer({
           videoElement.style.display = "inherit"
         }}
         tile={tile}
-        parent={parent}
       />
     </div>
   )
