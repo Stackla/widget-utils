@@ -187,7 +187,7 @@ export function getInstance(sdk: ISdk, id: string) {
 }
 
 export function getActiveSlide(sdk: ISdk, id: string) {
-  return this.getInstance(sdk, id)?.realIndex || 0
+  return getInstance(sdk, id)?.realIndex || 0
 }
 
 export function getActiveSlideElement(sdk: ISdk, id: string) {
