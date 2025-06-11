@@ -1,3 +1,5 @@
+import { SwiperOptions } from "swiper/types"
+
 export type SharedWidgetOptions = {
   customCSS: string | null
   customJS: string | null
@@ -80,7 +82,7 @@ export interface ExpandedTileOptions {
   show_cross_sellers: boolean
   show_add_to_cart: boolean
   show_carousel_grouping: boolean
-  slide_direction?: "horizontal" | "vertical"
+  swiper_options?: SwiperOptions
 }
 
 export interface InlineTileOptions {

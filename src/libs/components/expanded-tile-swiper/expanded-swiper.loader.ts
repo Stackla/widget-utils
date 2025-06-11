@@ -20,13 +20,14 @@ import {
   setupYoutubeEvents,
   YoutubeIframeElementType
 } from "./expanded-tile-video"
+import { SwiperOptions } from "swiper/types"
 
 interface ExpandedTileSettings {
   initialTileId?: string
   lookupAttr?: LookupAttr
   widgetSelector: HTMLElement
   expandedTileWrapper: Element
-  direction?: "horizontal" | "vertical"
+  swiperSettings?: SwiperOptions
 }
 
 /**
@@ -59,7 +60,7 @@ function initializeSwiperForExpandedTiles(sdk: ISdk, paritalSettings: Partial<Ex
     widgetSelector,
     expandedTileWrapper,
     lookupAttr,
-    direction: paritalSettings.direction || "horizontal"
+    swiperSettings: paritalSettings.swiperSettings || {}
   }
 
   if (isStory) {
@@ -77,7 +78,6 @@ function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
     prevButton: "swiper-expanded-button-prev",
     nextButton: "swiper-expanded-button-next",
     paramsOverrides: {
-      direction: settings.direction,
       loop: false,
       slidesPerView: 1,
       autoHeight: true,
@@ -99,7 +99,8 @@ function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
           storyAutoplayProgress(swiper, percentage)
         },
         navigationNext: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
-        navigationPrev: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper)
+        navigationPrev: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
+        ...settings.swiperSettings?.on
       }
     },
     getSliderTemplate: getExpandedSlides
@@ -107,7 +108,7 @@ function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
 }
 
 function initalizeStoryExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
-  const { initialTileId, widgetSelector, expandedTileWrapper, lookupAttr, direction } = settings
+  const { initialTileId, widgetSelector, expandedTileWrapper, lookupAttr, swiperSettings } = settings
   initializeSwiper(sdk, {
     id: "expanded",
     widgetSelector,
@@ -120,7 +121,7 @@ function initalizeStoryExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
       autoplay: {
         delay: 5000
       },
-      direction: direction || "horizontal",
+      direction: "horizontal",
       centeredSlides: true,
       effect: "coverflow",
       coverflowEffect: {
@@ -151,7 +152,8 @@ function initalizeStoryExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
         },
         slideChange: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
         autoplay: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper)
-      }
+      },
+      ...swiperSettings
     },
     getSliderTemplate: getExpandedSlides
   })
@@ -314,6 +316,7 @@ export function getTileIdFromSlide(swiper: Swiper, index: number) {
  */
 export function onTileExpand(sdk: ISdk, tileId: string) {
   const expandedTileSettings = sdk.getWidgetTemplateSettings().config?.expandedTile
+  const swiperSettings = expandedTileSettings?.swiper_options
   const expandedTile = sdk.getExpandedTiles()
   const body = document.querySelector("body")
 
@@ -336,7 +339,7 @@ export function onTileExpand(sdk: ISdk, tileId: string) {
       const settings = {
         initialTileId: tileId,
         lookupAttr: lookupYtAttr,
-        direction: expandedTileSettings?.slide_direction
+        swiperSettings: swiperSettings || {}
       }
       initializeSwiperForExpandedTiles(sdk, settings)
     } else if (tiktokId) {
@@ -344,13 +347,13 @@ export function onTileExpand(sdk: ISdk, tileId: string) {
       const settings = {
         initialTileId: tileId,
         lookupAttr: lookupTiktokAttr,
-        direction: expandedTileSettings?.slide_direction
+        swiperSettings: swiperSettings || {}
       }
       initializeSwiperForExpandedTiles(sdk, settings)
     } else {
       const settings = {
         initialTileId: tileId,
-        direction: expandedTileSettings?.slide_direction
+        swiperSettings: swiperSettings || {}
       }
       initializeSwiperForExpandedTiles(sdk, settings)
     }
