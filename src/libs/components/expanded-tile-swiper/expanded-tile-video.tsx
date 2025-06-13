@@ -1,5 +1,5 @@
 import { type Swiper } from "swiper"
-import { getTileIdFromSlide, isActiveTile } from "./expanded-swiper.loader"
+import { getSwiperSlideById, getTileIdFromSlide, isActiveTile } from "./expanded-swiper.loader"
 import { getInstance } from "../../extensions/swiper"
 import { getSwiperContainer, LookupAttr } from "../../extensions/swiper/swiper.extension"
 import { ISdk } from "../../../types"
@@ -82,16 +82,6 @@ export function triggerPlay(sdk: ISdk, elementData?: SwiperVideoElementData) {
       }
       break
     }
-    case "youtube": {
-      const YoutubeContentWindow = elementData.element as YoutubeContentWindow
-      YoutubeContentWindow.play()
-      if (getSwiperContainer(sdk, swiperExpandedId)?.muted) {
-        YoutubeContentWindow.mute()
-      } else {
-        YoutubeContentWindow.unMute()
-      }
-      break
-    }
     case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
       playTiktokVideo(tiktokFrameWindow)
@@ -101,6 +91,9 @@ export function triggerPlay(sdk: ISdk, elementData?: SwiperVideoElementData) {
         unMuteTiktokVideo(tiktokFrameWindow)
       }
       break
+    }
+    case "youtube": {
+      return
     }
     default:
       throw new Error(`unsupported video source ${elementData.source}`)
@@ -125,16 +118,13 @@ export function triggerPause(elementData?: SwiperVideoElementData) {
       videoElement.currentTime = 0
       break
     }
-    case "youtube": {
-      const YoutubeContentWindow = elementData.element as YoutubeContentWindow
-      YoutubeContentWindow.pause()
-      YoutubeContentWindow.reset()
-      break
-    }
     case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
       pauseTiktokVideo(tiktokFrameWindow)
       break
+    }
+    case "youtube": {
+      return
     }
     default:
       throw new Error(`unsupported video source ${elementData.source}`)
@@ -155,9 +145,13 @@ export function getSwiperVideoElement(
   index: number,
   isStory = false
 ): SwiperVideoElementData | undefined {
-  const element = swiper.slides[index]
+  const element = getSwiperSlideById(swiper, index)
   const tileId = getTileIdFromSlide(swiper, index)
-  const youtubeId = element.getAttribute("data-yt-id")
+  const youtubeId = element?.getAttribute("data-yt-id")
+
+  if (!element) {
+    throw new Error(`Failed to find element for the slide at index ${index}`)
+  }
 
   if (!tileId) {
     throw new Error(`Failed to find tile id for the slide at index ${index}`)
@@ -176,22 +170,22 @@ export function getSwiperVideoElement(
   }
 
   if (youtubeId) {
-    const youtubeFrame = element.querySelector<YoutubeIframeElementType>(`iframe#yt-frame-${tileId}-${youtubeId}`)
+    const youtubeFrame = element?.querySelector<YoutubeIframeElementType>(`iframe#yt-frame-${tileId}-${youtubeId}`)
     if (youtubeFrame) {
       return { element: youtubeFrame.contentWindow, source: "youtube" }
     }
   }
 
-  const tiktokId = element.getAttribute("data-tiktok-id")
+  const tiktokId = element?.getAttribute("data-tiktok-id")
 
   if (tiktokId) {
-    const tiktokFrame = element.querySelector<HTMLIFrameElement>(`iframe#tiktok-frame-${tileId}-${tiktokId}`)
+    const tiktokFrame = element?.querySelector<HTMLIFrameElement>(`iframe#tiktok-frame-${tileId}-${tiktokId}`)
     if (tiktokFrame && tiktokFrame.contentWindow) {
       return { element: tiktokFrame.contentWindow, source: "tiktok" }
     }
   }
 
-  const videoElement = element.querySelector<HTMLVideoElement>(
+  const videoElement = element?.querySelector<HTMLVideoElement>(
     `${isStory ? "" : " .panel .panel-left"} .video-content-wrapper video`
   )
 

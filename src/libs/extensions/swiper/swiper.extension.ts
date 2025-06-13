@@ -116,18 +116,15 @@ export function refreshSwiper(sdk: ISdk, id: string) {
   }
 }
 
-export function getSwiperIndexforTile(swiperSelector: HTMLElement, tileId: string, lookupAttr?: LookupAttr) {
-  const slideElements = swiperSelector.querySelectorAll<HTMLElement>(".swiper-slide")
-  const index = (() => {
-    if (lookupAttr) {
-      return Array.from(slideElements).findIndex(
-        element =>
-          element.getAttribute("data-id") === tileId && element.getAttribute(lookupAttr.name) === lookupAttr.value
-      )
-    }
-    return Array.from(slideElements).findIndex(element => element.getAttribute("data-id") === tileId)
-  })()
-  return index < 0 ? 0 : index
+export function getSwiperIndexforTile(swiperSelector: HTMLElement, tileId: string) {
+  const slide = swiperSelector.querySelector(`.swiper-slide[data-id="${tileId}"]`)
+
+  if (!slide) {
+    console.warn(`Slide with tileId ${tileId} not found in swiper`)
+    return 0
+  }
+
+  return Number(slide.getAttribute("data-swiper-slide-index")) || 0
 }
 
 export function getSwiperInstance(sdk: ISdk, id: string) {
@@ -195,7 +192,7 @@ export function getActiveSlideElement(sdk: ISdk, id: string) {
 }
 
 export function getSwiperContainer(sdk: ISdk, id: string) {
-  const mutatedId = `${id}-wid-${sdk.getWidgetId()}`
+  const mutatedId = getMutatedId(sdk, id)
   if (window.ugc.swiperContainer[mutatedId]) {
     return window.ugc.swiperContainer[mutatedId]
   }
