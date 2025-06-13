@@ -1,7 +1,16 @@
 import { EVENT_TILES_UPDATED } from "../../../events"
 import { ISdk, Tile } from "../../../types"
 import { SwiperData, SwiperProps } from "../../../types/SdkSwiper"
-import { Autoplay, EffectCoverflow, Keyboard, Manipulation, Mousewheel, Navigation, Pagination } from "swiper/modules"
+import {
+  Autoplay,
+  EffectCoverflow,
+  FreeMode,
+  Keyboard,
+  Manipulation,
+  Mousewheel,
+  Navigation,
+  Pagination
+} from "swiper/modules"
 import { loadAllUnloadedTiles } from "./loader.extension"
 
 export type LookupAttr = {
@@ -82,7 +91,7 @@ export function initializeSwiper(sdk: ISdk, swiperProps: SwiperProps) {
   }
 
   window.ugc.swiperContainer[mutatedId]!.instance = new window.ugc.libs.Swiper(widgetSelector, {
-    modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow, Pagination],
+    modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow, Pagination, FreeMode],
     spaceBetween: 10,
     observer: true,
     grabCursor: true,
@@ -116,18 +125,15 @@ export function refreshSwiper(sdk: ISdk, id: string) {
   }
 }
 
-export function getSwiperIndexforTile(swiperSelector: HTMLElement, tileId: string, lookupAttr?: LookupAttr) {
-  const slideElements = swiperSelector.querySelectorAll<HTMLElement>(".swiper-slide")
-  const index = (() => {
-    if (lookupAttr) {
-      return Array.from(slideElements).findIndex(
-        element =>
-          element.getAttribute("data-id") === tileId && element.getAttribute(lookupAttr.name) === lookupAttr.value
-      )
-    }
-    return Array.from(slideElements).findIndex(element => element.getAttribute("data-id") === tileId)
-  })()
-  return index < 0 ? 0 : index
+export function getSwiperIndexforTile(swiperSelector: HTMLElement, tileId: string) {
+  const slide = swiperSelector.querySelector(`.swiper-slide[data-id="${tileId}"]`)
+
+  if (!slide) {
+    console.warn(`Slide with tileId ${tileId} not found in swiper`)
+    return 0
+  }
+
+  return Number(slide.getAttribute("data-swiper-slide-index")) || 0
 }
 
 export function getSwiperInstance(sdk: ISdk, id: string) {
@@ -195,7 +201,7 @@ export function getActiveSlideElement(sdk: ISdk, id: string) {
 }
 
 export function getSwiperContainer(sdk: ISdk, id: string) {
-  const mutatedId = `${id}-wid-${sdk.getWidgetId()}`
+  const mutatedId = getMutatedId(sdk, id)
   if (window.ugc.swiperContainer[mutatedId]) {
     return window.ugc.swiperContainer[mutatedId]
   }

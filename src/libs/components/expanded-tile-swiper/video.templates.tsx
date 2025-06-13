@@ -1,5 +1,7 @@
+import { getMutatedId } from "../../../libs/extensions/swiper/swiper.extension"
 import { ISdk, Tile, createElement, createFragment } from "../../../"
 import { EmbedYoutube, ImageTemplate, ShopSpotTemplate } from "../../components"
+import { storyAutoplayProgress } from "./expanded-swiper.loader"
 
 type OnLoad = (event: Event) => void
 
@@ -20,7 +22,25 @@ function getVideoData(tile: Tile) {
   throw new Error("Failed to find video data")
 }
 
-export function UgcVideoTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad }) {
+export function handlePauseAutoplay(swiperId: string) {
+  const swiperInstance = window.ugc.swiperContainer[swiperId].instance
+  if (swiperInstance) {
+    swiperInstance.autoplay.stop()
+  } else {
+    console.error(`Swiper instance for id ${swiperId} not found`)
+  }
+}
+
+export function handlePlayAutoplay(swiperId: string) {
+  const swiperInstance = window.ugc.swiperContainer[swiperId].instance
+  if (swiperInstance) {
+    swiperInstance.autoplay.start()
+  } else {
+    console.error(`Swiper instance for id ${swiperId} not found`)
+  }
+}
+
+export function UgcVideoTemplate({ tile, onLoad, swiperId }: { tile: Tile; onLoad: OnLoad; swiperId: string }) {
   const { url, width, height, mime } = getVideoData(tile)
 
   return (
@@ -30,44 +50,35 @@ export function UgcVideoTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad 
       }}
       muted={true}
       tileid={tile.id}
-      class="video-content"
+      class="video-content lazy"
       controls
       preload="none"
       playsinline="playsinline"
+      onPause={() => {
+        handlePauseAutoplay(swiperId)
+      }}
       oncanplay={(event: Event) => {
+        handlePauseAutoplay(swiperId)
         const videoElement = event.target as HTMLVideoElement
         videoElement.muted = true
         onLoad(event)
+      }}
+      onTimeupdate={(event: Event) => {
+        const videoElement = event.target as HTMLVideoElement
+        const swiperInstance = window.ugc.swiperContainer[swiperId].instance
+
+        const progressAmount = 1 - videoElement.currentTime / videoElement.duration
+        storyAutoplayProgress(swiperInstance, progressAmount)
+      }}
+      onended={(event: Event) => {
+        const videoElement = event.target as HTMLVideoElement
+        videoElement.muted = true
+        handlePlayAutoplay(swiperId)
+
+        const swiperInstance = window.ugc.swiperContainer[swiperId].instance
+        swiperInstance?.slideNext()
       }}>
       <source src={url} width={width.toString()} height={height.toString()} type={mime} />
-    </video>
-  )
-}
-
-export function TwitterTemplate({ tile, onLoad, sdk }: { tile: Tile; onLoad: OnLoad; sdk: ISdk }) {
-  if (!tile.video) {
-    return <VideoErrorFallbackTemplate tile={tile} defaultHidden={false} sdk={sdk} />
-  }
-
-  const { standard_resolution } = tile.video
-
-  return (
-    <video
-      style={{
-        display: "none"
-      }}
-      tileid={tile.id}
-      class="video-content"
-      controls
-      preload="none"
-      playsinline="playsinline"
-      oncanplay={(event: Event) => {
-        const videoElement = event.target as HTMLVideoElement
-        videoElement.muted = true
-        videoElement.style.display = "flex"
-        onLoad(event)
-      }}>
-      <source src={standard_resolution.url} />
     </video>
   )
 }
@@ -83,47 +94,14 @@ export function TikTokTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad })
       id={`tiktok-frame-${tile.id}-${tiktokId}`}
       loading="lazy"
       tileid={tile.id}
-      class="video-content"
+      class="video-content lazy tiktok-iframe"
       frameborder="0"
       allowfullscreen
       height="100%"
       onload={onLoad}
-      allow="autoplay" // refer https://developer.chrome.com/blog/autoplay/
+      allow="autoplay"
       src={`https://www.tiktok.com/player/v1/${tiktokId}?rel=0`}
     />
-  )
-}
-
-export function FacebookFallbackTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad }) {
-  const embedBlock = (
-    <div class="fb-content-wrapper">
-      <div id="fb-root"></div>
-      <script
-        async
-        defer
-        crossorigin="anonymous"
-        src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v21.0"></script>
-
-      <div class="fb-video" data-href={tile.original_link} data-width="500" data-show-text="false">
-        <blockquote cite={tile.original_link} class="fb-xfbml-parse-ignore">
-          <a href={tile.original_link}></a>
-          <p></p>Posted by <a href={`https://www.facebook.com/${tile.source_user_id}`}>{tile.name}</a> on
-          {tile.time_ago}
-        </blockquote>
-      </div>
-    </div>
-  )
-  return (
-    <iframe
-      style={{
-        display: "none"
-      }}
-      onload={onLoad}
-      loading="lazy"
-      class="video-content"
-      frameborder="0"
-      allowfullscreen
-      srcdoc={embedBlock.innerHTML}></iframe>
   )
 }
 
@@ -145,7 +123,7 @@ export function VideoErrorFallbackTemplate({
       <div class="center-section">
         <div class="play-icon"></div>
       </div>
-      <a href={tile.original_url || tile.original_link} target="_blank">
+      <a class="fallback-link" href={tile.original_url || tile.original_link} target="_blank">
         <ImageTemplate sdk={sdk} image={originalImageUrl} tile={tile} />
         <div class="play-icon"></div>
       </a>
@@ -153,7 +131,7 @@ export function VideoErrorFallbackTemplate({
   )
 }
 
-export function SourceVideoContent({ tile, onLoad, sdk }: { tile: Tile; onLoad: OnLoad; sdk: ISdk }) {
+export function SourceVideoContent({ tile, onLoad, swiperId }: { tile: Tile; onLoad: OnLoad; swiperId: string }) {
   // handle unplayable tiktok source
   // TODO handle vide_source "tiktok"
   if (tile.source === "tiktok" || tile.video_source === "tiktok") {
@@ -161,46 +139,36 @@ export function SourceVideoContent({ tile, onLoad, sdk }: { tile: Tile; onLoad: 
   }
 
   if (tile.source === "youtube" && tile.youtube_id) {
-    return <EmbedYoutube tileId={tile.id} videoId={tile.youtube_id} onLoad={onLoad} />
-  }
-
-  if (tile.source === "facebook") {
-    const videoUrlPattern = /videos\/(\d)+?/
-    if (
-      (!tile.video_files?.length || !videoUrlPattern.test(tile.video_files[0].url)) &&
-      !tile.video?.standard_resolution
-    ) {
-      return <VideoErrorFallbackTemplate sdk={sdk} tile={tile} defaultHidden={false} />
-    } else {
-      return <FacebookFallbackTemplate tile={tile} onLoad={onLoad} />
-    }
-  }
-
-  if (tile.source === "twitter") {
-    return <TwitterTemplate sdk={sdk} tile={tile} onLoad={onLoad} />
+    return <EmbedYoutube tileId={tile.id} videoId={tile.youtube_id} onLoad={onLoad} swiperId={swiperId} />
   }
 
   if (tile.video_files?.length || (tile.video && tile.video.standard_resolution)) {
-    return <UgcVideoTemplate tile={tile} onLoad={onLoad} />
+    return <UgcVideoTemplate tile={tile} onLoad={onLoad} swiperId={swiperId} />
   }
 
-  return <></>
+  return <UgcVideoTemplate tile={tile} onLoad={onLoad} swiperId={swiperId} />
 }
 
 export function VideoContainer({ tile, shopspotEnabled, sdk }: { tile: Tile; shopspotEnabled: boolean; sdk: ISdk }) {
   return (
     <div class="video-content-wrapper">
       <div class="center-section">
-        <div data-tile-id={tile.id} class="play-icon"></div>
+        <a href={tile.original_url} target="_blank">
+          <div data-tile-id={tile.id} class="play-icon"></div>
+        </a>
       </div>
-      <a href={tile.original_url} target="_blank">
-        <div data-tile-id={tile.id} class="image-filler" style={{ "background-image": `url('${tile.image}')` }}></div>
-      </a>
+      <div
+        onClick={() => {
+          window.location.href = tile.original_url || tile.original_link
+        }}
+        data-tile-id={tile.id}
+        class="image-filler"
+        style={{ "background-image": `url('${tile.image}')` }}></div>
       <div class="image">
         {shopspotEnabled ? <ShopSpotTemplate sdk={sdk} shopspotEnabled={shopspotEnabled} tileId={tile.id} /> : <></>}
       </div>
       <SourceVideoContent
-        sdk={sdk}
+        swiperId={getMutatedId(sdk, "expanded")}
         onLoad={(event: Event) => {
           const imageFiller = sdk.querySelector(`.image-filler[data-tile-id="${tile.id}"]`)
           if (imageFiller) {

@@ -4,10 +4,11 @@ export type EmbedYoutubeProps = {
   tileId: string
   videoId: string
   onLoad?: (event: Event) => void
+  swiperId: string
 }
 
-export function EmbedYoutube({ tileId, videoId, onLoad }: EmbedYoutubeProps) {
-  const contentElement = loadYoutubeIframeContent(tileId, videoId)
+export function EmbedYoutube({ tileId, videoId, onLoad, swiperId }: EmbedYoutubeProps) {
+  const contentElement = loadYoutubeIframeContent(tileId, videoId, swiperId)
 
   return (
     <iframe
@@ -15,8 +16,6 @@ export function EmbedYoutube({ tileId, videoId, onLoad }: EmbedYoutubeProps) {
       id={`yt-frame-${tileId}-${videoId}`}
       tileid={tileId}
       class="video-content"
-      height="360px"
-      width="480px"
       frameborder="0"
       enablejsapi="1"
       onload={onLoad}
@@ -24,17 +23,26 @@ export function EmbedYoutube({ tileId, videoId, onLoad }: EmbedYoutubeProps) {
   )
 }
 
-function loadYoutubeIframeContent(tileId: string, videoId: string) {
+function loadYoutubeIframeContent(tileId: string, videoId: string, swiperId: string) {
   const scriptId = `yt-script-${tileId}-${videoId}`
   const playerId = `yt-player-${tileId}-${videoId}`
   return (
     <html>
       <head>
         <script id={scriptId} src="https://www.youtube.com/iframe_api"></script>
-        <script>{loadYoutubePlayerAPI(playerId, videoId)}</script>
+        <script>{loadYoutubePlayerAPI(playerId, videoId, swiperId)}</script>
         <style>{`
           body {
             margin: 0;
+            height: 100vh;
+            scrollbar-width: none;
+            overflow: hidden;
+            iframe {
+              height: 100vh;
+              width: 100%;
+              overflow: hidden;
+              scrollbar-width: none;
+            }
           }
         `}</style>
       </head>
@@ -45,9 +53,19 @@ function loadYoutubeIframeContent(tileId: string, videoId: string) {
   )
 }
 
-export function loadYoutubePlayerAPI(playerId: string, videoId: string) {
+export function loadYoutubePlayerAPI(playerId: string, videoId: string, swiperId: string) {
   return `
-  let player
+  let player;
+  let swiper = parent.window.ugc.swiperContainer["${swiperId}"];
+  const instance = swiper?.instance;
+
+  function onPlayerStateChange(event) {
+    instance?.autoplay.stop();
+    if (event.data === YT.PlayerState.ENDED) {
+      instance?.autoplay.start();
+      instance?.slideNext();
+    }
+  }
 
   function loadPlayer(playDefault = false) {
     player = new YT.Player("${playerId}", {
@@ -58,62 +76,50 @@ export function loadYoutubePlayerAPI(playerId: string, videoId: string) {
       },
       events: {
         onReady: playDefault ? play : pause,
+        onStateChange: onPlayerStateChange,
         onError: errorHandler
       }
-    })
+    });
   }
 
-  // API runs automatically once the iframe-api JS is downloaded.
-  // This will not run when re-opening expanded tile
   function onYouTubeIframeAPIReady() {
-    loadPlayer()
+    loadPlayer();
   }
 
   function errorHandler(e) {
-   player?.getIframe().dispatchEvent(new CustomEvent("yt-video-error", { detail: e }))
+    player?.getIframe().dispatchEvent(new CustomEvent("yt-video-error", { detail: e }));
   }
 
   function pause() {
-    if (!player) {
-      loadPlayer(false) //needed when expanded tile re-opened
-    } else {
-      if (!player || !player.mute) {
-        setTimeout(() => {
-          pause()
-        }, 500)
-
-        return
-      }
-
-      player.mute()
-      player.pauseVideo()
+    if (player && player.pauseVideo) {
+      player.pauseVideo();
     }
-  }
-
-  function destroy() {
-    player?.destroy()
-  }
-
-  function reset() {
-    player?.seekTo(0, false)
-  }
-  
-   function mute() {
-    player?.mute()
-  }
-
-  function unMute() {
-    player?.unMute()
   }
 
   function play() {
-    if (!player) {
-      loadPlayer(true) //needed when expanded tile re-opened
-    } else {
-      if (player.isMuted()) {
-        player.unMute()
-      }
-      player.playVideo()
+    if (player && player.playVideo) {
+      player.playVideo();
     }
-  } `
+  }
+
+  function observeVisibility() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          play();
+        } else {
+          pause();
+          instance?.autoplay.start();
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(document.body);
+  }
+
+  window.onYouTubeIframeAPIReady = () => {
+    loadPlayer(false);
+    observeVisibility();
+  };
+  `
 }

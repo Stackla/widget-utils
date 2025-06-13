@@ -144,12 +144,12 @@ export function ImageTemplate({
 }) {
   return image ? (
     <>
-      <a href={tile.original_url} target="_blank">
+      <a href={tile.original_url} target="_blank" class="fallback-link">
         <div class="image-filler blurred" style={{ "background-image": `url('${image}')` }}></div>
       </a>
       <div class="image">
         {shopspotEnabled ? <ShopSpotTemplate sdk={sdk} shopspotEnabled={shopspotEnabled} tileId={tile.id} /> : <></>}
-        <a href={tile.original_url} target="_blank">
+        <a href={tile.original_url} target="_blank" class="fallback-link">
           <img class="image-element" src={image} loading="lazy" alt={tile.description || "Image"} />
         </a>
       </div>
