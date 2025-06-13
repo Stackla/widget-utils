@@ -104,24 +104,7 @@ export function TikTokTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad })
     />
   )
 }
-export function FacebookFallbackTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad }) {
-  // Construct the embed URL for Facebook video with autoplay
-  const videoEmbedUrl = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(
-    tile.original_link
-  )}&show_text=false&autoplay=true`
 
-  return (
-    <iframe
-      className="video-content lazy"
-      src={videoEmbedUrl}
-      onLoad={onLoad}
-      loading="lazy"
-      allow="autoplay; fullscreen"
-      allowFullScreen
-      frameBorder="0"
-      style={{ width: "100%", height: "100%" }}></iframe>
-  )
-}
 export function VideoErrorFallbackTemplate({
   tile,
   defaultHidden = true,

@@ -1,7 +1,16 @@
 import { EVENT_TILES_UPDATED } from "../../../events"
 import { ISdk, Tile } from "../../../types"
 import { SwiperData, SwiperProps } from "../../../types/SdkSwiper"
-import { Autoplay, EffectCoverflow, Keyboard, Manipulation, Mousewheel, Navigation, Pagination } from "swiper/modules"
+import {
+  Autoplay,
+  EffectCoverflow,
+  FreeMode,
+  Keyboard,
+  Manipulation,
+  Mousewheel,
+  Navigation,
+  Pagination
+} from "swiper/modules"
 import { loadAllUnloadedTiles } from "./loader.extension"
 
 export type LookupAttr = {
@@ -82,7 +91,7 @@ export function initializeSwiper(sdk: ISdk, swiperProps: SwiperProps) {
   }
 
   window.ugc.swiperContainer[mutatedId]!.instance = new window.ugc.libs.Swiper(widgetSelector, {
-    modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow, Pagination],
+    modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow, Pagination, FreeMode],
     spaceBetween: 10,
     observer: true,
     grabCursor: true,
