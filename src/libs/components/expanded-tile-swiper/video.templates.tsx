@@ -68,8 +68,6 @@ export function UgcVideoTemplate({ tile, onLoad, swiperId }: { tile: Tile; onLoa
         const swiperInstance = window.ugc.swiperContainer[swiperId].instance
 
         const progressAmount = 1 - videoElement.currentTime / videoElement.duration
-        console.log(`Video progress: ${progressAmount}`, videoElement.currentTime, videoElement.duration)
-
         storyAutoplayProgress(swiperInstance, progressAmount)
       }}
       onended={(event: Event) => {
