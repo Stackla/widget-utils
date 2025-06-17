@@ -3,7 +3,7 @@ import { getSwiperSlideById, getTileIdFromSlide, isActiveTile } from "./expanded
 import { getInstance } from "../../extensions/swiper"
 import { getSwiperContainer, LookupAttr } from "../../extensions/swiper/swiper.extension"
 import { ISdk } from "../../../types"
-import { playTiktokVideo, muteTiktokVideo, unMuteTiktokVideo, pauseTiktokVideo } from "./tiktok-message"
+import { playTiktokVideo, muteTiktokVideo, pauseTiktokVideo } from "./tiktok-message"
 
 type YoutubeContentWindow = Window & {
   play: () => void
@@ -85,11 +85,7 @@ export function triggerPlay(sdk: ISdk, elementData?: SwiperVideoElementData) {
     case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
       playTiktokVideo(tiktokFrameWindow)
-      if (getSwiperContainer(sdk, swiperExpandedId)?.muted) {
-        muteTiktokVideo(tiktokFrameWindow)
-      } else {
-        unMuteTiktokVideo(tiktokFrameWindow)
-      }
+      muteTiktokVideo(tiktokFrameWindow)
       break
     }
     case "youtube": {

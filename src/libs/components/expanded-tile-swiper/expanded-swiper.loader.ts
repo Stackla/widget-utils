@@ -90,6 +90,11 @@ function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
         enabled: true,
         onlyInViewport: false
       },
+      mousewheel: {
+        enabled: true,
+        forceToAxis: true,
+        releaseOnEdges: true
+      },
       on: {
         reachEnd: () => {
           sdk.triggerEvent(EVENT_LOAD_MORE)
@@ -127,6 +132,16 @@ function initalizeStoryExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
         delay: 5000,
         disableOnInteraction: false
       },
+      mousewheel: {
+        enabled: true,
+        forceToAxis: true,
+        releaseOnEdges: false
+      },
+      freeMode: {
+        enabled: true,
+        sticky: true,
+        momentum: true
+      },
       direction: "horizontal",
       centeredSlides: true,
       effect: "coverflow",
@@ -142,6 +157,7 @@ function initalizeStoryExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
         enabled: true,
         onlyInViewport: false
       },
+      grabCursor: true,
       loop: true,
       on: {
         reachEnd: () => {
@@ -154,7 +170,6 @@ function initalizeStoryExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
         autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
           storyAutoplayProgress(swiper, percentage)
         },
-        slideChange: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
         autoplay: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
         navigationNext: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
         navigationPrev: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper)

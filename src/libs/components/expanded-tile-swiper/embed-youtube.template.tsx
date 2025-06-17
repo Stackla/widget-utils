@@ -34,11 +34,11 @@ function loadYoutubeIframeContent(tileId: string, videoId: string, swiperId: str
         <style>{`
           body {
             margin: 0;
-            height: 100vh;
+            height: 100dvh;
             scrollbar-width: none;
             overflow: hidden;
             iframe {
-              height: 100vh;
+              height: 100dvh;
               width: 100%;
               overflow: hidden;
               scrollbar-width: none;
