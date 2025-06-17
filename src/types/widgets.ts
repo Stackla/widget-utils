@@ -1,4 +1,6 @@
+import { IFontFace } from "../fonts"
 import { SwiperOptions } from "swiper/types"
+import IWidgetRequest from "./core/widget-request"
 
 export type SharedWidgetOptions = {
   customCSS: string | null
@@ -15,6 +17,18 @@ export type SharedWidgetOptions = {
   filterId: number | null
   enabled: boolean
 }
+
+export type UserConfig = {
+  expandedTile: Partial<ExpandedTileOptions>
+  inlineTile: Partial<InlineTileOptions>
+  components?: Partial<ComponentOptions>
+  fonts?: IFontFace[]
+  style?: Partial<Style>
+}
+
+export type WidgetConfig = {
+  filter: Partial<IWidgetRequest>
+} & UserConfig
 
 export type WidgetOptions = {
   wid: string
@@ -85,6 +99,10 @@ export interface ExpandedTileOptions {
   swiper_options?: SwiperOptions
 }
 
+export interface ProductsOptions {
+  swiper_options?: SwiperOptions
+}
+
 export interface InlineTileOptions {
   show_comments?: boolean
   show_dislikes?: boolean
@@ -120,10 +138,15 @@ export interface WidgetType {
   modified: string
 }
 
+export interface ComponentOptions {
+  products: ProductsOptions
+}
+
 export interface Config {
   lightbox: ExpandedTileOptions
   tile_options: InlineTileOptions
   claim_config?: ClaimConfig
+  component_options?: ComponentOptions
 }
 
 export type Type = {

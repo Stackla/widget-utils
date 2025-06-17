@@ -5,6 +5,7 @@ import { ISdk } from "../../../types"
 
 export function loadProductsSwiper(sdk: ISdk, tileId: string, target: HTMLElement) {
   if (target) {
+    const settings = sdk.getWidgetTemplateSettings().config?.components?.products?.swiper_options
     const swiperCrossSell = target.querySelector<HTMLElement>(".swiper-expanded-product-recs")
 
     if (swiperCrossSell) {
@@ -32,7 +33,8 @@ export function loadProductsSwiper(sdk: ISdk, tileId: string, target: HTMLElemen
 
               swiper.update()
             }
-          }
+          },
+          ...settings
         }
       })
     }
