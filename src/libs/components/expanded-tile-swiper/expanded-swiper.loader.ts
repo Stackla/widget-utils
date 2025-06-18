@@ -172,7 +172,10 @@ function initalizeStoryExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
         },
         autoplay: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
         navigationNext: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
-        navigationPrev: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper)
+        navigationPrev: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
+        slideChange: (swiper: Swiper) => {
+          swiper.autoplay.start()
+        }
       },
       ...swiperSettings
     },
@@ -407,22 +410,16 @@ export function reduceBackgroundControlsVisibility(sdk: ISdk, sourceId: string) 
   }
 
   const expandedTile = sdk.getExpandedTiles()
-  const wrapper = expandedTile.querySelector<HTMLElement>(".expanded-tile-wrapper")
-
-  if (!wrapper) {
-    return
-  }
-
-  const navigationPrevButton = wrapper.querySelector<HTMLElement>(".swiper-expanded-button-prev")
-  const navigationNextButton = wrapper.querySelector<HTMLElement>(".swiper-expanded-button-next")
-  const exitTileButton = wrapper.querySelector<HTMLElement>(".exit")
+  const navigationPrevButton = expandedTile.querySelector<HTMLElement>(".swiper-expanded-button-prev")
+  const navigationNextButton = expandedTile.querySelector<HTMLElement>(".swiper-expanded-button-next")
+  const exitTileButtons = expandedTile.querySelectorAll<HTMLElement>(".exit")
 
   navigationNextButton?.classList.add("swiper-button-disabled")
   navigationPrevButton?.classList.add("swiper-button-disabled")
 
-  if (exitTileButton) {
-    exitTileButton.style.opacity = "0.4"
-  }
+  exitTileButtons.forEach(button => {
+    button.style.opacity = "0.4"
+  })
 }
 
 /**
