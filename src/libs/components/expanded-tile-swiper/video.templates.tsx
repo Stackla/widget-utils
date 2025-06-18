@@ -40,7 +40,17 @@ export function handlePlayAutoplay(swiperId: string) {
   }
 }
 
-export function UgcVideoTemplate({ tile, onLoad, swiperId }: { tile: Tile; onLoad: OnLoad; swiperId: string }) {
+export function UgcVideoTemplate({
+  tile,
+  onLoad,
+  swiperId,
+  controls = true
+}: {
+  tile: Tile
+  onLoad: OnLoad
+  swiperId: string
+  controls?: boolean
+}) {
   const { url, width, height, mime } = getVideoData(tile)
 
   return (
@@ -51,7 +61,7 @@ export function UgcVideoTemplate({ tile, onLoad, swiperId }: { tile: Tile; onLoa
       muted={true}
       tileid={tile.id}
       class="video-content lazy"
-      controls
+      controls={controls}
       preload="none"
       playsinline="playsinline"
       onPause={() => {
@@ -61,6 +71,7 @@ export function UgcVideoTemplate({ tile, onLoad, swiperId }: { tile: Tile; onLoa
         handlePauseAutoplay(swiperId)
         const videoElement = event.target as HTMLVideoElement
         videoElement.muted = true
+        videoElement.controls = controls
         onLoad(event)
       }}
       onTimeupdate={(event: Event) => {
@@ -131,7 +142,17 @@ export function VideoErrorFallbackTemplate({
   )
 }
 
-export function SourceVideoContent({ tile, onLoad, swiperId }: { tile: Tile; onLoad: OnLoad; swiperId: string }) {
+export function SourceVideoContent({
+  tile,
+  onLoad,
+  swiperId,
+  controls
+}: {
+  tile: Tile
+  onLoad: OnLoad
+  swiperId: string
+  controls?: boolean
+}) {
   // handle unplayable tiktok source
   // TODO handle vide_source "tiktok"
   if (tile.source === "tiktok" || tile.video_source === "tiktok") {
@@ -143,13 +164,23 @@ export function SourceVideoContent({ tile, onLoad, swiperId }: { tile: Tile; onL
   }
 
   if (tile.video_files?.length || (tile.video && tile.video.standard_resolution)) {
-    return <UgcVideoTemplate tile={tile} onLoad={onLoad} swiperId={swiperId} />
+    return <UgcVideoTemplate controls={controls} tile={tile} onLoad={onLoad} swiperId={swiperId} />
   }
 
-  return <UgcVideoTemplate tile={tile} onLoad={onLoad} swiperId={swiperId} />
+  return <UgcVideoTemplate controls={controls} tile={tile} onLoad={onLoad} swiperId={swiperId} />
 }
 
-export function VideoContainer({ tile, shopspotEnabled, sdk }: { tile: Tile; shopspotEnabled: boolean; sdk: ISdk }) {
+export function VideoContainer({
+  tile,
+  shopspotEnabled,
+  sdk,
+  controls = true
+}: {
+  tile: Tile
+  shopspotEnabled: boolean
+  sdk: ISdk
+  controls?: boolean
+}) {
   return (
     <div class="video-content-wrapper">
       <div class="center-section">
@@ -184,6 +215,7 @@ export function VideoContainer({ tile, shopspotEnabled, sdk }: { tile: Tile; sho
           videoElement.style.display = "inherit"
         }}
         tile={tile}
+        controls={controls}
       />
     </div>
   )

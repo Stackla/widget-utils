@@ -8,7 +8,8 @@ export function getExpandedSlides(sdk: ISdk, tiles: Tile[]) {
       class="ugc-tile swiper-slide"
       data-id={tile.id}
       data-yt-id={tile.youtube_id || ""}
-      data-tiktok-id={tile.tiktok_id || ""}>
+      data-tiktok-id={tile.tiktok_id || ""}
+      data-media={tile.media}>
       <ExpandedTile tile={tile} sdk={sdk} />
     </div>
   ))
