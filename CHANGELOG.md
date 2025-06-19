@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.3.0
+
+### Minor Changes
+
+- 138f96e: Add tag fallback username to fallback to tags with @ included if needed
+
 ## 0.2.26
 
 ### Patch Changes
