@@ -9,6 +9,7 @@ import { loadIfShortVideoHelper } from "./helpers/if-short-video.helper"
 import { loadIfHasProductTags } from "./helpers/if-has-product-tags.helper"
 import { loadIfHasPublicTags } from "./helpers/if-has-public-tags.helper"
 import { loadIconsHelper } from "./helpers/load-icons.helper"
+import { loadTagFallbackUsernameHelper } from "./helpers/tag-fallback-username"
 
 export interface HandlebarsPartial {
   name: string
@@ -85,4 +86,5 @@ export function loadHelpers(hbs: typeof Handlebars, widgetId: string) {
   loadIfHasProductTags(hbs)
   loadIfHasPublicTags(hbs)
   loadIconsHelper(hbs, widgetId)
+  loadTagFallbackUsernameHelper(hbs)
 }
