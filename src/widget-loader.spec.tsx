@@ -33,12 +33,8 @@ const settings: EnforcedWidgetSettings = {
     masonry: false
   },
   templates: {
-    direct_uploader: {
-      template: () => "<p>Hello!</p>"
-    },
-    shopspots: {
-      template: () => "<p>Hi!</p>"
-    }
+    direct_uploader: () => "<p>Hello!</p>",
+    shopspots: () => "<p>Hi!</p>"
   },
   config: {}
 }
@@ -62,20 +58,11 @@ describe("loadTemplates", () => {
     const mutatedSettings = {
       ...settings,
       templates: {
-        shopspots: {
-          styles: [
-            {
-              css: "body { color: red; }",
-              global: false
-            }
-          ],
-          template: () => "<p>Hello!</p>"
-        }
+        shopspots: () => "<p>Hello!</p>"
       }
     }
 
     loadTemplates(sdk, mutatedSettings)
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     expect(sdk.addTemplateToComponent).toHaveBeenCalledWith(expect.any(Function), "shopspots")
   })
@@ -84,19 +71,7 @@ describe("loadTemplates", () => {
     const mutatedSettings = {
       ...settings,
       templates: {
-        shopspots: {
-          styles: [
-            {
-              css: "body { color: red; }",
-              global: true
-            },
-            {
-              css: "body { color: blue; }",
-              global: false
-            }
-          ],
-          template: () => "<p>Hello!</p>"
-        }
+        shopspots: () => "<p>Hello!</p>"
       }
     }
 
