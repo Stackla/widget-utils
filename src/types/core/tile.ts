@@ -29,11 +29,13 @@ export interface VideoFile {
   duration: number
 }
 
+type AvailabilityStatus = "InStock" | "OutOfStock" | "PreOrder" | "Empty" | "Invisible"
+
 export interface TagExtended {
   active?: boolean
   auto_apply?: boolean
   availability: number
-  availability_status?: string
+  availability_status?: AvailabilityStatus
   brand?: string
   categories?: string
   created_at?: string
