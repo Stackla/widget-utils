@@ -153,11 +153,7 @@ export function loadTemplates(sdk: ISdk, settings: EnforcedWidgetSettings) {
         return
       }
 
-      const { template } = customTemplate
-
-      if (template) {
-        sdk.addTemplateToComponent(template, key)
-      }
+      sdk.addTemplateToComponent(customTemplate, key)
     })
   }
 }
