@@ -77,11 +77,7 @@ interface Extensions {
   masonry: boolean
 }
 
-interface CustomTemplate {
-  template?: Template
-}
-
-type Templates = Record<string, CustomTemplate>
+type Templates = Record<string, Template>
 
 export interface MyWidgetSettings {
   features?: Partial<Features>
