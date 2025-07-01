@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 1.0.0
+
+### Major Changes
+
+- 497ab44: Improve templating type
+
 ## 0.3.1
 
 ### Patch Changes
