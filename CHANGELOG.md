@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 0.3.1
+
+### Patch Changes
+
+- c36641c: Improve availability status typing
+
 ## 0.3.0
 
 ### Minor Changes
