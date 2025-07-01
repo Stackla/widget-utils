@@ -1,5 +1,5 @@
 ---
-"@stackla/widget-utils": patch
+"@stackla/widget-utils": major
 ---
 
 Improve templating type
