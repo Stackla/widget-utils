@@ -86,7 +86,6 @@ export function loadYoutubePlayerAPI(playerId: string, videoId: string, swiperId
         onError: errorHandler
       }
     });
-    player.setPlaybackQuality('hd1080');
   }
 
   function onYouTubeIframeAPIReady() {
