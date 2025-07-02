@@ -70,9 +70,15 @@ export function loadYoutubePlayerAPI(playerId: string, videoId: string, swiperId
   function loadPlayer(playDefault = false) {
     player = new YT.Player("${playerId}", {
       width: "100%",
+      height: "100%",
       videoId: "${videoId}",
       playerVars: {
-        playsinline: 1
+        autoplay: 0,
+        controls: 1,
+        modestbranding: 1,
+        rel: 0,
+        enablejsapi: 1,
+        playsinline: 1,
       },
       events: {
         onReady: playDefault ? play : pause,
@@ -80,6 +86,7 @@ export function loadYoutubePlayerAPI(playerId: string, videoId: string, swiperId
         onError: errorHandler
       }
     });
+    player.setPlaybackQuality('hd1080');
   }
 
   function onYouTubeIframeAPIReady() {
