@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 2.0.3
+
+### Patch Changes
+
+- b5181f6: Bug fix: deprecation of video quality method
+
 ## 2.0.2
 
 ### Patch Changes
