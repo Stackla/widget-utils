@@ -2,7 +2,7 @@ import {
   destroySwiper,
   getActiveSlide,
   getActiveSlideElement,
-  getSwiperIndexforTile,
+  getSwiperIndexForTile,
   initializeSwiper,
   LookupAttr,
   updateSwiperInstance
@@ -101,7 +101,7 @@ function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
         },
         beforeInit: (swiper: Swiper) => {
           const tileIndex = settings.initialTileId
-            ? getSwiperIndexforTile(settings.widgetSelector, settings.initialTileId)
+            ? getSwiperIndexForTile(settings.widgetSelector, settings.initialTileId)
             : 0
           swiper.slideToLoop(tileIndex, 0, false)
         },
@@ -164,7 +164,7 @@ function initalizeStoryExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
           sdk.triggerEvent(EVENT_LOAD_MORE)
         },
         afterInit: (swiper: Swiper) => {
-          swiper.slideToLoop(getSwiperIndexforTile(settings.widgetSelector, initialTileId), 0, false)
+          swiper.slideToLoop(getSwiperIndexForTile(settings.widgetSelector, initialTileId), 0, false)
           registerStoryControls(sdk, expandedTileWrapper, swiper)
         },
         autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
@@ -481,7 +481,7 @@ export function isActiveTile(sdk: ISdk, tile: Element, widgetSelector: HTMLEleme
     const activeElementLookupAttrValue = activeSwiperElement?.getAttribute(lookupAttr.name)
     return originalLookupAttrValue === activeElementLookupAttrValue && tileId === activeElementTileId
   }
-  const tileIndex = tileId ? getSwiperIndexforTile(widgetSelector, tileId) : 0
+  const tileIndex = tileId ? getSwiperIndexForTile(widgetSelector, tileId) : 0
   return getActiveSlide(sdk, "expanded") === tileIndex
 }
 

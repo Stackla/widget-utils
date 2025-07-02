@@ -125,7 +125,7 @@ export function refreshSwiper(sdk: ISdk, id: string) {
   }
 }
 
-export function getSwiperIndexforTile(swiperSelector: HTMLElement, tileId: string) {
+export function getSwiperIndexForTile(swiperSelector: HTMLElement, tileId: string) {
   const slide = swiperSelector.querySelector(`.swiper-slide[data-id="${tileId}"]`)
 
   if (!slide) {
