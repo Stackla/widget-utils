@@ -4,5 +4,6 @@ export {
   updateSwiperInstance,
   setSwiperLoadingStatus,
   refreshSwiper,
-  getInstance
+  getInstance,
+  getSwiperIndexForTile
 } from "./swiper.extension"
