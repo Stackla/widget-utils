@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 2.0.2
+
+### Patch Changes
+
+- 835b7a6: Add support for getSwiperIndexForTile
+
 ## 1.0.1
 
 ### Patch Changes
