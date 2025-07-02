@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 1.0.1
+
+### Patch Changes
+
+- 4ccbc2c: Improve video quality
+
 ## 1.0.0
 
 ### Major Changes
