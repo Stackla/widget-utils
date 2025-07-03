@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 2.1.0
+
+### Minor Changes
+
+- 23f7120: Improve expanded tile loader by tightening swiper types, and add support for easier location of indexes
+
 ## 2.0.3
 
 ### Patch Changes
