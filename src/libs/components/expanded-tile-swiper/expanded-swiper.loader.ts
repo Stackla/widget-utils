@@ -2,7 +2,6 @@ import {
   destroySwiper,
   getActiveSlide,
   getActiveSlideElement,
-  getSwiperIndexByElement,
   getSwiperIndexForTile,
   initializeSwiper,
   LookupAttr,
@@ -87,7 +86,7 @@ function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
     prevButton: "swiper-expanded-button-prev",
     nextButton: "swiper-expanded-button-next",
     paramsOverrides: {
-      loop: false,
+      loop: true,
       slidesPerView: 1,
       autoHeight: true,
       keyboard: {
@@ -104,13 +103,8 @@ function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
           sdk.triggerEvent(EVENT_LOAD_MORE)
         },
         afterInit: (swiper: SwiperWithExtensions) => {
-          const initialTile = sdk.querySelector(`.swiper-slide[data-id="${initialTileId}"]`)
-
-          if (!initialTile) {
-            throw new Error(`Initial tile with id ${initialTileId} not found`)
-          }
-
-          swiper.slideToLoop(getSwiperIndexByElement(initialTile, swiper), 0, false)
+          const swiperIndex = getSwiperIndexForTile(settings.widgetSelector, initialTileId)
+          swiper.slideToLoop(swiperIndex, 0, false)
         },
         navigationNext: (swiper: SwiperWithExtensions) => swiperNavigationHandler(sdk, swiper),
         navigationPrev: (swiper: SwiperWithExtensions) => swiperNavigationHandler(sdk, swiper),
