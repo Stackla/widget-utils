@@ -2,15 +2,17 @@ import {
   destroySwiper,
   getActiveSlide,
   getActiveSlideElement,
+  getSwiperIndexByElement,
   getSwiperIndexForTile,
   initializeSwiper,
   LookupAttr,
+  SwiperWithExtensions,
   updateSwiperInstance
 } from "../../extensions/swiper/swiper.extension"
 import { waitForElm } from "../../widget.features"
 import { type Swiper } from "swiper"
 import { muteTiktokVideo, unMuteTiktokVideo } from "./tiktok-message"
-import { ISdk, SwiperData } from "../../../types"
+import { ISdk } from "../../../types"
 import { EVENT_LOAD_MORE } from "../../../events"
 import { getExpandedSlides } from "./base.template"
 import {
@@ -76,9 +78,11 @@ function initializeSwiperForExpandedTiles(
 }
 
 function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
+  const { initialTileId, widgetSelector } = settings
+
   initializeSwiper(sdk, {
     id: "expanded",
-    widgetSelector: settings.widgetSelector,
+    widgetSelector,
     mode: "expanded",
     prevButton: "swiper-expanded-button-prev",
     nextButton: "swiper-expanded-button-next",
@@ -99,17 +103,17 @@ function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
         reachEnd: () => {
           sdk.triggerEvent(EVENT_LOAD_MORE)
         },
-        beforeInit: (swiper: Swiper) => {
-          const tileIndex = settings.initialTileId
-            ? getSwiperIndexForTile(settings.widgetSelector, settings.initialTileId)
-            : 0
-          swiper.slideToLoop(tileIndex, 0, false)
+        afterInit: (swiper: SwiperWithExtensions) => {
+          const initialTile = sdk.querySelector(`.swiper-slide[data-id="${initialTileId}"]`)
+
+          if (!initialTile) {
+            throw new Error(`Initial tile with id ${initialTileId} not found`)
+          }
+
+          swiper.slideToLoop(getSwiperIndexByElement(initialTile, swiper), 0, false)
         },
-        autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
-          storyAutoplayProgress(swiper, percentage)
-        },
-        navigationNext: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
-        navigationPrev: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
+        navigationNext: (swiper: SwiperWithExtensions) => swiperNavigationHandler(sdk, swiper),
+        navigationPrev: (swiper: SwiperWithExtensions) => swiperNavigationHandler(sdk, swiper),
         ...settings.swiperSettings?.on
       }
     },
@@ -235,7 +239,7 @@ function registerStoryControls(sdk: ISdk, tileWrapper: Element, swiper: Swiper) 
   volumeCtrl?.addEventListener("click", () => {
     volumeCtrl.classList.add("hidden")
     muteCtrl?.classList.remove("hidden")
-    updateSwiperInstance(sdk, "expanded", (swiperData: SwiperData) => {
+    updateSwiperInstance(sdk, "expanded", (swiperData: SwiperWithExtensions) => {
       swiperData.muted = true
     })
 
@@ -262,7 +266,7 @@ function registerStoryControls(sdk: ISdk, tileWrapper: Element, swiper: Swiper) 
   muteCtrl?.addEventListener("click", () => {
     muteCtrl.classList.add("hidden")
     volumeCtrl?.classList.remove("hidden")
-    updateSwiperInstance(sdk, "expanded", (swiperData: SwiperData) => {
+    updateSwiperInstance(sdk, "expanded", (swiperData: SwiperWithExtensions) => {
       swiperData.muted = false
     })
 
