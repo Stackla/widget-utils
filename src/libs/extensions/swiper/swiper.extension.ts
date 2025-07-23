@@ -1,6 +1,6 @@
 import { EVENT_TILES_UPDATED } from "../../../events"
 import { ISdk, Tile } from "../../../types"
-import { SwiperData, SwiperProps } from "../../../types/SdkSwiper"
+import { SwiperProps } from "../../../types/SdkSwiper"
 import {
   Autoplay,
   EffectCoverflow,
@@ -12,6 +12,15 @@ import {
   Pagination
 } from "swiper/modules"
 import { loadAllUnloadedTiles } from "./loader.extension"
+import Swiper from "swiper"
+
+export interface SwiperWithExtensions extends Swiper {
+  getSlideIndex?: (element: HTMLElement) => number | undefined
+  isLoading?: boolean
+  instance?: SwiperWithExtensions
+  pageIndex?: number | undefined
+  muted?: boolean
+}
 
 export type LookupAttr = {
   name: string
@@ -125,7 +134,21 @@ export function refreshSwiper(sdk: ISdk, id: string) {
   }
 }
 
-export function getSwiperIndexforTile(swiperSelector: HTMLElement, tileId: string) {
+export function getSwiperIndexByElement(tileElement: HTMLElement, swiperInstance: SwiperWithExtensions) {
+  if (!swiperInstance.getSlideIndex) {
+    console.warn("Swiper instance does not have getSlideIndex method")
+    return 0
+  }
+
+  const slideId = swiperInstance.getSlideIndex(tileElement)
+  if (slideId === undefined) {
+    console.warn("Slide ID not found for the given tile element")
+    return 0
+  }
+  return slideId
+}
+
+export function getSwiperIndexForTile(swiperSelector: HTMLElement, tileId: string) {
   const slide = swiperSelector.querySelector(`.swiper-slide[data-id="${tileId}"]`)
 
   if (!slide) {
@@ -136,7 +159,7 @@ export function getSwiperIndexforTile(swiperSelector: HTMLElement, tileId: strin
   return Number(slide.getAttribute("data-swiper-slide-index")) || 0
 }
 
-export function getSwiperInstance(sdk: ISdk, id: string) {
+export function getSwiperInstance(sdk: ISdk, id: string): SwiperWithExtensions | null {
   const container = getSwiperContainer(sdk, id)
   if (container && container.instance) {
     return container.instance
@@ -160,8 +183,9 @@ export function getMutatedId(sdk: ISdk, id: string) {
 
 export function destroySwiper(sdk: ISdk, id: string) {
   const mutatedId = getMutatedId(sdk, id)
-  if (getSwiperInstance(sdk, id)) {
-    getSwiperInstance(sdk, id).destroy(true, true)
+  const swiperInstance = getSwiperInstance(sdk, id)
+  if (swiperInstance) {
+    swiperInstance.destroy(true, true)
     delete window.ugc.swiperContainer[mutatedId]
   }
 }
@@ -183,6 +207,12 @@ export function getClickedIndex(sdk: ISdk, id: string) {
 
 export function getInstance(sdk: ISdk, id: string) {
   const container = getSwiperContainer(sdk, id)
+
+  if (!container) {
+    console.error(`Swiper container for id ${id} not found`)
+    return null
+  }
+
   const instance = container.instance
 
   if (instance) {
@@ -190,6 +220,7 @@ export function getInstance(sdk: ISdk, id: string) {
   }
 
   console.error(`Swiper instance for id ${id} not found`)
+  return null
 }
 
 export function getActiveSlide(sdk: ISdk, id: string) {
@@ -203,7 +234,7 @@ export function getActiveSlideElement(sdk: ISdk, id: string) {
 export function getSwiperContainer(sdk: ISdk, id: string) {
   const mutatedId = getMutatedId(sdk, id)
   if (window.ugc.swiperContainer[mutatedId]) {
-    return window.ugc.swiperContainer[mutatedId]
+    return window.ugc.swiperContainer[mutatedId] as SwiperWithExtensions
   }
 
   console.error(`Swiper container for id ${mutatedId} not found`)
@@ -215,12 +246,14 @@ export function isSwiperLoading(sdk: ISdk, id: string) {
 }
 
 export function setSwiperLoadingStatus(sdk: ISdk, id: string, isLoading: boolean) {
-  if (getSwiperContainer(sdk, id)) {
-    getSwiperContainer(sdk, id).isLoading = isLoading
+  const swiperContainer = getSwiperContainer(sdk, id)
+
+  if (swiperContainer) {
+    swiperContainer.isLoading = isLoading
   }
 }
 
-export function updateSwiperInstance(sdk: ISdk, id: string, updateProps: (swiperData: SwiperData) => void) {
+export function updateSwiperInstance(sdk: ISdk, id: string, updateProps: (swiperData: SwiperWithExtensions) => void) {
   const container = getSwiperContainer(sdk, id)
   if (container && container.instance) {
     updateProps(container)

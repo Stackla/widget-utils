@@ -1,5 +1,29 @@
 # @stackla/widget-utils
 
+## 2.1.0
+
+### Minor Changes
+
+- 23f7120: Improve expanded tile loader by tightening swiper types, and add support for easier location of indexes
+
+## 2.0.3
+
+### Patch Changes
+
+- b5181f6: Bug fix: deprecation of video quality method
+
+## 2.0.2
+
+### Patch Changes
+
+- 835b7a6: Add support for getSwiperIndexForTile
+
+## 1.0.1
+
+### Patch Changes
+
+- 4ccbc2c: Improve video quality
+
 ## 1.0.0
 
 ### Major Changes

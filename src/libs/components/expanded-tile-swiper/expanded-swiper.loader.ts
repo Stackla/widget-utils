@@ -2,15 +2,16 @@ import {
   destroySwiper,
   getActiveSlide,
   getActiveSlideElement,
-  getSwiperIndexforTile,
+  getSwiperIndexForTile,
   initializeSwiper,
   LookupAttr,
+  SwiperWithExtensions,
   updateSwiperInstance
 } from "../../extensions/swiper/swiper.extension"
 import { waitForElm } from "../../widget.features"
 import { type Swiper } from "swiper"
 import { muteTiktokVideo, unMuteTiktokVideo } from "./tiktok-message"
-import { ISdk, SwiperData } from "../../../types"
+import { ISdk } from "../../../types"
 import { EVENT_LOAD_MORE } from "../../../events"
 import { getExpandedSlides } from "./base.template"
 import {
@@ -76,14 +77,16 @@ function initializeSwiperForExpandedTiles(
 }
 
 function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
+  const { initialTileId, widgetSelector } = settings
+
   initializeSwiper(sdk, {
     id: "expanded",
-    widgetSelector: settings.widgetSelector,
+    widgetSelector,
     mode: "expanded",
     prevButton: "swiper-expanded-button-prev",
     nextButton: "swiper-expanded-button-next",
     paramsOverrides: {
-      loop: false,
+      loop: true,
       slidesPerView: 1,
       autoHeight: true,
       keyboard: {
@@ -99,14 +102,12 @@ function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
         reachEnd: () => {
           sdk.triggerEvent(EVENT_LOAD_MORE)
         },
-        beforeInit: (swiper: Swiper) => {
-          const tileIndex = settings.initialTileId
-            ? getSwiperIndexforTile(settings.widgetSelector, settings.initialTileId)
-            : 0
-          swiper.slideToLoop(tileIndex, 0, false)
+        afterInit: (swiper: SwiperWithExtensions) => {
+          const swiperIndex = getSwiperIndexForTile(settings.widgetSelector, initialTileId)
+          swiper.slideToLoop(swiperIndex, 0, false)
         },
-        navigationNext: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
-        navigationPrev: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
+        navigationNext: (swiper: SwiperWithExtensions) => swiperNavigationHandler(sdk, swiper),
+        navigationPrev: (swiper: SwiperWithExtensions) => swiperNavigationHandler(sdk, swiper),
         ...settings.swiperSettings?.on
       }
     },
@@ -161,7 +162,7 @@ function initalizeStoryExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
           sdk.triggerEvent(EVENT_LOAD_MORE)
         },
         afterInit: (swiper: Swiper) => {
-          swiper.slideToLoop(getSwiperIndexforTile(settings.widgetSelector, initialTileId), 0, false)
+          swiper.slideToLoop(getSwiperIndexForTile(settings.widgetSelector, initialTileId), 0, false)
           registerStoryControls(sdk, expandedTileWrapper, swiper)
         },
         autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
@@ -232,7 +233,7 @@ function registerStoryControls(sdk: ISdk, tileWrapper: Element, swiper: Swiper) 
   volumeCtrl?.addEventListener("click", () => {
     volumeCtrl.classList.add("hidden")
     muteCtrl?.classList.remove("hidden")
-    updateSwiperInstance(sdk, "expanded", (swiperData: SwiperData) => {
+    updateSwiperInstance(sdk, "expanded", (swiperData: SwiperWithExtensions) => {
       swiperData.muted = true
     })
 
@@ -259,7 +260,7 @@ function registerStoryControls(sdk: ISdk, tileWrapper: Element, swiper: Swiper) 
   muteCtrl?.addEventListener("click", () => {
     muteCtrl.classList.add("hidden")
     volumeCtrl?.classList.remove("hidden")
-    updateSwiperInstance(sdk, "expanded", (swiperData: SwiperData) => {
+    updateSwiperInstance(sdk, "expanded", (swiperData: SwiperWithExtensions) => {
       swiperData.muted = false
     })
 
@@ -478,7 +479,7 @@ export function isActiveTile(sdk: ISdk, tile: Element, widgetSelector: HTMLEleme
     const activeElementLookupAttrValue = activeSwiperElement?.getAttribute(lookupAttr.name)
     return originalLookupAttrValue === activeElementLookupAttrValue && tileId === activeElementTileId
   }
-  const tileIndex = tileId ? getSwiperIndexforTile(widgetSelector, tileId) : 0
+  const tileIndex = tileId ? getSwiperIndexForTile(widgetSelector, tileId) : 0
   return getActiveSlide(sdk, "expanded") === tileIndex
 }
 
