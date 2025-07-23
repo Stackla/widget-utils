@@ -153,13 +153,15 @@ export interface WidgetType {
 export interface ComponentOptions {
   products: ProductsOptions
   inline_products: InlineProductsOptions
+  carousel_grouping: CarouselGroupingOptions
+  tags: TagsOptions
 }
 
 export interface Config {
   lightbox: ExpandedTileOptions
   tile_options: InlineTileOptions
   claim_config?: ClaimConfig
-  component_options?: ComponentOptions
+  component_options?: Partial<ComponentOptions>
 }
 
 export type Type = {
