@@ -98,6 +98,7 @@ function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
         forceToAxis: true,
         releaseOnEdges: true
       },
+      autoplay: false,
       on: {
         reachEnd: () => {
           sdk.triggerEvent(EVENT_LOAD_MORE)
