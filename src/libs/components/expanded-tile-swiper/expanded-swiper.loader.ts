@@ -105,9 +105,6 @@ function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
             : 0
           swiper.slideToLoop(tileIndex, 0, false)
         },
-        autoplayTimeLeft: (swiper: Swiper, _timeLeft: number, percentage: number) => {
-          storyAutoplayProgress(swiper, percentage)
-        },
         navigationNext: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
         navigationPrev: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
         ...settings.swiperSettings?.on
