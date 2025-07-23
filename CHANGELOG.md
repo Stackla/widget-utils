@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 2.2.0
+
+### Minor Changes
+
+- 24c1a21: Add support for more component options
+
 ## 2.1.0
 
 ### Minor Changes
