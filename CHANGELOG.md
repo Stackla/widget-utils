@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 2.2.1
+
+### Patch Changes
+
+- 8dfc286: Remove swiper autoplay when it is not needed
+
 ## 2.2.0
 
 ### Minor Changes
