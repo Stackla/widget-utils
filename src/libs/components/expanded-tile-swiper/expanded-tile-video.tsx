@@ -54,6 +54,10 @@ export async function controlVideoPlayback(sdk: ISdk, swiper: Swiper) {
   if (previousElement) {
     triggerPause(previousElement)
   }
+
+  if (!activeElement && !previousElement) {
+    console.warn("No active or previous video element found in controlVideoPlayback")
+  }
 }
 
 /**
@@ -188,6 +192,8 @@ export function getSwiperVideoElement(
   if (videoElement) {
     return { element: videoElement, source: "video" }
   }
+
+  console.warn("Undefined video element", element, tileId)
 
   return undefined
 }

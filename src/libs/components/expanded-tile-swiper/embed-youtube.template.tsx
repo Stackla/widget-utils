@@ -60,9 +60,9 @@ export function loadYoutubePlayerAPI(playerId: string, videoId: string, swiperId
   const instance = swiper?.instance;
 
   function onPlayerStateChange(event) {
-    instance?.autoplay.stop();
+    instance?.autoplay?.stop();
     if (event.data === YT.PlayerState.ENDED) {
-      instance?.autoplay.start();
+      instance?.autoplay?.start();
       instance?.slideNext();
     }
   }
@@ -115,7 +115,7 @@ export function loadYoutubePlayerAPI(playerId: string, videoId: string, swiperId
           play();
         } else {
           pause();
-          instance?.autoplay.start();
+          instance?.autoplay?.start();
         }
       });
     }, { threshold: 0.5 });

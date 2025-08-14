@@ -25,7 +25,7 @@ function getVideoData(tile: Tile) {
 export function handlePauseAutoplay(swiperId: string) {
   const swiperInstance = window.ugc.swiperContainer[swiperId].instance
   if (swiperInstance) {
-    swiperInstance.autoplay.stop()
+    swiperInstance?.autoplay?.stop()
   } else {
     console.error(`Swiper instance for id ${swiperId} not found`)
   }
@@ -34,7 +34,7 @@ export function handlePauseAutoplay(swiperId: string) {
 export function handlePlayAutoplay(swiperId: string) {
   const swiperInstance = window.ugc.swiperContainer[swiperId].instance
   if (swiperInstance) {
-    swiperInstance.autoplay.start()
+    swiperInstance?.autoplay?.start()
   } else {
     console.error(`Swiper instance for id ${swiperId} not found`)
   }

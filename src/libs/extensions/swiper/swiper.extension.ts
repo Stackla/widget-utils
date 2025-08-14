@@ -99,8 +99,8 @@ export function initializeSwiper(sdk: ISdk, swiperProps: SwiperProps) {
     window.ugc.swiperContainer[mutatedId] = { pageIndex: 1 }
   }
 
-  window.ugc.swiperContainer[mutatedId]!.instance = new window.ugc.libs.Swiper(widgetSelector, {
-    modules: [Navigation, Manipulation, Keyboard, Mousewheel, Autoplay, EffectCoverflow, Pagination, FreeMode],
+  const settings = new window.ugc.libs.Swiper(widgetSelector, {
+    modules: [Navigation, Manipulation, Keyboard, Mousewheel, EffectCoverflow, Pagination, FreeMode],
     spaceBetween: 10,
     observer: true,
     grabCursor: true,
@@ -121,6 +121,12 @@ export function initializeSwiper(sdk: ISdk, swiperProps: SwiperProps) {
     resizeObserver: true,
     ...paramsOverrides
   })
+
+  if (settings.autoplay) {
+    settings.modules.push(Autoplay)
+  }
+
+  window.ugc.swiperContainer[mutatedId]!.instance = settings
 
   if (!sdk.getCustomTemplate("expanded-tiles")) {
     addTilesUpdatedListener(sdk, id, getSliderTemplate)

@@ -173,7 +173,7 @@ function initalizeStoryExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
         navigationNext: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
         navigationPrev: (swiper: Swiper) => swiperNavigationHandler(sdk, swiper),
         slideChange: (swiper: Swiper) => {
-          swiper.autoplay.start()
+          swiper?.autoplay?.start()
         }
       },
       ...swiperSettings
@@ -222,13 +222,13 @@ function registerStoryControls(sdk: ISdk, tileWrapper: Element, swiper: Swiper) 
   playCtrl?.addEventListener("click", () => {
     playCtrl.classList.add("hidden")
     pauseCtrl?.classList.remove("hidden")
-    swiper.autoplay.start()
+    swiper?.autoplay?.start()
   })
 
   pauseCtrl?.addEventListener("click", () => {
     pauseCtrl.classList.add("hidden")
     playCtrl?.classList.remove("hidden")
-    swiper.autoplay.stop()
+    swiper?.autoplay?.stop()
   })
 
   volumeCtrl?.addEventListener("click", () => {
@@ -300,8 +300,8 @@ function handleAutoplayProgress(tileWrapper: Element, swiper: Swiper, playCtrl: 
 
   swiperWrapperEle?.addEventListener("mouseleave", () => {
     if (playCtrl?.classList.contains("hidden")) {
-      if (swiper.autoplay.paused) {
-        swiper.autoplay.resume()
+      if (swiper?.autoplay?.paused) {
+        swiper?.autoplay?.resume()
       }
     }
   })
