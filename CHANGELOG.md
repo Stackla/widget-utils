@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 3.0.0
+
+### Major Changes
+
+- 4f18db8: Sunset masonry in widget utils
+
 ## 2.2.1
 
 ### Patch Changes
