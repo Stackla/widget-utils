@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 4.0.1
+
+### Patch Changes
+
+- 0378bdc: Add swiper types as export
+
 ## 4.0.0
 
 ### Major Changes
