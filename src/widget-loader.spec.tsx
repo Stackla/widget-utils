@@ -28,10 +28,6 @@ const settings: EnforcedWidgetSettings = {
   callbacks: {
     ...callbackDefaults
   },
-  extensions: {
-    swiper: false,
-    masonry: false
-  },
   templates: {
     direct_uploader: () => "<p>Hello!</p>",
     shopspots: () => "<p>Hi!</p>"
