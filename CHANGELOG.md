@@ -1,22 +1,10 @@
 # @stackla/widget-utils
 
-## 0.0.0
+## 4.0.0
 
 ### Major Changes
 
 - 0d3a965: Remove expanded tile dependencies from widget-utils and place in ugc-widgets to assist with encapsulation
-
-## 0.0.0-20250815012731
-
-### Major Changes
-
-- Remove expanded tile dependencies from widget-utils and place in ugc-widgets to assist with encapsulation
-
-## 0.0.0-20250815012711
-
-### Major Changes
-
-- Remove expanded tile dependencies from widget-utils and place in ugc-widgets to assist with encapsulation
 
 ## 3.0.0
 
