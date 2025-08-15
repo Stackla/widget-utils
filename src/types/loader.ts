@@ -64,25 +64,11 @@ export interface Features {
   cssVariables?: Record<string, string>
 }
 
-interface Extensions {
-  /**
-   * Load the Swiper extension for inline tiles
-   * @default false
-   * */
-  swiper: boolean
-  /**
-   * Load the Masonry extension for inline tiles
-   * @default false
-   * */
-  masonry: boolean
-}
-
 type Templates = Record<string, Template>
 
 export interface MyWidgetSettings {
   features?: Partial<Features>
   callbacks?: Partial<Callbacks>
-  extensions?: Partial<Extensions>
   templates?: Partial<Templates>
   config?: Partial<WidgetConfig>
 }
@@ -90,5 +76,4 @@ export interface MyWidgetSettings {
 export interface EnforcedWidgetSettings extends Required<MyWidgetSettings> {
   features: Features
   callbacks: Callbacks
-  extensions: Extensions
 }

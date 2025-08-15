@@ -2,51 +2,9 @@ import { addAutoAddTileFeature, loadExpandedTileFeature, loadTitle } from "./lib
 import { addCSSVariablesToPlacement } from "./libs/widget.layout"
 import getCSSVariables from "./libs/css-variables"
 import { ISdk } from "./types"
-import {
-  handleTileImageError,
-  handleAllTileImageRendered,
-  renderMasonryLayout
-} from "./libs/extensions/masonry/masonry.extension"
 import { callbackDefaults, loadListeners } from "./events"
 import { EnforcedWidgetSettings, MyWidgetSettings } from "./types/loader"
 import { injectFontFaces } from "./fonts"
-
-function loadMasonryCallbacks(sdk: ISdk, settings: EnforcedWidgetSettings) {
-  const tilesUpdatedObserver = new MutationObserver(() => {
-    renderMasonryLayout(sdk)
-  })
-
-  tilesUpdatedObserver.observe(sdk.querySelector(".ugc-tiles")!, {
-    childList: true,
-    subtree: true
-  })
-
-  settings.callbacks.onTileBgImgRenderComplete.push(() => {
-    handleAllTileImageRendered(sdk)
-    setTimeout(() => handleAllTileImageRendered(sdk), 1000)
-  })
-
-  settings.callbacks.onTileBgImageError.push(event => {
-    const customEvent = event
-    const tileWithError = customEvent.detail.data.target as HTMLElement
-    handleTileImageError(sdk, tileWithError)
-  })
-
-  const grid = sdk.querySelector(".grid")
-
-  if (!grid) {
-    console.error("Grid element not found")
-    return settings
-  }
-
-  const observer = new ResizeObserver(() => {
-    renderMasonryLayout(sdk)
-  })
-
-  observer.observe(grid)
-
-  return settings
-}
 
 function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetSettings {
   return {
@@ -64,11 +22,6 @@ function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetS
     callbacks: {
       ...callbackDefaults,
       ...settings?.callbacks
-    },
-    extensions: {
-      swiper: false,
-      masonry: false,
-      ...settings?.extensions
     },
     templates: settings?.templates ?? {},
     config: settings?.config ?? {}
@@ -113,17 +66,6 @@ async function loadFeatures(sdk: ISdk, settings: EnforcedWidgetSettings) {
 
   if (handleLoadMore) {
     sdk.addLoadedComponents(["load-more"])
-  }
-
-  return settings
-}
-
-function loadExtensions(sdk: ISdk, settings: EnforcedWidgetSettings) {
-  const { extensions } = settings
-
-  if (extensions?.masonry) {
-    settings = loadMasonryCallbacks(sdk, settings)
-    renderMasonryLayout(sdk)
   }
 
   return settings
@@ -202,7 +144,6 @@ export function loadWidget(sdk: ISdk, settings?: MyWidgetSettings) {
   addConfigFilter(sdk, settingsWithDefaults)
   loadTemplates(sdk, settingsWithDefaults)
   loadFeatures(sdk, settingsWithDefaults)
-  loadExtensions(sdk, settingsWithDefaults)
   loadListeners(sdk, settingsWithDefaults)
   injectFontFaces(document.head, settings?.config?.fonts)
   injectFontFaces(sdk.getShadowRoot(), settings?.config?.fonts)
