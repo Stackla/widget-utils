@@ -1,4 +1,4 @@
-import { addAutoAddTileFeature, loadExpandedTileFeature, loadTitle } from "./libs/widget.features"
+import { addAutoAddTileFeature, loadTitle } from "./libs/widget.features"
 import { addCSSVariablesToPlacement } from "./libs/widget.layout"
 import getCSSVariables from "./libs/css-variables"
 import { ISdk } from "./types"
@@ -57,8 +57,6 @@ async function loadFeatures(sdk: ISdk, settings: EnforcedWidgetSettings) {
   if (showTitle) {
     loadTitle(sdk)
   }
-
-  loadExpandedTileFeature(sdk)
 
   if (addNewTilesAutomatically) {
     addAutoAddTileFeature(sdk)

@@ -1,25 +1,4 @@
-import {
-  EVENT_TILE_EXPAND_RENDERED,
-  EVENT_EXPANDED_TILE_CLOSE,
-  registerDefaultClickEvents,
-  registerGenericEventListener,
-  registerShareMenuClosedListener,
-  registerShareMenuOpenedListener,
-  registerTileExpandListener,
-  type ISdk,
-  type Tile,
-  registerProductsUpdatedListener
-} from "../"
-import { loadExpandSettingComponents } from "./widget.components"
-
-import {
-  onTileClosed,
-  onTileExpand,
-  onTileRendered,
-  reduceBackgroundControlsVisibility,
-  resetBackgroundControlsVisibility
-} from "./components/expanded-tile-swiper/expanded-swiper.loader"
-import { loadProductsSwiper } from "./components/expanded-tile-swiper/products.swiper"
+import { ISdk, Tile } from "src/types"
 
 export const getNextNavigatedTile = (currentTile: Tile, enabledTiles: HTMLElement[], direction: string) => {
   const currentIndex = enabledTiles.findIndex((tile: HTMLElement) => tile.getAttribute("data-id") === currentTile.id)
@@ -47,26 +26,6 @@ export const getNextNavigatedTile = (currentTile: Tile, enabledTiles: HTMLElemen
 
 export const getNextTile = (enabledTiles: HTMLElement[], currentIndex: number) => enabledTiles[currentIndex + 1]
 export const getPreviousTile = (enabledTiles: HTMLElement[], currentIndex: number) => enabledTiles[currentIndex - 1]
-
-export function loadExpandedTileFeature(sdk: ISdk) {
-  const widgetContainer = sdk.getStyleConfig()
-  const { click_through_url } = widgetContainer
-
-  if (click_through_url === "[EXPAND]") {
-    loadExpandSettingComponents(sdk)
-    registerTileExpandListener(sdk, onTileExpand)
-
-    registerGenericEventListener(sdk, EVENT_EXPANDED_TILE_CLOSE, onTileClosed)
-    registerGenericEventListener(sdk, EVENT_TILE_EXPAND_RENDERED, onTileRendered)
-    registerShareMenuOpenedListener(sdk, (sourceId: string) => reduceBackgroundControlsVisibility(sdk, sourceId))
-    registerShareMenuClosedListener(sdk, (sourceId: string) => resetBackgroundControlsVisibility(sdk, sourceId))
-    registerProductsUpdatedListener(sdk, loadProductsSwiper)
-  } else if (click_through_url === "[ORIGINAL_URL]" || /^https?:\/\/.+/.test(click_through_url ?? "")) {
-    registerDefaultClickEvents(sdk)
-  } else if (click_through_url === "[CUSTOM]") {
-    alert("Custom URL integration Not implemented yet")
-  }
-}
 
 export function addAutoAddTileFeature(sdk: ISdk) {
   const { auto_refresh } = sdk.getStyleConfig()
