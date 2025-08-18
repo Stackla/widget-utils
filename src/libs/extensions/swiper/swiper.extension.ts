@@ -1,5 +1,4 @@
-import { EVENT_TILES_UPDATED } from "../../../events"
-import { ISdk, Tile } from "../../../types"
+import { ISdk } from "../../../types"
 import { SwiperProps } from "../../../types/SdkSwiper"
 import {
   Autoplay,
@@ -11,7 +10,6 @@ import {
   Navigation,
   Pagination
 } from "swiper/modules"
-import { loadAllUnloadedTiles } from "./loader.extension"
 import Swiper from "swiper"
 
 export interface SwiperWithExtensions extends Swiper {
@@ -25,39 +23,6 @@ export interface SwiperWithExtensions extends Swiper {
 export type LookupAttr = {
   name: string
   value: string
-}
-
-function addTilesUpdatedListener(sdk: ISdk, id: string, getSlides?: (sdk: ISdk, tiles: Tile[]) => JSX.Element[]) {
-  const swiper = getInstance(sdk, id)
-
-  sdk.addEventListener(EVENT_TILES_UPDATED, event => {
-    if (event instanceof CustomEvent) {
-      const tiles = event.detail.data.tiles
-      if (getSlides) {
-        getSlides(sdk, tiles).forEach(
-          slide => swiper && typeof swiper.appendSlide == "function" && swiper.appendSlide(slide)
-        )
-        swiper?.update()
-      }
-
-      loadAllUnloadedTiles(sdk)
-    }
-  })
-
-  if (!swiper) {
-    console.warn("Swiper instance not found")
-    return
-  }
-
-  const observer = new MutationObserver(() => {
-    swiper.update()
-    sdk.querySelector(".tile-loading:not(.hidden)")?.classList.add("hidden")
-  })
-
-  observer.observe(sdk.querySelector(".ugc-tiles")!, {
-    childList: true,
-    subtree: true
-  })
 }
 
 export function initializeSwiper(sdk: ISdk, swiperProps: SwiperProps) {
@@ -75,7 +40,7 @@ export function initializeSwiper(sdk: ISdk, swiperProps: SwiperProps) {
 
   window.ugc.swiperContainer = window.ugc?.swiperContainer ?? {}
 
-  const { id, widgetSelector, prevButton, nextButton, paramsOverrides, getSliderTemplate } = swiperProps
+  const { id, widgetSelector, prevButton, nextButton, paramsOverrides } = swiperProps
 
   const prev = prevButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${prevButton}`) : undefined
   const next = nextButton ? widgetSelector!.parentNode!.querySelector<HTMLElement>(`.${nextButton}`) : undefined
