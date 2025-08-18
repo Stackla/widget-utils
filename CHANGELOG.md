@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 4.0.2
+
+### Patch Changes
+
+- 054f714: Remove expanded tile listener from initialise swiper to decouple from other components
+
 ## 4.0.1
 
 ### Patch Changes
