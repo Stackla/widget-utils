@@ -127,10 +127,6 @@ export function initializeSwiper(sdk: ISdk, swiperProps: SwiperProps) {
   }
 
   window.ugc.swiperContainer[mutatedId]!.instance = settings
-
-  if (!sdk.getCustomTemplate("expanded-tiles")) {
-    addTilesUpdatedListener(sdk, id, getSliderTemplate)
-  }
 }
 
 export function refreshSwiper(sdk: ISdk, id: string) {
