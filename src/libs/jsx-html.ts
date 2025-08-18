@@ -19,6 +19,7 @@ type Props = Record<string, unknown>
 type Type = string | ((props: Props) => HTMLElement)
 type Child = unknown
 type Children = Array<Child>
+type Ref = { current: HTMLElement | null }
 
 const aliases: Record<string, string> = {
   className: "class",
@@ -33,8 +34,15 @@ export function createElement(type: Type, props: Props, ...children: Children): 
     return children?.length ? type({ ...props, children }) : type(props)
   }
 
+  const ref = props?.ref as Ref
+
   const element = document.createElement(type)
   applyProperties(element, props ?? {})
+  if (props && typeof props.ref === "function") {
+    props.ref(element)
+  } else if (props && props.ref && typeof props.ref === "object") {
+    ref.current = element
+  }
   children?.forEach(child => appendChild(element, child))
   return element
 }
@@ -78,6 +86,10 @@ function isEventListener(key: string, value: unknown): value is EventListener {
 
 function applyProperties(element: HTMLElement, props: Props) {
   Object.entries(props).forEach(([key, value]) => {
+    if (key === "ref") {
+      // ref is handled in createElement
+      return
+    }
     if (isEventListener(key, value)) {
       element.addEventListener(key.slice(2).toLowerCase(), value)
     } else if (key === "style") {

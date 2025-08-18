@@ -106,3 +106,27 @@ describe("JSX mapping", () => {
     expect(element2.outerHTML).toEqual("<div></div>")
   })
 })
+
+describe("createElement ref support", () => {
+  it("calls ref function with the created element", () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (el: HTMLElement) => {
+      refElement = el
+    }
+    const el = createElement("div", { ref: refFn })
+    expect(refElement).toBe(el)
+    expect(el.tagName).toBe("DIV")
+  })
+
+  it("assigns element to ref object", () => {
+    const refObj = { current: null as HTMLElement | null }
+    const el = createElement("span", { ref: refObj })
+    expect(refObj.current).toBe(el)
+    expect(el.tagName).toBe("SPAN")
+  })
+
+  it("does not fail if ref is not provided", () => {
+    const el = createElement("section", {})
+    expect(el.tagName).toBe("SECTION")
+  })
+})
