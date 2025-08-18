@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 4.1.0
+
+### Minor Changes
+
+- d36ed69: Add support for ref, to allow usage in JSX
+
 ## 4.0.2
 
 ### Patch Changes
