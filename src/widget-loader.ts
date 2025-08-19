@@ -131,32 +131,32 @@ function addConfigFilter(sdk: ISdk, settings: EnforcedWidgetSettings) {
 }
 
 function showSyntaxWarning() {
-  alert(
-    "Please ensure you are using loadWidget(sdk, settings), and declare const sdk: ISdk at the top of your file, please check console for correct syntax"
-  )
+  alert("This method of using loadWidget is deprecated. Please check console for details.")
 
-  console.info(`
-      import { loadWidget, loadAllUnloadedTiles, ISdk } from "@stackla/widget-utils"
-      declare const sdk: ISdk
+  console.warn(`
+    CORRECT USAGE:
 
-      loadWidget(sdk, {
-        callbacks: {
-          onHover: [
-            event => {
-              const tile = event.detail.tile
-              tile.style.transition = "opacity 0.5s"
-              tile.style.opacity = "0.5"
-            }
-          ],
-          onMouseLeave: [
-            event => {
-              const tile = event.detail.tile
-              tile.style.transition = "opacity 0.5s"
-              tile.style.opacity = "1"
-            }
-          ]
-        }
-      }))
+    import { loadWidget, loadAllUnloadedTiles, ISdk } from "@stackla/widget-utils"
+    declare const sdk: ISdk
+
+    loadWidget(sdk, {
+      callbacks: {
+        onHover: [
+          event => {
+            const tile = event.detail.tile
+            tile.style.transition = "opacity 0.5s"
+            tile.style.opacity = "0.5"
+          }
+        ],
+        onMouseLeave: [
+          event => {
+            const tile = event.detail.tile
+            tile.style.transition = "opacity 0.5s"
+            tile.style.opacity = "1"
+          }
+        ]
+      }
+    }))
     `)
 }
 
