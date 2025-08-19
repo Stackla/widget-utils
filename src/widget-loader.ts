@@ -136,7 +136,7 @@ function showSyntaxWarning() {
   console.warn(`
     CORRECT USAGE:
 
-    import { loadWidget, loadAllUnloadedTiles, ISdk } from "@stackla/widget-utils"
+    import { loadWidget, ISdk } from "@stackla/widget-utils"
     declare const sdk: ISdk
 
     loadWidget(sdk, {
