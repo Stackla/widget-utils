@@ -130,7 +130,42 @@ function addConfigFilter(sdk: ISdk, settings: EnforcedWidgetSettings) {
   }
 }
 
+function showSyntaxWarning() {
+  alert("This method of using loadWidget is deprecated. Please check console for details.")
+
+  console.warn(`
+    CORRECT USAGE:
+
+    import { loadWidget, ISdk } from "@stackla/widget-utils"
+    declare const sdk: ISdk
+
+    loadWidget(sdk, {
+      callbacks: {
+        onHover: [
+          event => {
+            const tile = event.detail.tile
+            tile.style.transition = "opacity 0.5s"
+            tile.style.opacity = "0.5"
+          }
+        ],
+        onMouseLeave: [
+          event => {
+            const tile = event.detail.tile
+            tile.style.transition = "opacity 0.5s"
+            tile.style.opacity = "1"
+          }
+        ]
+      }
+    }))
+    `)
+}
+
 export function loadWidget(sdk: ISdk, settings?: MyWidgetSettings) {
+  if (!sdk?.querySelectorAll) {
+    showSyntaxWarning()
+    return
+  }
+
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
 
   sdk.storeWidgetTemplateSettings(settingsWithDefaults)
