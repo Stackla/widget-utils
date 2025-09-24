@@ -95,7 +95,7 @@
     "new-change": "changeset",
     "presnapshot": "npm run new-change",
     "snapshot": "npx changeset version --snapshot",
-    "postsnapshot": "npm publish --no-git-checks"
+    "postsnapshot": "npm publish --no-git-checks --tag snapshot"
   },
   "author": "",
   "license": "ISC",

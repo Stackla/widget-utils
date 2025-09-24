@@ -11,6 +11,7 @@ import {
   Pagination
 } from "swiper/modules"
 import Swiper from "swiper"
+import { SwiperOptions } from "swiper/types"
 
 export interface SwiperWithExtensions extends Swiper {
   getSlideIndex?: (element: HTMLElement) => number | undefined
@@ -23,6 +24,44 @@ export interface SwiperWithExtensions extends Swiper {
 export type LookupAttr = {
   name: string
   value: string
+}
+
+type SwiperConfigContainer = {
+  prev: HTMLElement | null | undefined
+  next: HTMLElement | null | undefined
+  paramsOverrides: SwiperOptions | undefined
+}
+
+export function establishSwiperConfig(userConfig: SwiperConfigContainer) {
+  const { prev, next, paramsOverrides } = userConfig
+  const config = {
+    modules: [Navigation, Manipulation, Keyboard, Mousewheel, EffectCoverflow, Pagination, FreeMode],
+    spaceBetween: 10,
+    observer: true,
+    grabCursor: true,
+    allowTouchMove: true,
+    direction: "horizontal",
+    watchSlidesProgress: true,
+    normalizeSlideIndex: true,
+    watchOverflow: true,
+    mousewheel: {
+      enabled: false
+    },
+    touchStartPreventDefault: false,
+    navigation: {
+      enabled: !!(prev && next),
+      nextEl: next,
+      prevEl: prev
+    },
+    resizeObserver: true,
+    ...paramsOverrides
+  }
+
+  if (config.autoplay) {
+    config.modules.push(Autoplay)
+  }
+
+  return config as SwiperOptions
 }
 
 export function initializeSwiper(sdk: ISdk, swiperProps: SwiperProps) {
@@ -64,32 +103,9 @@ export function initializeSwiper(sdk: ISdk, swiperProps: SwiperProps) {
     window.ugc.swiperContainer[mutatedId] = { pageIndex: 1 }
   }
 
-  const settings = new window.ugc.libs.Swiper(widgetSelector, {
-    modules: [Navigation, Manipulation, Keyboard, Mousewheel, EffectCoverflow, Pagination, FreeMode],
-    spaceBetween: 10,
-    observer: true,
-    grabCursor: true,
-    allowTouchMove: true,
-    direction: "horizontal",
-    watchSlidesProgress: true,
-    normalizeSlideIndex: true,
-    watchOverflow: true,
-    mousewheel: {
-      enabled: false
-    },
-    touchStartPreventDefault: false,
-    navigation: {
-      enabled: !!(prev && next),
-      nextEl: next,
-      prevEl: prev
-    },
-    resizeObserver: true,
-    ...paramsOverrides
-  })
+  const config = establishSwiperConfig({ prev, next, paramsOverrides })
 
-  if (settings.autoplay) {
-    settings.modules.push(Autoplay)
-  }
+  const settings = new window.ugc.libs.Swiper(widgetSelector, config)
 
   window.ugc.swiperContainer[mutatedId]!.instance = settings
 }
