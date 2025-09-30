@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 4.1.2
+
+### Patch Changes
+
+- b8e6eb6: Resolve component loading missing logic
+
 ## 4.1.1
 
 ### Patch Changes
