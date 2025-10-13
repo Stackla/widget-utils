@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to run deployment in'
+        description: "Environment to run deployment in"
         type: environment
         required: true
         default: staging
@@ -51,4 +51,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-          GITHUB_REGISTRY_TOKEN: ${{ secrets.STACKLA_BOT_GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.STACKLA_BOT_GITHUB_TOKEN }}
