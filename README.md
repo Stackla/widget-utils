@@ -362,10 +362,6 @@ Contributions are welcome! Please ensure your code:
 - Includes proper TypeScript types
 - Is documented with JSDoc comments where appropriate
 
-## 📄 License
-
-ISC
-
 ## 🔗 Links
 
 - [NPM Package](https://www.npmjs.com/package/@stackla/widget-utils)
@@ -382,4 +378,4 @@ ISC
 
 ---
 
-Built with ❤️ by Stackla
+Built with ❤️ by Nosto
