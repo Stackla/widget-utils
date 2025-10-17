@@ -65,28 +65,6 @@ const TileComponent = ({ title, image }) => (
 );
 ```
 
-### Handlebars Templates
-
-```typescript
-import { renderHTMLWithTemplates } from "@stackla/widget-utils/handlebars"
-
-const html = await renderHTMLWithTemplates(tileTemplate, layoutTemplate, tiles, options)
-```
-
-### Infinite Scrolling with React
-
-```typescript
-import { useInfiniteScroller } from "@stackla/widget-utils/hooks"
-
-function MyWidget() {
-  const { loadMore, hasMore } = useInfiniteScroller({
-    onLoadMore: fetchMoreTiles
-  })
-
-  // Your component logic
-}
-```
-
 ## 📚 Module Reference
 
 ### Core Modules
@@ -179,14 +157,6 @@ Full Swiper carousel integration for creating image/content sliders.
 - Responsive configuration
 - Touch/swipe support
 - Navigation and pagination
-
-#### `@stackla/widget-utils/hooks`
-
-React hooks for common widget patterns.
-
-**Available Hooks:**
-
-- `useInfiniteScroller` - Infinite scroll implementation
 
 #### `@stackla/widget-utils/events`
 
