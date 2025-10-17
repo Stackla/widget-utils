@@ -14,7 +14,7 @@
 - **🎨 Flexible Templating** - Support for Handlebars templates with custom helpers
 - **⚛️ JSX Support** - Build widgets using JSX syntax without React
 - **🎪 Widget Loading** - Automated widget initialization and lifecycle management
-- **🔄 Infinite Scrolling** - Built-in React hooks for seamless content loading
+- **🔄 Infinite Scrolling** - Built-in hooks for seamless content loading
 - **📦 Modular Architecture** - Import only what you need with tree-shakeable exports
 - **🎠 Extension Support** - Includes Swiper carousel integration out of the box
 - **🎨 CSS Variables** - Dynamic theming and styling support
