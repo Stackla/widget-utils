@@ -3,7 +3,6 @@
 > 🎨 A comprehensive TypeScript utility library for building powerful User-Generated Content (UGC) widgets
 
 [![npm version](https://img.shields.io/npm/v/@stackla/widget-utils.svg)](https://www.npmjs.com/package/@stackla/widget-utils)
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
 ## 🚀 Overview
 
