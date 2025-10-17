@@ -41,16 +41,16 @@ pnpm add @stackla/widget-utils
 ### Basic Widget Setup
 
 ```typescript
-import { loadWidget } from '@stackla/widget-utils';
+import { loadWidget } from "@stackla/widget-utils"
 
 // Initialize a widget with default settings
 const sdk = await loadWidget({
   features: {
     showTitle: true,
     preloadImages: true,
-    addNewTilesAutomatically: true,
+    addNewTilesAutomatically: true
   }
-});
+})
 ```
 
 ### Using JSX for Widget Components
@@ -69,26 +69,21 @@ const TileComponent = ({ title, image }) => (
 ### Handlebars Templates
 
 ```typescript
-import { renderHTMLWithTemplates } from '@stackla/widget-utils/handlebars';
+import { renderHTMLWithTemplates } from "@stackla/widget-utils/handlebars"
 
-const html = await renderHTMLWithTemplates(
-  tileTemplate,
-  layoutTemplate,
-  tiles,
-  options
-);
+const html = await renderHTMLWithTemplates(tileTemplate, layoutTemplate, tiles, options)
 ```
 
 ### Infinite Scrolling with React
 
 ```typescript
-import { useInfiniteScroller } from '@stackla/widget-utils/hooks';
+import { useInfiniteScroller } from "@stackla/widget-utils/hooks"
 
 function MyWidget() {
   const { loadMore, hasMore } = useInfiniteScroller({
     onLoadMore: fetchMoreTiles
-  });
-  
+  })
+
   // Your component logic
 }
 ```
@@ -98,35 +93,43 @@ function MyWidget() {
 ### Core Modules
 
 #### `@stackla/widget-utils` (Main Export)
+
 The primary entry point providing widget loading, core types, events, and library utilities.
 
 **Key Exports:**
+
 - `loadWidget()` - Initialize and configure widgets
 - `ISdk` - TypeScript interface for widget SDK
 - Widget lifecycle hooks and event handlers
 
 #### `@stackla/widget-utils/types`
+
 Comprehensive TypeScript type definitions for widgets, tiles, components, and services.
 
 **Includes:**
+
 - `Widget`, `Tile`, `Placement` - Core data types
 - `WidgetOptions`, `WidgetSettings` - Configuration types
 - Service interfaces for tiles, events, and widgets
 - Component types for static content, products, and UGC
 
 #### `@stackla/widget-utils/jsx`
+
 JSX-to-HTML runtime that lets you write components using JSX syntax without React.
 
 **Features:**
+
 - Lightweight JSX transformation
 - Event handler support
 - Ref support for DOM access
 - Type-safe JSX elements
 
 #### `@stackla/widget-utils/handlebars`
+
 Handlebars template engine with custom helpers designed for widget rendering.
 
 **Custom Helpers:**
+
 - `{{tile}}` - Render tile components
 - `{{ifEquals}}` - Conditional rendering
 - `{{lazy}}` - Lazy loading support
@@ -137,18 +140,22 @@ Handlebars template engine with custom helpers designed for widget rendering.
 - `{{tagFallbackUsername}}` - Username fallback logic
 
 #### `@stackla/widget-utils/libs`
+
 Core library utilities for widget features and functionality.
 
 **Includes:**
+
 - CSS variable management
 - Widget feature toggles
 - Layout utilities
 - Tile manipulation helpers
 
 #### `@stackla/widget-utils/components`
+
 Pre-built component utilities for common widget patterns.
 
 **Available Components:**
+
 - Static content components
 - Product display components
 - Share menu components
@@ -156,48 +163,60 @@ Pre-built component utilities for common widget patterns.
 - UGC tile components
 
 #### `@stackla/widget-utils/extensions`
+
 Widget extensions for enhanced functionality.
 
 **Current Extensions:**
+
 - **Swiper** - Carousel/slider integration
 
 #### `@stackla/widget-utils/extensions/swiper`
+
 Full Swiper carousel integration for creating image/content sliders.
 
 **Features:**
+
 - Automatic initialization
 - Responsive configuration
 - Touch/swipe support
 - Navigation and pagination
 
 #### `@stackla/widget-utils/hooks`
+
 React hooks for common widget patterns.
 
 **Available Hooks:**
+
 - `useInfiniteScroller` - Infinite scroll implementation
 
 #### `@stackla/widget-utils/events`
+
 Event system for widget lifecycle and user interactions.
 
 **Event Types:**
+
 - Widget initialization events
 - Tile interaction events
 - Load more events
 - User action events
 
 #### `@stackla/widget-utils/embed`
+
 Utilities for embedding widgets into web pages.
 
 **Features:**
+
 - Support for v2 and v3 widgets
 - Environment configuration (staging/production)
 - Auto-detection of widget version
 - Shadow DOM support
 
 #### `@stackla/widget-utils/templates`
+
 Template utilities and pre-built templates.
 
 #### `@stackla/widget-utils/bundle`
+
 Bundled distribution for direct browser usage.
 
 ## 🔧 Configuration
@@ -207,24 +226,24 @@ Bundled distribution for direct browser usage.
 ```typescript
 interface WidgetSettings {
   features?: {
-    showTitle?: boolean;                    // Display widget title
-    preloadImages?: boolean;                // Preload images for performance
-    disableWidgetIfNotEnabled?: boolean;    // Auto-disable on config
-    addNewTilesAutomatically?: boolean;     // Auto-add new tiles
-    handleLoadMore?: boolean;               // Enable load more functionality
-    hideBrokenImages?: boolean;             // Hide broken image tiles
-    loadTileContent?: boolean;              // Load tile content dynamically
-    loadTimephrase?: boolean;               // Load time phrases
-  };
+    showTitle?: boolean // Display widget title
+    preloadImages?: boolean // Preload images for performance
+    disableWidgetIfNotEnabled?: boolean // Auto-disable on config
+    addNewTilesAutomatically?: boolean // Auto-add new tiles
+    handleLoadMore?: boolean // Enable load more functionality
+    hideBrokenImages?: boolean // Hide broken image tiles
+    loadTileContent?: boolean // Load tile content dynamically
+    loadTimephrase?: boolean // Load time phrases
+  }
   callbacks?: {
     // Custom callback functions
-  };
+  }
   templates?: {
     // Custom templates
-  };
+  }
   config?: {
     // Additional configuration
-  };
+  }
 }
 ```
 
@@ -233,50 +252,50 @@ interface WidgetSettings {
 ### Creating a Gallery Widget
 
 ```typescript
-import { loadWidget } from '@stackla/widget-utils';
-import { renderTilesWithTemplate } from '@stackla/widget-utils/handlebars';
+import { loadWidget } from "@stackla/widget-utils"
+import { renderTilesWithTemplate } from "@stackla/widget-utils/handlebars"
 
 const sdk = await loadWidget({
   features: {
     preloadImages: true,
     hideBrokenImages: true
   }
-});
+})
 
-const tiles = await sdk.getTiles();
+const tiles = await sdk.getTiles()
 const html = await renderTilesWithTemplate(tileTemplate, tiles, {
-  wid: 'your-widget-id'
-});
+  wid: "your-widget-id"
+})
 ```
 
 ### Using Swiper Extension
 
 ```typescript
-import { initSwiper } from '@stackla/widget-utils/extensions/swiper';
+import { initSwiper } from "@stackla/widget-utils/extensions/swiper"
 
-const swiper = initSwiper('.swiper-container', {
+const swiper = initSwiper(".swiper-container", {
   slidesPerView: 3,
   spaceBetween: 30,
   navigation: true,
   pagination: {
     clickable: true
   }
-});
+})
 ```
 
 ### Embedding a Widget
 
 ```typescript
-import { embed } from '@stackla/widget-utils/embed';
+import { embed } from "@stackla/widget-utils/embed"
 
 await embed({
-  widgetId: 'your-widget-id',
-  root: document.getElementById('widget-container'),
-  environment: 'production',
+  widgetId: "your-widget-id",
+  root: document.getElementById("widget-container"),
+  environment: "production",
   dataProperties: {
     // Custom data attributes
   }
-});
+})
 ```
 
 ## 🏗️ Project Structure
@@ -337,6 +356,7 @@ npm run typecheck
 ## 📝 Contributing
 
 Contributions are welcome! Please ensure your code:
+
 - Passes all tests (`npm test`)
 - Follows the linting rules (`npm run lint`)
 - Includes proper TypeScript types
