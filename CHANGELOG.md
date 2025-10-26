@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 4.1.3
+
+### Patch Changes
+
+- 3e258b7: Add definition for searchTilesByFilterId
+
 ## 4.1.2
 
 ### Patch Changes
