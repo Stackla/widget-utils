@@ -214,10 +214,8 @@ export function disableExpandedTileIfProductsMissing(
     .filter(productTag => productTag.availability_status == "InStock")
   const iconSection = tile.querySelector<HTMLElement>(".icon-lookup")
 
-  if (iconSection) {
-    if (!productTags || (productTags.length === 0 && shouldDisableInactiveTiles)) {
-      tile.classList.add("inactive")
-    }
+  if (iconSection && shouldDisableInactiveTiles && (!productTags || productTags.length === 0)) {
+    tile.classList.add("inactive")
   }
 }
 
