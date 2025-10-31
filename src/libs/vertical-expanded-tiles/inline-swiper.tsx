@@ -215,8 +215,8 @@ export function disableExpandedTileIfProductsMissing(
   const iconSection = tile.querySelector<HTMLElement>(".icon-lookup")
 
   if (iconSection) {
-    if (!productTags || productTags.length === 0) {
-      shouldDisableInactiveTiles && tile.classList.add("inactive")
+    if (!productTags || (productTags.length === 0 && shouldDisableInactiveTiles)) {
+      tile.classList.add("inactive")
     }
   }
 }
