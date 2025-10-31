@@ -1,12 +1,19 @@
 import { EventMapping, EventName } from "../../events"
 import { MyWidgetSettings } from "../loader"
-import { Sdk } from "../types"
-import { ClaimConfig, ExpandedTileOptions, InlineTileOptions, Style, WidgetOptions, WidgetResponse } from "../widgets"
+import {
+  ClaimConfig,
+  ExpandedTileOptions,
+  ExpandedTileVariant,
+  InlineTileOptions,
+  Style,
+  WidgetOptions,
+  WidgetResponse
+} from "../widgets"
 import { Content, Hotspot, Product, Tile } from "./tile"
 
 type HTMLResult = string | HTMLElement
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Template = (sdk: Sdk, component: any) => HTMLResult
+export type Template = (sdk: ISdk, component: any) => HTMLResult
 
 export interface ISdk {
   querySelector: <T extends Element = HTMLElement>(selector: string) => T | null | undefined
@@ -75,4 +82,9 @@ export interface ISdk {
   getExpandedTiles(): HTMLElement
   storeWidgetTemplateSettings: (settings: MyWidgetSettings) => void
   getWidgetTemplateSettings: () => MyWidgetSettings
+  searchTilesByTags(tags: string, clearExistingTiles: boolean): void
+  searchTilesByBrand(brand: string, clearExistingTiles: boolean): void
+  searchTilesByCategories(categories: string, clearExistingTiles: boolean): void
+  searchTilesByTagGroup(tagGroup: string, clearExistingTiles: boolean): void
+  getExpandedTileVariant: () => ExpandedTileVariant
 }

@@ -1,5 +1,6 @@
 import { callbackDefaults } from "./events"
 import { injectFontFaces } from "./fonts"
+import { loadVerticalExpandedTilesConfig } from "./libs/vertical-expanded-tiles/config"
 import { EnforcedWidgetSettings, ISdk } from "./types"
 import { loadTemplates } from "./widget-loader"
 
@@ -107,5 +108,14 @@ describe("loadTemplates", () => {
     expect(document.head.querySelector("style")?.innerHTML).toContain("font-weight: 400")
     expect(document.head.querySelector("style")?.innerHTML).toContain("font-style: normal")
     expect(document.head.querySelector("style")?.innerHTML).not.toContain("font-display")
+  })
+
+  it("should support expanded tiles config (vertical variant)", () => {
+    const config = loadVerticalExpandedTilesConfig({})
+    expect(config.templates).toHaveProperty("expanded-tiles")
+    expect(config.templates).toHaveProperty("ugc-product")
+    expect(config.templates).toHaveProperty("inline-products")
+    expect(config.templates).toHaveProperty("tile-content")
+    expect(config.config?.expandedTile?.swiper_options).toHaveProperty("direction", "vertical")
   })
 })
