@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 4.1.4
+
+### Patch Changes
+
+- 27fb122: Add expanded tile variant type
+
 ## 4.1.3
 
 ### Patch Changes
