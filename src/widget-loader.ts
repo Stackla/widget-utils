@@ -5,6 +5,7 @@ import { ISdk } from "./types"
 import { callbackDefaults, loadListeners } from "./events"
 import { EnforcedWidgetSettings, MyWidgetSettings } from "./types/loader"
 import { injectFontFaces } from "./fonts"
+import { loadVerticalExpandedTilesConfig } from "./libs/vertical-expanded-tiles/config"
 
 function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetSettings {
   return {
@@ -24,7 +25,11 @@ function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetS
       ...settings?.callbacks
     },
     templates: settings?.templates ?? {},
-    config: settings?.config ?? {}
+    config: settings?.config ?? {
+      expandedTile: {
+        expanded_tile_variant: "horizontal"
+      }
+    }
   }
 }
 
@@ -180,6 +185,11 @@ export function loadWidget(sdk: ISdk, settings?: MyWidgetSettings) {
   }
 
   const settingsWithDefaults = mergeSettingsWithDefaults(settings)
+
+  if (sdk.getExpandedTileVariant() === "vertical") {
+    loadVerticalExpandedTilesConfig(settings)
+    sdk.querySelector("expanded-tiles")?.setAttribute("data-variant", "vertical")
+  }
 
   sdk.storeWidgetTemplateSettings(settingsWithDefaults)
 

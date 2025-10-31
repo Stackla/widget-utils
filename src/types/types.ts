@@ -18,5 +18,3 @@ export type AnalyticsOptions = {
 export type Analytics = AnalyticsOptions & {
   track?: (event: string, data: Record<string, unknown>) => void
 }
-
-export type Sdk = ISdk

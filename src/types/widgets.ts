@@ -18,6 +18,8 @@ export type SharedWidgetOptions = {
   enabled: boolean
 }
 
+export type ExpandedTileVariant = "horizontal" | "vertical"
+
 export type UserConfig = {
   expandedTile: Partial<ExpandedTileOptions>
   inlineTile: Partial<InlineTileOptions>
@@ -97,6 +99,7 @@ export interface ExpandedTileOptions {
   show_add_to_cart: boolean
   show_carousel_grouping: boolean
   swiper_options?: SwiperOptions
+  expanded_tile_variant: ExpandedTileVariant
 }
 
 export interface ProductsOptions {
