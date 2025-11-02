@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 4.1.5
+
+### Patch Changes
+
+- 5932a97: Fixup minor bug where config was not being mutated correctly
+
 ## 4.1.4
 
 ### Patch Changes
