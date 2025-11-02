@@ -188,7 +188,7 @@ export function loadWidget(sdk: ISdk, settings?: MyWidgetSettings) {
 
   if (sdk.getExpandedTileVariant() === "vertical") {
     loadVerticalExpandedTilesConfig(settingsWithDefaults)
-    sdk.querySelector("expanded-tiles")?.setAttribute("data-variant", "vertical")
+    sdk.querySelector("expanded-tiles")?.setAttribute("variation", "vertical")
   }
 
   sdk.storeWidgetTemplateSettings(settingsWithDefaults)
