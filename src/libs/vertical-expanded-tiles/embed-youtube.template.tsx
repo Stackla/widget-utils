@@ -29,15 +29,16 @@ export function EmbedYoutube({ tileId, videoId, onLoad, swiperId }: EmbedYoutube
     }
 
     // The JSX `ref` callback fires synchronously during element creation,
-    // before the caller appends the node. Wait until the host is in the DOM
-    // because YT.Player requires it (it calls document.getElementById).
-    const observer = new MutationObserver(() => {
+    // before the caller appends the node. The host is attached inside the
+    // widget's Shadow DOM, so MutationObserver on document.body never fires
+    // for that insertion. setTimeout(0) is a macrotask that runs after the
+    // pending microtasks (the await + replaceChildren in StaticComponent.render)
+    // have completed, at which point host.isConnected is already true.
+    setTimeout(() => {
       if (host.isConnected) {
-        observer.disconnect()
         void start()
       }
-    })
-    observer.observe(document.body, { childList: true, subtree: true })
+    }, 0)
   }
 
   return (
@@ -47,7 +48,7 @@ export function EmbedYoutube({ tileId, videoId, onLoad, swiperId }: EmbedYoutube
       data-video-id={videoId}
       data-swiper-id={swiperId}
       class="video-content yt-player-host"
-      title="YouTube video player"
+      title="YouTube video player909"
       aria-label="YouTube video player"
       ref={scheduleMount}
     />
