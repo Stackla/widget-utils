@@ -4,19 +4,7 @@ import { getInstance, getSwiperContainer, LookupAttr } from "../extensions"
 import { ISdk } from "../../"
 import { playTiktokVideo, muteTiktokVideo, pauseTiktokVideo } from "./tiktok-message"
 
-type YoutubeContentWindow = Window & {
-  play: () => void
-  pause: () => void
-  reset: () => void
-  mute: () => void
-  unMute: () => void
-}
-
-export type YoutubeIframeElementType = HTMLIFrameElement & {
-  contentWindow: YoutubeContentWindow
-}
-
-type SwiperVideoElementType = Window | YoutubeContentWindow | HTMLVideoElement
+type SwiperVideoElementType = Window | HTMLElement
 
 type VideoSource = "video" | "youtube" | "tiktok"
 
@@ -169,9 +157,9 @@ export function getSwiperVideoElement(
   }
 
   if (youtubeId) {
-    const youtubeFrame = element?.querySelector<YoutubeIframeElementType>(`iframe#yt-frame-${tileId}-${youtubeId}`)
-    if (youtubeFrame) {
-      return { element: youtubeFrame.contentWindow, source: "youtube" }
+    const youtubeHost = element?.querySelector<HTMLElement>(`[id="yt-frame-${tileId}-${youtubeId}"]`)
+    if (youtubeHost) {
+      return { element: youtubeHost, source: "youtube" }
     }
   }
 
@@ -207,16 +195,27 @@ export function setupYoutubeEvents(sdk: ISdk, tile: Element, widgetSelector: HTM
   const tileId = tile.getAttribute("data-id")
   const youtubeId = tile.getAttribute("data-yt-id")
 
-  if (youtubeId && tileId) {
-    const youtubeFrame = tile.querySelector<HTMLIFrameElement>(`iframe#yt-frame-${tileId}-${youtubeId}`)
-    youtubeFrame?.addEventListener("load", () => {
-      playActiveMediaTileOnLoad(sdk, tile, widgetSelector, { name: "data-yt-id", value: youtubeId })
-    })
-    youtubeFrame?.addEventListener("yt-video-error", () => {
-      youtubeFrame.closest(".video-content-wrapper")?.classList.add("hidden")
-      tile.querySelector(".video-fallback-content")?.classList.remove("hidden")
-    })
-  }
+  if (!youtubeId || !tileId) return
+
+  // The host starts as a <div> rendered by EmbedYoutube; YT.Player replaces
+  // it with an <iframe> on mount and we restore the same id on the new
+  // iframe in mountYoutubePlayer. Listen at the tile level via delegation
+  // so we don't need to know which element exists when, and so the synthetic
+  // "load" + "yt-video-error" events (both dispatched with bubbles: true
+  // by mountYoutubePlayer) reach us regardless of mount timing.
+  const expectedHostId = `yt-frame-${tileId}-${youtubeId}`
+  const matchesHost = (target: EventTarget | null) => target instanceof Element && target.id === expectedHostId
+
+  tile.addEventListener("load", event => {
+    if (!matchesHost(event.target)) return
+    playActiveMediaTileOnLoad(sdk, tile, widgetSelector, { name: "data-yt-id", value: youtubeId })
+  })
+  tile.addEventListener("yt-video-error", event => {
+    if (!matchesHost(event.target)) return
+    const target = event.target as Element
+    target.closest(".video-content-wrapper")?.classList.add("hidden")
+    tile.querySelector(".video-fallback-content")?.classList.remove("hidden")
+  })
 }
 
 /**

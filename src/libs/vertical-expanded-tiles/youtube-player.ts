@@ -1,0 +1,108 @@
+import { whenYTReady, type YTPlayerInstance } from "./youtube-api-loader"
+
+export interface YoutubePlayerHandle {
+  play(): void
+  pause(): void
+  mute(): void
+  unMute(): void
+  destroy(): void
+}
+
+export interface MountYoutubePlayerParams {
+  host: HTMLElement
+  tileId: string
+  videoId: string
+  swiperId: string
+}
+
+export async function mountYoutubePlayer(params: MountYoutubePlayerParams): Promise<YoutubePlayerHandle> {
+  const { host, videoId, swiperId } = params
+  const hostId = host.id
+  const hostClassName = host.className
+
+  // Defensive against re-mounts on the same host id (e.g. EmbedYoutube
+  // re-rendering for the same tile). Tear down the prior handle first.
+  const existing = window.ugc.youtubePlayers?.[hostId]
+  if (existing) existing.destroy()
+
+  const YT = await whenYTReady()
+
+  return new Promise<YoutubePlayerHandle>((resolve, reject) => {
+    let observer: IntersectionObserver | undefined
+    let destroyed = false
+    let player: YTPlayerInstance
+
+    const onReady = () => {
+      // YT.Player replaces the host div with a new iframe and does not copy
+      // the host's id/class. Restore them so existing selectors keep working
+      // and event delegation can match the right tile.
+      const iframe = player.getIframe()
+      iframe.id = hostId
+      iframe.className = hostClassName
+      iframe.dispatchEvent(new Event("load", { bubbles: true }))
+
+      observer = createVisibilityObserver(iframe)
+      const handle: YoutubePlayerHandle = {
+        play: () => player.playVideo(),
+        pause: () => player.pauseVideo(),
+        mute: () => player.mute(),
+        unMute: () => player.unMute(),
+        destroy: () => {
+          if (destroyed) return
+          destroyed = true
+          observer?.disconnect()
+          if (window.ugc.youtubePlayers?.[hostId] === handle) {
+            delete window.ugc.youtubePlayers[hostId]
+          }
+          player.destroy()
+        }
+      }
+      window.ugc.youtubePlayers ??= {}
+      window.ugc.youtubePlayers[hostId] = handle
+      resolve(handle)
+    }
+
+    const onStateChange = (event: { data: number }) => {
+      const swiperInstance = window.ugc.swiperContainer?.[swiperId]?.instance
+      swiperInstance?.autoplay?.stop()
+      if (event.data === YT.PlayerState.ENDED) {
+        swiperInstance?.autoplay?.start()
+        swiperInstance?.slideNext()
+      }
+    }
+
+    const onError = (event: { data: number }) => {
+      player.getIframe().dispatchEvent(new CustomEvent("yt-video-error", { detail: event, bubbles: true }))
+    }
+
+    const createVisibilityObserver = (target: HTMLIFrameElement) => {
+      const obs = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              player.playVideo()
+            } else {
+              player.pauseVideo()
+              window.ugc.swiperContainer?.[swiperId]?.instance?.autoplay?.start()
+            }
+          })
+        },
+        { threshold: 0.5 }
+      )
+      obs.observe(target)
+      return obs
+    }
+
+    try {
+      player = new YT.Player(host, {
+        width: "100%",
+        height: "100%",
+        videoId,
+        playerVars: { autoplay: 0, controls: 1, rel: 0, playsinline: 1 },
+        events: { onReady, onStateChange, onError }
+      })
+    } catch (error) {
+      reject(error instanceof Error ? error : new Error(String(error)))
+    }
+  })
+}

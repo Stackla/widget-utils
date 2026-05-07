@@ -1,4 +1,5 @@
 import { createElement } from "../../"
+import { mountYoutubePlayer } from "./youtube-player"
 
 export type EmbedYoutubeProps = {
   tileId: string
@@ -8,129 +9,47 @@ export type EmbedYoutubeProps = {
 }
 
 export function EmbedYoutube({ tileId, videoId, onLoad, swiperId }: EmbedYoutubeProps) {
-  const contentElement = loadYoutubeIframeContent(tileId, videoId, swiperId)
+  const hostId = `yt-frame-${tileId}-${videoId}`
+
+  const scheduleMount = (host: HTMLElement) => {
+    const start = async () => {
+      try {
+        await mountYoutubePlayer({ host, tileId, videoId, swiperId })
+        const event = new Event("load")
+        host.dispatchEvent(event)
+        onLoad?.(event)
+      } catch (error) {
+        console.error("Failed to mount YouTube player", error)
+      }
+    }
+
+    if (host.isConnected) {
+      void start()
+      return
+    }
+
+    // The JSX `ref` callback fires synchronously during element creation,
+    // before the caller appends the node. Wait until the host is in the DOM
+    // because YT.Player requires it (it calls document.getElementById).
+    const observer = new MutationObserver(() => {
+      if (host.isConnected) {
+        observer.disconnect()
+        void start()
+      }
+    })
+    observer.observe(document.body, { childList: true, subtree: true })
+  }
 
   return (
-    <iframe
-      id={`yt-frame-${tileId}-${videoId}`}
-      tileid={tileId}
-      class="video-content"
-      frameborder="0"
-      onload={onLoad}
+    <div
+      id={hostId}
+      data-tile-id={tileId}
+      data-video-id={videoId}
+      data-swiper-id={swiperId}
+      class="video-content yt-player-host"
       title="YouTube video player"
       aria-label="YouTube video player"
-      srcdoc={contentElement.innerHTML}></iframe>
+      ref={scheduleMount}
+    />
   )
-}
-
-function loadYoutubeIframeContent(tileId: string, videoId: string, swiperId: string) {
-  const scriptId = `yt-script-${tileId}-${videoId}`
-  const playerId = `yt-player-${tileId}-${videoId}`
-  const frameId = `yt-frame-${tileId}-${videoId}`
-  return (
-    <html>
-      <head>
-        <script id={scriptId} src="https://www.youtube.com/iframe_api"></script>
-        <script>{loadYoutubePlayerAPI(playerId, videoId, swiperId, frameId)}</script>
-        <style>{`
-          body {
-            margin: 0;
-            height: 100dvh;
-            scrollbar-width: none;
-            overflow: hidden;
-            iframe {
-              height: 100dvh;
-              width: 100%;
-              overflow: hidden;
-              scrollbar-width: none;
-            }
-          }
-        `}</style>
-      </head>
-      <body>
-        <div id={playerId}></div>
-      </body>
-    </html>
-  )
-}
-
-export function loadYoutubePlayerAPI(playerId: string, videoId: string, swiperId: string, frameId: string) {
-  return `
-  let player;
-  debugger;
-  function getSwiperInstance() {
-    debugger;
-    return parent.window.ugc.swiperContainer?.["${swiperId}"]?.instance;
-  }
-
-  function onPlayerStateChange(event) {
-    debugger;
-    getSwiperInstance()?.autoplay?.stop();
-    if (event.data === YT.PlayerState.ENDED) {
-      getSwiperInstance()?.autoplay?.start();
-      getSwiperInstance()?.slideNext();
-    }
-  }
-
-  function loadPlayer(playDefault = false) {
-    debugger;
-    player = new YT.Player("${playerId}", {
-      width: "100%",
-      height: "100%",
-      videoId: "${videoId}",
-      playerVars: {
-        autoplay: 0,
-        controls: 1,
-        rel: 0,
-        playsinline: 1,
-      },
-      events: {
-        onReady: playDefault ? play : pause,
-        onStateChange: onPlayerStateChange,
-        onError: errorHandler
-      }
-    });
-  }
-
-  function errorHandler(e) {
-    debugger;
-    player?.getIframe().dispatchEvent(new CustomEvent("yt-video-error", { detail: e }));
-  }
-
-  function pause() {
-    if (player && player.pauseVideo) {
-      player.pauseVideo();
-    }
-  }
-
-  function play() {
-    if (player && player.playVideo) {
-      player.playVideo();
-    }
-  }
-
-  function observeVisibility() {
-    const outerIframe = parent.document.getElementById("${frameId}");
-    if (!outerIframe) return;
-
-    const observer = new parent.IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          play();
-        } else {
-          pause();
-          getSwiperInstance()?.autoplay?.start();
-        }
-      });
-    }, { threshold: 0.5 });
-
-    observer.observe(outerIframe);
-  }
-
-  window.onYouTubeIframeAPIReady = () => {
-    loadPlayer(false);
-    observeVisibility();
-  };
-  //# sourceURL=youtube-iframe.js
-  `
 }
