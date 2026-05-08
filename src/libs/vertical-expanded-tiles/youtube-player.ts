@@ -3,6 +3,7 @@ import { whenYTReady, type YTPlayerInstance } from "./youtube-api-loader"
 export interface YoutubePlayerHandle {
   play(): void
   pause(): void
+  isPaused(): boolean
   mute(): void
   unMute(): void
   destroy(): void
@@ -45,6 +46,7 @@ export async function mountYoutubePlayer(params: MountYoutubePlayerParams): Prom
       const handle: YoutubePlayerHandle = {
         play: () => player.playVideo(),
         pause: () => player.pauseVideo(),
+        isPaused: () => player.getPlayerState() === YT.PlayerState.PAUSED,
         mute: () => player.mute(),
         unMute: () => player.unMute(),
         destroy: () => {
@@ -65,9 +67,24 @@ export async function mountYoutubePlayer(params: MountYoutubePlayerParams): Prom
     const onStateChange = (event: { data: number }) => {
       const swiperInstance = window.ugc.swiperContainer?.[swiperId]?.instance
       swiperInstance?.autoplay?.stop()
-      if (event.data === YT.PlayerState.ENDED) {
-        swiperInstance?.autoplay?.start()
-        swiperInstance?.slideNext()
+
+      const tile = player.getIframe().closest(".ugc-tile")
+      const pauseButton = tile?.querySelector(".pause-video")
+      const playButton = tile?.querySelector(".play-video")
+
+      switch (event.data) {
+        case YT.PlayerState.PLAYING:
+          pauseButton?.classList.remove("hidden")
+          playButton?.classList.add("hidden")
+          break
+        case YT.PlayerState.PAUSED:
+          pauseButton?.classList.add("hidden")
+          playButton?.classList.remove("hidden")
+          break
+        case YT.PlayerState.ENDED:
+          swiperInstance?.autoplay?.start()
+          swiperInstance?.slideNext()
+          break
       }
     }
 
@@ -98,7 +115,7 @@ export async function mountYoutubePlayer(params: MountYoutubePlayerParams): Prom
         width: "100%",
         height: "100%",
         videoId,
-        playerVars: { autoplay: 1, mute: 1, controls: 1, rel: 0, playsinline: 1 },
+        playerVars: { autoplay: 1, controls: 1, rel: 0, playsinline: 1 },
         events: { onReady, onStateChange, onError }
       })
     } catch (error) {

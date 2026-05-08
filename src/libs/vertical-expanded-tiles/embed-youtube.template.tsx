@@ -48,7 +48,7 @@ export function EmbedYoutube({ tileId, videoId, onLoad, swiperId }: EmbedYoutube
       data-video-id={videoId}
       data-swiper-id={swiperId}
       class="video-content yt-player-host"
-      title="YouTube video player909"
+      title="YouTube video player"
       aria-label="YouTube video player"
       ref={scheduleMount}
     />

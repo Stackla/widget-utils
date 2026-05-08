@@ -5,6 +5,7 @@ export interface YTPlayerInstance {
   unMute(): void
   destroy(): void
   getIframe(): HTMLIFrameElement
+  getPlayerState(): number
 }
 
 export interface YTPlayerOptions {

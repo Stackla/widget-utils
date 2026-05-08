@@ -1,5 +1,5 @@
-import { ISdk, Tile } from "../../types"
-import { createElement, createFragment } from "../jsx-html"
+import { ISdk, Tile } from "@app/types"
+import { createElement, createFragment } from "@app/libs"
 import { VideoContainer, VideoErrorFallbackTemplate } from "./video.templates"
 
 export type ExpandedTileProps = {
@@ -22,12 +22,27 @@ export type ContentWrapperProps = {
 
 export async function togglePlayPause(sdk: ISdk) {
   const expandedTiles = sdk.getExpandedTiles()
+  const tile = sdk.getTile()
   const activeSlide = expandedTiles.querySelector(".ugc-tile.swiper-slide-active")
-  const video = activeSlide?.querySelector<HTMLVideoElement>("video")
   const pauseButton = activeSlide?.querySelector(".pause-video")
   const playButton = activeSlide?.querySelector(".play-video")
 
-  if (video?.paused) {
+  let paused
+  let video
+  if (tile?.source === "youtube") {
+    const iframe = activeSlide?.querySelector<HTMLIFrameElement>("iframe")
+    video = iframe?.id ? window.ugc.youtubePlayers?.[iframe.id] : undefined
+    paused = video?.isPaused()
+  } else {
+    video = activeSlide?.querySelector<HTMLVideoElement>("video")
+    paused = video?.paused
+  }
+  if (!video) {
+    console.warn("Can't find the video element")
+    return
+  }
+
+  if (paused) {
     void video?.play()
     pauseButton?.classList.remove("hidden")
     playButton?.classList.add("hidden")
@@ -43,8 +58,8 @@ export function StoryControls({ video, sdk }: { video: boolean; sdk: ISdk }) {
     <div class="story-controls">
       {video ? (
         <>
-          <a class="icon-story-video-pause pause-video" onClick={() => togglePlayPause(sdk)} />
-          <a class="icon-story-video-play play-video hidden" onClick={() => togglePlayPause(sdk)} />
+          <a class="icon-story-video-pause pause-video hidden" onClick={() => togglePlayPause(sdk)} />
+          <a class="icon-story-video-play play-video " onClick={() => togglePlayPause(sdk)} />
         </>
       ) : (
         <></>

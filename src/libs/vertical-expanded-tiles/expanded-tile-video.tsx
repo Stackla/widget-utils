@@ -1,4 +1,4 @@
-import { type SwiperType } from "../../types"
+import { type SwiperType } from "@app/types"
 import { getSwiperSlideById, getTileIdFromSlide, isActiveTile } from "./expanded-swiper.loader"
 import { getInstance, getSwiperContainer, LookupAttr } from "../extensions"
 import { ISdk } from "../../"
@@ -28,6 +28,7 @@ export async function playMediaOnLoad(sdk: ISdk) {
 
 /**
  * Play/Pause the video/audio attached to the slide on navigation where the element is a media element (video/youtube/tiktok)
+ * @param sdk
  * @param { Swiper } swiper - the swiper element
  */
 export async function controlVideoPlayback(sdk: ISdk, swiper: SwiperType) {
@@ -50,6 +51,7 @@ export async function controlVideoPlayback(sdk: ISdk, swiper: SwiperType) {
 /**
  * Trigger media play for different media element sources ("video", "youtube", "tiktok")
  *
+ * @param sdk
  * @param elementData - the media container element and the source
  * @param elementData.element - the container element of the media (video tag or iframe.contentWindow)
  * @param elementData.source - the media source (video for custom video source, youtube/tiktok)
@@ -66,11 +68,7 @@ export function triggerPlay(sdk: ISdk, elementData?: SwiperVideoElementData) {
     case "video": {
       const videoElement = elementData.element as HTMLVideoElement
       void videoElement.play()
-      if (getSwiperContainer(sdk, swiperExpandedId)?.muted) {
-        videoElement.muted = true
-      } else {
-        videoElement.muted = false
-      }
+      videoElement.muted = !!getSwiperContainer(sdk, swiperExpandedId)?.muted
       break
     }
     case "tiktok": {
@@ -80,7 +78,9 @@ export function triggerPlay(sdk: ISdk, elementData?: SwiperVideoElementData) {
       break
     }
     case "youtube": {
-      return
+      const host = elementData.element as HTMLElement
+      window.ugc.youtubePlayers?.[host.id]?.play()
+      break
     }
     default:
       throw new Error(`unsupported video source ${elementData.source}`)
@@ -111,7 +111,9 @@ export function triggerPause(elementData?: SwiperVideoElementData) {
       break
     }
     case "youtube": {
-      return
+      const host = elementData.element as HTMLElement
+      window.ugc.youtubePlayers?.[host.id]?.pause()
+      break
     }
     default:
       throw new Error(`unsupported video source ${elementData.source}`)
@@ -121,6 +123,7 @@ export function triggerPause(elementData?: SwiperVideoElementData) {
 /**
  * Get swiper video/audio element at the provided index.
  *
+ * @param sdk
  * @param { Swiper } swiper - the swiper element
  * @param { number } index - index of the slide to be returned
  * @param { number } isStory - if it is story widget
@@ -188,6 +191,7 @@ export function getSwiperVideoElement(
 /**
  * Setup onload and onerror (yt-video-error) events for youtube media
  *
+ * @param sdk
  * @param { Element } tile - the tile element
  * @param { HTMLElement } widgetSelector - the container of swiper element
  */
@@ -246,6 +250,7 @@ export function setupTikTokPlayerReadyEvent(sdk: ISdk) {
 /**
  * Play media associated with currently active tile
  *
+ * @param sdk
  * @param { Element } tile - tile element to check
  * @param { HTMLElement } widgetSelector - the container of the swiper element
  * @param { LookupAttr } lookupAttr - additional attribute lookup options for finding the first slide to load
@@ -266,6 +271,7 @@ export function playActiveMediaTileOnLoad(
 /**
  * Setup onload and onerror events for custom video source
  *
+ * @param sdk
  * @param { Element } tile - the tile element
  * @param { HTMLElement } widgetSelector - the container of swiper element
  */
