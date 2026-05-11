@@ -92,7 +92,7 @@
     "stylelint": "stylelint **/*.scss",
     "lint": "npm run eslint && npm run stylelint",
     "lint:fix": "npm run eslint -- --fix && npm run stylelint -- --fix",
-    "new-change": "changeset",
+    "new-change": "changeset add && git add .changeset/",
     "presnapshot": "npm run new-change",
     "snapshot": "npx changeset version --snapshot",
     "postsnapshot": "npm publish --no-git-checks --tag snapshot"

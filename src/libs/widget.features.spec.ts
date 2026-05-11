@@ -1,6 +1,7 @@
 import { getNextNavigatedTile } from "./widget.features"
+import { Tile } from "@app/types"
 
-const tiles = [
+const tiles: Partial<Tile>[] = [
   {
     id: "1",
     youtube_id: "youtube_id_1",
@@ -35,8 +36,7 @@ describe("Test Tile Features to ensure that expanded tiles function as expected"
     const direction = "next"
     const nextTile = tiles[1]
 
-    // @ts-expect-error Partial tile data
-    const result = getNextNavigatedTile(currentTile, tilesAsHTML, direction)
+    const result = getNextNavigatedTile(currentTile.id!, tilesAsHTML, direction)
 
     expect(result).toEqual(nextTile.id)
   })
