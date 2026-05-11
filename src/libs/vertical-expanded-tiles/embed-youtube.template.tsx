@@ -57,14 +57,12 @@ function loadYoutubeIframeContent(tileId: string, videoId: string, swiperId: str
 export function loadYoutubePlayerAPI(playerId: string, videoId: string, swiperId: string, frameId: string) {
   return `
   let player;
-  debugger;
+
   function getSwiperInstance() {
-    debugger;
     return parent.window.ugc.swiperContainer?.["${swiperId}"]?.instance;
   }
 
   function onPlayerStateChange(event) {
-    debugger;
     getSwiperInstance()?.autoplay?.stop();
     if (event.data === YT.PlayerState.ENDED) {
       getSwiperInstance()?.autoplay?.start();
@@ -73,7 +71,6 @@ export function loadYoutubePlayerAPI(playerId: string, videoId: string, swiperId
   }
 
   function loadPlayer(playDefault = false) {
-    debugger;
     player = new YT.Player("${playerId}", {
       width: "100%",
       height: "100%",
@@ -93,7 +90,6 @@ export function loadYoutubePlayerAPI(playerId: string, videoId: string, swiperId
   }
 
   function errorHandler(e) {
-    debugger;
     player?.getIframe().dispatchEvent(new CustomEvent("yt-video-error", { detail: e }));
   }
 
@@ -131,6 +127,5 @@ export function loadYoutubePlayerAPI(playerId: string, videoId: string, swiperId
     loadPlayer(false);
     observeVisibility();
   };
-  //# sourceURL=youtube-iframe.js
   `
 }
