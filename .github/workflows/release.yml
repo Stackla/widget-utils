@@ -18,6 +18,7 @@ on:
         default: staging
 
 env:
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
   NODE_AUTH_TOKEN: ${{ secrets.STACKLA_BOT_GITHUB_TOKEN }}
 
 jobs:
