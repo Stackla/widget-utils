@@ -48,12 +48,16 @@ export function UgcVideoTemplate({
   tile,
   onLoad,
   swiperId,
-  controls = true
+  controls = true,
+  autoPlay = false,
+  muted = true
 }: {
   tile: Tile
   onLoad: OnLoad
   swiperId: string
   controls?: boolean
+  autoPlay?: boolean
+  muted?: boolean
 }) {
   const videoData = getVideoData(tile)
   if (!videoData) {
@@ -67,7 +71,8 @@ export function UgcVideoTemplate({
       style={{
         visibility: "hidden"
       }}
-      muted={true}
+      muted={muted}
+      autoplay={autoPlay}
       tileid={tile.id}
       class="video-content lazy"
       controls={controls}
@@ -79,7 +84,7 @@ export function UgcVideoTemplate({
       oncanplay={(event: Event) => {
         handlePauseAutoplay(swiperId)
         const videoElement = event.target as HTMLVideoElement
-        videoElement.muted = true
+        videoElement.muted = muted
         videoElement.controls = controls
         onLoad(event)
       }}
@@ -155,28 +160,59 @@ export function SourceVideoContent({
   tile,
   onLoad,
   swiperId,
-  controls
+  controls,
+  autoPlay,
+  muted
 }: {
   tile: Tile
   onLoad: OnLoad
   swiperId: string
   controls?: boolean
+  autoPlay?: boolean
+  muted?: boolean
 }) {
   // handle unplayable tiktok source
-  // TODO handle vide_source "tiktok"
+  // TODO handle video_source "tiktok"
   if (tile.source === "tiktok" || tile.video_source === "tiktok") {
     return <TikTokTemplate tile={tile} onLoad={onLoad} />
   }
 
   if (tile.source === "youtube" && tile.youtube_id) {
-    return <EmbedYoutube tileId={tile.id} videoId={tile.youtube_id} onLoad={onLoad} swiperId={swiperId} />
+    return (
+      <EmbedYoutube
+        tileId={tile.id}
+        videoId={tile.youtube_id}
+        onLoad={onLoad}
+        swiperId={swiperId}
+        autoPlay={autoPlay}
+        muted={muted}
+      />
+    )
   }
 
   if (tile.video_files?.length || (tile.video && tile.video.standard_resolution)) {
-    return <UgcVideoTemplate controls={controls} tile={tile} onLoad={onLoad} swiperId={swiperId} />
+    return (
+      <UgcVideoTemplate
+        controls={controls}
+        autoPlay={autoPlay}
+        muted={muted}
+        tile={tile}
+        onLoad={onLoad}
+        swiperId={swiperId}
+      />
+    )
   }
 
-  return <UgcVideoTemplate controls={controls} tile={tile} onLoad={onLoad} swiperId={swiperId} />
+  return (
+    <UgcVideoTemplate
+      controls={controls}
+      autoPlay={autoPlay}
+      muted={muted}
+      tile={tile}
+      onLoad={onLoad}
+      swiperId={swiperId}
+    />
+  )
 }
 
 export function VideoContainer({
@@ -190,6 +226,8 @@ export function VideoContainer({
   sdk: ISdk
   controls?: boolean
 }) {
+  const { auto_play_video, video_mute } = sdk.getExpandedTileConfig()
+
   return (
     <div class="video-content-wrapper">
       <div class="center-section">
@@ -225,6 +263,8 @@ export function VideoContainer({
         }}
         tile={tile}
         controls={controls}
+        autoPlay={auto_play_video}
+        muted={video_mute}
       />
     </div>
   )

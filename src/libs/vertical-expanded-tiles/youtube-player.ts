@@ -14,10 +14,12 @@ export interface MountYoutubePlayerParams {
   tileId: string
   videoId: string
   swiperId: string
+  autoPlay?: boolean
+  muted?: boolean
 }
 
 export async function mountYoutubePlayer(params: MountYoutubePlayerParams): Promise<YoutubePlayerHandle> {
-  const { host, videoId, swiperId } = params
+  const { host, videoId, swiperId, autoPlay = true, muted = false } = params
   const hostId = host.id
   const hostClassName = host.className
 
@@ -42,7 +44,8 @@ export async function mountYoutubePlayer(params: MountYoutubePlayerParams): Prom
       iframe.className = hostClassName
       iframe.dispatchEvent(new Event("load", { bubbles: true }))
 
-      observer = createVisibilityObserver(iframe)
+      if (muted) player.mute()
+      if (autoPlay) observer = createVisibilityObserver(iframe)
       const handle: YoutubePlayerHandle = {
         play: () => player.playVideo(),
         pause: () => player.pauseVideo(),
@@ -59,6 +62,7 @@ export async function mountYoutubePlayer(params: MountYoutubePlayerParams): Prom
           player.destroy()
         }
       }
+      if (!autoPlay) handle.pause()
       window.ugc.youtubePlayers ??= {}
       window.ugc.youtubePlayers[hostId] = handle
       resolve(handle)
@@ -115,7 +119,7 @@ export async function mountYoutubePlayer(params: MountYoutubePlayerParams): Prom
         width: "100%",
         height: "100%",
         videoId,
-        playerVars: { autoplay: 1, controls: 1, rel: 0, playsinline: 1 },
+        playerVars: { autoplay: autoPlay ? 1 : 0, controls: 1, rel: 0, playsinline: 1 },
         events: { onReady, onStateChange, onError }
       })
     } catch (error) {

@@ -54,12 +54,20 @@ export async function togglePlayPause(sdk: ISdk) {
 }
 
 export function StoryControls({ video, sdk }: { video: boolean; sdk: ISdk }) {
+  const { auto_play_video } = sdk.getExpandedTileConfig()
+
   return (
     <div class="story-controls">
       {video ? (
         <>
-          <a class="icon-story-video-pause pause-video hidden" onClick={() => togglePlayPause(sdk)} />
-          <a class="icon-story-video-play play-video " onClick={() => togglePlayPause(sdk)} />
+          <a
+            class={`icon-story-video-pause pause-video${auto_play_video ? "" : " hidden"}`}
+            onClick={() => togglePlayPause(sdk)}
+          />
+          <a
+            class={`icon-story-video-play play-video${auto_play_video ? " hidden" : ""}`}
+            onClick={() => togglePlayPause(sdk)}
+          />
         </>
       ) : (
         <></>

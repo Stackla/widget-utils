@@ -6,15 +6,17 @@ export type EmbedYoutubeProps = {
   videoId: string
   onLoad?: (event: Event) => void
   swiperId: string
+  autoPlay?: boolean
+  muted?: boolean
 }
 
-export function EmbedYoutube({ tileId, videoId, onLoad, swiperId }: EmbedYoutubeProps) {
+export function EmbedYoutube({ tileId, videoId, onLoad, swiperId, autoPlay, muted }: EmbedYoutubeProps) {
   const hostId = `yt-frame-${tileId}-${videoId}`
 
   const scheduleMount = (host: HTMLElement) => {
     const start = async () => {
       try {
-        await mountYoutubePlayer({ host, tileId, videoId, swiperId })
+        await mountYoutubePlayer({ host, tileId, videoId, swiperId, autoPlay, muted })
         const event = new Event("load")
         host.dispatchEvent(event)
         onLoad?.(event)
