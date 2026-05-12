@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
         with:
           token: ${{ secrets.STACKLA_BOT_TOKEN }}
       - uses: actions/setup-node@v6
@@ -36,7 +36,7 @@ jobs:
           node-version: '24'
           package-manager-cache: false
       - name: Install
-        run: npm ci
+        run: npm install
       - uses: ./.github/workflows/aws
         with:
           aws-region: ${{ vars.AWS_REGION }}
