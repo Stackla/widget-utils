@@ -29,6 +29,8 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.STACKLA_BOT_TOKEN }}
       - uses: actions/setup-node@v1
         with:
           node-version: 23.6.0
@@ -39,7 +41,6 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
       - name: Build & Release
         run: |
-          gh auth setup-git
           npx changeset version
           git config user.name "$(gh api user --jq '.name // .login')"
           git config user.email "$(gh api user --jq '"\(.id)+\(.login)@users.noreply.github.com"')"
