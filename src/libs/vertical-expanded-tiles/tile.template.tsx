@@ -1,5 +1,5 @@
 import { ISdk, Tile } from "@app/types"
-import { createElement, createFragment } from "@app/libs"
+import { createElement, createFragment } from "../jsx-html"
 import { VideoContainer, VideoErrorFallbackTemplate } from "./video.templates"
 
 export type ExpandedTileProps = {
