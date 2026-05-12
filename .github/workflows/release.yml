@@ -39,16 +39,16 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
       - name: Build & Release
         run: |
-          npm run build
+          echo "${{ secrets.STACKLA_BOT_TOKEN }}" | gh auth login --with-token
+          gh auth setup-git
           npx changeset version
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "$(gh api user --jq '.name')"
+          git config user.email "$(gh api user --jq '"\(.id)+\(.login)@users.noreply.github.com"')"
           git add .
           git commit -m "chore: release [skip ci]" || true
-          git push "https://x-access-token:${{ secrets.STACKLA_BOT_TOKEN }}@github.com/Stackla/widget-utils.git" master
+          git push origin master
           npm publish --access public
           npm publish --registry=https://npm.pkg.github.com/
         env:
-          GITHUB_TOKEN: ${{ secrets.STACKLA_BOT_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.STACKLA_BOT_GITHUB_TOKEN }}
