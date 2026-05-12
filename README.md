@@ -1,6 +1,6 @@
 # @stackla/widget-utils
 
-> 🎨 A comprehensive TypeScript utility library for building powerful User-Generated Content (UGC) widgets.
+> 🎨 A comprehensive TypeScript utility library for building powerful User-Generated Content (UGC) widgets
 
 [![npm version](https://img.shields.io/npm/v/@stackla/widget-utils.svg)](https://www.npmjs.com/package/@stackla/widget-utils)
 
