@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 4.1.6
+
+### Patch Changes
+
+- d3d77df: fix: fix YouTube player race condition, visibility detection, and deprecated API usage
+
 ## 4.1.5
 
 ### Patch Changes
