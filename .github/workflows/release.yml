@@ -40,16 +40,15 @@ jobs:
       - name: Build & Release
         run: |
           npm run build
-          aws s3 sync dist/ s3://ugc-nextgen-widgets-ap-southeast-2/templates/utils/${{ inputs.environment }}/ --delete
           npx changeset version
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "chore: release [skip ci]" || true
-          git push "https://x-access-token:${{ secrets.STACKLA_BOT_GITHUB_TOKEN }}@github.com/Stackla/widget-utils.git" master
+          git push "https://x-access-token:${{ secrets.STACKLA_BOT_TOKEN }}@github.com/Stackla/widget-utils.git" master
           npm publish --access public
           npm publish --registry=https://npm.pkg.github.com/
         env:
-          GITHUB_TOKEN: ${{ secrets.STACKLA_BOT_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.STACKLA_BOT_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.STACKLA_BOT_GITHUB_TOKEN }}
