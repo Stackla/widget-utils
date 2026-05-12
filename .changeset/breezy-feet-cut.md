@@ -1,5 +1,5 @@
 ---
-"@stackla/widget-utils": patch
+"@stackla/widget-utils": minor
 ---
 
-fix: fix YouTube player race condition, visibility detection, and deprecated API usage
+feat: refactor YouTube player integration
