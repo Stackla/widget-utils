@@ -46,7 +46,14 @@ export async function mountYoutubePlayer(params: MountYoutubePlayerParams): Prom
       const handle: YoutubePlayerHandle = {
         play: () => player.playVideo(),
         pause: () => player.pauseVideo(),
-        isPaused: () => player.getPlayerState() === YT.PlayerState.PAUSED,
+        isPaused: () => {
+          const state = player.getPlayerState()
+          return (
+            state === YT.PlayerState.PAUSED ||
+            state === YT.PlayerState.UNSTARTED ||
+            state === YT.PlayerState.CUED
+          )
+        },
         mute: () => player.mute(),
         unMute: () => player.unMute(),
         destroy: () => {
