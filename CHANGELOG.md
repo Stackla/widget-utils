@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 4.2.0
+
+### Minor Changes
+
+- 770c710: feat: refactor YouTube player integration
+
 ## 4.1.6
 
 ### Patch Changes
