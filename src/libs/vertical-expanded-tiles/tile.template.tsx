@@ -54,7 +54,7 @@ export async function togglePlayPause(sdk: ISdk) {
 }
 
 export function StoryControls({ video, sdk }: { video: boolean; sdk: ISdk }) {
-  const { auto_play_video } = sdk.getExpandedTileConfig()
+  const { auto_play_video = false } = sdk.getExpandedTileConfig()
 
   return (
     <div class="story-controls">

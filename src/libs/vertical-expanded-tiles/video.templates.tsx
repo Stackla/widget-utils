@@ -226,7 +226,7 @@ export function VideoContainer({
   sdk: ISdk
   controls?: boolean
 }) {
-  const { auto_play_video, video_mute } = sdk.getExpandedTileConfig()
+  const { auto_play_video = false, video_mute = false } = sdk.getExpandedTileConfig()
 
   return (
     <div class="video-content-wrapper">
