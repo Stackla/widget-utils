@@ -98,8 +98,8 @@ export interface ExpandedTileOptions {
   show_cross_sellers: boolean
   show_add_to_cart: boolean
   show_carousel_grouping: boolean
-  auto_play_video: boolean
-  video_mute: boolean
+  auto_play_video?: boolean
+  video_mute?: boolean
   swiper_options?: SwiperOptions
   expanded_tile_variant: ExpandedTileVariant
 }
