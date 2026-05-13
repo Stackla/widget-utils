@@ -31,8 +31,7 @@ import {
   controlVideoPlayback,
   setupTikTokPlayerReadyEvent,
   setupVideoEvents,
-  setupYoutubeEvents,
-  YoutubeIframeElementType
+  setupYoutubeEvents
 } from "./expanded-tile-video"
 import { SwiperTypeOptions } from "../../types"
 
@@ -256,18 +255,14 @@ function registerStoryControls(sdk: ISdk, tileWrapper: Element, swiper: Swiper) 
       ele.muted = true
     })
 
-    const iFramePlayers = tileWrapper.querySelectorAll<YoutubeIframeElementType>(`iframe.video-content`)
-    iFramePlayers.forEach(iFramePlayer => {
-      const iFramePlayerId = iFramePlayer.getAttribute("id")
-      if (iFramePlayerId) {
-        if (iFramePlayerId.includes("yt-frame")) {
-          const iFramePlayerWindow = iFramePlayer.contentWindow
-          iFramePlayerWindow.mute()
-        } else if (iFramePlayerId.includes("tiktok-frame")) {
-          const iFramePlayerWindow = iFramePlayer.contentWindow
-          muteTiktokVideo(iFramePlayerWindow)
-        }
-      }
+    const youtubeHosts = tileWrapper.querySelectorAll<HTMLElement>(`[id^="yt-frame-"]`)
+    youtubeHosts.forEach(host => {
+      window.ugc.youtubePlayers?.[host.id]?.mute()
+    })
+
+    const tiktokFrames = tileWrapper.querySelectorAll<HTMLIFrameElement>(`iframe[id^="tiktok-frame-"]`)
+    tiktokFrames.forEach(frame => {
+      if (frame.contentWindow) muteTiktokVideo(frame.contentWindow)
     })
   })
 
@@ -283,18 +278,14 @@ function registerStoryControls(sdk: ISdk, tileWrapper: Element, swiper: Swiper) 
       ele.muted = false
     })
 
-    const iFramePlayers = tileWrapper.querySelectorAll<YoutubeIframeElementType>(`iframe.video-content`)
-    iFramePlayers.forEach(iFramePlayer => {
-      const iFramePlayerId = iFramePlayer.getAttribute("id")
-      if (iFramePlayerId) {
-        if (iFramePlayerId.includes("yt-frame")) {
-          const iFramePlayerWindow = iFramePlayer.contentWindow
-          iFramePlayerWindow.unMute()
-        } else if (iFramePlayerId.includes("tiktok-frame")) {
-          const iFramePlayerWindow = iFramePlayer.contentWindow
-          unMuteTiktokVideo(iFramePlayerWindow)
-        }
-      }
+    const youtubeHosts = tileWrapper.querySelectorAll<HTMLElement>(`[id^="yt-frame-"]`)
+    youtubeHosts.forEach(host => {
+      window.ugc.youtubePlayers?.[host.id]?.unMute()
+    })
+
+    const tiktokFrames = tileWrapper.querySelectorAll<HTMLIFrameElement>(`iframe[id^="tiktok-frame-"]`)
+    tiktokFrames.forEach(frame => {
+      if (frame.contentWindow) unMuteTiktokVideo(frame.contentWindow)
     })
   })
 

@@ -1,5 +1,6 @@
 const sdk = typeof import ("./types").ISdk
 const swiper = typeof import("swiper").Swiper
+type youtubePlayerHandle = import("./libs/vertical-expanded-tiles/youtube-player").YoutubePlayerHandle
 
 interface Window {
   scrollLocked: boolean,
@@ -9,12 +10,13 @@ interface Window {
       Swiper: swiper
     }
     swiperContainer: Record<string, Swiper>,
+    youtubePlayers?: Record<string, youtubePlayerHandle>,
     getWidgetBySelector: (selector: string) => {
       sdk: sdk
     }
   },
   stackWidgetDomain: string,
-  
+
 }
 
 declare module "*.scss" {
