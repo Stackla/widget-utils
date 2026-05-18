@@ -3,6 +3,7 @@ import { whenYTReady, type YTPlayerInstance } from "./youtube-api-loader"
 export interface YoutubePlayerHandle {
   play(): void
   pause(): void
+  reset(): void
   isPaused(): boolean
   mute(): void
   unMute(): void
@@ -49,6 +50,7 @@ export async function mountYoutubePlayer(params: MountYoutubePlayerParams): Prom
       const handle: YoutubePlayerHandle = {
         play: () => player.playVideo(),
         pause: () => player.pauseVideo(),
+        reset: () => player.seekTo(0, true),
         isPaused: () => {
           const state = player.getPlayerState()
           return state === YT.PlayerState.PAUSED || state === YT.PlayerState.UNSTARTED || state === YT.PlayerState.CUED
@@ -122,7 +124,7 @@ export async function mountYoutubePlayer(params: MountYoutubePlayerParams): Prom
         width: "100%",
         height: "100%",
         videoId,
-        playerVars: { autoplay: autoPlay ? 1 : 0, controls: 1, rel: 0, playsinline: 1 },
+        playerVars: { autoplay: autoPlay ? 1 : 0, mute: muted ? 1 : 0, controls: 1, rel: 0, playsinline: 1 },
         events: { onReady, onStateChange, onError }
       })
     } catch (error) {

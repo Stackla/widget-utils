@@ -1,8 +1,8 @@
 import { type SwiperType } from "@app/types"
 import { getSwiperSlideById, getTileIdFromSlide, isActiveTile } from "./expanded-swiper.loader"
-import { getInstance, getSwiperContainer, LookupAttr } from "../extensions"
+import { getInstance, LookupAttr } from "../extensions"
 import { ISdk } from "../../"
-import { playTiktokVideo, muteTiktokVideo, pauseTiktokVideo } from "./tiktok-message"
+import { playTiktokVideo, pauseTiktokVideo, resetTiktokVideo, unMuteTiktokVideo } from "./tiktok-message"
 
 type SwiperVideoElementType = Window | HTMLElement
 
@@ -62,24 +62,32 @@ export function triggerPlay(sdk: ISdk, elementData?: SwiperVideoElementData) {
     return
   }
 
-  const swiperExpandedId = `expanded`
+  const { auto_play_video = false, video_mute = false } = sdk.getExpandedTileConfig()
 
   switch (elementData.source) {
     case "video": {
       const videoElement = elementData.element as HTMLVideoElement
-      void videoElement.play()
-      videoElement.muted = !!getSwiperContainer(sdk, swiperExpandedId)?.muted
+      if (auto_play_video) {
+        void videoElement.play()
+      }
       break
     }
     case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
-      playTiktokVideo(tiktokFrameWindow)
-      muteTiktokVideo(tiktokFrameWindow)
+      if (auto_play_video) {
+        playTiktokVideo(tiktokFrameWindow)
+      }
+      if (!video_mute) {
+        unMuteTiktokVideo(tiktokFrameWindow)
+      }
       break
     }
     case "youtube": {
       const host = elementData.element as HTMLElement
-      window.ugc.youtubePlayers?.[host.id]?.play()
+      const ytPlayer = window.ugc.youtubePlayers?.[host.id]
+      if (auto_play_video) {
+        ytPlayer?.play()
+      }
       break
     }
     default:
@@ -108,11 +116,14 @@ export function triggerPause(elementData?: SwiperVideoElementData) {
     case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
       pauseTiktokVideo(tiktokFrameWindow)
+      resetTiktokVideo(tiktokFrameWindow)
       break
     }
     case "youtube": {
       const host = elementData.element as HTMLElement
-      window.ugc.youtubePlayers?.[host.id]?.pause()
+      const ytPlayer = window.ugc.youtubePlayers?.[host.id]
+      ytPlayer?.pause()
+      ytPlayer?.reset()
       break
     }
     default:

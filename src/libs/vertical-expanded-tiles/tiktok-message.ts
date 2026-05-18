@@ -6,25 +6,41 @@ type TiktokMessageType = "play" | "pause" | "mute" | "unMute" | "seekTo"
  * @param { Window } frameWindow - tiktok frame contentWindow
  */
 export function playTiktokVideo(frameWindow: Window) {
-  postTiktokMessage(frameWindow, "unMute")
   postTiktokMessage(frameWindow, "play")
 }
 
 /**
- * Post tiktok messages to pause a video/audio and reset the current video progress
+ * Post tiktok messages to pause a video/audio
  *
  * @param { Window } frameWindow - tiktok frame contentWindow
  */
 export function pauseTiktokVideo(frameWindow: Window) {
-  postTiktokMessage(frameWindow, "mute")
   postTiktokMessage(frameWindow, "pause")
+}
+
+/**
+ * Post tiktok messages to reset the current video progress
+ *
+ * @param { Window } frameWindow - tiktok frame contentWindow
+ */
+export function resetTiktokVideo(frameWindow: Window) {
   postTiktokMessage(frameWindow, "seekTo", 0)
 }
 
+/**
+ * Post tiktok messages to mute a video/audio
+ *
+ * @param { Window } frameWindow - tiktok frame contentWindow
+ */
 export function muteTiktokVideo(frameWindow: Window) {
   postTiktokMessage(frameWindow, "mute")
 }
 
+/**
+ * Post tiktok messages to unmute a video/audio
+ *
+ * @param { Window } frameWindow - tiktok frame contentWindow
+ */
 export function unMuteTiktokVideo(frameWindow: Window) {
   postTiktokMessage(frameWindow, "unMute")
 }

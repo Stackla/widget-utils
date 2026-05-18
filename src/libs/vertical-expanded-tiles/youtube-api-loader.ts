@@ -1,6 +1,7 @@
 export interface YTPlayerInstance {
   playVideo(): void
   pauseVideo(): void
+  seekTo(seconds: number, allowSeekAhead: boolean): void
   mute(): void
   unMute(): void
   destroy(): void

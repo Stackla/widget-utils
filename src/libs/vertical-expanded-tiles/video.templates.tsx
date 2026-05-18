@@ -76,16 +76,13 @@ export function UgcVideoTemplate({
       tileid={tile.id}
       class="video-content lazy"
       controls={controls}
-      preload="none"
+      preload="auto"
       playsinline="playsinline"
       onPause={() => {
         handlePauseAutoplay(swiperId)
       }}
       oncanplay={(event: Event) => {
         handlePauseAutoplay(swiperId)
-        const videoElement = event.target as HTMLVideoElement
-        videoElement.muted = muted
-        videoElement.controls = controls
         onLoad(event)
       }}
       onTimeupdate={(event: Event) => {
@@ -95,21 +92,37 @@ export function UgcVideoTemplate({
         const progressAmount = 1 - videoElement.currentTime / videoElement.duration
         storyAutoplayProgress(swiperInstance, progressAmount)
       }}
-      onended={(event: Event) => {
-        const videoElement = event.target as HTMLVideoElement
-        videoElement.muted = true
+      onended={() => {
         handlePlayAutoplay(swiperId)
 
         const swiperInstance = window.ugc.swiperContainer[swiperId].instance
         swiperInstance?.slideNext()
+      }}
+      onloadeddata={(event: Event) => {
+        const videoElement = event.target as HTMLVideoElement
+        videoElement.muted = muted
+        videoElement.controls = controls
       }}>
       <source src={url} width={width.toString()} height={height.toString()} type={mime} />
     </video>
   )
 }
 
-export function TikTokTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad }) {
+export function TikTokTemplate({
+  tile,
+  onLoad,
+  autoPlay = false,
+  muted = false
+}: {
+  tile: Tile
+  onLoad: OnLoad
+  autoPlay?: boolean
+  muted?: boolean
+}) {
   const tiktokId = tile.tiktok_id
+  const params = new URLSearchParams({ rel: "0" })
+  if (autoPlay) params.set("autoplay", "1")
+  if (muted) params.set("muted", "1")
 
   return (
     <iframe
@@ -125,7 +138,7 @@ export function TikTokTemplate({ tile, onLoad }: { tile: Tile; onLoad: OnLoad })
       height="100%"
       onload={onLoad}
       allow="autoplay"
-      src={`https://www.tiktok.com/player/v1/${tiktokId}?rel=0`}
+      src={`https://www.tiktok.com/player/v1/${tiktokId}?${params.toString()}`}
     />
   )
 }
@@ -174,7 +187,7 @@ export function SourceVideoContent({
   // handle unplayable tiktok source
   // TODO handle video_source "tiktok"
   if (tile.source === "tiktok" || tile.video_source === "tiktok") {
-    return <TikTokTemplate tile={tile} onLoad={onLoad} />
+    return <TikTokTemplate tile={tile} onLoad={onLoad} autoPlay={autoPlay} muted={muted} />
   }
 
   if (tile.source === "youtube" && tile.youtube_id) {
