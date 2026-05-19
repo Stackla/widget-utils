@@ -2,12 +2,7 @@ import { type SwiperType } from "@app/types"
 import { getSwiperSlideById, getTileIdFromSlide, isActiveTile } from "./expanded-swiper.loader"
 import { getInstance, LookupAttr } from "../extensions"
 import { ISdk } from "../../"
-import {
-  playTiktokVideo,
-  pauseTiktokVideo,
-  resetTiktokVideo,
-  unMuteTiktokVideo
-} from "./tiktok-message"
+import { playTiktokVideo, pauseTiktokVideo, resetTiktokVideo, unMuteTiktokVideo } from "./tiktok-message"
 
 type SwiperVideoElementType = Window | HTMLElement
 
@@ -265,7 +260,6 @@ export function setupTikTokPlayerReadyEvent(sdk: ISdk) {
         setTimeout(() => playMediaOnLoad(sdk), 300)
       }
     }
-
   }
 }
 
