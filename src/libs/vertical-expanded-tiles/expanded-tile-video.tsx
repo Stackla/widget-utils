@@ -6,8 +6,7 @@ import {
   playTiktokVideo,
   pauseTiktokVideo,
   resetTiktokVideo,
-  unMuteTiktokVideo,
-  setTiktokPaused
+  unMuteTiktokVideo
 } from "./tiktok-message"
 
 type SwiperVideoElementType = Window | HTMLElement
@@ -267,11 +266,6 @@ export function setupTikTokPlayerReadyEvent(sdk: ISdk) {
       }
     }
 
-    if (event.data.type === "onStateChange" && event.data.value !== undefined) {
-      // TikTok player states: 1 = playing, 2 = paused (https://developers.tiktok.com/doc/embed-player)
-      if (event.data.value === 1) setTiktokPaused(frameWindow, false)
-      else if (event.data.value === 2) setTiktokPaused(frameWindow, true)
-    }
   }
 }
 

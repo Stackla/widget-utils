@@ -6,7 +6,6 @@ import { callbackDefaults, loadListeners } from "./events"
 import { EnforcedWidgetSettings, MyWidgetSettings } from "./types/loader"
 import { injectFontFaces } from "./fonts"
 import { loadVerticalExpandedTilesConfig } from "./libs/vertical-expanded-tiles/config"
-import { loadExpandedTileFeature } from "./libs/vertical-expanded-tiles/expanded-swiper.loader"
 
 function mergeSettingsWithDefaults(settings?: MyWidgetSettings): EnforcedWidgetSettings {
   return {
@@ -190,7 +189,6 @@ export function loadWidget(sdk: ISdk, settings?: MyWidgetSettings) {
   if (sdk.getExpandedTileVariant() === "vertical") {
     loadVerticalExpandedTilesConfig(settingsWithDefaults)
     sdk.querySelector("expanded-tiles")?.setAttribute("variation", "vertical")
-    loadExpandedTileFeature(sdk)
   }
 
   sdk.storeWidgetTemplateSettings(settingsWithDefaults)

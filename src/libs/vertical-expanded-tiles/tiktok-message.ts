@@ -6,16 +6,13 @@ export function isTiktokPaused(frameWindow: Window): boolean {
   return tiktokPausedState.get(frameWindow) ?? true
 }
 
-export function setTiktokPaused(frameWindow: Window, paused: boolean): void {
-  tiktokPausedState.set(frameWindow, paused)
-}
-
 /**
  * Post tiktok messages to play a video/audio
  *
  * @param { Window } frameWindow - tiktok frame contentWindow
  */
 export function playTiktokVideo(frameWindow: Window) {
+  tiktokPausedState.set(frameWindow, false)
   postTiktokMessage(frameWindow, "play")
 }
 
@@ -25,6 +22,7 @@ export function playTiktokVideo(frameWindow: Window) {
  * @param { Window } frameWindow - tiktok frame contentWindow
  */
 export function pauseTiktokVideo(frameWindow: Window) {
+  tiktokPausedState.set(frameWindow, true)
   postTiktokMessage(frameWindow, "pause")
 }
 
