@@ -255,7 +255,6 @@ export function setupTikTokPlayerReadyEvent(sdk: ISdk) {
       "x-tiktok-player": boolean
     }>
   ) => {
-
     if (!event.data["x-tiktok-player"]) return
     const frameWindow = event.source as Window
 
