@@ -248,7 +248,6 @@ export function setupYoutubeEvents(sdk: ISdk, tile: Element, widgetSelector: HTM
  */
 export function setupTikTokPlayerReadyEvent(sdk: ISdk) {
   tiktokDefaultPlayed = false
-  console.log(`setupTikTokPlayerReadyEvent`)
   window.onmessage = (
     event: MessageEvent<{
       type: string
@@ -256,12 +255,10 @@ export function setupTikTokPlayerReadyEvent(sdk: ISdk) {
       "x-tiktok-player": boolean
     }>
   ) => {
-    console.log(`setupTikTokPlayerReadyEvent window.onmessage`)
 
     if (!event.data["x-tiktok-player"]) return
     const frameWindow = event.source as Window
 
-    console.log(`StateChange: ${event.data.value}`)
     if (event.data.type === "onPlayerReady") {
       pauseTiktokVideo(frameWindow)
 
