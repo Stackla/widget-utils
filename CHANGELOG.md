@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 4.3.0
+
+### Minor Changes
+
+- 317252c: feat(vertical-expanded-tiles): UGC-19846: add auto-play and mute options support for video tiles
+
 ## 4.2.0
 
 ### Minor Changes
