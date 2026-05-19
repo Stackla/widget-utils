@@ -119,8 +119,7 @@ function initalizeExpandedTile(sdk: ISdk, settings: ExpandedTileSettings) {
           const swiperIndex = getSwiperIndexForTile(settings.widgetSelector, initialTileId)
           swiper.slideToLoop(swiperIndex, 0, false)
         },
-        navigationNext: (swiper: SwiperWithExtensions) => swiperNavigationHandler(sdk, swiper),
-        navigationPrev: (swiper: SwiperWithExtensions) => swiperNavigationHandler(sdk, swiper),
+        slideChange: (swiper: SwiperWithExtensions) => swiperNavigationHandler(sdk, swiper),
         ...settings.swiperSettings?.on
       }
     },

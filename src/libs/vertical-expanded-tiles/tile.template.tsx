@@ -1,6 +1,9 @@
-import { ISdk, Tile } from "@app/types"
+import { ISdk, Tile, type SwiperType } from "@app/types"
 import { createElement, createFragment } from "../jsx-html"
 import { VideoContainer, VideoErrorFallbackTemplate } from "./video.templates"
+import { getInstance } from "../extensions"
+import { getSwiperVideoElement, triggerPlay, triggerPause } from "./expanded-tile-video"
+import { isTiktokPaused } from "./tiktok-message"
 
 export type ExpandedTileProps = {
   tile: Tile
@@ -21,33 +24,38 @@ export type ContentWrapperProps = {
 }
 
 export async function togglePlayPause(sdk: ISdk) {
+  const swiper = getInstance(sdk, "expanded") as SwiperType
+  if (!swiper) return
+
   const expandedTiles = sdk.getExpandedTiles()
-  const tile = sdk.getTile()
   const activeSlide = expandedTiles.querySelector(".ugc-tile.swiper-slide-active")
   const pauseButton = activeSlide?.querySelector(".pause-video")
   const playButton = activeSlide?.querySelector(".play-video")
 
-  let paused
-  let video
-  if (tile?.source === "youtube") {
-    const iframe = activeSlide?.querySelector<HTMLIFrameElement>("iframe")
-    video = iframe?.id ? window.ugc.youtubePlayers?.[iframe.id] : undefined
-    paused = video?.isPaused()
-  } else {
-    video = activeSlide?.querySelector<HTMLVideoElement>("video")
-    paused = video?.paused
-  }
-  if (!video) {
+  const elementData = getSwiperVideoElement(sdk, swiper, swiper.realIndex)
+  if (!elementData) {
     console.warn("Can't find the video element")
     return
   }
 
+  let paused: boolean
+  if (elementData.source === "video") {
+    paused = (elementData.element as HTMLVideoElement).paused
+  } else if (elementData.source === "youtube") {
+    const ytPlayer = window.ugc.youtubePlayers?.[(elementData.element as HTMLElement).id]
+    paused = ytPlayer?.isPaused() ?? true
+  } else if (elementData.source === "tiktok") {
+    paused = isTiktokPaused(elementData.element as Window)
+  } else {
+    return
+  }
+
   if (paused) {
-    void video?.play()
+    triggerPlay(sdk, elementData)
     pauseButton?.classList.remove("hidden")
     playButton?.classList.add("hidden")
   } else {
-    void video?.pause()
+    triggerPause(elementData, false)
     pauseButton?.classList.add("hidden")
     playButton?.classList.remove("hidden")
   }

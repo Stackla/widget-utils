@@ -1,5 +1,15 @@
 type TiktokMessageType = "play" | "pause" | "mute" | "unMute" | "seekTo"
 
+const tiktokPausedState = new Map<Window, boolean>()
+
+export function isTiktokPaused(frameWindow: Window): boolean {
+  return tiktokPausedState.get(frameWindow) ?? true
+}
+
+export function setTiktokPaused(frameWindow: Window, paused: boolean): void {
+  tiktokPausedState.set(frameWindow, paused)
+}
+
 /**
  * Post tiktok messages to play a video/audio
  *
