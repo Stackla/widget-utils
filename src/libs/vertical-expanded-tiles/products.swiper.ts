@@ -1,7 +1,7 @@
 import type { SwiperType } from "../../"
 import { EVENT_PRODUCT_NAVIGATION } from "../../events"
 import { initializeSwiper } from "../extensions"
-import { ISdk } from "src/types"
+import { ISdk } from "@app/types"
 
 export function loadProductsSwiper(sdk: ISdk, tileId: string, target: HTMLElement) {
   if (target) {

@@ -1,7 +1,7 @@
-import { ISdk, Tile } from "src/types"
+import { ISdk } from "@app/types"
 
-export const getNextNavigatedTile = (currentTile: Tile, enabledTiles: HTMLElement[], direction: string) => {
-  const currentIndex = enabledTiles.findIndex((tile: HTMLElement) => tile.getAttribute("data-id") === currentTile.id)
+export const getNextNavigatedTile = (currentTileId: string, enabledTiles: HTMLElement[], direction: string) => {
+  const currentIndex = enabledTiles.findIndex((tile: HTMLElement) => tile.getAttribute("data-id") === currentTileId)
 
   if (direction === "previous") {
     const previousTile = getPreviousTile(enabledTiles, currentIndex)

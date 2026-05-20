@@ -28,12 +28,12 @@ jobs:
       NODE_AUTH_TOKEN: ${{secrets.STACKLA_BOT_GITHUB_TOKEN}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 23.6.0
+          node-version: 24
       - name: Install
-        run: npm install
+        run: npm ci
       - name: Build
         run: npm run build
       - name: Lint
@@ -48,6 +48,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: trigger deploy
-        run: gh workflow run release --ref master -F environment=staging
+        run: gh workflow run release --ref master -F environment=production

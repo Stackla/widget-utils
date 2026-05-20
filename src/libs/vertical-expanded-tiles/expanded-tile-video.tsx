@@ -1,22 +1,10 @@
-import { type SwiperType } from "../../types"
+import { type SwiperType } from "@app/types"
 import { getSwiperSlideById, getTileIdFromSlide, isActiveTile } from "./expanded-swiper.loader"
-import { getInstance, getSwiperContainer, LookupAttr } from "../extensions"
+import { getInstance, LookupAttr } from "../extensions"
 import { ISdk } from "../../"
-import { playTiktokVideo, muteTiktokVideo, pauseTiktokVideo } from "./tiktok-message"
+import { playTiktokVideo, pauseTiktokVideo, resetTiktokVideo, unMuteTiktokVideo } from "./tiktok-message"
 
-type YoutubeContentWindow = Window & {
-  play: () => void
-  pause: () => void
-  reset: () => void
-  mute: () => void
-  unMute: () => void
-}
-
-export type YoutubeIframeElementType = HTMLIFrameElement & {
-  contentWindow: YoutubeContentWindow
-}
-
-type SwiperVideoElementType = Window | YoutubeContentWindow | HTMLVideoElement
+type SwiperVideoElementType = Window | HTMLElement
 
 type VideoSource = "video" | "youtube" | "tiktok"
 
@@ -40,6 +28,7 @@ export async function playMediaOnLoad(sdk: ISdk) {
 
 /**
  * Play/Pause the video/audio attached to the slide on navigation where the element is a media element (video/youtube/tiktok)
+ * @param sdk
  * @param { Swiper } swiper - the swiper element
  */
 export async function controlVideoPlayback(sdk: ISdk, swiper: SwiperType) {
@@ -62,6 +51,7 @@ export async function controlVideoPlayback(sdk: ISdk, swiper: SwiperType) {
 /**
  * Trigger media play for different media element sources ("video", "youtube", "tiktok")
  *
+ * @param sdk
  * @param elementData - the media container element and the source
  * @param elementData.element - the container element of the media (video tag or iframe.contentWindow)
  * @param elementData.source - the media source (video for custom video source, youtube/tiktok)
@@ -72,27 +62,33 @@ export function triggerPlay(sdk: ISdk, elementData?: SwiperVideoElementData) {
     return
   }
 
-  const swiperExpandedId = `expanded`
+  const { auto_play_video = false, video_mute = false } = sdk.getExpandedTileConfig()
 
   switch (elementData.source) {
     case "video": {
       const videoElement = elementData.element as HTMLVideoElement
-      void videoElement.play()
-      if (getSwiperContainer(sdk, swiperExpandedId)?.muted) {
-        videoElement.muted = true
-      } else {
-        videoElement.muted = false
+      if (auto_play_video) {
+        void videoElement.play()
       }
       break
     }
     case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
-      playTiktokVideo(tiktokFrameWindow)
-      muteTiktokVideo(tiktokFrameWindow)
+      if (auto_play_video) {
+        playTiktokVideo(tiktokFrameWindow)
+      }
+      if (!video_mute) {
+        unMuteTiktokVideo(tiktokFrameWindow)
+      }
       break
     }
     case "youtube": {
-      return
+      const host = elementData.element as HTMLElement
+      const ytPlayer = window.ugc.youtubePlayers?.[host.id]
+      if (auto_play_video) {
+        ytPlayer?.play()
+      }
+      break
     }
     default:
       throw new Error(`unsupported video source ${elementData.source}`)
@@ -104,8 +100,9 @@ export function triggerPlay(sdk: ISdk, elementData?: SwiperVideoElementData) {
  * @param elementData - the media container element and the source
  * @param elementData.element - the container element of the media (video tag or iframe.contentWindow)
  * @param elementData.source - the media source (video for custom video source, youtube/tiktok)
+ * @param reset - reset video position to 0 (default: true)
  */
-export function triggerPause(elementData?: SwiperVideoElementData) {
+export function triggerPause(elementData?: SwiperVideoElementData, reset: boolean = true) {
   if (!elementData) {
     throw new Error("elementData is required")
   }
@@ -114,16 +111,27 @@ export function triggerPause(elementData?: SwiperVideoElementData) {
     case "video": {
       const videoElement = elementData.element as HTMLVideoElement
       videoElement.pause()
-      videoElement.currentTime = 0
+      if (reset) {
+        videoElement.currentTime = 0
+      }
       break
     }
     case "tiktok": {
       const tiktokFrameWindow = elementData.element as Window
       pauseTiktokVideo(tiktokFrameWindow)
+      if (reset) {
+        resetTiktokVideo(tiktokFrameWindow)
+      }
       break
     }
     case "youtube": {
-      return
+      const host = elementData.element as HTMLElement
+      const ytPlayer = window.ugc.youtubePlayers?.[host.id]
+      ytPlayer?.pause()
+      if (reset) {
+        ytPlayer?.reset()
+      }
+      break
     }
     default:
       throw new Error(`unsupported video source ${elementData.source}`)
@@ -133,16 +141,15 @@ export function triggerPause(elementData?: SwiperVideoElementData) {
 /**
  * Get swiper video/audio element at the provided index.
  *
+ * @param sdk
  * @param { Swiper } swiper - the swiper element
  * @param { number } index - index of the slide to be returned
- * @param { number } isStory - if it is story widget
  * @returns the video/iframe element or undefined if the element at index is not a video/audio
  */
 export function getSwiperVideoElement(
   sdk: ISdk,
   swiper: SwiperType,
-  index: number,
-  isStory = false
+  index: number
 ): SwiperVideoElementData | undefined {
   const element = getSwiperSlideById(swiper, index)
   const tileId = getTileIdFromSlide(swiper, index)
@@ -169,9 +176,9 @@ export function getSwiperVideoElement(
   }
 
   if (youtubeId) {
-    const youtubeFrame = element?.querySelector<YoutubeIframeElementType>(`iframe#yt-frame-${tileId}-${youtubeId}`)
-    if (youtubeFrame) {
-      return { element: youtubeFrame.contentWindow, source: "youtube" }
+    const youtubeHost = element?.querySelector<HTMLElement>(`[id="yt-frame-${tileId}-${youtubeId}"]`)
+    if (youtubeHost) {
+      return { element: youtubeHost, source: "youtube" }
     }
   }
 
@@ -184,9 +191,7 @@ export function getSwiperVideoElement(
     }
   }
 
-  const videoElement = element?.querySelector<HTMLVideoElement>(
-    `${isStory ? "" : " .panel .panel-left"} .video-content-wrapper video`
-  )
+  const videoElement = element?.querySelector<HTMLVideoElement>(".video-content-wrapper video")
 
   if (videoElement) {
     return { element: videoElement, source: "video" }
@@ -200,6 +205,7 @@ export function getSwiperVideoElement(
 /**
  * Setup onload and onerror (yt-video-error) events for youtube media
  *
+ * @param sdk
  * @param { Element } tile - the tile element
  * @param { HTMLElement } widgetSelector - the container of swiper element
  */
@@ -207,21 +213,32 @@ export function setupYoutubeEvents(sdk: ISdk, tile: Element, widgetSelector: HTM
   const tileId = tile.getAttribute("data-id")
   const youtubeId = tile.getAttribute("data-yt-id")
 
-  if (youtubeId && tileId) {
-    const youtubeFrame = tile.querySelector<HTMLIFrameElement>(`iframe#yt-frame-${tileId}-${youtubeId}`)
-    youtubeFrame?.addEventListener("load", () => {
-      playActiveMediaTileOnLoad(sdk, tile, widgetSelector, { name: "data-yt-id", value: youtubeId })
-    })
-    youtubeFrame?.addEventListener("yt-video-error", () => {
-      youtubeFrame.closest(".video-content-wrapper")?.classList.add("hidden")
-      tile.querySelector(".video-fallback-content")?.classList.remove("hidden")
-    })
-  }
+  if (!youtubeId || !tileId) return
+
+  // The host starts as a <div> rendered by EmbedYoutube; YT.Player replaces
+  // it with an <iframe> on mount and we restore the same id on the new
+  // iframe in mountYoutubePlayer. Listen at the tile level via delegation
+  // so we don't need to know which element exists when, and so the synthetic
+  // "load" + "yt-video-error" events (both dispatched with bubbles: true
+  // by mountYoutubePlayer) reach us regardless of mount timing.
+  const expectedHostId = `yt-frame-${tileId}-${youtubeId}`
+  const matchesHost = (target: EventTarget | null) => target instanceof Element && target.id === expectedHostId
+
+  tile.addEventListener("load", event => {
+    if (!matchesHost(event.target)) return
+    playActiveMediaTileOnLoad(sdk, tile, widgetSelector, { name: "data-yt-id", value: youtubeId })
+  })
+  tile.addEventListener("yt-video-error", event => {
+    if (!matchesHost(event.target)) return
+    const target = event.target as Element
+    target.closest(".video-content-wrapper")?.classList.add("hidden")
+    tile.querySelector(".video-fallback-content")?.classList.remove("hidden")
+  })
 }
 
 /**
  * Setup tiktok player events using window.postMessage api
- * All media are paused by defult and only the media in the active slide is played
+ * All media are paused by default and only the media in the active slide is played
  */
 export function setupTikTokPlayerReadyEvent(sdk: ISdk) {
   tiktokDefaultPlayed = false
@@ -232,8 +249,10 @@ export function setupTikTokPlayerReadyEvent(sdk: ISdk) {
       "x-tiktok-player": boolean
     }>
   ) => {
-    if (event.data["x-tiktok-player"] && event.data.type === "onPlayerReady") {
-      const frameWindow = event.source as Window
+    if (!event.data["x-tiktok-player"]) return
+    const frameWindow = event.source as Window
+
+    if (event.data.type === "onPlayerReady") {
       pauseTiktokVideo(frameWindow)
 
       if (!tiktokDefaultPlayed) {
@@ -247,6 +266,7 @@ export function setupTikTokPlayerReadyEvent(sdk: ISdk) {
 /**
  * Play media associated with currently active tile
  *
+ * @param sdk
  * @param { Element } tile - tile element to check
  * @param { HTMLElement } widgetSelector - the container of the swiper element
  * @param { LookupAttr } lookupAttr - additional attribute lookup options for finding the first slide to load
@@ -267,6 +287,7 @@ export function playActiveMediaTileOnLoad(
 /**
  * Setup onload and onerror events for custom video source
  *
+ * @param sdk
  * @param { Element } tile - the tile element
  * @param { HTMLElement } widgetSelector - the container of swiper element
  */

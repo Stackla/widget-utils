@@ -1,4 +1,4 @@
-import { ISdk, Tile } from "src/types"
+import { ISdk, Tile } from "@app/types"
 import { VerticalExpandedTile } from "./tile.template"
 import { createElement } from "../jsx-html"
 
@@ -16,7 +16,7 @@ export function getExpandedSlides(sdk: ISdk, tiles: Tile[]) {
 }
 
 export function VerticalExpandedTiles(sdk: ISdk) {
-  const tiles = sdk.getTiles()
+  const tiles: Tile[] = sdk.getTiles()
   const { show_nav } = sdk.getExpandedTileConfig()
   const navigationArrowsEnabled = show_nav
 

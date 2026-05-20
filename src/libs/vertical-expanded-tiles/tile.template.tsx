@@ -1,6 +1,9 @@
-import { ISdk, Tile } from "../../types"
+import { ISdk, Tile, type SwiperType } from "@app/types"
 import { createElement, createFragment } from "../jsx-html"
 import { VideoContainer, VideoErrorFallbackTemplate } from "./video.templates"
+import { getInstance } from "../extensions"
+import { getSwiperVideoElement, triggerPlay, triggerPause } from "./expanded-tile-video"
+import { isTiktokPaused } from "./tiktok-message"
 
 export type ExpandedTileProps = {
   tile: Tile
@@ -21,30 +24,58 @@ export type ContentWrapperProps = {
 }
 
 export async function togglePlayPause(sdk: ISdk) {
+  const swiper = getInstance(sdk, "expanded") as SwiperType
+  if (!swiper) return
+
   const expandedTiles = sdk.getExpandedTiles()
   const activeSlide = expandedTiles.querySelector(".ugc-tile.swiper-slide-active")
-  const video = activeSlide?.querySelector<HTMLVideoElement>("video")
   const pauseButton = activeSlide?.querySelector(".pause-video")
   const playButton = activeSlide?.querySelector(".play-video")
 
-  if (video?.paused) {
-    void video?.play()
+  const elementData = getSwiperVideoElement(sdk, swiper, swiper.realIndex)
+  if (!elementData) {
+    console.warn("Can't find the video element")
+    return
+  }
+
+  let paused: boolean
+  if (elementData.source === "video") {
+    paused = (elementData.element as HTMLVideoElement).paused
+  } else if (elementData.source === "youtube") {
+    const ytPlayer = window.ugc.youtubePlayers?.[(elementData.element as HTMLElement).id]
+    paused = ytPlayer?.isPaused() ?? true
+  } else if (elementData.source === "tiktok") {
+    paused = isTiktokPaused(elementData.element as Window)
+  } else {
+    return
+  }
+
+  if (paused) {
+    triggerPlay(sdk, elementData)
     pauseButton?.classList.remove("hidden")
     playButton?.classList.add("hidden")
   } else {
-    void video?.pause()
+    triggerPause(elementData, false)
     pauseButton?.classList.add("hidden")
     playButton?.classList.remove("hidden")
   }
 }
 
 export function StoryControls({ video, sdk }: { video: boolean; sdk: ISdk }) {
+  const { auto_play_video = false } = sdk.getExpandedTileConfig()
+
   return (
     <div class="story-controls">
       {video ? (
         <>
-          <a class="icon-story-video-pause pause-video" onClick={() => togglePlayPause(sdk)} />
-          <a class="icon-story-video-play play-video hidden" onClick={() => togglePlayPause(sdk)} />
+          <a
+            class={`icon-story-video-pause pause-video${auto_play_video ? "" : " hidden"}`}
+            onClick={() => togglePlayPause(sdk)}
+          />
+          <a
+            class={`icon-story-video-play play-video${auto_play_video ? " hidden" : ""}`}
+            onClick={() => togglePlayPause(sdk)}
+          />
         </>
       ) : (
         <></>

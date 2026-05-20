@@ -1,4 +1,4 @@
-import { MyWidgetSettings } from "src/types"
+import { MyWidgetSettings } from "@app/types"
 import { VerticalExpandedTiles } from "./base.template"
 import ProductsTemplate from "./products.template"
 import { InlineProductsTemplate } from "./inline-products.template"

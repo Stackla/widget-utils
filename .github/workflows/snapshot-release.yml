@@ -15,7 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Install
+        run: npm ci
       - run: npm run build
       - run: npx changeset version --snapshot
-      - run: npm publish --no-git-checks
+      - run: npm publish --no-git-checks --tag snapshot --registry https://npm.pkg.github.com

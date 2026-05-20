@@ -1,5 +1,23 @@
 # @stackla/widget-utils
 
+## 4.3.0
+
+### Minor Changes
+
+- 317252c: feat(vertical-expanded-tiles): UGC-19846: add auto-play and mute options support for video tiles
+
+## 4.2.0
+
+### Minor Changes
+
+- 770c710: feat: refactor YouTube player integration
+
+## 4.1.6
+
+### Patch Changes
+
+- d3d77df: fix: fix YouTube player race condition, visibility detection, and deprecated API usage
+
 ## 4.1.5
 
 ### Patch Changes
