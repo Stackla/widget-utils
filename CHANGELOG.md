@@ -1,5 +1,11 @@
 # @stackla/widget-utils
 
+## 4.4.0
+
+### Minor Changes
+
+- f6cef19: feat(widget-types): UGC-19862: add custom_tile_per_page_type option
+
 ## 4.3.0
 
 ### Minor Changes
