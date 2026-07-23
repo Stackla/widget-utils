@@ -131,7 +131,7 @@ export interface Style {
   auto_refresh: string
   click_through_url: string
   enable_custom_tiles_per_page: boolean
-  custom_tile_per_page_type?: string
+  custom_tile_per_page_type?: "tiles" | "rows"
   load_more_type: string
   margin: string
   name: string
