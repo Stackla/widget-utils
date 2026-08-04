@@ -1,4 +1,4 @@
-import { EventMapping, EventName } from "../../events"
+import { EventMapping, EventName } from "@app/events"
 import { MyWidgetSettings } from "../loader"
 import {
   ClaimConfig,
@@ -70,8 +70,10 @@ export interface ISdk {
   getTileById(tileId: string): Tile | undefined
   getElement: () => HTMLElement | undefined
   setVisibleTilesCount(visibleTilesCount: number): void
+  hideTilesAfterNth(nth: number): void
   setRowsPerLoadCalculator(calculator: RowsPerLoadCalculator): void
   loadTilesUntilVisibleTilesCount(): Promise<void>
+  getPage(): number
   hasMoreTiles(): boolean
   getSelectedProduct(): Product | undefined
   searchTiles(query: string, clearExistingTiles: boolean): void
