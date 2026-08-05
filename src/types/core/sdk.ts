@@ -1,4 +1,4 @@
-import { EventMapping, EventName } from "@app/events"
+import { EventMapping, EventName } from "../../events"
 import { MyWidgetSettings } from "../loader"
 import {
   ClaimConfig,
@@ -17,7 +17,7 @@ export type Template = (sdk: ISdk, component: any) => HTMLResult
 
 /**
  * @remarks
- * Formula a widget registers via `sdk.setRowsPerLoadCalculator` to compute how many tiles are
+ * Formula that a widget registers via `sdk.setRowsPerLoadCalculator` to compute how many tiles are
  * needed to fill `rowsPerPage` rows for its own tile-layout model (e.g. masonry's random-width
  * bricks vs. a fixed-size grid). Only used when `custom_tile_per_page_type` is `"rows"`.
  */
