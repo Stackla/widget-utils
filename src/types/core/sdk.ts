@@ -15,6 +15,14 @@ type HTMLResult = string | HTMLElement
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Template = (sdk: ISdk, component: any) => HTMLResult
 
+/**
+ * @remarks
+ * Formula that a widget registers via `sdk.setRowsPerLoadCalculator` to compute how many tiles are
+ * needed to fill `rowsPerPage` rows for its own tile-layout model (e.g. masonry's random-width
+ * bricks vs. a fixed-size grid). Only used when `custom_tile_per_page_type` is `"rows"`.
+ */
+export type RowsPerLoadCalculator = (input: { rowsPerPage: number; gap: number }) => number
+
 export interface ISdk {
   querySelector: <T extends Element = HTMLElement>(selector: string) => T | null | undefined
   querySelectorAll: <T extends Element = HTMLElement>(selector: string) => NodeListOf<T> | undefined
@@ -62,7 +70,10 @@ export interface ISdk {
   getTileById(tileId: string): Tile | undefined
   getElement: () => HTMLElement | undefined
   setVisibleTilesCount(visibleTilesCount: number): void
+  hideTilesAfterNth(nth: number): void
+  setRowsPerLoadCalculator(calculator: RowsPerLoadCalculator): void
   loadTilesUntilVisibleTilesCount(): Promise<void>
+  getPage(): number
   hasMoreTiles(): boolean
   getSelectedProduct(): Product | undefined
   searchTiles(query: string, clearExistingTiles: boolean): void
