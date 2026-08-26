@@ -143,6 +143,25 @@ export function TikTokTemplate({
   )
 }
 
+const EMBED_SRCDOC_STYLE = `
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .instagram-media, .tiktok-embed { width: 100% !important; height: 100% !important; max-width: 100% !important; min-width: 0 !important; margin: 0 !important; }
+`
+
+// Renders a tile's own ready-to-render embed HTML (e.g. an Instagram
+// `<blockquote>` + embed.js
+export function EmbedHtmlTemplate({ tile, onLoad }: { tile: Tile; onLoad?: OnLoad }) {
+  return (
+    <iframe
+      tileid={tile.id}
+      class="video-content lazy embed-content"
+      sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+      onload={onLoad}
+      srcdoc={`<!doctype html><html><head><style>${EMBED_SRCDOC_STYLE}</style></head><body>${tile.full_embed_html}</body></html>`}
+    />
+  )
+}
+
 export function VideoErrorFallbackTemplate({
   tile,
   defaultHidden = true,
@@ -203,6 +222,11 @@ export function SourceVideoContent({
     )
   }
 
+  // Embed-based video tiles
+  if (tile.full_embed_html) {
+    return <EmbedHtmlTemplate tile={tile} onLoad={onLoad} />
+  }
+
   if (tile.video_files?.length || (tile.video && tile.video.standard_resolution)) {
     return (
       <UgcVideoTemplate
@@ -240,6 +264,8 @@ export function VideoContainer({
   controls?: boolean
 }) {
   const { auto_play_video = false, video_mute = false } = sdk.getExpandedTileConfig()
+  // Embed-based tiles (rendered via EmbedHtmlTemplate, see SourceVideoContent)
+  const isEmbedContent = Boolean(tile.full_embed_html)
 
   return (
     <div class="video-content-wrapper">
@@ -248,13 +274,17 @@ export function VideoContainer({
           <div data-tile-id={tile.id} class="play-icon"></div>
         </a>
       </div>
-      <div
-        onClick={() => {
-          window.location.href = tile.original_url || tile.original_link
-        }}
-        data-tile-id={tile.id}
-        class="image-filler"
-        style={{ "background-image": `url('${tile.image}')` }}></div>
+      {isEmbedContent ? (
+        <></>
+      ) : (
+        <div
+          onClick={() => {
+            window.location.href = tile.original_url || tile.original_link
+          }}
+          data-tile-id={tile.id}
+          class="image-filler"
+          style={{ "background-image": `url('${tile.image}')` }}></div>
+      )}
       <div class="image">
         {shopspotEnabled ? <ShopSpotTemplate sdk={sdk} shopspotEnabled={shopspotEnabled} tileId={tile.id} /> : <></>}
       </div>

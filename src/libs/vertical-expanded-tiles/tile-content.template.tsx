@@ -127,10 +127,14 @@ function UserInfoTemplate(props: UserInfoTemplateProps) {
     </span>
   )
 
+  // Embed-based tiles (e.g. Instagram) show their own username inside the embed's
+  // own header, so the tile's separate username label would be a duplicate.
+  const isEmbedContent = Boolean(tile.full_embed_html)
+
   const tileUser =
     user || tile.terms ? (
       <a class="user-link" href={"javascript:void(0)"}>
-        <span class="user-name">{getUsernameOrTerm(tile)}</span>
+        <span class={`user-name${isEmbedContent ? " hidden" : ""}`}>{getUsernameOrTerm(tile)}</span>
       </a>
     ) : (
       <></>
