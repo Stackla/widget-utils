@@ -147,7 +147,7 @@ export function TikTokTemplate({
 // Sources whose tiles are known to carry ready-to-render `full_embed_html` —
 // gates the embed branch below so a stray/unexpected value on another
 // network's tile can't be treated as embeddable HTML.
-const EMBED_CONTENT_SOURCES = ["instagram", "tiktok"]
+const EMBED_CONTENT_SOURCES = ["instagram"]
 
 export function isEmbedContentTile(tile: Tile): boolean {
   return Boolean(tile.full_embed_html) && EMBED_CONTENT_SOURCES.includes(tile.source)
@@ -159,13 +159,16 @@ const EMBED_SRCDOC_STYLE = `
 `
 
 // Renders a tile's own ready-to-render embed HTML (e.g. an Instagram
-// `<blockquote>` + embed.js
+// `<blockquote>` + embed.js).
 export function EmbedHtmlTemplate({ tile, onLoad }: { tile: Tile; onLoad?: OnLoad }) {
   return (
     <iframe
       tileid={tile.id}
       class="video-content lazy embed-content"
-      sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+      loading="lazy"
+      title="Embedded media"
+      aria-label="Embedded media"
+      sandbox="allow-scripts allow-popups"
       onload={onLoad}
       title={`${tile.source} video`}
       srcdoc={`<!doctype html><html><head><style>${EMBED_SRCDOC_STYLE}</style></head><body>${tile.full_embed_html}</body></html>`}
