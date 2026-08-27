@@ -1,6 +1,6 @@
 import { ISdk, Tile, type SwiperType } from "@app/types"
 import { createElement, createFragment } from "../jsx-html"
-import { VideoContainer, VideoErrorFallbackTemplate } from "./video.templates"
+import { VideoContainer, VideoErrorFallbackTemplate, isEmbedContentTile } from "./video.templates"
 import { getInstance } from "../extensions"
 import { getSwiperVideoElement, triggerPlay, triggerPause } from "./expanded-tile-video"
 import { isTiktokPaused } from "./tiktok-message"
@@ -65,7 +65,7 @@ export function StoryControls({ video, tile, sdk }: { video: boolean; tile: Tile
   const { auto_play_video = false } = sdk.getExpandedTileConfig()
   // Embed-based tiles (e.g. Instagram) render entirely inside their own iframe, whose
   // playback isn't wired up to togglePlayPause — keep the story play/pause controls hidden.
-  const isEmbedContent = Boolean(tile.full_embed_html)
+  const isEmbedContent = isEmbedContentTile(tile)
 
   return (
     <div class="story-controls">

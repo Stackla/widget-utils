@@ -138,9 +138,19 @@ export function TikTokTemplate({
       height="100%"
       onload={onLoad}
       allow="autoplay"
-      src={`https://www.tiktok.com/player/v1/${tiktokId}?${params.toString()}`}
+      title="tiktok video"
+      src={`https://www.tiktok.com/player/v1/${encodeURIComponent(String(tiktokId))}?${params.toString()}`}
     />
   )
+}
+
+// Sources whose tiles are known to carry ready-to-render `full_embed_html` —
+// gates the embed branch below so a stray/unexpected value on another
+// network's tile can't be treated as embeddable HTML.
+const EMBED_CONTENT_SOURCES = ["instagram", "tiktok"]
+
+export function isEmbedContentTile(tile: Tile): boolean {
+  return Boolean(tile.full_embed_html) && EMBED_CONTENT_SOURCES.includes(tile.source)
 }
 
 const EMBED_SRCDOC_STYLE = `
@@ -157,6 +167,7 @@ export function EmbedHtmlTemplate({ tile, onLoad }: { tile: Tile; onLoad?: OnLoa
       class="video-content lazy embed-content"
       sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
       onload={onLoad}
+      title={`${tile.source} video`}
       srcdoc={`<!doctype html><html><head><style>${EMBED_SRCDOC_STYLE}</style></head><body>${tile.full_embed_html}</body></html>`}
     />
   )
@@ -223,7 +234,7 @@ export function SourceVideoContent({
   }
 
   // Embed-based video tiles
-  if (tile.full_embed_html) {
+  if (isEmbedContentTile(tile)) {
     return <EmbedHtmlTemplate tile={tile} onLoad={onLoad} />
   }
 
@@ -265,7 +276,7 @@ export function VideoContainer({
 }) {
   const { auto_play_video = false, video_mute = false } = sdk.getExpandedTileConfig()
   // Embed-based tiles (rendered via EmbedHtmlTemplate, see SourceVideoContent)
-  const isEmbedContent = Boolean(tile.full_embed_html)
+  const isEmbedContent = isEmbedContentTile(tile)
 
   return (
     <div class="video-content-wrapper">
