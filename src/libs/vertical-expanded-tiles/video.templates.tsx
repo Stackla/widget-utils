@@ -166,7 +166,6 @@ export function EmbedHtmlTemplate({ tile, onLoad }: { tile: Tile; onLoad?: OnLoa
       tileid={tile.id}
       class="video-content lazy embed-content"
       loading="lazy"
-      title="Embedded media"
       aria-label="Embedded media"
       sandbox="allow-scripts allow-popups"
       onload={onLoad}
