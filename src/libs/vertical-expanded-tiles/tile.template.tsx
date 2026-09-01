@@ -1,6 +1,6 @@
 import { ISdk, Tile, type SwiperType } from "@app/types"
 import { createElement, createFragment } from "../jsx-html"
-import { VideoContainer, VideoErrorFallbackTemplate } from "./video.templates"
+import { VideoContainer, VideoErrorFallbackTemplate, isEmbedContentTile } from "./video.templates"
 import { getInstance } from "../extensions"
 import { getSwiperVideoElement, triggerPlay, triggerPause } from "./expanded-tile-video"
 import { isTiktokPaused } from "./tiktok-message"
@@ -61,19 +61,22 @@ export async function togglePlayPause(sdk: ISdk) {
   }
 }
 
-export function StoryControls({ video, sdk }: { video: boolean; sdk: ISdk }) {
+export function StoryControls({ video, tile, sdk }: { video: boolean; tile: Tile; sdk: ISdk }) {
   const { auto_play_video = false } = sdk.getExpandedTileConfig()
+  // Embed-based tiles (e.g. Instagram) render entirely inside their own iframe, whose
+  // playback isn't wired up to togglePlayPause — keep the story play/pause controls hidden.
+  const isEmbedContent = isEmbedContentTile(tile)
 
   return (
     <div class="story-controls">
       {video ? (
         <>
           <a
-            class={`icon-story-video-pause pause-video${auto_play_video ? "" : " hidden"}`}
+            class={`icon-story-video-pause pause-video${!isEmbedContent && auto_play_video ? "" : " hidden"}`}
             onClick={() => togglePlayPause(sdk)}
           />
           <a
-            class={`icon-story-video-play play-video${auto_play_video ? " hidden" : ""}`}
+            class={`icon-story-video-play play-video${!isEmbedContent && !auto_play_video ? "" : " hidden"}`}
             onClick={() => togglePlayPause(sdk)}
           />
         </>
@@ -118,9 +121,9 @@ export function VerticalExpandedTile({ tile, sdk }: ExpandedTileProps) {
         <div class="image-wrapper">
           <div class="image-wrapper-inner">
             {tile.media === "video" ? (
-              <StoryControls sdk={sdk} video={true} />
+              <StoryControls sdk={sdk} tile={tile} video={true} />
             ) : (
-              <StoryControls sdk={sdk} video={false} />
+              <StoryControls sdk={sdk} tile={tile} video={false} />
             )}
 
             {tile.media === "video" ? (
