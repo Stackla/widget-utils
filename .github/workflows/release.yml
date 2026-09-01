@@ -41,14 +41,20 @@ jobs:
       - uses: ./.github/workflows/aws
         with:
           aws-region: ${{ vars.AWS_REGION }}
-      - name: Build & Release
+      - name: Release static files to CDN
         run: |
           aws s3 sync dist/ s3://ugc-nextgen-widgets-ap-southeast-2/templates/utils/${{ inputs.environment }}/ --delete
+      - name: Version & publish
+        run: |
           npx changeset version
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changesets found, nothing to release"
+            exit 0
+          fi
           git config user.name "$(gh api user --jq '.name // .login')"
           git config user.email "$(gh api user --jq '"\(.id)+\(.login)@users.noreply.github.com"')"
           git add .
-          git commit -m "chore: release [skip ci]" || true
+          git commit -m "chore: release [skip ci]"
           git push origin master
           npm publish --registry=https://registry.npmjs.org/
           npm publish --registry=https://npm.pkg.github.com/
