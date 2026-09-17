@@ -10,4 +10,4 @@ runs:
       id: configure-aws
       uses: Stackla/stackla-github-actions/aws@stable
       with:
-        aws-region: ${{ vars.AWS_REGION }}
+        aws-region: ${{ inputs.aws-region }}
