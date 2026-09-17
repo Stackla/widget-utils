@@ -43,10 +43,6 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
-      - name: Configure AWS credentials
-        uses: Stackla/stackla-github-actions/aws@stable
-        with:
-          aws-region: ${{ vars.AWS_REGION }}
       - name: Release static files to CDN
         run: |
           aws s3 sync dist/ s3://ugc-nextgen-widgets-ap-southeast-2/templates/utils/${{ inputs.environment }}/ --delete
