@@ -37,7 +37,8 @@ jobs:
           package-manager-cache: false
       - name: Install
         run: npm install
-      - uses: ./.github/workflows/aws
+      - name: Configure AWS credentials
+        uses: Stackla/stackla-github-actions/aws@stable
         with:
           aws-region: ${{ vars.AWS_REGION }}
       - name: Release static files to CDN
