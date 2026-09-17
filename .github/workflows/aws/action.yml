@@ -8,9 +8,6 @@ runs:
   steps:
     - name: Configure AWS credentials
       id: configure-aws
-      uses: Stackla/configure-aws-credentials@main
+      uses: Stackla/stackla-github-actions/aws@stable
       with:
-        role-to-assume: arn:aws:iam::953585160895:role/GitHubAction-AssumeRoleWithAction
-        role-session-name: GitHub_to_AWS_via_FederatedOIDC
-        aws-region: ${{ inputs.aws-region }}
-        mask-aws-account-id: true
+        aws-region: ${{ vars.AWS_REGION }}
